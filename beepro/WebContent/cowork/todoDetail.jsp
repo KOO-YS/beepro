@@ -180,7 +180,8 @@ $( function() {
 
 <script type="text/javascript">
 $("#submitBtn").click(function(){
-	var formData = new FormData($("#detailForm")[0]);
+	var formData = new $("#detailForm").serialize();
+	
 	alert("클릭"+formData);
 	$.ajax({
 		url: "todo",

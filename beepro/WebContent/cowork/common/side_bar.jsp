@@ -1,5 +1,6 @@
 <!-- LEFT 메뉴-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <meta charset="UTF-8">    
 <style>
 #group_member { width:50px; 
@@ -16,7 +17,7 @@ button { background-color:#4b61cf;
 <ul style="background:rgba(75,97,207);" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- LEFT 메뉴 끝-->
           <!-- Sidebar - Brand -->
-          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/cowork/index.jsp">
             <div class="sidebar-brand-icon rotate-n-15">
               <i class="fas fa-laugh-wink"></i>
             </div>
@@ -51,7 +52,7 @@ button { background-color:#4b61cf;
     
           <!-- Nav Item - Charts -->
           <li class="nav-item">
-            <a class="nav-link" href="../todo?command=todo-list">
+            <a class="nav-link" href="${pageContext.request.contextPath}/todo?command=todo-list">
               <i class="fas fa-fw fa-chart-area"></i>
               <span>내업무</span></a>
           </li>
