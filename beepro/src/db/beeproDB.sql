@@ -65,6 +65,9 @@ CREATE TABLE beepro_user (
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
+SELECT * FROM BEEPRO_USER
+INSERT INTO BEEPRO_USER VALUES('jimin','1111','jimin','1@d.p','1',null,'Y');
+
 --INSERT into beepro_user values('홍길동','abc123','kakung1202@naver.com', 'zzz',null, 'Y');
 --
 --DELETE from beepro_user where name='홍길동';
