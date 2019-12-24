@@ -55,7 +55,7 @@ a:hover { text-decoration:none;
 
 <!-- 이슈만들기 모달창 -->
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-left:840px;"
-  onclick="location.href='issueWrite.jsp'">
+  onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite'">
       <b>+&nbsp;&nbsp;이슈 생성하기</b>
   </button>
         
