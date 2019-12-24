@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.service.ProjectService;
 import com.semi.vo.TodoVo;
 
+import javafx.scene.chart.PieChart.Data;
+
 @WebServlet("/ProjectServlet")
 public class ProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -48,6 +50,7 @@ public class ProjectServlet extends HttpServlet {
 		 *  방식 예시
 		 *	https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
 		 *  */
+		
 		String command = request.getParameter("command");
 		System.out.println("[ "+command+" ]" );
 		// 서비스와 연결
@@ -117,6 +120,8 @@ public class ProjectServlet extends HttpServlet {
 				System.out.println("생성 오류 발생");
 			}
 
+		} else if(command.equals("projectWrite")) {
+		//	int success = projectService.projectWrite(request, response);
 		}
 	}
 

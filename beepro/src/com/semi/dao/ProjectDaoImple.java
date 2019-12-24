@@ -1,5 +1,7 @@
 package com.semi.dao;
 
+import static common.JDBCTemplet.close;
+import static common.JDBCTemplet.commit;
 import static common.JDBCTemplet.getConnection;
 
 import java.sql.Connection;
@@ -10,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.semi.vo.IssueVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
-
-import static common.JDBCTemplet.*;
 
 public class ProjectDaoImple implements ProjectDao {
 
@@ -162,6 +163,11 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		System.out.println("detail : "+res.toString());
 		return res;
+	}
+ //프로젝트 매칭 글쓰기
+	public int projectWrite(ProjectVo projectVo) {
+		
+		return 1;
 	}
 
 }

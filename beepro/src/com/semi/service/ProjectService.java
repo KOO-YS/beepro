@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
-import com.semi.vo.TodoVo;
 import com.semi.vo.IssueVo;
+import com.semi.vo.ProjectVo;
+import com.semi.vo.TodoVo;
 
 
 public class ProjectService {
@@ -80,5 +81,27 @@ public class ProjectService {
 		int todoSeq = Integer.parseInt(request.getParameter("seq"));
 		System.out.println("선택한 seq : "+todoSeq);
 		return projectDao.selectOneTodo(todoSeq);
+	}
+	
+	public int projectWrite(HttpServletRequest request, HttpServletResponse response) {
+		ProjectVo projectVo = new ProjectVo();
+		
+		String subject = request.getParameter("subject");
+		String country = request.getParameter("country");
+		String start = request.getParameter("start");
+		String depart = request.getParameter("depart");
+		String region = request.getParameter("region");
+		String people = request.getParameter("people");
+		String comments = request.getParameter("comments");
+		
+		projectVo.setSubject(subject);
+		projectVo.setCountry(country);
+		projectVo.setStart(start);
+		projectVo.setDepart(depart);
+		projectVo.setRegion(region);
+		projectVo.setPeople(people);
+		projectVo.setComments(comments);		
+		
+		return projectDao.projectWrite(projectVo);
 	}
 }

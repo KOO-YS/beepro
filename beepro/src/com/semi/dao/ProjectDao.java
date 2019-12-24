@@ -3,6 +3,7 @@ package com.semi.dao;
 import java.util.List;
 
 import com.semi.vo.IssueVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
 
 public interface ProjectDao {
@@ -32,5 +33,7 @@ public interface ProjectDao {
 	public List<TodoVo> selectAllTodo(int project_seq, String manager);
 
 	public TodoVo selectOneTodo(int todoSeq);
+
+	public int projectWrite(ProjectVo projectVo);
 }
 

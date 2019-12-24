@@ -150,7 +150,7 @@ img::-moz-selection {
     padding-bottom: 25px;
     transition: padding-top 0.3s, padding-bottom 0.3s;
     border: none;
-    background-color: transparent;
+    background-color: rgba(75,97,207);
   }
   #mainNav .navbar-brand {
     font-size: 1.75em;
@@ -687,6 +687,8 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
 
 /* 드롭다운 https://aboooks.tistory.com/330 */
 .sub-nav{
+	position: absolute;
+    background-color: rgba(75,97,207);
   list-style: none;
   padding: 0;
   display: none;
