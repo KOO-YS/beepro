@@ -27,7 +27,6 @@ public class sha256 {
 				if(hex.length() == 1) result.append('0');
 
 				result.append(hex);
-
 			}
 
 		} catch (Exception e) {
