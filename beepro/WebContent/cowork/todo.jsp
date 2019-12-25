@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -457,7 +456,7 @@ table.table .avatar {
 									<tr>
 											
 										<td>${todo.todoSeq}</td>
-										<td><a href="/beepro/todo?command=todo-detail&seq=${todo.todoSeq}">${todo.title }</a></td>
+										<td><a href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${todo.todoSeq}">${todo.title }</a></td>
 										<td>${todo.content }</td>
 										<td>${todo.manager }</td>
 										<td>
