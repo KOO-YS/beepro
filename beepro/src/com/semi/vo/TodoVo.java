@@ -13,7 +13,7 @@ public class TodoVo {
 	private Date startDate;		// 업무 시작 날짜
 	private Date endDate;		// 업무 종료 날짜
 	private String category;	// 업무 분류(디자인, 백, 프론트)
-	private String progress; 	// 진행 상태 *
+	private String status; 	// 진행 상태 *
 	private int priority;		// 우선순위, 중요도 *
 	private String finishCk;	// 업무 종료 확인
 	
@@ -35,7 +35,7 @@ public class TodoVo {
 	}
 
 	public TodoVo(int todoSeq, int projectSeq, String manager, String title, String content, Date startDate,
-			Date endDate, String category, String progress, int priority, String finishCk) {
+			Date endDate, String category, String status, int priority, String finishCk) {
 		super();
 		this.todoSeq = todoSeq;
 		this.projectSeq = projectSeq;
@@ -45,9 +45,19 @@ public class TodoVo {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.category = category;
-		this.progress = progress;
+		this.status = status;
 		this.priority = priority;
 		this.finishCk = finishCk;
+	}
+	public TodoVo(int todoSeq, int projectSeq, String title, String content, Date startDate, Date endDate, int priority) {
+		super();
+		this.todoSeq = todoSeq;
+		this.projectSeq = projectSeq;
+		this.title = title;
+		this.content = content;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.priority = priority;
 	}
 
 	public int getTodoSeq() {
@@ -122,12 +132,12 @@ public class TodoVo {
 		this.finishCk = finishCk;
 	}
 
-	public String getProgress() {
-		return progress;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setProgress(String progress) {
-		this.progress = progress;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public int getPriority() {
@@ -142,7 +152,7 @@ public class TodoVo {
 	public String toString() {
 		return "TodoVo [todoSeq=" + todoSeq + ", projectSeq=" + projectSeq + ", title=" + title + ", content=" + content
 				+ ", manager=" + manager + ", startDate=" + startDate + ", endDate=" + endDate + ", category="
-				+ category + ", finishCk=" + finishCk + ", progress=" + progress + ", priority=" + priority + "]";
+				+ category + ", finishCk=" + finishCk + ", status=" + status + ", priority=" + priority + "]";
 	}
 	
 	

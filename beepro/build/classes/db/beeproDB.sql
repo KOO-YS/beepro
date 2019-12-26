@@ -135,7 +135,7 @@ CREATE TABLE todo (
 	startdate	Date	NOT NULL,
 	enddate	Date	NOT NULL,
 	category	varchar2(200)	NOT NULL,
-	progress	varchar2(200)	NOT NULL,
+	status	varchar2(200)	NOT NULL,
 	priority	number NOT NULL,
 	finish_ck	varchar2(6)	NOT NULL,
 	CONSTRAINT finish_ck_chk CHECK(finish_ck IN('Y','N'))
