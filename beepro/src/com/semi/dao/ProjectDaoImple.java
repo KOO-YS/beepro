@@ -34,6 +34,8 @@ public class ProjectDaoImple implements ProjectDao {
 			pstmt.setDate(6, vo.getRegdate());
 			pstmt.setString(7, vo.getCategory());
 			pstmt.setString(8, vo.getContent());
+			pstmt.setString(9, vo.getProjectName());
+			pstmt.setString(10, vo.getPeople());
 
 			res = pstmt.executeUpdate();
 
@@ -191,6 +193,37 @@ public class ProjectDaoImple implements ProjectDao {
 			e.printStackTrace();
 		}
 		System.out.println("detail : "+res.toString());
+		return res;
+	}
+
+	@Override
+	public List<ProjectVo> selectAllProjectSql() {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ProjectVo> res = new ArrayList<ProjectVo>();
+		
+		try {
+			pstmt = con.prepareStatement(selectAllIssueSql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProjectVo project = new ProjectVo();
+				
+			    project.setProjectSeq(rs.getInt(1));
+			    project.setStartDate(rs.getDate(2));
+			    project.setEndDate(rs.getDate(3));
+			    project.setFinish_ck(rs.getString(4));
+			    project.setProjectName(rs.getString(5));
+			    
+				res.add(project);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+			System.out.println("5. db종료");
+		}
 		return res;
 	}
 }

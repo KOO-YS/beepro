@@ -8,15 +8,19 @@ import com.semi.vo.TodoVo;
 
 public interface ProjectDao {
 	// 이슈부분
-    String insertIssueSql = "INSERT INTO ISSUE VALUES(ISSUE_SEQ.NEXTVAL,PROJECT_SEQ.NEXTVAL,?,?,?,SYSDATE,?,?)";
+    String insertIssueSql = "INSERT INTO ISSUE VALUES(ISSUE_SEQ.NEXTVAL,PROJECT_SEQ.NEXTVAL,?,?,?,SYSDATE,?,?,?,?)";
     String updateIssueSql = "UPDATE ISSUE SET TITLE=?, ISSUE_LEVEL=?, ISSUE_CATEGORY=?, CONTENT=? WHERE ISSUE_SEQ=?";
     String deleteIssueSql = "DELETE FROM ISSUE WHERE ISSUE_SEQ=?";
     String selectAllIssueSql = "SELECT * FROM ISSUE ORDER BY ISSUE_SEQ DESC"; 
     String selectOneIssueSql = "SELECT * FROM ISSUE WHERE ISSUE_SEQ=?";
     
+    // 업무부분
     String insertTodoSql = "INSERT INTO TODO VALUES(TODO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
     String selectAllTodoSql = "SELECT * FROM TODO WHERE MANAGER = ? AND PROJECT_SEQ = ?";
     String selectOneTodoSql = "SELECT * FROM TODO WHERE TODO_SEQ = ?";
+    
+    // 프로젝트부분
+    String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
     
     public List<IssueVo> selectAllIssue();
     
@@ -33,6 +37,8 @@ public interface ProjectDao {
 	public List<TodoVo> selectAllTodo(int project_seq, String manager);
 
 	public TodoVo selectOneTodo(int todoSeq);
+	
+	public List<ProjectVo> selectAllProjectSql();
 
 }
 
