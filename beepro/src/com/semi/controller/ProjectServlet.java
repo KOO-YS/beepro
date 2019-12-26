@@ -94,7 +94,8 @@ public class ProjectServlet extends HttpServlet {
 			List<IssueVo> list = dao.selectAllIssue();
 			request.setAttribute("issueList", list);
 
-			dispatch("cowork/issueList.jsp", request, response);
+			RequestDispatcher dispatch = request.getRequestDispatcher("cowork/issueList.jsp");
+			dispatch.forward(request, response);
 
 		} else if (command.equals("issueDetail")) {
 			System.out.println("선택한 하나의 이슈의 정보 자세히");
