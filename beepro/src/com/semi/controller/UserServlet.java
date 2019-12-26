@@ -45,6 +45,15 @@ public class UserServlet extends HttpServlet {
 			System.out.println("메세지 보내기");
 			userService.chatSubmit(request, response);
 			
+		}else if (command.equals("findPwd")) {
+			System.out.println("비밀번호 찾기");
+			
+			try {
+				userService.findPwd(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 
 	}

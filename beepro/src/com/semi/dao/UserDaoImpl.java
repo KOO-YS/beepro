@@ -10,6 +10,7 @@ import com.semi.vo.MessageVo;
 import com.semi.vo.UserVo;
 
 import common.JDBCTemplet;
+import util.sha256;
 
 public class UserDaoImpl extends JDBCTemplet implements UserDao {
 
@@ -22,9 +23,10 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			pstmt = con.prepareStatement(loginSql);
 			pstmt.setString(1, u_id);
 			rs = pstmt.executeQuery();
+			String pwd_ch = sha256.getSHA256(u_pwd);
 			
 			if(rs.next()) {
-				if(rs.getString(1).equals(u_pwd))
+				if(rs.getString(1).equals(pwd_ch))
 					return 1;  //로그인성공
 				else
 					return 0; //비밀번호 불일치, 로그인 실패
@@ -41,26 +43,140 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 
 	@Override
 	public int join(UserVo vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;	
+				
+		try {
+			pstmt = con.prepareStatement(joinSql);
+			pstmt.setString(1, vo.getU_id());
+			pstmt.setString(2, vo.getU_pwd());
+			pstmt.setString(3, vo.getU_name());			
+			pstmt.setString(4, vo.getU_email());
+			pstmt.setString(5, vo.getU_emailhash());
+			
+			return pstmt.executeUpdate();//회원가입 성공
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt, con);
+		}
+		return -1;//회원가입 실패
 	}
 
 	@Override
+	//아이디로 이메일 주소 가져오기
 	public String getUserEmail(String u_id) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;	
+		ResultSet rs = null;
+
+		try {
+
+			pstmt = con.prepareStatement(getUserEmailSql);
+
+			pstmt.setString(1, u_id);
+
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+
+				return rs.getString(1); // 이메일 주소 반환
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; // 데이터베이스 오류
 	}
+	
+	//아이디로 이름 가져오기
+		public String getUserName(String u_id) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;	
+			ResultSet rs = null;
+				
+			String SQL = "SELECT name FROM beepro_user WHERE user_id = ?";
+				
+				try {
+					
+					pstmt = con.prepareStatement(SQL);
+					
+					pstmt.setString(1, u_id);
+					
+					rs = pstmt.executeQuery();
+					
+					while(rs.next()) {
+						
+						return rs.getString(1); // 이름 반환
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return null; // 데이터베이스 오류
+			}
 
 	@Override
+	//아이디로 이메일 인증여부 가져오기
 	public String getUserEmailChecked(String u_id) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;	
+		ResultSet rs = null;	
+		try {
+			pstmt = con.prepareStatement(getEmailCkSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				return rs.getString(1); //이메일 인증여부 반환
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs, pstmt, con);
+		}
+		return "N";
 	}
+	
 
 	@Override
+	//이메일 인증상태 변경(N->Y)
 	public String setUserEmailChecked(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;	
+		
+		try {
+			pstmt = con.prepareStatement(setEmailCkSql);
+			pstmt.setString(1, email);
+			pstmt.executeUpdate();
+			return "Y"; //이메일 인증성공
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return "N";//이메일 인증실패
+	}
+	//비밀번호 변경 
+	public int updatePwd(String newPwd, String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;	
+		
+		String u_pwd = sha256.getSHA256(newPwd);
+		String sql = "UPDATE beepro_user SET pwd = ? WHERE user_id = ? ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_pwd);
+			pstmt.setString(2, u_id);
+			pstmt.executeUpdate();
+			
+			return 1; //비밀번호 변경 성공
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 2; //비밀번호 변경 실패
+		
 	}
 	
 	
