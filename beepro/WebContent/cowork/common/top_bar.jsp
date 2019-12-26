@@ -169,7 +169,7 @@ a:hover { text-decoration:none;
                     <div class="small text-gray-500">Chicken the Dog · 2w</div>
                   </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                <a class="dropdown-item text-center small text-gray-500" href="../cowork/chatFrame.jsp">Read More Messages</a>
               </div>
             </li>
 

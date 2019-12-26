@@ -25,7 +25,27 @@
 	if (request.getAttribute("get_id") != null) {
 		get_id = (String) request.getParameter("get_id");
 	}
+	
+	if(u_id == null){
 %>
+	<script type="text/javascript">
+		alret("현재 로그인이 되어 있지 않습니다.");
+		location.href="index.html";
+	</script>
+
+<%
+	}
+	if(get_id == null){
+		
+%>
+	<script type="text/javascript">
+		alret("대화상대가 지정되어 있지 않습니다.");
+		history.back();
+	</script>
+<%
+	}
+%>
+
 <script type="text/javascript" src ="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 function autoClosingAlert(selector,delay){
@@ -37,14 +57,14 @@ function autoClosingAlert(selector,delay){
 function sumbitFunction(){
 	var send_id = "<%=u_id%>";	
 	var get_id = "<%=get_id%>";   
-		var chatContent = $('#chatContent').val();
+		var content = $('#chatContent').val();
 		$.ajax({
 			type : "POST",
-			url : "../chat?command=submit",
+			url : "../chat?command=chatsubmit",
 			data : {
 				send_id : encodeURIComponent(send_id),
 				get_id : encodeURIComponent(get_id),
-				chatContent : encodeURIComponent(chatContent),
+				content : encodeURIComponent(content)
 			},
 			success : function(result) {
 				if (result == 1) {
@@ -63,10 +83,89 @@ function sumbitFunction(){
 		$('#chatContent').val(''); /* 성공적으로 보내지면 값을 비워준다 */
 
 	}
+	var lastId = 0;
+	function chatListFunction(type){
+		var send_id = '<%= u_id%>';
+		var get_id = '<%= get_id%>';
+		$.ajax({
+			type: "POST",
+			url: "../chat?command=chatList",
+			data:{
+				send_id: encodeURIComponent(send_id),
+				get_id: encodeURIComponent(get_id),
+				listType: type
+			},
+			success: function(data){
+				if(data == "") return;
+				var parsed = JSON.parse(data);  //json형태로 파싱
+				var result = parsed.result;
+				for(var i = 0 ; i < result.length ; i++){
+					if(result[i][0].value == send_id){
+						result[i][0].value = '나';
+					}
+					//addChat 함수로 이름, 내용, 시간을 보내준다.
+					addChat(result[i][0].value, result[i][2].value, result[i][3].value);
+				}
+				lastID = Number(parsed.last);
+			}
+		});
+	}
+	
+	function addChat(chatName,chatContent, chatTime){
+		
+		if(chatName == "나" ){
+			$('#chatList').append(
+					'<li class="mar-btm">' +
+					'<div class="media-right">'+
+						'<img src="images/icon.png"'+
+							'class="img-circle img-sm" alt="Profile Picture">'+
+					'</div>'+
+					'<div class="media-body pad-hor speech-right">'+
+						'<div class="speech">'+
+							'<a href="#" class="media-heading">'+
+							chatName +
+							'</a>'+
+							'<p>'+
+							chatContent +
+							'</p>'+
+							'<p class="speech-time">'+
+								'<i class="fa fa-clock-o fa-fw"></i>'+
+							chatTime +
+						'</p> </div> </div></li>');
+			$('#scroll').scrollTop($('#scroll')[0].scrollHeight); //메세지가 올 때마다 스크롤 올려줌
+			
+		}else{
+			$('#chatList').append(
+					'<li class="mar-btm">'+
+					'<div class="media-left">'+
+						'<img src="images/icon.png"'+
+							'class="img-circle img-sm" alt="Profile Picture">'+
+					'</div>'+
+					'<div class="media-body pad-hor">'+
+						'<div class="speech">'+
+							'<a href="#" class="media-heading">'+
+							chatName +
+							'</a>'+
+							'<p>'+
+							chatContent +
+							'</p>'+
+							'<p class="speech-time">'+
+								'<i class="fa fa-clock-o fa-fw"></i>'+
+							chatTime +
+							'</p> </div> </div> </li>');
+			
+			$('#scroll').scrollTop($('#scroll')[0].scrollHeight); //메세지가 올 때마다 스크롤 올려줌
+		}
+	}
+	
+	function getInfiniteChat(){
+		setInterval(function(){
+			chatListFunction(lastID);
+		},3000);
+	}
 </script>
 </head>
 <body>
-
 
 	<div class="container">
 		<div class="col-md-12 col-lg-6">
@@ -100,103 +199,11 @@ function sumbitFunction(){
 
 				<!--Widget body-->
 				<div id="demo-chat-body" class="collapse in">
-					<div class="nano has-scrollbar" style="height: 380px">
-						<div class="nano-content pad-all" tabindex="0"
+					<div  class="nano has-scrollbar" style="height: 380px">
+						<div id="scroll" class="nano-content pad-all" tabindex="0"
 							style="right: -17px;">
-							<ul class="list-unstyled media-block">
-								<li class="mar-btm">
-									<div class="media-left">
-										<img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-											class="img-circle img-sm" alt="Profile Picture">
-									</div>
-									<div class="media-body pad-hor">
-										<div class="speech">
-											<a href="#" class="media-heading">John Doe</a>
-											<p>Hello Lucy, how can I help you today ?</p>
-											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i>09:23AM
-											</p>
-										</div>
-									</div>
-								</li>
-								<li class="mar-btm">
-									<div class="media-right">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="img-circle img-sm" alt="Profile Picture">
-									</div>
-									<div class="media-body pad-hor speech-right">
-										<div class="speech">
-											<a href="#" class="media-heading">Lucy Doe</a>
-											<p>Hi, I want to buy a new shoes.</p>
-											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i> 09:23AM
-											</p>
-										</div>
-									</div>
-								</li>
-								<li class="mar-btm">
-									<div class="media-left">
-										<img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-											class="img-circle img-sm" alt="Profile Picture">
-									</div>
-									<div class="media-body pad-hor">
-										<div class="speech">
-											<a href="#" class="media-heading">John Doe</a>
-											<p>Shipment is free. You\'ll get your shoes tomorrow!</p>
-											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i> 09:25
-											</p>
-										</div>
-									</div>
-								</li>
-								<li class="mar-btm">
-									<div class="media-right">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="img-circle img-sm" alt="Profile Picture">
-									</div>
-									<div class="media-body pad-hor speech-right">
-										<div class="speech">
-											<a href="#" class="media-heading">Lucy Doe</a>
-											<p>Wow, that\'s great!</p>
-											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i> 09:27
-											</p>
-										</div>
-									</div>
-								</li>
-								<li class="mar-btm">
-									<div class="media-right">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="img-circle img-sm" alt="Profile Picture">
-									</div>
-									<div class="media-body pad-hor speech-right">
-										<div class="speech">
-											<a href="#" class="media-heading">Lucy Doe</a>
-											<p>Ok. Thanks for the answer. Appreciated.</p>
-											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i> 09:28
-											</p>
-										</div>
-									</div>
-								</li>
-								<li class="mar-btm">
-									<div class="media-left">
-										<img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-											class="img-circle img-sm" alt="Profile Picture">
-									</div>
-									<div class="media-body pad-hor">
-										<div class="speech">
-											<a href="#" class="media-heading">John Doe</a>
-											<p>
-												You are welcome! <br> Is there anything else I can do
-												for you today?
-											</p>
-											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i> 09:30
-											</p>
-										</div>
-									</div>
-								</li>
+							<ul id="chatList" class="list-unstyled media-block" >
+
 								<li class="mar-btm">
 									<div class="media-right">
 										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
@@ -212,6 +219,7 @@ function sumbitFunction(){
 										</div>
 									</div>
 								</li>
+								
 								<li class="mar-btm">
 									<div class="media-left">
 										<img src="https://bootdey.com/img/Content/avatar/avatar1.png"
@@ -227,7 +235,9 @@ function sumbitFunction(){
 										</div>
 									</div>
 								</li>
+								
 							</ul>
+							
 						</div>
 						<div class="nano-pane">
 							<div class="nano-slider"
@@ -266,6 +276,19 @@ function sumbitFunction(){
 		style="display: none;">
 		<strong>데이터베이스 오류가 발생했습니다.</strong>
 	</div>
+	
+	
+<%-- 	<%
+		session.removeAttribute("messageContent");
+		session.removeAttribute("messageType");
+	%> --%>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			chatListFunction('ten');
+			getInfiniteChat();  /* 3초 간격으로 메세지를 가져올 수 있음 */
+		});	
+	</script>
 
 </body>
 </html>
