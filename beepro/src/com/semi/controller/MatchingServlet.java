@@ -52,6 +52,10 @@ public class MatchingServlet extends HttpServlet {
 		MatchingDao dao = new MatchingDaoImpl();
 		
 		if(command.equals("projectWrite")) {
+		System.out.println("프로젝트 생성");
+			
+		} else if (command.equals("projectAll")) {
+		  System.out.println("프로젝트 전체 보기");
 		}
 	}
 }
