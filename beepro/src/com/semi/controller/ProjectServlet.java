@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
 import com.semi.service.ProjectService;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
-
-import javafx.scene.chart.PieChart.Data;
 
 @WebServlet("/ProjectServlet")
 public class ProjectServlet extends HttpServlet {
@@ -128,10 +128,21 @@ public class ProjectServlet extends HttpServlet {
 				request.setAttribute("detail", detail);
 				dispatch("/cowork/todoDetail.jsp", request, response);
 			}
-		} else if (command.equals("updateTodo")) {
-			System.out.println("업무 수정");
-
-		} else if (command.equals("todo-list")) {
+			
+		} else if(command.equals("updateTodo")) {
+			System.out.println("업무 내용 수정");
+			int success = projectService.updateTodo(request, response);
+			String msg = "";
+			if(success>0) {
+				msg =  "성공적으로 수정되었습니다";
+			} else {
+				msg = "수정을 실패했습니다";
+			}
+			JSONObject obj = new JSONObject();
+			obj.put("result",msg);
+			response.getWriter().print(obj);
+			
+		} else if(command.equals("todo-list")) {
 			System.out.println("업무 리스트 출력");
 			// index.jsp 에서 project, id 에 세션 요구됨
 			List<TodoVo> todoList = projectService.selectAllTodo(1, "매니저 or 아이디");
@@ -150,7 +161,10 @@ public class ProjectServlet extends HttpServlet {
 				System.out.println("생성 오류 발생");
 			}
 
-		} 
+		} else if(command.equals("updateTodoStatus")) {
+			System.out.println("진행도 변경");
+			projectService.updateTodoStatus(request, response);
+		}
 	}
 
 }
