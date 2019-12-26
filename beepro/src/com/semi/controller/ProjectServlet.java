@@ -98,8 +98,13 @@ public class ProjectServlet extends HttpServlet {
 			dispatch.forward(request, response);
 
 		} else if (command.equals("issueDetail")) {
-			System.out.println("선택한 하나의 이슈의 정보 자세히");
-			projectService.issueDetail(request, response);
+			System.out.println("이슈 상세 정보");
+			int seq = Integer.parseInt(request.getParameter("issue_seq"));
+			
+			IssueVo vo = dao.selectOneIssue(seq);
+			request.setAttribute("vo", vo);
+			
+			dispatch("cowork/issueDetail.jsp", request, response);
 
 		} else if (command.equals("todo-list")) {
 			System.out.println("업무 리스트 출력");

@@ -11,7 +11,7 @@ public interface ProjectDao {
     String insertIssueSql = "INSERT INTO ISSUE VALUES(ISSUE_SEQ.NEXTVAL,PROJECT_SEQ.NEXTVAL,?,?,?,SYSDATE,?,?,?,?)";
     String updateIssueSql = "UPDATE ISSUE SET TITLE=?, ISSUE_LEVEL=?, ISSUE_CATEGORY=?, CONTENT=? WHERE ISSUE_SEQ=?";
     String deleteIssueSql = "DELETE FROM ISSUE WHERE ISSUE_SEQ=?";
-    String selectAllIssueSql = "SELECT * FROM ISSUE ORDER BY ISSUE_SEQ DESC"; 
+    String selectAllIssueSql = "SELECT * FROM ISSUE"; 
     String selectOneIssueSql = "SELECT * FROM ISSUE WHERE ISSUE_SEQ=?";
     
     // 업무부분

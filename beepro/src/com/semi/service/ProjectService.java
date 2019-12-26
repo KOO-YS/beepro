@@ -50,8 +50,10 @@ public class ProjectService {
 	}
 
 	// 선택한 하나의 이슈 정보를 자세히
-	public void issueDetail(HttpServletRequest request, HttpServletResponse response) {
-		int seq = Integer.parseInt(request.getParameter("issue_seq"));
+	public IssueVo issueDetail(HttpServletRequest request, HttpServletResponse response) {
+		int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+		System.out.println("선택한 이슈 번호 : " + issueSeq);
+		return projectDao.selectOneIssue(issueSeq);
 	}
 
 	// 업무 생성 서비스

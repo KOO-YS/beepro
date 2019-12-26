@@ -12,14 +12,12 @@ public class IssueVo {
 	private Date regdate; // 이슈 작성 날짜
 	private String category; // 이슈 종류
 	private String content; // 이슈 내용
-	private String projectName; // 프로젝트 명
-	private String people; // 프로젝트 참여인원들
 
 	public IssueVo() {
 	}
 
 	public IssueVo(int issueSeq, int projectSeq, String title, String writer, String level, Date regdate,
-			String category, String content, String projectName, String people) {
+			String category, String content) {
 		super();
 		this.issueSeq = issueSeq;
 		this.projectSeq = projectSeq;
@@ -29,8 +27,6 @@ public class IssueVo {
 		this.regdate = regdate;
 		this.category = category;
 		this.content = content;
-		this.projectName = projectName;
-		this.people = people;
 	}
 
 	public int getIssueSeq() {
@@ -95,21 +91,5 @@ public class IssueVo {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public String getProjectName() {
-		return projectName;
-	}
-
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-
-	public String getPeople() {
-		return people;
-	}
-
-	public void setPeople(String people) {
-		this.people = people;
 	}
 }
