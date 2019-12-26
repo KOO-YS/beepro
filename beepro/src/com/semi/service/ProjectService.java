@@ -52,7 +52,7 @@ public class ProjectService {
 
 	// 선택한 하나의 이슈 정보를 자세히
 	public void issueDetail(HttpServletRequest request, HttpServletResponse response) {
-
+		int seq = Integer.parseInt(request.getParameter("issue_seq"));
 	}
 
 	// 업무 생성 서비스
@@ -84,10 +84,10 @@ public class ProjectService {
 		System.out.println("선택한 seq : " + todoSeq);
 		return projectDao.selectOneTodo(todoSeq);
 	}
-	
+
 	public int projectWrite(HttpServletRequest request, HttpServletResponse response) {
 		ProjectVo projectVo = new ProjectVo();
-		
+
 		String subject = request.getParameter("subject");
 		String country = request.getParameter("country");
 		String start = request.getParameter("start");
@@ -95,15 +95,15 @@ public class ProjectService {
 		String region = request.getParameter("region");
 		String people = request.getParameter("people");
 		String comments = request.getParameter("comments");
-		
+
 		projectVo.setSubject(subject);
 		projectVo.setCountry(country);
 		projectVo.setStart(start);
 		projectVo.setDepart(depart);
 		projectVo.setRegion(region);
 		projectVo.setPeople(people);
-		projectVo.setComments(comments);		
-		
+		projectVo.setComments(comments);
+
 		return projectDao.projectWrite(projectVo);
 	}
 }
