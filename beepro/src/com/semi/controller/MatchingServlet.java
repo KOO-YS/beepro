@@ -23,10 +23,16 @@ public class MatchingServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		dual(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		dual(request, response);
 	}
 	
@@ -38,6 +44,14 @@ public class MatchingServlet extends HttpServlet {
 		 *  방식 예시
 		 *	https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
 		 *  */
-	}
 
+		String command = request.getParameter("command");
+		System.out.println("[ " + command + " ]");
+		//서비스와 연결
+		MatchingService matchingService = new MatchingService();
+		MatchingDao dao = new MatchingDaoImpl();
+		
+		if(command.equals("projectWrite")) {
+		}
+	}
 }

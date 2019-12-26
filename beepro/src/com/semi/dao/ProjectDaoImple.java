@@ -164,10 +164,11 @@ public class ProjectDaoImple implements ProjectDao {
 		System.out.println("detail : "+res.toString());
 		return res;
 	}
- //프로젝트 매칭 글쓰기
+
+	@Override
 	public int projectWrite(ProjectVo projectVo) {
-		
-		return 1;
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
