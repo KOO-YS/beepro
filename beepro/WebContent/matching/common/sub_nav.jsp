@@ -34,6 +34,9 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="mypage.jsp">마이페이지</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="message.jsp">쪽지</a>
+          </li>
         </ul>
       </div>
     </div>
