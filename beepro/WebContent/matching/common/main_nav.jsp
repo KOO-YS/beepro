@@ -49,6 +49,9 @@
             </button>
          <% } else { 
          %> 
+         	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='mypage.jsp'">
+              MyPage
+            </button>
           	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='userLogout.jsp'">
              logout
             </button> 

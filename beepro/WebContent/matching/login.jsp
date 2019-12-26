@@ -250,6 +250,12 @@ window.onload = function(){
     });
 }
 
+//비밀번호 찾기 팝업창
+function findPwd() {
+	window.open("findPwd.jsp", "pw찾기", "left=50, top=50, width=320, height=300, resizeable=no");
+}
+
+
 </script>
 </head>
 <body>
@@ -286,7 +292,7 @@ window.onload = function(){
 				<span>BEEPRO 계정으로 로그인</span>
                 <input type="text" name ="u_id" placeholder="ID" />
                 <input type="password" name="u_pwd" placeholder="Password" />
-                <a href="#">Forgot your password?</a>
+                <a onclick="findPwd();">Forgot your password?</a>
 				
                 <button class="btn btn-primary"onclick="location.href='index.jsp'">Sign In</button>
 				
@@ -326,3 +332,4 @@ window.onload = function(){
 		<button class="btn btn-primary">Sign Up</button>
 	</form>
 </div> -->
+
