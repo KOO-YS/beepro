@@ -171,6 +171,8 @@ SELECT * FROM ISSUE;
 
 INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다', '나야나', '심각','15/12/30','버그', '이슈테스트입니다.');
 
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다2', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
+
 CREATE TABLE skill (
 	personal_seq	number	NOT NULL,
 	user_id     varchar2(100)	NOT NULL,
