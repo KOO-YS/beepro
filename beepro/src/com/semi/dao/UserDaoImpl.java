@@ -183,8 +183,12 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 	
 	
 	
+	
+	/* 메세지 DAO */
+	
+	
 	// 모든 채팅 리스트를 메세지시퀀스로 불러오는 메소드
-	public ArrayList<MessageVo> getChatListBySeq(String send_id, String get_id, String messageSeq){
+	public ArrayList<MessageVo> getChatListBySeq(String send_id, String get_id, String message_seq){
 		
 		ArrayList<MessageVo> chatList = null;
 		Connection conn = getConnection();
@@ -198,7 +202,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			pstmt.setString(2, get_id);
 			pstmt.setString(3, get_id);
 			pstmt.setString(4, send_id);
-			pstmt.setInt(5, Integer.parseInt(messageSeq));
+			pstmt.setInt(5, Integer.parseInt(message_seq));
 			rs = pstmt.executeQuery();
 			chatList = new ArrayList<MessageVo>();
 			while(rs.next()) {
@@ -233,8 +237,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM MESSAGE WHERE ((send_id=? AND get_id=?) OR (send_id=? AND get_id=?)) AND message_seq > (SELECT MAX(message_seq) - ? FROM message) ORDER BY regdate ";
-		
+		String sql = " SELECT * FROM MESSAGE WHERE ((send_id=? AND get_id=?) OR (send_id=? AND get_id=?)) AND message_seq > (SELECT MAX(message_seq) - ? FROM message WHERE (send_id=? AND get_id=?) OR (send_id=? AND get_id=?)) ORDER BY regdate ";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, send_id);
@@ -242,6 +245,11 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			pstmt.setString(3, get_id);
 			pstmt.setString(4, send_id);
 			pstmt.setInt(5, number);
+			pstmt.setString(6, send_id);
+			pstmt.setString(7, get_id);
+			pstmt.setString(8, get_id);
+			pstmt.setString(9, send_id);
+			
 			rs = pstmt.executeQuery();
 			chatList = new ArrayList<MessageVo>();
 			
@@ -276,8 +284,8 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = " INSERT INTO MESSAGE VALUE(MESSAGE_SEQ.NEXTVAL,?,?,?,SYSDATE) ";
+		
+		String sql = " INSERT INTO MESSAGE VALUES(MESSAGE_SEQ.NEXTVAL,?,?,?,SYSDATE,0) ";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -285,17 +293,67 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			pstmt.setString(2, get_id);
 			pstmt.setString(3, content);
 			
+			
+//			System.out.println("send_id : " + send_id );
+//			System.out.println("get_id : " + get_id );
+//			System.out.println("content : " + content );
+			
 			return pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace(); 
 		} finally {
-			close(rs,pstmt,conn);
+			close(pstmt,conn);
 		}
 		
 		return -1;   	//데이터베이스 오류 
 	}
 	
+
+	// 메세지를 읽었다고 반환(받는사람 입장에서 해당 메세지를 다 받았다고 알림!)
+	public int readChat(String send_id, String get_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " UPDATE MESSAGE SET read_ck = 1 WHERE (send_id = ? AND get_id = ?) ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, get_id);			//받는사람과 보낸사람 교차해서 넣어줌
+			pstmt.setString(2, send_id);
+			return pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+			close(con);
+		}
+		return -1; //데이터베이스 오류
+	}
+	
+	//현재 읽지 않은 메세지의 개수를 반환
+	public int getAllUnreadChat(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT COUNT(message_seq) FROM message WHERE get_id = ? AND read_ck = 0 ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt("COUNT(message_seq)");
+			}
+			return 0; // 받은 메시지 없음
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+			close(con);
+		}
+		return -1; //데이터베이스 오류
+	}
 	
 	
 	

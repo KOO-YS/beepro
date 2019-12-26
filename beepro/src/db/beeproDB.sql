@@ -78,7 +78,8 @@ CREATE TABLE message (
     send_id	varchar2(100)	NOT NULL,
 	get_id	varchar2(100)	NOT NULL,
 	content	varchar2(4000)	NOT NULL,
-	regdate	Date	NOT NULL
+	regdate	Date	NOT NULL,
+	read_ck number
 );
 
 CREATE TABLE heart (

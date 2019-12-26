@@ -54,6 +54,9 @@ public class UserServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			
+		}else if(command.equals("chatList")) {
+			System.out.println("주고받은 대화 반환");
+			userService.chatList(request, response);
 		}
 
 	}
