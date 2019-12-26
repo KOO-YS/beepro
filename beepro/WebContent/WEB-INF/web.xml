@@ -13,15 +13,26 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
+  <!-- 페이징 매핑 -->
+   <servlet>
+     <servlet-name>page</servlet-name>
+     <servlet-class>com.semi.controller.PageServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>page</servlet-name>
+     <url-pattern>/page</url-pattern>
+  </servlet-mapping>
 
   <!-- 이슈 매핑 -->
   <servlet>
-     <servlet-name>WorkIssue</servlet-name>
+     <servlet-name>issue</servlet-name>
      <servlet-class>com.semi.controller.ProjectServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-     <servlet-name>WorkIssue</servlet-name>
+     <servlet-name>issue</servlet-name>
      <url-pattern>/issue</url-pattern>
   </servlet-mapping>
 

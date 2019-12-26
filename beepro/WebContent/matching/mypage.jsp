@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,11 +74,11 @@
 		<div class="row">
 			<div class="col-12">
 				<span> name </span>
-				<input type="email" value="이름" class="pf_input" readonly/>
+				<input type="email" value="${u_name}" class="pf_input" readonly/>
 			</div>
 			<div class="col-12">
-				<span> email </span>
-				<input type="email" value="email@google.com" class="pf_input" readonly/>
+				<span> email</span>
+				<input type="email" value="${u_email}" class="pf_input" readonly/>
 			</div>
 			<div class="col-8">
 				<span> password </span>
@@ -249,22 +250,24 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="updatePwdForm">
+	<form action="updatePwdForm.jsp" method="post">
       <div class="modal-body">
       
         	  <div class="form-group">
 			    <label for="oriPwd">기존 패스워드</label>
-			    <input type="password" class="form-control" id="oriPwd" required>
+			    <input type="password" class="form-control" name = "oriPwd" id="oriPwd" required>
 			  </div>
 			  <hr>
 			  <div class="form-group">
 			    <label for="newPwd">새 패스워드</label>
-			    <input type="password" class="form-control" id="newPwd" required>
+			    <input type="password" class="form-control" name = "newPwd" id="newPwd" required>
 			  </div>
 			  <div class="form-group">
 			    <label for="newPwd_chk">새 패스워드 확인</label>
-			    <input type="password" class="form-control" id="newPwd_chk" required aria-describedby="pwdinfo">
-			    <small id="pwdinfo" class="form-text text-muted">위와 같게 입력해주시기 바랍니다</small>
+
+			    <input type="password" class="form-control" name="newPwd_chk" id="newPwd_chk" required aria-describedby="pwdinfo">
+			    <small id="pwdinfo" class="form-text text-muted">위와 동일하게 입력해주시기 바랍니다</small>
+
 			  </div>
       </div>
       <div class="modal-footer">

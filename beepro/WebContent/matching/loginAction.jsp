@@ -14,8 +14,9 @@
  	request.setCharacterEncoding("UTF-8");
 
  	String u_id = null;
-
- 	String u_pwd = null;
+ 	String u_pwd = null;	
+ 	String u_email = null;
+ 	String u_name = null;
 
  	if(request.getParameter("u_id") != null) {
 
@@ -35,16 +36,16 @@
 
  	if (result == 1) {
 
- 		session.setAttribute("u_id", u_id);
+ 		session.setAttribute("u_id", u_id);		
+ 		u_email = dao.getUserEmail(u_id);		
+ 		u_name = dao.getUserName(u_id);		
+ 		session.setAttribute("u_email", u_email);
+ 		session.setAttribute("u_name", u_name);
 
  		PrintWriter script = response.getWriter();
-
- 		script.println("<script>");
-
+ 		script.println("<script>");		
  		script.println("location.href='index.jsp'");
-
  		script.println("</script>");
-
  		script.close();
 
  	} else if (result == 0) {
@@ -52,13 +53,9 @@
  		PrintWriter script = response.getWriter();
 
  		script.println("<script>");
-
  		script.println("alert('비밀번호가 틀립니다.');");
-
  		script.println("history.back();");
-
  		script.println("</script>");
-
  		script.close();
 
  	} else if (result == -1) {
@@ -66,13 +63,9 @@
  		PrintWriter script = response.getWriter();
 
  		script.println("<script>");
-
  		script.println("alert('존재하지 않는 아이디입니다.');");
-
  		script.println("history.back();");
-
  		script.println("</script>");
-
  		script.close();
 
  	} else if (result == -2) {
@@ -80,13 +73,9 @@
  		PrintWriter script = response.getWriter();
 
  		script.println("<script>");
-
  		script.println("alert('데이터베이스 오류가 발생했습니다.');");
-
  		script.println("history.back();");
-
  		script.println("</script>");
-
  		script.close();
 
  	}

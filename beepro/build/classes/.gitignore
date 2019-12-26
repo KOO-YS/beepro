@@ -1,4 +1,7 @@
-
-/.metadata/
-Servers/
-*.class
+<<<<<<< HEAD
+/com/
+/util/
+/db/
+/common/
+=======
+>>>>>>> dde9dd92522cdd5d8a0eee1d76d5483f7ec96b2d

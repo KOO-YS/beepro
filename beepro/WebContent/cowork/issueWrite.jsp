@@ -2,21 +2,22 @@
    pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="css/issueWriteTable.css" rel="stylesheet">
-<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/cowork/css/issueWriteTable.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="css/sb-admin-2.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css" rel="stylesheet">
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/js/sb-admin-2.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -37,6 +38,10 @@
 $(document).ready(function(){
     $("#issue_content").click(function(){
         $("#member").attr("disabled",false).attr("readonly",false);    	
+    });
+    
+    $("#title").click(function(){
+        $("#p_name").attr("disabled",false).attr("readonly",false);    	
     });
 });
 </script>   
@@ -98,8 +103,8 @@ $(document).ready(function(){
                <div class="container">
                   <h5><b>이슈 생성</b></h5>
                   <hr>
-                  <form action="../todo" method="post">
-                     <input type="hidden" name="command" value="todoForm">
+                  <form action="../issue" method="post">
+                     <input type="hidden" name="command" value="issueform">
                      <input type="hidden" name="projectSeq" value="1">
                      <div class="row">
                        <div class="form-group col-lg-8">
@@ -108,13 +113,13 @@ $(document).ready(function(){
                        </div>
                        <div class="form-group col-lg-4">
                          <label for="category">프로젝트 명<span style="color:red;"> *</span></label>
-                         <select name="category" class="form-control" id="category">
-                            <option value="planning">기획</option>
-                            <option value="design">디자인</option>
-                            <option value="front-end">프론트앤드</option>
-                            <option value="back-end">백앤드</option>
+                         <select name="p_name" class="form-control" id="p_name" disabled>
+                           <c:forEach var="project_list" items="${projectList}" varStatus="status">
+                            <option value="" selected>진행 중인 프로젝트를 선택해주세요.</option>
+                            <option value="${project_list.subject}">${project_list.subject}</option>
+                           </c:forEach>
                          </select>
-                       </div>
+                       </div> 
                      </div>
                        <div class="form-group">
                          <label for="content">이슈 내용</label>
@@ -144,14 +149,13 @@ $(document).ready(function(){
                 <span>테스트 케이스</span>
             </label>
            </div>
-           
-                       <div class="form-group col-lg-6" style="margin-top:35px;">
-                           <label for="content">담당자</label>
-                           <select class="form-control" id="member" name="manager" readonly style="margin-top:15px;">
-                              <option value="">프로젝트에 참여하는 사용자를 설정합니다.</option>
-                           </select>
-                        </div>
-                     </div>
+             <div class="form-group col-lg-6" style="margin-top:35px;">
+                <label for="content">담당자</label>
+                <select class="form-control" id="member" name="manager" disabled style="margin-top:15px;">
+                  <option value="" selected>프로젝트에 참여하는 사용자를 설정합니다.</option>
+                </select>
+             </div>
+           </div>
                      
                      <div class="form-group col-lg-12" style=" margin-top:12px; ">
                         <label for="content" style="margin-left:-265px;">중요도<span style="color:red;"> *</span></label>
@@ -177,13 +181,14 @@ $(document).ready(function(){
             </label>
                      </div>
                       <button class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
-                      <button class="btn btn-primary" style="float:right; background-color:white; color:rgb(75,97,207)">취   소</button>
+                      <button class="btn btn-primary" style="float:right; background-color:white; color:rgb(75,97,207)"
+                      onclick="location.href='../issue?command=issueAll'">취   소</button>
                   </form>
                </div>
             </div>
          </div>
          <!-- 푸터 -->
-         <div id="footer"></div>
+         <jsp:include page="common/footer.html"></jsp:include> 
       </div>
    </div>
 <script type="text/javascript">

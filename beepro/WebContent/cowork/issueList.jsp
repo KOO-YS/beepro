@@ -1,32 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("UTF-8"); %>
+<% response.setContentType("text/html; charset=UTF-8"); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="css/sb-admin-2.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css" rel="stylesheet">
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/js/sb-admin-2.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$("#headers").load("common/side_bar.jsp");
-		$("#footer").load("common/footer.html")
-	});
-
 	jQuery(function($) {
 		$(".container-fluid").css("display", "none");
 		$(".container-fluid").fadeIn(500);
@@ -313,7 +308,7 @@ table.table .avatar {
 <body>
 	<div id="wrapper">
 		<!-- 상단 메뉴 바 -->
-		<div id="headers"></div>
+		<jsp:include page="common/side_bar.jsp"></jsp:include>
 
 		<!-- 내용이 들어갈 구역을 정의하는 div -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -383,55 +378,30 @@ table.table .avatar {
 							<table class="table table-striped table-hover">
 								<thead>
 									<tr>
-										<th>NO</th>
+									    <th>NO</th>
+										<th>이슈제목</th>
 										<th>작성자</th>
-										<th>작성 날짜</th>
 										<th>중요도</th>
 										<th>이슈타입</th>
+										<th>작성 날짜</th>
 										<th>자세히</th>
 									</tr>
 								</thead>
 								<tbody>
+								  <c:forEach var="issue" items="${issueList}">
 									<tr>
-										<td>1</td>
-										<td>Michael Holz</td>
-										<td>London</td>
+										<td>${issue.issueSeq}</td>
+										<td>${issue.title}</td>
+										<td>${issue.writer}</td>
 										<td><span class="status text-success">&bull;</span>
-											Delivered</td>
-										<td>$254</td>
-										<td><a href="#" class="view" title="View Details"
-											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>Paula Wilson</td>
-										<td>Madrid</td>
-										<td><span class="status text-info">&bull;</span> Shipped</td>
-										<td>$1,260</td>
-										<td><a href="#" class="view" title="View Details"
-											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Antonio Moreno</td>
-										<td>Berlin</td>
-										<td><span class="status text-danger">&bull;</span>
-											Cancelled</td>
-										<td>$350</td>
-										<td><a href="#" class="view" title="View Details"
-											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>Mary Saveley</td>
-										<td>New York</td>
-										<td><span class="status text-warning">&bull;</span>
-											Pending</td>
-										<td>$1,572</td>
-										<td><a href="#" class="view" title="View Details"
+											${issue.level}</td>
+										<td>${issue.category}</td>
+										<td>${issue.regdate}</td>
+										<td><a href="${pageContext.request.contextPath}/issue?command=issueDetail?seq=${issue.issueSeq}" class="view" title="View Details"
 											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
 									</tr>
 								</tbody>
+								</c:forEach>
 							</table>
 							<div class="clearfix">
 								<div class="hint-text">
@@ -454,8 +424,7 @@ table.table .avatar {
 				</div>
 			</div>
 			<!-- 푸터 -->
-			<div id="footer"></div>
-
+			<jsp:include page="common/footer.html"></jsp:include>  
 		</div>
 	</div>
 </body>

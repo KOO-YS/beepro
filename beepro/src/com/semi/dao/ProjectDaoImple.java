@@ -1,5 +1,7 @@
 package com.semi.dao;
 
+import static common.JDBCTemplet.close;
+import static common.JDBCTemplet.commit;
 import static common.JDBCTemplet.getConnection;
 
 import java.sql.Connection;
@@ -10,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.semi.vo.IssueVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
-
-import static common.JDBCTemplet.*;
 
 public class ProjectDaoImple implements ProjectDao {
 
@@ -50,7 +51,36 @@ public class ProjectDaoImple implements ProjectDao {
 	// 전체 이슈 조회
 	@Override
 	public List<IssueVo> selectAllIssue() {
-		return null;
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<IssueVo> res = new ArrayList<IssueVo>();
+		
+		try {
+			pstmt = con.prepareStatement(selectAllIssueSql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				IssueVo issue = new IssueVo();
+				
+				issue.setIssueSeq(rs.getInt(1));
+				issue.setProjectSeq(rs.getInt(2));
+				issue.setTitle(rs.getString(3));
+				issue.setWriter(rs.getString(4));
+				issue.setLevel(rs.getString(5));
+				issue.setRegdate(rs.getDate(6));
+				issue.setCategory(rs.getString(7));
+				issue.setContent(rs.getString(8));
+				
+				res.add(issue);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+			System.out.println("5. db종료");
+		}
+		return res;
 	}
 
 	// 이슈 하나 조회

@@ -1,11 +1,16 @@
 package com.semi.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.semi.dao.MatchingDao;
+import com.semi.dao.MatchingDaoImpl;
+import com.semi.service.MatchingService;
 
 //매칭
 
@@ -18,10 +23,16 @@ public class MatchingServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		dual(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
 		dual(request, response);
 	}
 	
@@ -33,7 +44,18 @@ public class MatchingServlet extends HttpServlet {
 		 *  방식 예시
 		 *	https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
 		 *  */
-		
-	}
 
+		String command = request.getParameter("command");
+		System.out.println("[ " + command + " ]");
+		//서비스와 연결
+		MatchingService matchingService = new MatchingService();
+		MatchingDao dao = new MatchingDaoImpl();
+		
+		if(command.equals("projectWrite")) {
+		System.out.println("프로젝트 생성");
+			
+		} else if (command.equals("projectAll")) {
+		  System.out.println("프로젝트 전체 보기");
+		}
+	}
 }

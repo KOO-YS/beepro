@@ -55,7 +55,7 @@ a:hover { text-decoration:none;
 
 <!-- 이슈만들기 모달창 -->
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-left:840px;"
-  onclick="location.href='issueWrite.jsp'">
+  onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite'">
       <b>+&nbsp;&nbsp;이슈 생성하기</b>
   </button>
         
@@ -169,7 +169,7 @@ a:hover { text-decoration:none;
                     <div class="small text-gray-500">Chicken the Dog · 2w</div>
                   </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                <a class="dropdown-item text-center small text-gray-500" href="../cowork/chatFrame.jsp">Read More Messages</a>
               </div>
             </li>
 

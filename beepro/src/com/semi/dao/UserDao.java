@@ -6,6 +6,7 @@ public interface UserDao {
 	String loginSql ="SELECT pwd from beepro_user WHERE user_id =?";
 	String joinSql ="INSERT into beepro_user values(?,?,?,?,?,null,'N')";
 	String getUserEmailSql = "SELECT email FROM beepro_user WHERE user_id = ?";
+	String getUserNameSql = "SELECT name FROM beepro_user WHERE user_id = ?";
 	String getEmailCkSql ="SELECT email_ck FROM beepro_user WHERE user_id = ?";
 	String setEmailCkSql = "UPDATE beepro_user SET email_ck = true WHERE email= ? ";
 	
