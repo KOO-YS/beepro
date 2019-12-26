@@ -432,8 +432,8 @@ table.table .avatar {
 								<colgroup>
 									<col width="5%">
 									<col width="10%">
-									<col width="20%">
-									<col width="10%">
+									<col width="15%">
+									<col width="15%">
 									<col width="15%">
 									<col width="15%">
 									<col width="10%">
@@ -442,12 +442,12 @@ table.table .avatar {
 									<tr>
 										<th>no</th>
 										<th>업무명</th>
-										<th>업무 내용</th>
+										<th>상태</th>
+										<!-- <th>업무 내용</th> -->
 										<th>담당자</th>
 										<th>중요도</th>
 										<th>타임라인</th>
 										<!-- <th>마감</th> -->
-										<th>상태</th>
 										<!-- 진행정도에서 100%이 되면 업무 종료 확인 DB 값 -->
 									</tr>
 								</thead>
@@ -457,7 +457,22 @@ table.table .avatar {
 											
 										<td>${todo.todoSeq}</td>
 										<td><a href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${todo.todoSeq}">${todo.title }</a></td>
-										<td>${todo.content }</td>
+										<%-- <td>${todo.content }</td> --%>
+										<td>
+											<div class="btn-group" style="width: 80%;">
+											  <button type="button" id="statusBtn${todo.todoSeq}" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												${todo.status }
+											  </button>
+											  <div class="dropdown-menu">
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq},${todo.projectSeq});">예정</a>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq},${todo.projectSeq});">진행 중</a>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq},${todo.projectSeq});">검토 중</a>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq},${todo.projectSeq});">승인됨</a>
+											    <div class="dropdown-divider"></div>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq},${todo.projectSeq});">완료</a>
+											  </div>
+											</div>
+										</td>
 										<td>${todo.manager }</td>
 										<td>
 											<div class="rate">
@@ -480,9 +495,6 @@ table.table .avatar {
 										</div>
 										</td>
 										<!-- <td>업무 종료</td> -->
-										<td>
-											${todo.progress }
-										</td>
 									</tr>
 									</c:forEach>
 									
@@ -510,26 +522,31 @@ table.table .avatar {
 			</div>
 			<!-- 푸터 -->
 			<jsp:include page="common/footer.html"></jsp:include>
-<div class="modal fade" id="todoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 		</div>
 	</div>
+<script type="text/javascript">
+/* 진행 상황 변경 */
+function updateTodoStatus(txt, todoSeq, projectSeq){
+	var status = $(txt).text();
+	$("#statusBtn"+todoSeq).text(status);
+	$.ajax({
+		url: 'todo',
+		type: 'POST',
+ 		data: {
+ 			'command':'updateTodoStatus',
+ 			'todoSeq':todoSeq,
+ 			'projectSeq':projectSeq,
+ 			'status':status
+ 		},
+		error:function(request, status, error){
+			alert("실패");
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		},
+		success:function(data, textStatus, jqXHR){
+			alert("변경");
+		}
+	});
+}
+</script>
 </body>
 </html>

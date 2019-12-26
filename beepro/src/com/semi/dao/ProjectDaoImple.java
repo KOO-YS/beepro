@@ -123,7 +123,7 @@ public class ProjectDaoImple implements ProjectDao {
 				todo.setStartDate(rs.getDate(6));
 				todo.setEndDate(rs.getDate(7));
 				todo.setCategory(rs.getString(8));
-				todo.setProgress(rs.getString(9));
+				todo.setStatus(rs.getString(9));
 				todo.setPriority(rs.getInt(10));
 				todo.setFinishCk(rs.getString(11));
 				
@@ -163,5 +163,43 @@ public class ProjectDaoImple implements ProjectDao {
 		System.out.println("detail : "+res.toString());
 		return res;
 	}
-
+	
+	// 업무 정보 수정
+	@Override
+	public int updateTodo(TodoVo todo) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		int res = 0;
+		try {
+			pstm = con.prepareStatement(updateTodoSql);
+			pstm.setString(1, todo.getTitle());
+			pstm.setString(2, todo.getContent());
+			pstm.setInt(3, todo.getPriority());
+			pstm.setDate(4, todo.getStartDate());
+			pstm.setDate(5, todo.getEndDate());
+			pstm.setInt(6, todo.getTodoSeq());
+			pstm.setInt(7, todo.getProjectSeq());
+			
+			res = pstm.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	@Override
+	public void updateTodoStatus(int todoSeq, int projectSeq, String status) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		try {
+			pstm = con.prepareStatement(updateTodoStatusSql);
+			pstm.setString(1, status);
+			pstm.setInt(2, todoSeq);
+			pstm.setInt(3, projectSeq);
+			
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

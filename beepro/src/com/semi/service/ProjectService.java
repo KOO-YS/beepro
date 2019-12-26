@@ -75,10 +75,35 @@ public class ProjectService {
 	public List<TodoVo> selectAllTodo(int project_seq, String manager) {
 		return projectDao.selectAllTodo(project_seq, manager);
 	}
-
+	
+	// 선택 업무 출력
 	public TodoVo selectOneTodo(HttpServletRequest request, HttpServletResponse response) {
 		int todoSeq = Integer.parseInt(request.getParameter("seq"));
 		System.out.println("선택한 seq : "+todoSeq);
 		return projectDao.selectOneTodo(todoSeq);
+	}
+	// 업무 내용 변경
+	public int updateTodo(HttpServletRequest request, HttpServletResponse response) {
+		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		int priority = Integer.parseInt(request.getParameter("priority"));
+		Date startDate = Date.valueOf(request.getParameter("from"));
+		Date endDate = Date.valueOf(request.getParameter("to"));
+		TodoVo todo = new TodoVo(todoSeq, projectSeq, title, content, startDate, endDate, priority);
+		
+		System.out.println(todo.toString());
+		
+		return projectDao.updateTodo(todo);
+	}
+	
+	// 업무 상태 변경
+	public void updateTodoStatus(HttpServletRequest request, HttpServletResponse response) {
+		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		String status = request.getParameter("status");
+		
+		projectDao.updateTodoStatus(todoSeq, projectSeq, status);
 	}
 }

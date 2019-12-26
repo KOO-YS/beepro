@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 import com.semi.service.ProjectService;
 import com.semi.vo.TodoVo;
 
@@ -52,53 +54,64 @@ public class ProjectServlet extends HttpServlet {
 		System.out.println("[ "+command+" ]" );
 		// 서비스와 연결
 		ProjectService projectService = new ProjectService();
-			if(command.equals("issueWrite")) {
-				System.out.println("이슈 쓰기 요청");
-				projectService.issueWrite(request,response);
-				
-			} else if(command.equals("issueDelete")) {
-				System.out.println("이슈 삭제 요청");
-				projectService.issueDelete(request,response);
-				
-			} else if(command.equals("issueAll")) {
-				System.out.println("이슈 전체 보기");
-				projectService.issueAll(request,response);
-				
-			} else if(command.equals("issueDetail")) {
-				System.out.println("선택한 하나의 이슈의 정보 자세히");
-				projectService.issueDetail(request,response);
-				
-			} else if(command.equals("todo-list")) {
-				System.out.println("업무 리스트 출력");
-				// index.jsp 에서 project, id 에 세션 요구됨
-				List<TodoVo> todoList = projectService.selectAllTodo(1, "매니저 or 아이디");
-				
-				request.setAttribute("todoList", todoList);
-				dispatch("cowork/todo.jsp", request, response);
-				
-			} else if(command.equals("todoForm")) {
-				System.out.println("새 업무 생성");
-				int success = projectService.insertTodo(request, response);
-				
-				if(success>0) {
-					System.out.println("성공적으로 생성");
-					dispatch("../cowork/todo.jsp", request, response);
-				} else {
-					System.out.println("생성 오류 발생");
-				}
+		if(command.equals("issueWrite")) {
+			System.out.println("이슈 쓰기 요청");
+			projectService.issueWrite(request,response);
 			
-			} else if(command.equals("todo-detail")) {
-				System.out.println("상세 보기 페이지");
-				TodoVo detail = projectService.selectOneTodo(request, response);
-				if(detail != null) {
-					System.out.println("디테일 정보 출력");
-					request.setAttribute("detail", detail);
-					dispatch("/cowork/todoDetail.jsp", request, response);
-				}
-			} else if(command.equals("updateTodo")) {
-				System.out.println("업무 수정");
-				
-			} else if(command.equals("todo-list")) {
+		} else if(command.equals("issueDelete")) {
+			System.out.println("이슈 삭제 요청");
+			projectService.issueDelete(request,response);
+			
+		} else if(command.equals("issueAll")) {
+			System.out.println("이슈 전체 보기");
+			projectService.issueAll(request,response);
+			
+		} else if(command.equals("issueDetail")) {
+			System.out.println("선택한 하나의 이슈의 정보 자세히");
+			projectService.issueDetail(request,response);
+			
+		} else if(command.equals("todo-list")) {
+			System.out.println("업무 리스트 출력");
+			// index.jsp 에서 project, id 에 세션 요구됨
+			List<TodoVo> todoList = projectService.selectAllTodo(1, "매니저 or 아이디");
+			
+			request.setAttribute("todoList", todoList);
+			dispatch("cowork/todo.jsp", request, response);
+			
+		} else if(command.equals("todoForm")) {
+			System.out.println("새 업무 생성");
+			int success = projectService.insertTodo(request, response);
+			
+			if(success>0) {
+				System.out.println("성공적으로 생성");
+				dispatch("../cowork/todo.jsp", request, response);
+			} else {
+				System.out.println("생성 오류 발생");
+			}
+		
+		} else if(command.equals("todo-detail")) {
+			System.out.println("상세 보기 페이지");
+			TodoVo detail = projectService.selectOneTodo(request, response);
+			if(detail != null) {
+				System.out.println("디테일 정보 출력");
+				request.setAttribute("detail", detail);
+				dispatch("/cowork/todoDetail.jsp", request, response);
+			}
+			
+		} else if(command.equals("updateTodo")) {
+			System.out.println("업무 내용 수정");
+			int success = projectService.updateTodo(request, response);
+			String msg = "";
+			if(success>0) {
+				msg =  "성공적으로 수정되었습니다";
+			} else {
+				msg = "수정을 실패했습니다";
+			}
+			JSONObject obj = new JSONObject();
+			obj.put("result",msg);
+			response.getWriter().print(obj);
+			
+		} else if(command.equals("todo-list")) {
 			System.out.println("업무 리스트 출력");
 			// index.jsp 에서 project, id 에 세션 요구됨
 			List<TodoVo> todoList = projectService.selectAllTodo(1, "매니저 or 아이디");
@@ -117,6 +130,9 @@ public class ProjectServlet extends HttpServlet {
 				System.out.println("생성 오류 발생");
 			}
 
+		} else if(command.equals("updateTodoStatus")) {
+			System.out.println("진행도 변경");
+			projectService.updateTodoStatus(request, response);
 		}
 	}
 
