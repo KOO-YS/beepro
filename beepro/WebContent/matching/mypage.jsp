@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,11 +74,11 @@
 		<div class="row">
 			<div class="col-12">
 				<span> name </span>
-				<input type="email" value="이름" class="pf_input" readonly/>
+				<input type="email" value="${u_name}" class="pf_input" readonly/>
 			</div>
 			<div class="col-12">
-				<span> email </span>
-				<input type="email" value="email@google.com" class="pf_input" readonly/>
+				<span> email</span>
+				<input type="email" value="${u_email}" class="pf_input" readonly/>
 			</div>
 			<div class="col-8">
 				<span> password </span>
