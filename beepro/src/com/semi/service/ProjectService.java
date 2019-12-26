@@ -46,8 +46,8 @@ public class ProjectService {
 	}
 
 	// 이슈 전체 조회 서비스
-	public void issueAll(HttpServletRequest request, HttpServletResponse response) {
-
+	public List<IssueVo> issueAll(HttpServletRequest request, HttpServletResponse response) {
+          return projectDao.selectAllIssue();
 	}
 
 	// 선택한 하나의 이슈 정보를 자세히
