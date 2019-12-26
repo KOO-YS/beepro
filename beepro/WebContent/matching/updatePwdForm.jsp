@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.semi.dao.UserDaoImpl"%>
 <%@ page import="com.semi.vo.UserVo"%>
+<%@ page import="com.semi.vo.UserVo"%>
 <%@ page import="java.io.PrintWriter"%>
+<%@ page import="util.sha256"%>
 <%	request.setCharacterEncoding("UTF-8");%>
 <%	response.setContentType("text/html; charset=UTF-8");%> 
 <%
@@ -11,12 +13,13 @@
 
  	String u_id = null;
  	String u_pwd = null;
- 	String u_email = null;
- 	String u_name = null;
+ 	String oriPwd = null;
  	String shaOriPwd = null;
+ 	String newPwd = null;
 
 	if(session.getAttribute("u_id") != null) {
-		u_id = (String) session.getAttribute("u_id");
+		
+		u_id = (String) session.getAttribute("u_id");	
 		u_pwd = dao.getUserPwd(u_id);
 		oriPwd = (String) request.getParameter("oriPwd");
 		shaOriPwd = sha256.getSHA256(oriPwd);
@@ -42,7 +45,9 @@
  		script.close();
  	}
  	
- 	int result = dao.login(u_id, u_pwd);
+ 	newPwd = (String) request.getParameter("newPwd");
+ 	
+ 	int result = dao.updatePwd(newPwd, u_id);
 
  	if (result == 1) {
 
@@ -58,7 +63,7 @@
  		PrintWriter script = response.getWriter();
 
  		script.println("<script>");
- 		script.println("alert('새로운 비밀번호를 다시 입력해주세요.');");
+ 		script.println("alert('데이터베이스 오류로 비밀번호 변경에 실패하였습니다..');");
  		script.println("history.back();");
  		script.println("</script>");
  		script.close();
@@ -73,30 +78,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-
-public int updatePwd(String newPwd, String u_id)
-<form action="updatePwdForm">
-      <div class="modal-body">
-      
-        	  <div class="form-group">
-			    <label for="oriPwd">기존 패스워드</label>
-			    <input type="password" class="form-control" id="oriPwd" required>
-			  </div>
-			  <hr>
-			  <div class="form-group">
-			    <label for="newPwd">새 패스워드</label>
-			    <input type="password" class="form-control" id="newPwd" required>
-			  </div>
-			  <div class="form-group">
-			    <label for="newPwd_chk">새 패스워드 확인</label>
-			    <input type="password" class="form-control" id="newPwd_chk" required aria-describedby="pwdinfo">
-			    <small id="pwdinfo" class="form-text text-muted">위와 같게 입력해주시기 바랍니다</small>
-			  </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <button type="submit" class="btn btn-primary">변경</button>
 
 </body>
 </html>

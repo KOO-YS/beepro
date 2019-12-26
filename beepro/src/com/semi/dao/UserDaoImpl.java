@@ -114,7 +114,28 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 				}
 				return null; // 데이터베이스 오류
 			}
-
+	//아이디로 이름 가져오기
+		public String getUserPwd(String u_id) {
+			Connection con = getConnection();
+					PreparedStatement pstmt = null;	
+					ResultSet rs = null;
+						
+					String SQL = "SELECT pwd FROM beepro_user WHERE user_id = ?";
+						
+						try {
+							
+							pstmt = con.prepareStatement(SQL);							
+							pstmt.setString(1, u_id);							
+							rs = pstmt.executeQuery();
+							
+							while(rs.next()) {								
+								return rs.getString(1); //비밀번호 반환
+							}
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+						return null; // 데이터베이스 오류
+					}
 	@Override
 	//아이디로 이메일 인증여부 가져오기
 	public String getUserEmailChecked(String u_id) {
