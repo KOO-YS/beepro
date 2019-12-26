@@ -4,7 +4,6 @@ package com.semi.vo;
 
 public class MatchingProVo {
 	
-
 	private String subject;
 	private String country;
 	private String start;

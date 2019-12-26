@@ -397,7 +397,7 @@ table.table .avatar {
 											${issue.level}</td>
 										<td>${issue.category}</td>
 										<td>${issue.regdate}</td>
-										<td><a href="#" class="view" title="View Details"
+										<td><a href="${pageContext.request.contextPath}/issue?command=issueDetail?seq=${issue.issueSeq}" class="view" title="View Details"
 											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
 									</tr>
 								</tbody>

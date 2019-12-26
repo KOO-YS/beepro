@@ -34,6 +34,5 @@ public interface ProjectDao {
 
 	public TodoVo selectOneTodo(int todoSeq);
 
-	public int projectWrite(ProjectVo projectVo);
 }
 
