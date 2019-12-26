@@ -14,7 +14,7 @@ DROP SEQUENCE ISSUE_SEQ;
 DROP SEQUENCE PROJECT_SEQ;
 DROP SEQUENCE TODO_SEQ;
 
---location, skill 컬럼은 not null 제약조건 안걸어 둠
+--location, skill 而щ읆�� not null �젣�빟議곌굔 �븞嫄몄뼱 �몺
 
 --CREATE SEQUENCE USER_SEQ
 --  START WITH 1
@@ -22,7 +22,6 @@ DROP SEQUENCE TODO_SEQ;
 --  MAXVALUE 10000
 --  MINVALUE 1
 --  NOCYCLE;
-
 
 CREATE SEQUENCE ISSUE_SEQ
   START WITH 1
@@ -38,7 +37,7 @@ CREATE SEQUENCE PROJECT_SEQ
   MINVALUE 1
   NOCYCLE;
 
--- 추가
+-- 異붽�
 CREATE SEQUENCE TODO_SEQ
 	START WITH 1
 	INCREMENT BY 1
@@ -46,7 +45,7 @@ CREATE SEQUENCE TODO_SEQ
 	MINVALUE 1
 	NOCYCLE;
 
---추가
+--異붽�
 CREATE SEQUENCE MESSAGE_SEQ
 	START WITH 1
 	INCREMENT BY 1
@@ -65,12 +64,13 @@ CREATE TABLE beepro_user (
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
-SELECT * FROM BEEPRO_USER
-INSERT INTO BEEPRO_USER VALUES('jimin','1111','jimin','1@d.p','1',null,'Y');
+INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
 
---INSERT into beepro_user values('홍길동','abc123','kakung1202@naver.com', 'zzz',null, 'Y');
+SELECT * FROM BEEPRO_USER;
+
+--INSERT into beepro_user values('�솉湲몃룞','abc123','kakung1202@naver.com', 'zzz',null, 'Y');
 --
---DELETE from beepro_user where name='홍길동';
+--DELETE from beepro_user where name='�솉湲몃룞';
 --SELECT * FROM beepro_user;
 
 CREATE TABLE message (
@@ -93,7 +93,6 @@ CREATE TABLE project_member (
 	CONSTRAINT pm_ck_chk CHECK(pm_ck IN('Y','N'))
 );
 
-
 CREATE TABLE matching_personal (
 	personal_seq	number	NOT NULL,
 	user_id	varchar2(100)	NOT NULL,
@@ -112,6 +111,10 @@ CREATE TABLE matching_project (
 	location	varchar2(300)	
 );
 
+INSERT INTO MATCHING_PROJECT VALUES (PROJECT_SEQ.NEXTVAL, 'bmi6638@naver.com', '첫번째 프로젝트입니다.', '프로젝트 테스트입니다', '프론트앤드', '충청도');
+
+SELECT * FROM MATCHING_PROJECT;
+
 CREATE TABLE comments (
 	comments_seq	number,
 	issue_seq	number	NOT NULL,
@@ -121,7 +124,7 @@ CREATE TABLE comments (
 	regdate	Date	NOT NULL
 );
 
--- 진행상태, 우선순위 (중요도) 추가
+-- 吏꾪뻾�긽�깭, �슦�꽑�닚�쐞 (以묒슂�룄) 異붽�
 CREATE TABLE todo (
 	todo_seq	number	NOT NULL,
 	project_seq	number	NOT NULL,
@@ -146,7 +149,9 @@ CREATE TABLE project (
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
+select * from project;
 
+delete from project;
 
 CREATE TABLE issue (
 	issue_seq	number	NOT NULL,
@@ -159,6 +164,8 @@ CREATE TABLE issue (
 	content	varchar2(4000)	NOT NULL
 );
 
+SELECT * FROM ISSUE;
+
 CREATE TABLE skill (
 	personal_seq	number	NOT NULL,
 	user_id     varchar2(100)	NOT NULL,
@@ -168,7 +175,7 @@ CREATE TABLE skill (
 
 
 
--- 복합 기본키 추가
+-- 蹂듯빀 湲곕낯�궎 異붽�
 
 ALTER TABLE heart ADD CONSTRAINT PK_HEART PRIMARY KEY (send_id,get_id);
 
@@ -203,7 +210,7 @@ ALTER TABLE skill ADD CONSTRAINT PK_SKILL PRIMARY KEY (
 );
 
 
--- 외래키 추가
+-- �쇅�옒�궎 異붽�
 
 ALTER TABLE heart ADD CONSTRAINT FK_beepro_user_TO_heart_1 FOREIGN KEY (send_id) REFERENCES beepro_user (user_id);
 

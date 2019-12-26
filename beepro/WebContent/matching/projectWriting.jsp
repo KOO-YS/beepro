@@ -5,18 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <title>BEEPRO - 글 작성</title>
-
-<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-<link href="css/jquery.tag-editor.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/matching/css/jquery.tag-editor.css" rel="stylesheet">
 <link href="/matching/css/agency.css" rel="stylesheet">
-<link href="css/common.css" rel="stylesheet">
-<link href="css/notice.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/matching/css/common.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/matching/css/notice.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 <script src="js/plugins/tagEditor/jquery.caret.min.js"></script>
 <script src="js/plugins/tagEditor/jquery.tag-editor.js"></script>
@@ -73,7 +72,7 @@
 	      </div>
 	    </div>
 	  </nav>
-	<form action="/ProjectServlet" method="post">
+	<form action="/MatchingServlet" method="post">
 	<input type="hidden" name="command"  value="projectWrite"/>
    <div class="container margin-t-100">
          <!--  General -->

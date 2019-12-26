@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/com/semi/controller/MatchingServlet.java=UTF-8
+encoding//src/com/semi/controller/ProjectServlet.java=UTF-8
+encoding//src/com/semi/controller/UserServlet.java=UTF-8
+encoding//src/db/beeproDB.sql=UTF-8
 encoding//src/util=UTF-8

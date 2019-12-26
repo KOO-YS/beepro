@@ -1,11 +1,16 @@
 package com.semi.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.semi.dao.MatchingDao;
+import com.semi.dao.MatchingDaoImpl;
+import com.semi.service.MatchingService;
 
 //매칭
 
@@ -33,7 +38,6 @@ public class MatchingServlet extends HttpServlet {
 		 *  방식 예시
 		 *	https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
 		 *  */
-		
 	}
 
 }
