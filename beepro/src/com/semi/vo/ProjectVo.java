@@ -1,59 +1,64 @@
-//프로젝트 관련 정보
-
+// 협업 - 프로젝트 관련 정보
 package com.semi.vo;
 
+import java.sql.Date;
+
 public class ProjectVo {
+	private int projectSeq; // 프로젝트 시퀀스
+	private Date startDate; // 프로젝트 시작 일
+	private Date endDate; // 프로젝트 종료 일
+	private String finish_ck; // 프로젝트 종료 여부
+	private String projectName; // 프로젝트 명
 	
-	private String subject;
-	private String country;
-	private String start;
-	private String depart;
-	private String region;
-	private String people;
-	private String comments;
-	
-	public String getSubject() {
-		return subject;
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	public String getStart() {
-		return start;
-	}
-	public void setStart(String start) {
-		this.start = start;
-	}
-	public String getDepart() {
-		return depart;
-	}
-	public void setDepart(String depart) {
-		this.depart = depart;
-	}
-	public String getRegion() {
-		return region;
-	}
-	public void setRegion(String region) {
-		this.region = region;
-	}
-	public String getPeople() {
-		return people;
-	}
-	public void setPeople(String people) {
-		this.people = people;
-	}
-	public String getComments() {
-		return comments;
-	}
-	public void setComments(String comments) {
-		this.comments = comments;
+	public ProjectVo() {
 	}
 	
-	
+	public ProjectVo(int projectSeq, Date startDate, Date endDate, String finish_ck, String projectName) {
+		super();
+		this.projectSeq = projectSeq;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.finish_ck = finish_ck;
+		this.projectName = projectName;
+	}
+
+	public int getProjectSeq() {
+		return projectSeq;
+	}
+
+	public void setProjectSeq(int projectSeq) {
+		this.projectSeq = projectSeq;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getFinish_ck() {
+		return finish_ck;
+	}
+
+	public void setFinish_ck(String finish_ck) {
+		this.finish_ck = finish_ck;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 }

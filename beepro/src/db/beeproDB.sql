@@ -149,6 +149,9 @@ CREATE TABLE project (
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
+-- 프로젝트 이름 컬럼 추가
+ALTER TABLE PROJECT ADD PROJECT_NAME VARCHAR2(4000);
+
 select * from project;
 
 INSERT INTO PROJECT VALUES (PROJECT_SEQ.NEXTVAL, '19/11/12', '19/12/20', 'Y');

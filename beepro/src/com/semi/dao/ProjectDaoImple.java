@@ -193,11 +193,4 @@ public class ProjectDaoImple implements ProjectDao {
 		System.out.println("detail : "+res.toString());
 		return res;
 	}
-
-	@Override
-	public int projectWrite(ProjectVo projectVo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

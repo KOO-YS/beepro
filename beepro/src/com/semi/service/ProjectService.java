@@ -85,25 +85,4 @@ public class ProjectService {
 		return projectDao.selectOneTodo(todoSeq);
 	}
 
-	public int projectWrite(HttpServletRequest request, HttpServletResponse response) {
-		ProjectVo projectVo = new ProjectVo();
-
-		String subject = request.getParameter("subject");
-		String country = request.getParameter("country");
-		String start = request.getParameter("start");
-		String depart = request.getParameter("depart");
-		String region = request.getParameter("region");
-		String people = request.getParameter("people");
-		String comments = request.getParameter("comments");
-
-		projectVo.setSubject(subject);
-		projectVo.setCountry(country);
-		projectVo.setStart(start);
-		projectVo.setDepart(depart);
-		projectVo.setRegion(region);
-		projectVo.setPeople(people);
-		projectVo.setComments(comments);
-
-		return projectDao.projectWrite(projectVo);
-	}
 }

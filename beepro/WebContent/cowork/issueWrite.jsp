@@ -114,7 +114,10 @@ $(document).ready(function(){
                        <div class="form-group col-lg-4">
                          <label for="category">프로젝트 명<span style="color:red;"> *</span></label>
                          <select name="p_name" class="form-control" id="p_name" disabled>
+                           <c:forEach var="project_list" items="${projectList}" varStatus="status">
                             <option value="" selected>진행 중인 프로젝트를 선택해주세요.</option>
+                            <option value="${project_list.subject}">${project_list.subject}</option>
+                           </c:forEach>
                          </select>
                        </div> 
                      </div>
