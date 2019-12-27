@@ -106,7 +106,7 @@ public class ProjectServlet extends HttpServlet {
 			
 			dispatch("cowork/issueDetail.jsp", request, response);
 
-		} else if (command.equals("todo-list")) {
+		} else if (command.equals("todo-list")) {	// 1
 			System.out.println("업무 리스트 출력");
 			// index.jsp 에서 project, id 에 세션 요구됨
 			List<TodoVo> todoList = projectService.selectAllTodo(1, "매니저 or 아이디");
@@ -114,18 +114,17 @@ public class ProjectServlet extends HttpServlet {
 			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
 
-		} else if (command.equals("todoForm")) {
+		} else if (command.equals("todoForm")) {	// 2
 			System.out.println("새 업무 생성");
 			int success = projectService.insertTodo(request, response);
-
 			if (success > 0) {
 				System.out.println("성공적으로 생성");
-				dispatch("../cowork/todo.jsp", request, response);
+				response.sendRedirect("todo?command=todo-list");
 			} else {
 				System.out.println("생성 오류 발생");
 			}
 
-		} else if (command.equals("todo-detail")) {
+		} else if (command.equals("todo-detail")) {	// 3
 			System.out.println("상세 보기 페이지");
 			TodoVo detail = projectService.selectOneTodo(request, response);
 			if (detail != null) {
@@ -134,7 +133,7 @@ public class ProjectServlet extends HttpServlet {
 				dispatch("/cowork/todoDetail.jsp", request, response);
 			}
 			
-		} else if(command.equals("updateTodo")) {
+		} else if(command.equals("updateTodo")) {	// 4
 			System.out.println("업무 내용 수정");
 			int success = projectService.updateTodo(request, response);
 			String msg = "";
@@ -147,30 +146,29 @@ public class ProjectServlet extends HttpServlet {
 			obj.put("result",msg);
 			response.getWriter().print(obj);
 			
-		} else if(command.equals("todo-list")) {
-			System.out.println("업무 리스트 출력");
-			// index.jsp 에서 project, id 에 세션 요구됨
-			List<TodoVo> todoList = projectService.selectAllTodo(1, "매니저 or 아이디");
-
-			request.setAttribute("todoList", todoList);
-			dispatch("cowork/todo.jsp", request, response);
-
-		} else if (command.equals("todoForm")) {
-			System.out.println("새 업무 생성");
-			int success = projectService.insertTodo(request, response);
-
-			if (success > 0) {
-				System.out.println("성공적으로 생성");
-				dispatch("../cowork/todo.jsp", request, response);
-			} else {
-				System.out.println("생성 오류 발생");
-			}
-	
-		} else if (command.equals("")) {
-
-		} else if(command.equals("updateTodoStatus")) {
+		} else if(command.equals("updateTodoStatus")) {	// 5
 			System.out.println("진행도 변경");
 			projectService.updateTodoStatus(request, response);
+		
+		} else if(command.equals("deleteTodo")) {		// 6
+			System.out.println("업무 삭제");
+			int success = projectService.deleteTodo(request, response);
+			String msg = "";
+			if(success>0) {
+				msg =  "업무가 성공적으로 삭제되었습니다";
+			} else {
+				msg = "업무 삭제 실패했습니다";
+			}
+			JSONObject obj = new JSONObject();
+			obj.put("result",msg);
+			response.getWriter().print(obj);
+		
+		} else if(command.equals("updateTodoPriority")) {	// 7
+			System.out.println("중요도 변경");
+			projectService.updateTodoPriority(request, response);
+		
+		} else if(command.equals("selectChart")) {
+			projectService.countCategory();
 		}
 	}
 

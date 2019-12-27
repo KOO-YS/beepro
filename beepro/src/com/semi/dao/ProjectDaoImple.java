@@ -137,7 +137,7 @@ public class ProjectDaoImple implements ProjectDao {
 			pstm.setDate(5, todo.getStartDate());
 			pstm.setDate(6, todo.getEndDate());
 			pstm.setString(7, todo.getCategory());
-			pstm.setString(8, "시작");
+			pstm.setString(8, "예정");
 			pstm.setInt(9, todo.getPriority());
 
 			res = pstm.executeUpdate();
@@ -273,7 +273,7 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return res;
 	}
-
+	// 업무 상태 변경
 	@Override
 	public void updateTodoStatus(int todoSeq, int projectSeq, String status) {
 		Connection con = getConnection();
@@ -288,5 +288,44 @@ public class ProjectDaoImple implements ProjectDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	// 업무 삭제
+	@Override
+	public int deleteTodo(int todoSeq, int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		int res = 0;
+		try {
+			pstm = con.prepareStatement(deleteTodoSql);
+			pstm.setInt(1, todoSeq);
+			pstm.setInt(2, projectSeq);
+
+			res = pstm.executeUpdate();	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	// 업무 중요도 변경
+	@Override
+	public void updateTodoPriority(int todoSeq, int projectSeq, int priority) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		try {
+			pstm = con.prepareStatement(updateTodoPrioritySql);
+			pstm.setInt(1, priority);
+			pstm.setInt(2, todoSeq);
+			pstm.setInt(3, projectSeq);
+			
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void countCategory() {
+		// TODO Auto-generated method stub
+		
 	}
 }
