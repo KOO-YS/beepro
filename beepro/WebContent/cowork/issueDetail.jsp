@@ -149,7 +149,6 @@
                  height:50px;
                  border-bottom:4px solid rgb(75,97,207);
                  }
-
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -240,20 +239,7 @@
 					                       내용 들어갈 자리
 					         </div>
 					         
-					         <div id="comment_header">
-					            <div id="comment-label">
-					                              댓글
-					            </div>
-					            
-					            <div id="comment-content">
-					               작성된 댓글이 없습니다.
-					            </div>
-					            
 					        
-					            <div id="comment_write">
-					              <input type="text" id="commnet" name="comment" size=100%>
-					            </div>
-					         </div>
 					       </div>
 					    </div>
 					  </div>
