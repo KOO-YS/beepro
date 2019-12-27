@@ -41,7 +41,7 @@ public class UserServlet extends HttpServlet {
 		// 서비스와 연결
 		UserService userService = new UserService();
 
-		if (command.equals("submit")) {
+		if (command.equals("chatSubmit")) {
 			System.out.println("메세지 보내기");
 			userService.chatSubmit(request, response);
 			

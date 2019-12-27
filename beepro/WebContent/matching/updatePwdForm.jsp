@@ -8,7 +8,7 @@
 <%	request.setCharacterEncoding("UTF-8");%>
 <%	response.setContentType("text/html; charset=UTF-8");%> 
 <%
- 	request.setCharacterEncoding("UTF-8");
+ 	response.setCharacterEncoding("UTF-8");
 	UserDaoImpl dao = new UserDaoImpl();
 
  	String u_id = null;
@@ -33,6 +33,8 @@
  		script.println("history.back();");
  		script.println("</script>");
  		script.close();
+ 		
+ 		return;
  	}
  	
  	if(!(request.getParameter("newPwd_chk").equals(request.getParameter("newPwd")))) {  //입력받은 새로운 비밀번호 일치 확인  
@@ -43,6 +45,7 @@
  		script.println("history.back();");
  		script.println("</script>");
  		script.close();
+ 		return;
  	}
  	
  	newPwd = (String) request.getParameter("newPwd");
