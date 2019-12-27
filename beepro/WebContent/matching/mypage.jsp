@@ -255,12 +255,12 @@
       
         	  <div class="form-group">
 			    <label for="oriPwd">기존 패스워드</label>
-			    <input type="password" class="form-control" name = "oriPwd" id="oriPwd" required>
+			    <input type="password" class="form-control" name ="oriPwd" id="oriPwd" required>
 			  </div>
 			  <hr>
 			  <div class="form-group">
 			    <label for="newPwd">새 패스워드</label>
-			    <input type="password" class="form-control" name = "newPwd" id="newPwd" required>
+			    <input type="password" class="form-control" name ="newPwd" id="newPwd" required>
 			  </div>
 			  <div class="form-group">
 			    <label for="newPwd_chk">새 패스워드 확인</label>

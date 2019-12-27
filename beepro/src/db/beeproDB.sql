@@ -65,9 +65,8 @@ CREATE TABLE beepro_user (
 );
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
-UPDATE beepro_user SET email_ck = 'N' WHERE user_id = 'test3';
-delete from BEEPRO_USER where user_id = 'test3';
 SELECT * FROM BEEPRO_USER;
+delete from BEEPRO_USER where user_id = 'test3';
 
 
 --SELECT * FROM beepro_user;
