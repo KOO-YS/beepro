@@ -29,22 +29,22 @@
 	if(u_id == null){
 %>
 	<script type="text/javascript">
-		alret("현재 로그인이 되어 있지 않습니다.");
+		alert("현재 로그인이 되어 있지 않습니다.");
 		location.href="index.html";
 	</script>
-
-<%
+ <%
 	}
+	
 	if(get_id == null){
 		
 %>
 	<script type="text/javascript">
-		alret("대화상대가 지정되어 있지 않습니다.");
-		history.back();
+		alert("대화상대가 지정되어 있지 않습니다.");
+		history.back(); 
 	</script>
 <%
 	}
-%>
+%> 
 
 <script type="text/javascript" src ="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -83,10 +83,10 @@ function sumbitFunction(){
 		$('#chatContent').val(''); /* 성공적으로 보내지면 값을 비워준다 */
 
 	}
-	var lastId = 0;
+	var lastID = 0;
 	function chatListFunction(type){
-		var send_id = '<%= u_id%>';
-		var get_id = '<%= get_id%>';
+		var send_id = '<%=u_id%>';
+		var get_id = '<%=get_id%>';
 		$.ajax({
 			type: "POST",
 			url: "../chat?command=chatList",
@@ -278,10 +278,10 @@ function sumbitFunction(){
 	</div>
 	
 	
-<%-- 	<%
+<%--  	<%
 		session.removeAttribute("messageContent");
 		session.removeAttribute("messageType");
-	%> --%>
+	%> --%> 
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
