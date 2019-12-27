@@ -133,7 +133,7 @@
        padding: 15px;
        margin-top: 20px !important;}
 
-#comment_header {   margin-top:40px;
+#comment-label-wrap { margin-top:40px;
                     border-top:1px solid #ddd;
                     border-bottom:1px solid #ddd;
                     height:50px;
@@ -148,6 +148,8 @@
                  height:50px;
                  border-bottom:4px solid rgb(75,97,207);
                  }
+                 
+ 
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -236,6 +238,12 @@
 					         
 					         <div class="box">
 					                       내용 들어갈 자리
+					         </div>
+					         
+					         <div id="comment-label-wrap">
+					           <div id="comment-label">
+					                           댓 글
+					           </div>
 					         </div>
 					         
 					        <jsp:include page="comment.jsp"></jsp:include>

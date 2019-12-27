@@ -14,22 +14,9 @@
                  
                 //댓글 저장
                 $("#reply_save").click(function(){
-                     
-                    //널 검사
-                    if($("#reply_writer").val().trim() == ""){
-                        alert("이름을 입력하세요.");
-                        $("#reply_writer").focus();
-                        return false;
-                    }
-                     
-                    if($("#reply_password").val().trim() == ""){
-                        alert("패스워드를 입력하세요.");
-                        $("#reply_password").focus();
-                        return false;
-                    }
-                     
+                                          
                     if($("#reply_content").val().trim() == ""){
-                        alert("내용을 입력하세요.");
+                        alert("댓글을 입력하세요.");
                         $("#reply_content").focus();
                         return false;
                     }
@@ -41,8 +28,6 @@
                             board_id        : $("#board_id").val(),
                             parent_id       : "0",  
                             depth           : "0",
-                            reply_writer    : $("#reply_writer").val(),
-                            reply_password  : $("#reply_password").val(),
                             reply_content   : reply_content
                     };
                      
@@ -79,14 +64,9 @@
                      
                     var reply = 
                         '<tr reply_type="main">'+
-                        '   <td width="820px">'+
+                        '<td width="100px">'+ $("#reply_writer").val() + '</td>'+
+                        '<td width="900px;">'+
                         reply_content+
-                        '   </td>'+
-                        '   <td width="100px">'+
-                        $("#reply_writer").val()+
-                        '   </td>'+
-                        '   <td width="100px">'+
-                        '       <input type="password" id="reply_password_'+reply_id+'" style="width:100px;" maxlength="10" placeholder="패스워드"/>'+
                         '   </td>'+
                         '   <td align="center">'+
                         '       <button name="reply_reply" reply_id = "'+reply_id+'">댓글</button>'+
@@ -329,20 +309,7 @@
                 $(document).on("click","button[name='reply_modify_save']", function(){
                 	
                 	var reply_id = $(this).attr("reply_id");
-                	
-                	//널 체크
-                    if($("#reply_modify_writer_"+reply_id).val().trim() == ""){
-                        alert("이름을 입력하세요.");
-                        $("#reply_modify_writer_"+reply_id).focus();
-                        return false;
-                    }
-                     
-                    if($("#reply_modify_password_"+reply_id).val().trim() == ""){
-                        alert("패스워드를 입력하세요.");
-                        $("#reply_modify_password_"+reply_id).focus();
-                        return false;
-                    }
-                     
+                	                     
                     if($("#reply_modify_content_"+reply_id).val().trim() == ""){
                         alert("내용을 입력하세요.");
                         $("#reply_modify_content_"+reply_id).focus();
@@ -711,22 +678,18 @@
 </head>
 <body>
 <input type="hidden" id="board_id" name="board_id" value="${boardView.id}" />
-        <div align="center">
-         <table border="1" width="1200px" id="reply_area">
-                <tr reply_type="all"><!-- �뮘�뿉 �뙎湲� 遺숈씠湲� �돺寃� �꽑�뼵 -->
+    <div align="center">
+         <table id="reply_area">
+                <tr>
                     <td colspan="4"></td>
                 </tr>
-            <table border="1" width="1200px" bordercolor="#46AA46">
-                <tr>
-                    <td width="500px">
-                        이름: <input type="text" id="reply_writer" name="reply_writer" style="width:170px;" maxlength="10" placeholder="작성자"/>
-                        패스워드: <input type="password" id="reply_password" name="reply_password" style="width:170px;" maxlength="10" placeholder="패스워드"/>
-                        <button id="reply_save" name="reply_save">댓글 등록</button>
-                    </td>
-                </tr>
+            <table>
                 <tr>
                     <td>
-                        <textarea id="reply_content" name="reply_content" rows="4" cols="50" placeholder="댓글을 입력하세요."></textarea>
+                        <input type="text" id="reply_content" name="reply_content" placeholder="댓글을 입력하세요..." style="width:1100px;"></input>
+                    </td>
+                    <td>
+                        <button id="reply_save" name="reply_save"><img src="images/send.png"></button>
                     </td>
                 </tr>
             </table>
