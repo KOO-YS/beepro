@@ -8,7 +8,7 @@ public interface UserDao {
 	String getUserEmailSql = "SELECT email FROM beepro_user WHERE user_id = ?";
 	String getUserNameSql = "SELECT name FROM beepro_user WHERE user_id = ?";
 	String getEmailCkSql ="SELECT email_ck FROM beepro_user WHERE user_id = ?";
-	String setEmailCkSql = "UPDATE beepro_user SET email_ck = true WHERE email= ? ";
+	String setEmailCkSql = "UPDATE beepro_user SET email_ck ='Y' WHERE email= ? ";
 	
 	public int login(String u_id, String u_pwd);
 	public int join(UserVo vo);
