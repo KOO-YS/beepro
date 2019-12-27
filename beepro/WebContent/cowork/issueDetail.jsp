@@ -31,7 +31,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
 .support {
-	flex: 1;
 	background-color: #fff;
 	padding: 20px;
 	-webkit-box-shadow: 0px 2px 4px rgba(126, 142, 177, 0.12);
@@ -149,7 +148,6 @@
                  height:50px;
                  border-bottom:4px solid rgb(75,97,207);
                  }
-
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -240,20 +238,7 @@
 					                       내용 들어갈 자리
 					         </div>
 					         
-					         <div id="comment_header">
-					            <div id="comment-label">
-					                              댓글
-					            </div>
-					            
-					            <div id="comment-content">
-					               작성된 댓글이 없습니다.
-					            </div>
-					            
-					        
-					            <div id="comment_write">
-					              <input type="text" id="commnet" name="comment" size=100%>
-					            </div>
-					         </div>
+					        <jsp:include page="comment.jsp"></jsp:include>
 					       </div>
 					    </div>
 					  </div>

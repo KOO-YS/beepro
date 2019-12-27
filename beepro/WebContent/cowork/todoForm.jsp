@@ -7,16 +7,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-<link href="css/sb-admin-2.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css" rel="stylesheet">
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/js/sb-admin-2.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -38,7 +38,7 @@ $( function() {
 	$.datepicker.setDefaults({
 	    dateFormat: 'yy-mm-dd' //Input Display Format 변경
 	});
-    /* var dateFormat = "yy-mm-dd", */
+    var dateFormat = "yy-mm-dd",
       from = $( "#from" )
         .datepicker({
           defaultDate: "+1w",
@@ -67,7 +67,7 @@ $( function() {
  
       return date;
     }
-  } );
+  });
 	
 </script>   
 <title>업무 추가</title>

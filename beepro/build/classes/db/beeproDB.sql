@@ -65,12 +65,11 @@ CREATE TABLE beepro_user (
 );
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
-
+UPDATE beepro_user SET email_ck = 'N' WHERE user_id = 'test3';
+delete from BEEPRO_USER where user_id = 'test3';
 SELECT * FROM BEEPRO_USER;
 
---INSERT into beepro_user values('�솉湲몃룞','abc123','kakung1202@naver.com', 'zzz',null, 'Y');
---
---DELETE from beepro_user where name='�솉湲몃룞';
+
 --SELECT * FROM beepro_user;
 
 CREATE TABLE message (
@@ -119,7 +118,6 @@ SELECT * FROM MATCHING_PROJECT;
 CREATE TABLE comments (
 	comments_seq	number,
 	issue_seq	number	NOT NULL,
-	project_seq	number	NOT NULL,
 	writer	varchar2(30)	NOT NULL,
 	content	varchar2(2000)	NOT NULL,
 	regdate	Date	NOT NULL
