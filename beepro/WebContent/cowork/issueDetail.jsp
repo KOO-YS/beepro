@@ -31,7 +31,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
 .support {
-	flex: 1;
 	background-color: #fff;
 	padding: 20px;
 	-webkit-box-shadow: 0px 2px 4px rgba(126, 142, 177, 0.12);
@@ -239,7 +238,7 @@
 					                       내용 들어갈 자리
 					         </div>
 					         
-					        
+					        <jsp:include page="comment.jsp"></jsp:include>
 					       </div>
 					    </div>
 					  </div>
