@@ -32,7 +32,7 @@ button { background-color:#4b61cf;
           <!-- Divider -->
           <hr class="sidebar-divider">
           <li class="nav-item">
-            <a class="nav-link" href="working.jsp">
+            <a class="nav-link" href="${pageContext.request.contextPath}/cowork/analysis.jsp">
               <i class="fas fa-fw fa-cog"></i>
               <span>업무진행상황</span>
             </a>

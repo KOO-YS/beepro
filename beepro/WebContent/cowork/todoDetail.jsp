@@ -121,8 +121,8 @@ $( function() {
 							<hr>
 							<form id="detailForm">
 							<input type="hidden" name="command" value="updateTodo">
-							<input type="hidden" name="todoSeq" value="${detail.todoSeq}">
-							<input type="hidden" name="projectSeq" value="${detail.projectSeq }">
+							<input type="hidden" id="todoSeq" name="todoSeq" value="${detail.todoSeq}">
+							<input type="hidden" id="projectSeq" name="projectSeq" value="${detail.projectSeq }">
 							<div class="row">
 							  <div class="form-group col-lg-8">
 							    <label for="title">업무 명</label>
@@ -169,7 +169,8 @@ $( function() {
 							  	
                   			  </div>
 							</div>
-							<button type="button" id="submitBtn" class="btn btn-primary" style="float:right;">수정</button>
+							<button type="button" class="btn btn-danger" onclick="deleteTodo(${detail.todoSeq});" style="float:right;">삭제</button>
+							<button type="button" id="submitBtn" class="btn btn-primary" style="float:right; margin-right:20px;">수정</button>
 						    <button type="button" class="btn btn-primary" onclick="location.href='todo?command=todo-list'">목록</button>
 							</form>
 					</div>
@@ -181,17 +182,33 @@ $( function() {
 	</div>
 
 <script type="text/javascript">
+function deleteTodo(todoSeq){
+	var selected = confirm("업무를 삭제하시겠습니까?")
+	if(selected){
+		$.ajax({
+			url: 'todo?command=deleteTodo&projectSeq='+$("#projectSeq").val()+'&todoSeq='+$("#todoSeq").val(),
+			type: 'GET',
+			dataType: 'json',
+			error:function(request, status, error){
+				alert("실패");
+				 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			},
+			success:function(data, textStatus, jqXHR){
+				location.href= '${pageContext.request.contextPath}/todo?command=todo-list';
+				alert(data.result);
+			}	
+		});
+	}
+}
+
 $("#submitBtn").click(function(){
 	var formData = new $("#detailForm").serialize();
 	
 	$.ajax({
-		url: 'todo?command=updateTodo',
-		type: 'GET',
+		url: 'todo',
+		type: 'POST',
  		data: formData,
  		dataType : 'json',
- 		cache:false,
-		contentType:false,
-		processData:false,
 		error:function(request, status, error){
 			alert("실패");
 			 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

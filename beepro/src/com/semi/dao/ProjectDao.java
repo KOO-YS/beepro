@@ -19,6 +19,8 @@ public interface ProjectDao {
     String selectOneTodoSql = "SELECT * FROM TODO WHERE TODO_SEQ = ?";
     String updateTodoSql = "UPDATE TODO SET TITLE=?, CONTENT=?, PRIORITY=?, STARTDATE=?, ENDDATE=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     String updateTodoStatusSql = "UPDATE TODO SET STATUS=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
+    String deleteTodoSql = "DELETE FROM TODO WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
+    String updateTodoPrioritySql = "UPDATE TODO SET PRIORITY=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     
     public List<IssueVo> selectAllIssue();
     
@@ -39,6 +41,12 @@ public interface ProjectDao {
 	public int updateTodo(TodoVo todo);
 
 	public void updateTodoStatus(int todoSeq, int projectSeq, String status);
+
+	public int deleteTodo(int todoSeq, int projectSeq);
+
+	public void updateTodoPriority(int todoSeq, int projectSeq, int priority);
+
+	public void countCategory();
 
 }
 

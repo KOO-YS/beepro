@@ -108,4 +108,24 @@ public class ProjectService {
 		
 		projectDao.updateTodoStatus(todoSeq, projectSeq, status);
 	}
+	
+	// 업무 삭제
+	public int deleteTodo(HttpServletRequest request, HttpServletResponse response) {
+		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		
+		return projectDao.deleteTodo(todoSeq, projectSeq);
+	}
+	// 업무 중요도 변경
+	public void updateTodoPriority(HttpServletRequest request, HttpServletResponse response) {
+		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		int priority = Integer.parseInt(request.getParameter("priority"));
+		
+		projectDao.updateTodoPriority(todoSeq, projectSeq, priority);
+	}
+
+	public void countCategory() {
+		projectDao.countCategory();
+	}
 }
