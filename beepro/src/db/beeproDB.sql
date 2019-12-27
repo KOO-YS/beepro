@@ -117,7 +117,6 @@ SELECT * FROM MATCHING_PROJECT;
 CREATE TABLE comments (
 	comments_seq	number,
 	issue_seq	number	NOT NULL,
-	project_seq	number	NOT NULL,
 	writer	varchar2(30)	NOT NULL,
 	content	varchar2(2000)	NOT NULL,
 	regdate	Date	NOT NULL
