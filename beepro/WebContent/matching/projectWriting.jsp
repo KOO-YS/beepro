@@ -13,7 +13,7 @@
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 <link href="${pageContext.request.contextPath}/matching/css/jquery.tag-editor.css" rel="stylesheet">
-<link href="/matching/css/agency.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/matching/css/common.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/matching/css/notice.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
@@ -38,7 +38,7 @@
       }
       
       $(document).ready(function(){
-         $('#country').tagEditor({placeholder : '언어 및 프로그램 능력을 작성하세요'});
+         $('#skill').tagEditor({placeholder : '언어 및 프로그램 능력을 작성하세요'});
       });
       // just add a class of "floatLabel to the input field!"
       floatLabel(".floatLabel");
@@ -72,18 +72,22 @@
 	      </div>
 	    </div>
 	  </nav>
-	<form action="/MatchingServlet" method="post">
+	<form action="${pageContext.request.contextPath}/matchingServlet" method="post">
 	<input type="hidden" name="command"  value="projectWrite"/>
+	<input type="hidden" name="pm_id"  value="5@naver.com"/> <!-- 임시 데이터 나중에 꼭 로그인 아이디로 수정할것 -->
    <div class="container margin-t-100">
          <!--  General -->
          <div class="form-group">
             <h2 class="heading">새 글 작성</h2>
             <div class="controls">
-               <input type="text" id="subject" class="floatLabel" name="subject" placeholder="프로젝트 제목을 입력하세요">
+               <input type="text" id="title" class="floatLabel" name="title" placeholder="프로젝트 제목을 입력하세요">
 
             </div>
+            <div class="controls">
+               <input type="text" class="floatLabel" value="김지민" readonly >
+            </div>
             <div class="controls2">
-               <input type="text" id="country" class="floatLabel" name="country" data-role="tagsinput" >
+               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" >
             </div>
          </div>
          <div class="grid">
@@ -91,20 +95,20 @@
                <div class="controls">
                   <i class="fa fa-calendar"></i>
                   <span class="gray">&nbsp;&nbsp;프로젝트 시작일</span>
-                  <input type="date" id="arrive" name="start" class="floatLabel">
+                  <input type="date" id="startdate" name="startdate" class="floatLabel">
                </div>
             </div>
             <div class="col-1-4 col-1-4-sm">
                <div class="controls">
                   <i class="fa fa-calendar"></i>
                   <span class="gray">&nbsp;&nbsp;프로젝트 종료일 </span>
-                  <input type="date" id="depart" class="floatLabel" name="depart" placeholder="프로젝트 종료" />
+                  <input type="date" id="enddate" class="floatLabel" name="enddate" placeholder="프로젝트 종료" />
                </div>
             </div>
          </div>
          <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-               <i class="fa fa-sort"></i> <select class="floatLabel" name="region">
+               <i class="fa fa-sort"></i> <select class="floatLabel" name="location">
                   <option value="" >지역을 선택하세요</option>
                   <option value="seoul">서울</option>
                   <option value="gangwon">강원</option>
@@ -129,7 +133,7 @@
          <div class="grid">
             <div class="col-1-3 col-1-3-sm">
                <div class="controls">
-                  <i class="fa fa-sort"></i> <select class="floatLabel" name="people">
+                  <i class="fa fa-sort"></i> <select class="floatLabel" name="need_person">
                      <option value="">인원을 선택하세요</option>
                      <option value="1">1</option>
                      <option value="2">2</option>
@@ -149,7 +153,7 @@
 
                <div class="controls">
                   <p class="info-text margin-b-10">상세 내용</p>
-                  <textarea name="comments" class="floatLabel" id="comments" placeholder="상세 내용을 입력하세요."></textarea>
+                  <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요."></textarea>
                </div>
                <input type="submit" class="col-1-4 btn btn-primary" style="float: right;"/>
             </div>

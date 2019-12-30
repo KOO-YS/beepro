@@ -67,6 +67,8 @@ public interface ProjectDao {
 	
 	public boolean deleteComment(int comments_seq);
 
+
 	public void updateComment(int commentSeq, int issueSeq, String content);
+
 }
 

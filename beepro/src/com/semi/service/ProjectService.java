@@ -129,6 +129,7 @@ public class ProjectService {
 		projectDao.updateTodoPriority(todoSeq, projectSeq, priority);
 	}
 
+
 	public void countCategory() {
 		projectDao.countCategory();
 	}
