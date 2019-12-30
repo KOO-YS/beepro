@@ -194,10 +194,5 @@ public class ProjectDaoImple implements ProjectDao {
 		return res;
 	}
 
-	@Override
-	public int projectWrite(ProjectVo projectVo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

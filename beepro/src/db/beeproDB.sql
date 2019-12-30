@@ -78,7 +78,7 @@ CREATE TABLE message (
     send_id	varchar2(100)	NOT NULL,
 	get_id	varchar2(100)	NOT NULL,
 	content	varchar2(4000)	NOT NULL,
-	regdate	Date	NOT NULL
+	regdate	DATE	NOT NULL
 );
 
 CREATE TABLE heart (
@@ -107,8 +107,11 @@ CREATE TABLE matching_project (
 	pm_id	varchar2(100)	NOT NULL,
 	title	varchar2(300)	NOT NULL, 
 	content	varchar2(4000)	NOT NULL,
+	skill	varchar2(4000),
 	need_person	varchar2(200)	NOT NULL,
-	location	varchar2(300)	
+	location	varchar2(300),	
+	startdate	varchar2(100),
+	enddate		varchar2(100)
 );
 
 INSERT INTO MATCHING_PROJECT VALUES (PROJECT_SEQ.NEXTVAL, 'bmi6638@naver.com', '첫번째 프로젝트입니다.', '프로젝트 테스트입니다', '프론트앤드', '충청도');
@@ -121,7 +124,7 @@ CREATE TABLE comments (
 	project_seq	number	NOT NULL,
 	writer	varchar2(30)	NOT NULL,
 	content	varchar2(2000)	NOT NULL,
-	regdate	Date	NOT NULL
+	regdate	DATE	NOT NULL
 );
 
 -- 吏꾪뻾�긽�깭, �슦�꽑�닚�쐞 (以묒슂�룄) 異붽�
@@ -131,8 +134,8 @@ CREATE TABLE todo (
 	manager	varchar2(30)	NOT NULL,
 	title	varchar2(500)	NOT NULL,
     content	varchar2(4000)	NOT NULL,
-	startdate	Date	NOT NULL,
-	enddate	Date	NOT NULL,
+	startdate	DATE	NOT NULL,
+	enddate		DATE	NOT NULL,
 	category	varchar2(200)	NOT NULL,
 	progress	varchar2(200)	NOT NULL,
 	priority	number NOT NULL,
@@ -237,3 +240,6 @@ ALTER TABLE project_member ADD CONSTRAINT FK_project_TO_project_mem FOREIGN KEY 
 ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (member_id) REFERENCES beepro_user (user_id);
 
 COMMIT;
+
+
+SELECT * FROM matching_project;

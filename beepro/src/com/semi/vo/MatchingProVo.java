@@ -4,58 +4,79 @@ package com.semi.vo;
 
 public class MatchingProVo {
 	
+	
+	private String pm_id; //pm 아이디
+	private String skill; //프로젝트 제목
+	private String title; //프로젝트 제목
+	private String content; //상세내용
+	private String need_person; //필요한 사람 수
+	private String location; //지역
+	private String startdate; //시작날짜
+	private String enddate; //끝나는 날짜
+	
+	public String getPm_id() {
+		return pm_id;
+	}
 
-	private String subject;
-	private String country;
-	private String start;
-	private String depart;
-	private String region;
-	private String people;
-	private String comments;
-	
-	public String getSubject() {
-		return subject;
+	public void setPm_id(String pm_id) {
+		this.pm_id = pm_id;
 	}
-	public void setSubject(String subject) {
-		this.subject = subject;
+
+	public String getTitle() {
+		return title;
 	}
-	public String getCountry() {
-		return country;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public void setCountry(String country) {
-		this.country = country;
+
+	public String getContent() {
+		return content;
 	}
-	public String getStart() {
-		return start;
+
+	public void setContent(String content) {
+		this.content = content;
 	}
-	public void setStart(String start) {
-		this.start = start;
+
+	public String getNeed_person() {
+		return need_person;
 	}
-	public String getDepart() {
-		return depart;
+
+	public void setNeed_person(String need_person) {
+		this.need_person = need_person;
 	}
-	public void setDepart(String depart) {
-		this.depart = depart;
+
+	public String getLocation() {
+		return location;
 	}
-	public String getRegion() {
-		return region;
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
-	public void setRegion(String region) {
-		this.region = region;
+
+	public String getStartdate() {
+		return startdate;
 	}
-	public String getPeople() {
-		return people;
+
+	public void setStartdate(String startdate) {
+		this.startdate = startdate;
 	}
-	public void setPeople(String people) {
-		this.people = people;
+
+	public String getEnddate() {
+		return enddate;
 	}
-	public String getComments() {
-		return comments;
+
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
 	}
-	public void setComments(String comments) {
-		this.comments = comments;
+
+	public String getSkill() {
+		return skill;
 	}
-	
+
+	public void setSkill(String skill) {
+		this.skill = skill;
+	}
 	
 
 }
