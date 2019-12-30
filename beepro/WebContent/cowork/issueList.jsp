@@ -392,7 +392,7 @@ table.table .avatar {
 									<tr>
 										<td>${issue.issueSeq}</td>
 										<td>${issue.title}</td>
-										<td>${issue.writer}</td>
+										<td>${u_name}</td>
 										<td><span class="status text-success">&bull;</span>
 											${issue.level}</td>
 										<td>${issue.category}</td>

@@ -213,7 +213,7 @@
 					                 <span>작성자</span>
 					               </label>
 					               <div class="subheader2">
-					                 보미보미 bmi6638
+					                ${u_name}&nbsp;&nbsp;${u_email} 
 					               </div>
 					            </div>
 					         </div>
