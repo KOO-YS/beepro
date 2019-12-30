@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
+import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
@@ -51,9 +52,10 @@ public class ProjectService {
 
 	// 선택한 하나의 이슈 정보를 자세히
 	public IssueVo issueDetail(HttpServletRequest request, HttpServletResponse response) {
-		int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+		int issueSeq = Integer.parseInt(request.getParameter("seq"));
 		System.out.println("선택한 이슈 번호 : " + issueSeq);
 		return projectDao.selectOneIssue(issueSeq);
+		
 	}
 
 	// 업무 생성 서비스
@@ -127,7 +129,43 @@ public class ProjectService {
 		projectDao.updateTodoPriority(todoSeq, projectSeq, priority);
 	}
 
+
 	public void countCategory() {
 		projectDao.countCategory();
 	}
+
+	// 댓글 작성
+	public boolean commentWrite(HttpServletRequest request, HttpServletResponse response) {
+		int issueSeq = Integer.parseInt(request.getParameter("issueSeq"));
+		
+		String writer = request.getParameter("u_id");
+		String content = request.getParameter("content");
+		String regdate = request.getParameter("regdate");
+		
+		CommentVo vo = new CommentVo();
+		
+		vo.setIssueSeq(issueSeq);
+		vo.setWriter(writer);
+		vo.setContent(content);
+		vo.getRegdate();
+
+		return projectDao.insertComment(vo);
+	
+	}
+
+	// 댓글 삭제
+	public boolean commentDelete(HttpServletRequest request, HttpServletResponse response) {
+		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
+		return projectDao.deleteComment(commentSeq);
+	}
+    
+	// 댓글 수정
+	public void updateComment(HttpServletRequest request, HttpServletResponse response) {
+		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
+		int issueSeq = Integer.parseInt(request.getParameter("issueSeq"));
+		String content = request.getParameter("content");
+		
+		projectDao.updateComment(commentSeq, issueSeq, content);
+	}
+
 }

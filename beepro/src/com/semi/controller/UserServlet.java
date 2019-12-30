@@ -70,6 +70,10 @@ public class UserServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+		}else if(command.equals("chatUnread")) {
+			System.out.println("읽지 않은 메세지");
+			userService.chatUnread(request, response);
 		}
 	}
 }

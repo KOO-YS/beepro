@@ -174,11 +174,67 @@
 .box { background: #f1f1f1;
        padding: 15px;
        margin-top: 20px !important;}
-       
+
+#comment-label-wrap { margin-top:120px;
+                    border-top:1px solid #ddd;
+                    border-bottom:1px solid #ddd;
+                    height:50px;
+                    line-height:50px;
+                    font-size:16px;
+                    }
+                    
+#comment-label { color:rgb(75,97,207); 
+                 font-weight:bold;
+                 width:90px;
+                 text-align:center;
+                 height:50px;
+                 border-bottom:4px solid rgb(75,97,207);
+                 }  
+
+#none { width:100%;
+        hegiht:60px;
+        line-height:60px;
+        text-align:center;
+        padding:30px;
+      }  
+      
+#writer{ color:black;
+         font-size:16px;
+         font-weight:bold;
+       }  
+
+#regdate { font-size:11px;}
+
+#content { margin-top:20px;
+           color:#334152;
+         }
+
+#content_wrap { padding:30px;
+                width:100%;
+                height:auto;
+                margin-top:20px;
+                border-radius:5px;
+                border:1px solid rgb(75,97,207);
+              }
+
+#buttons { float:right; 
+           margin-top:-80px;
+           font-size:12px;
+          }
+
+#buttons > input { background:none;
+                   border:0;
+                   outline:0;}
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
 <body>
+<%
+   String u_id = null;
+   if (session.getAttribute("u_id") != null) {
+      u_id = (String)session.getAttribute("u_id");
+   } 
+%>
 	<div id="wrapper">
 		<!-- 상단 메뉴 바 -->
 		<jsp:include page="common/side_bar.jsp"></jsp:include>
@@ -213,7 +269,7 @@
 					                 <span>작성자</span>
 					               </label>
 					               <div class="subheader2">
-					                ${u_name}&nbsp;&nbsp;${u_email} 
+					                 보미보미 bmi6638
 					               </div>
 					            </div>
 					         </div>
@@ -266,8 +322,55 @@
 					        
 							 <button type="button" class="btn btn-primary" style="float:right; margin-top:30px;"
 							  onclick="location.href='${pageContext.request.contextPath}/comment?command=commentList'">
-							      <b>on</b>
-							  </button>	         
+							      <b>댓  글</b>
+							  </button>	   
+							  
+							 <div> 
+							  <div id="comment-label-wrap">
+					           <div id="comment-label">
+					                           댓글
+					           </div>
+					         </div>
+					         
+					           <c:choose>
+					              <c:when test="${empty list}">
+					                 <div id="none">작성된 댓글이 없습니다</div>
+					              </c:when>
+					       
+					              <c:otherwise>
+					                <c:forEach var="list" items="${list}">
+					                <div id="content_wrap">
+					                  <div id="writer">
+					                    ${list.writer}
+					                  </div>
+					                   
+					                   <div id="regdate">
+					                   ${list.regdate}
+					                   </div>
+					                   
+					                   <div id="content">
+					                   ${list.content}
+					                   </div>
+					                   
+					                   <div id="buttons">
+                                        <input type="button" value="삭 제"
+                                        onclick="location.href='${pageContext.request.contextPath}/
+                                        comment?command=deleteComment&commentSeq=${list.commentSeq}'">
+					                   </div>
+					                 </div>
+					                </c:forEach>
+					              </c:otherwise>
+					           </c:choose>
+					             
+					             <form action="../comment" method="post">
+					             <input type="hidden" name="u_id" value="${u_id}">
+					             <input type="text" name="comment" placeholder="댓글을 입력하세요" style="width:1056px; margin-top:20px;">
+    							 <button type="button" class="btn btn-primary" style="float:right; margin-top:15px; z-index:999;"
+							  onclick="location.href='${pageContext.request.contextPath}/comment?command=commentWrite'">
+							      <b>댓글작성</b>
+							  </button>	 
+							 </form>
+					        </div>       
 					       </div>
 					    </div>
 					  </div>

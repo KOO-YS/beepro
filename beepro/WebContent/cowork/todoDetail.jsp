@@ -170,7 +170,7 @@ $( function() {
                   			  </div>
 							</div>
 							<button type="button" class="btn btn-danger" onclick="deleteTodo(${detail.todoSeq});" style="float:right;">삭제</button>
-							<button type="button" id="submitBtn" class="btn btn-primary" style="float:right; margin-right:20px;">수정</button>
+							<button type="button" id="submitbtn" class="btn btn-primary" style="float:right; margin-right:20px;">수정</button>
 						    <button type="button" class="btn btn-primary" onclick="location.href='todo?command=todo-list'">목록</button>
 							</form>
 					</div>
@@ -201,7 +201,7 @@ function deleteTodo(todoSeq){
 	}
 }
 
-$("#submitBtn").click(function(){
+$("#submitbtn").click(function(){
 	var formData = new $("#detailForm").serialize();
 	
 	$.ajax({

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
@@ -89,17 +90,23 @@ public class ProjectDaoImple implements ProjectDao {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		IssueVo res = null;
+		IssueVo res = new IssueVo();
 
 		try {
 			pstmt = con.prepareStatement(selectOneIssueSql);
 			pstmt.setInt(1, issue_seq);
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				res = new IssueVo(rs.getInt(1), rs.getInt(2), rs.getString(3),
-						rs.getString(4), rs.getString(5), rs.getDate(6), rs.getString(7), rs.getString(8));
+
+			while (rs.next()) {
+				res.setIssueSeq(rs.getInt(1));
+				res.setProjectSeq(rs.getInt(2));
+				res.setTitle(rs.getString(3));
+				res.setWriter(rs.getString(4));
+				res.setLevel(rs.getString(5));
+				res.setRegdate(rs.getDate(6));
+				res.setCategory(rs.getString(7));
+				res.setContent(rs.getString(8));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -273,6 +280,7 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return res;
 	}
+
 	// 업무 상태 변경
 	@Override
 	public void updateTodoStatus(int todoSeq, int projectSeq, String status) {
@@ -289,6 +297,7 @@ public class ProjectDaoImple implements ProjectDao {
 			e.printStackTrace();
 		}
 	}
+
 	// 업무 삭제
 	@Override
 	public int deleteTodo(int todoSeq, int projectSeq) {
@@ -300,12 +309,13 @@ public class ProjectDaoImple implements ProjectDao {
 			pstm.setInt(1, todoSeq);
 			pstm.setInt(2, projectSeq);
 
-			res = pstm.executeUpdate();	
+			res = pstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return res;
 	}
+
 	// 업무 중요도 변경
 	@Override
 	public void updateTodoPriority(int todoSeq, int projectSeq, int priority) {
@@ -316,16 +326,122 @@ public class ProjectDaoImple implements ProjectDao {
 			pstm.setInt(1, priority);
 			pstm.setInt(2, todoSeq);
 			pstm.setInt(3, projectSeq);
-			
+
 			pstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void countCategory() {
 		// TODO Auto-generated method stub
-		
+
 	}
+
+	// 댓글 입력
+	@Override
+	public boolean insertComment(CommentVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+
+		try {
+			pstmt = con.prepareStatement(insertCommentSql);
+			pstmt.setString(1, vo.getWriter());
+			pstmt.setString(2, vo.getContent());
+
+			res = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+
+		return (res > 0) ? true : false;
+	}
+
+	// 댓글 조회
+	@Override
+	public List<CommentVo> selectAllComment() {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		List<CommentVo> res = new ArrayList<>();
+
+		try {
+			pstmt = con.prepareStatement(selectAllCommentSql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				CommentVo vo = new CommentVo();
+
+				vo.setCommentSeq(rs.getInt(1));
+				vo.setIssueSeq(rs.getInt(2));
+				vo.setWriter(rs.getString(3));
+				vo.setContent(rs.getString(4));
+				vo.setRegdate(rs.getDate(5));
+
+				res.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+			System.out.println("db종료");
+		}
+		return res;
+	}
+
+	// 댓글 수정
+	@Override
+	public void updateComment(int commentSeq, int issueSeq, String content) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+
+		try {
+			pstmt = con.prepareStatement(updateCommentSql);
+			pstmt.setString(1, content);
+			pstmt.setInt(2, issueSeq);
+			pstmt.setInt(3, commentSeq);
+
+			res = pstmt.executeUpdate();
+
+			if (res > 0) {
+				commit(con);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+	}
+
+	// 댓글 삭제
+	@Override
+	public boolean deleteComment(int comments_seq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+
+		try {
+			pstmt = con.prepareStatement(deleteCommentSql);
+			pstmt.setInt(1, comments_seq);
+
+			res = pstmt.executeUpdate();
+
+			if (res > 0) {
+				commit(con);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+		return true;
+	}
+ 
 }

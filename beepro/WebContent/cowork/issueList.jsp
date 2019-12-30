@@ -392,7 +392,7 @@ table.table .avatar {
 									<tr>
 										<td>${issue.issueSeq}</td>
 										<td>${issue.title}</td>
-										<td>${issue.writer}</td>
+										<td>${u_name}</td>
 										<td><span class="status text-success">&bull;</span>
 											${issue.level}</td>
 										<td>${issue.category}</td>
@@ -400,8 +400,8 @@ table.table .avatar {
 										<td><a href="${pageContext.request.contextPath}/issue?command=issueDetail&issue_seq=${issue.issueSeq}" class="view" title="View Details"
 											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
 									</tr>
+								  </c:forEach>
 								</tbody>
-								</c:forEach>
 							</table>
 							<div class="clearfix">
 								<div class="hint-text">
