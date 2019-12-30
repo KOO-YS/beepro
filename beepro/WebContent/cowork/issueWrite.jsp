@@ -44,7 +44,7 @@ $(document).ready(function(){
         $("#p_name").attr("disabled",false).attr("readonly",false);    	
     });
 });
-</script>   
+</script>
 <title>beepro - 이슈 생성하기</title>
 <style>
 .rate {

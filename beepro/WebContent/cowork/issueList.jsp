@@ -400,8 +400,8 @@ table.table .avatar {
 										<td><a href="${pageContext.request.contextPath}/issue?command=issueDetail&issue_seq=${issue.issueSeq}" class="view" title="View Details"
 											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
 									</tr>
+								  </c:forEach>
 								</tbody>
-								</c:forEach>
 							</table>
 							<div class="clearfix">
 								<div class="hint-text">

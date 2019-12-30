@@ -52,6 +52,13 @@ CREATE SEQUENCE MESSAGE_SEQ
 	MAXVALUE 10000
 	MINVALUE 1
 	NOCYCLE;	
+
+CREATE SEQUENCE COMMENTS_SEQ
+	START WITH 1
+	INCREMENT BY 1
+	MAXVALUE 10000
+	MINVALUE 1
+	NOCYCLE;
 	
 CREATE TABLE beepro_user (
     user_id varchar2(100)	PRIMARY KEY,
@@ -122,6 +129,16 @@ CREATE TABLE comments (
 	regdate	Date	NOT NULL
 );
 
+
+INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL, '작성자', 'TEST', TO_DATE(SYSDATE,'yyyy-mm-dd hh24:mi:ss'));
+
+INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL, 'd', 'werwerwerwerwer', TO_DATE(SYSDATE,'yyyy-mm-dd hh24:mi:ss'));
+
+SELECT * FROM COMMENTS;
+
+delete from comments;
+
+drop table comments;
 -- 吏꾪뻾�긽�깭, �슦�꽑�닚�쐞 (以묒슂�룄) 異붽�
 CREATE TABLE todo (
 	todo_seq	number	NOT NULL,

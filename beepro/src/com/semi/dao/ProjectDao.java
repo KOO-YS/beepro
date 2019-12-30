@@ -2,6 +2,7 @@ package com.semi.dao;
 
 import java.util.List;
 
+import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
@@ -25,6 +26,12 @@ public interface ProjectDao {
     
     // 프로젝트부분
     String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
+    
+    // 댓글 부분
+    String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL,?,?,TO_DATE(SYSDATE, 'yyyy-mm-dd hh24:mi:ss'))";
+    String selectAllCommentSql = "SELECT * FROM COMMENTS ORDER BY COMMENTS_SEQ";
+    String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
+    String updateCommentSql = "UPDATE COMMENTS SET CONTENT=? WHERE COMMENTS_SEQ=? AND ISSUE_SEQ=?";
     
     public List<IssueVo> selectAllIssue();
     
@@ -54,5 +61,12 @@ public interface ProjectDao {
 
 	public void countCategory();
 
+	public boolean insertComment(CommentVo vo);
+
+	public List<CommentVo> selectAllComment();
+	
+	public boolean deleteComment(int comments_seq);
+
+	public void updateComment(int commentSeq, int issueSeq, String content);
 }
 
