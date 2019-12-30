@@ -2,8 +2,8 @@ package com.semi.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -17,36 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.semi.dao.UserDaoImpl;
+import com.semi.vo.MessageVo;
 
 import util.Gmail;
 
 public class UserService {
 	UserDaoImpl dao = new UserDaoImpl();
 	
-	public void chatSubmit(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
-		String send_id = request.getParameter("send_id");
-		String get_id = request.getParameter("get_id");
-		String chatContent = request.getParameter("chatContent");
-		
-		//아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
-		if(send_id == null || send_id.equals("") || get_id == null || get_id.equals("")
-				|| chatContent == null || chatContent.equals("")) {
-			response.getWriter().write("0");
-		}else if(send_id.equals(get_id)) {
-			response.getWriter().write("-1");
-		}else {
-			//보내는사람과 받는 사람이 있을 때 보낸다.
-			send_id = URLDecoder.decode(send_id, "UTF-8");
-			get_id = URLDecoder.decode(get_id,"UTF-8");
-			chatContent = URLDecoder.decode(chatContent, "UTF-8");
-			response.getWriter().write(new UserDaoImpl().submit(send_id, get_id, chatContent)+"");
-			
-		}
-		
-		
-	}
+	
 	
 	//비밀번호 찾기 
 	public void findPwd(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -133,5 +111,127 @@ public class UserService {
 			System.out.println("\n*******비밀번호 변경 실패*********\n");
 		}
 	}
+	
+	
+	/* 메세지 부분 서비스 */
+	
+	
+	//메세지 보내는 서비스
+	public void chatSubmit(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		String send_id = request.getParameter("send_id");
+		String get_id = request.getParameter("get_id");
+		String chatContent = request.getParameter("chatContent");
+		
+		//아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
+		if(send_id == null || send_id.equals("") || get_id == null || get_id.equals("")
+				|| chatContent == null || chatContent.equals("")) {
+			response.getWriter().write("0");
+		}else if(send_id.equals(get_id)) {
+			response.getWriter().write("-1");
+		}else {
+			//보내는사람과 받는 사람이 있을 때 보낸다.
+			send_id = URLDecoder.decode(send_id, "UTF-8");
+			get_id = URLDecoder.decode(get_id,"UTF-8");
+			chatContent = URLDecoder.decode(chatContent, "UTF-8");
+			response.getWriter().write(new UserDaoImpl().submit(send_id, get_id, chatContent)+"");
+			
+		}
+		
+		
+	}
+	
+	
+	
+	//주고받은 대화 리스트 서비스
+	public void chatList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		String send_id = request.getParameter("send_id");
+		String get_id = request.getParameter("get_id");
+		String listType = request.getParameter("listType");
+		
+		//아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
+		if(send_id == null || send_id.equals("") || get_id == null || get_id.equals("")
+				|| listType == null || listType.equals("")) {
+			System.out.println("send_id : " + send_id );
+			System.out.println("get_id : " + get_id );
+			System.out.println("listType : " + listType );
+			
+			response.getWriter().write("");
+		}else if(listType.equals("ten")) {
+			response.getWriter().write(getTen(URLDecoder.decode(send_id,"UTF-8"),URLDecoder.decode( get_id,"UTF-8")));
+		}else {
+			try {
+				response.getWriter().write(getID(URLDecoder.decode(send_id,"UTF-8"), URLDecoder.decode( get_id,"UTF-8"), listType));
+			}catch(Exception e) {
+				response.getWriter().write("");
+			}
+		}
+		
+	}
+	
+	public String getTen(String send_id, String get_id) {
+		//json 사용
+		StringBuffer result = new StringBuffer("");
+		result.append("{\"result\":[");
+		UserDaoImpl messageDao = new UserDaoImpl();
+		ArrayList<MessageVo> chatList = messageDao.getChatListByRecent(send_id, get_id, 100);
+		//chatList가 비어있으면 공백 문자열을 반환한다.
+		if(chatList.size() == 0) return "";		
+		//chatList가 있으면 그 대화내용을 불러온다.
+		for(int i = 0 ; i < chatList.size() ; i++) {
+			result.append("[{\"value\": \""+chatList.get(i).getSend_id()+"\"},");
+			result.append("{\"value\": \""+chatList.get(i).getGet_id()+"\"},");
+			result.append("{\"value\": \""+chatList.get(i).getContent()+"\"},");
+			result.append("{\"value\": \""+chatList.get(i).getRegdate()+"\"}]");
+			if(i != chatList.size() -1) 
+				result.append(",");
+		}
+		result.append("], \"last\":\""+chatList.get(chatList.size() -1).getMessageSeq()+"\"}");
+		messageDao.readChat(send_id, get_id);	//모든채팅을 읽었다.
+		return result.toString();
+		
+	}
+	
+	public String getID(String send_id, String get_id,String messageSeq) {
+		StringBuffer result = new StringBuffer("");
+		result.append("{\"result\":[");
+		UserDaoImpl messageDao = new UserDaoImpl();
+		ArrayList<MessageVo> chatList = messageDao.getChatListBySeq(send_id, get_id, messageSeq);
+		
+		if(chatList.size() == 0) return "";
+		
+		for(int i = 0 ; i < chatList.size() ; i++) {
+			result.append("[{\"value\": \""+chatList.get(i).getSend_id()+"\"},");
+			result.append("{\"value\": \""+chatList.get(i).getGet_id()+"\"},");
+			result.append("{\"value\": \""+chatList.get(i).getContent()+"\"},");
+			result.append("{\"value\": \""+chatList.get(i).getRegdate()+"\"}]");
+			if(i != chatList.size() -1) 
+				result.append(",");
+		}
+		result.append("], \"last\":\""+chatList.get(chatList.size() -1).getMessageSeq()+"\"}");
+		messageDao.readChat(send_id, get_id);
+		return result.toString();
+		
+	}
+
+	public void chatUnread(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		String u_id = request.getParameter("u_id");
+		
+		if(u_id == null || u_id.equals("")) {
+			response.getWriter().write("0");
+		} else {
+			u_id = URLDecoder.decode(u_id, "UTF-8");
+			response.getWriter().write(new UserDaoImpl().getAllUnreadChat(u_id)+"");
+		}
+	}
+	
+	
+	
 	
 }

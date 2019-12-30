@@ -28,7 +28,7 @@
 <script>
 $( function() {
 /* 	alert(${detail.priority}); */ 
-	$("input:radio[name=rate][value=" + <c:out value="${detail.priority}"/> + "]").attr("checked","checked");
+	$("input:radio[name=priority][value=" + <c:out value="${detail.priority}"/> + "]").attr("checked","checked");
 	
     var dateFormat = "mm/dd/yy",
       from = $( "#from" )
@@ -121,6 +121,8 @@ $( function() {
 							<hr>
 							<form id="detailForm">
 							<input type="hidden" name="command" value="updateTodo">
+							<input type="hidden" id="todoSeq" name="todoSeq" value="${detail.todoSeq}">
+							<input type="hidden" id="projectSeq" name="projectSeq" value="${detail.projectSeq }">
 							<div class="row">
 							  <div class="form-group col-lg-8">
 							    <label for="title">업무 명</label>
@@ -140,15 +142,15 @@ $( function() {
 							    <label for="star-rate">중요도</label><br>
 							    <!-- https://codepen.io/just_bonnie_n/pen/gObadwZ -->
 							    <div class="rate" id="star-rate">
-								    <input type="radio" id="star5" name="rate" value="5" checked/>
+								    <input type="radio" id="star5" name="priority" value="5" checked/>
 								    <label for="star5" title="text">5 stars</label>
-								    <input type="radio" id="star4" name="rate" value="4" />
+								    <input type="radio" id="star4" name="priority" value="4" />
 								    <label for="star4" title="text">4 stars</label>
-								    <input type="radio" id="star3" name="rate" value="3" />
+								    <input type="radio" id="star3" name="priority" value="3" />
 								    <label for="star3" title="text">3 stars</label>
-								    <input type="radio" id="star2" name="rate" value="2" />
+								    <input type="radio" id="star2" name="priority" value="2" />
 								    <label for="star2" title="text">2 stars</label>
-								    <input type="radio" id="star1" name="rate" value="1" />
+								    <input type="radio" id="star1" name="priority" value="1" />
 								    <label for="star1" title="text">1 star</label>
 								 </div>
 							  </div>
@@ -167,7 +169,8 @@ $( function() {
 							  	
                   			  </div>
 							</div>
-							<button type="button" id="submitBtn" class="btn btn-primary" style="float:right;">수정</button>
+							<button type="button" class="btn btn-danger" onclick="deleteTodo(${detail.todoSeq});" style="float:right;">삭제</button>
+							<button type="button" id="submitbtn" class="btn btn-primary" style="float:right; margin-right:20px;">수정</button>
 						    <button type="button" class="btn btn-primary" onclick="location.href='todo?command=todo-list'">목록</button>
 							</form>
 					</div>
@@ -179,22 +182,39 @@ $( function() {
 	</div>
 
 <script type="text/javascript">
-$("#submitBtn").click(function(){
+function deleteTodo(todoSeq){
+	var selected = confirm("업무를 삭제하시겠습니까?")
+	if(selected){
+		$.ajax({
+			url: 'todo?command=deleteTodo&projectSeq='+$("#projectSeq").val()+'&todoSeq='+$("#todoSeq").val(),
+			type: 'GET',
+			dataType: 'json',
+			error:function(request, status, error){
+				alert("실패");
+				 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			},
+			success:function(data, textStatus, jqXHR){
+				location.href= '${pageContext.request.contextPath}/todo?command=todo-list';
+				alert(data.result);
+			}	
+		});
+	}
+}
+
+$("#submitbtn").click(function(){
 	var formData = new $("#detailForm").serialize();
 	
-	alert("클릭"+formData);
 	$.ajax({
-		url: "todo",
-		type: 'post',
-		date: formData,
-		cache:false,
-		contentType:false,
-		processData:false,
-		error:function(jqXHR, textStatus, errorThrown){
+		url: 'todo',
+		type: 'POST',
+ 		data: formData,
+ 		dataType : 'json',
+		error:function(request, status, error){
 			alert("실패");
+			 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		},
-		success:function(data, jqXHR, textStatus){
-			alert("성공");
+		success:function(data, textStatus, jqXHR){
+			alert(data.result);
 		}
 	});
 	

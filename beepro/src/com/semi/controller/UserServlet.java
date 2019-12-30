@@ -41,7 +41,7 @@ public class UserServlet extends HttpServlet {
 		// 서비스와 연결
 		UserService userService = new UserService();
 
-		if (command.equals("submit")) {
+		if (command.equals("chatSubmit")) {
 			System.out.println("메세지 보내기");
 			userService.chatSubmit(request, response);
 			
@@ -54,6 +54,12 @@ public class UserServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			
+		}else if(command.equals("chatList")) {
+			System.out.println("주고받은 대화 반환");
+			userService.chatList(request, response);
+		}else if(command.equals("chatUnread")) {
+			System.out.println("읽지 않은 메세지");
+			userService.chatUnread(request, response);
 		}
 
 	}

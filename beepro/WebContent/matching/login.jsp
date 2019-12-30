@@ -236,7 +236,7 @@ input {
 
 </style>
 <script type="text/javascript">
-window.onload = function(){
+	window.onload = function(){
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');

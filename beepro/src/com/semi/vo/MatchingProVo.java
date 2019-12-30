@@ -4,6 +4,15 @@ package com.semi.vo;
 
 public class MatchingProVo {
 	
+
+	private String subject;
+	private String country;
+	private String start;
+	private String depart;
+	private String region;
+	private String people;
+	private String comments;
+
 	
 	private String pm_id; //pm 아이디
 	private String skill; //프로젝트 제목

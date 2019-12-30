@@ -52,6 +52,13 @@ CREATE SEQUENCE MESSAGE_SEQ
 	MAXVALUE 10000
 	MINVALUE 1
 	NOCYCLE;	
+
+CREATE SEQUENCE COMMENTS_SEQ
+	START WITH 1
+	INCREMENT BY 1
+	MAXVALUE 10000
+	MINVALUE 1
+	NOCYCLE;
 	
 CREATE TABLE beepro_user (
     user_id varchar2(100)	PRIMARY KEY,
@@ -65,12 +72,10 @@ CREATE TABLE beepro_user (
 );
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
-
 SELECT * FROM BEEPRO_USER;
+delete from BEEPRO_USER where user_id = 'test3';
 
---INSERT into beepro_user values('�솉湲몃룞','abc123','kakung1202@naver.com', 'zzz',null, 'Y');
---
---DELETE from beepro_user where name='�솉湲몃룞';
+
 --SELECT * FROM beepro_user;
 
 CREATE TABLE message (
@@ -78,7 +83,12 @@ CREATE TABLE message (
     send_id	varchar2(100)	NOT NULL,
 	get_id	varchar2(100)	NOT NULL,
 	content	varchar2(4000)	NOT NULL,
+<<<<<<< HEAD
 	regdate	DATE	NOT NULL
+=======
+	regdate	Date	NOT NULL,
+	read_ck number
+>>>>>>> afdb1a85d41d0417d1719da0c0e73fe99af54f75
 );
 
 CREATE TABLE heart (
@@ -121,12 +131,21 @@ SELECT * FROM MATCHING_PROJECT;
 CREATE TABLE comments (
 	comments_seq	number,
 	issue_seq	number	NOT NULL,
-	project_seq	number	NOT NULL,
 	writer	varchar2(30)	NOT NULL,
 	content	varchar2(2000)	NOT NULL,
 	regdate	DATE	NOT NULL
 );
 
+
+INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL, '작성자', 'TEST', TO_DATE(SYSDATE,'yyyy-mm-dd hh24:mi:ss'));
+
+INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL, 'd', 'werwerwerwerwer', TO_DATE(SYSDATE,'yyyy-mm-dd hh24:mi:ss'));
+
+SELECT * FROM COMMENTS;
+
+delete from comments;
+
+drop table comments;
 -- 吏꾪뻾�긽�깭, �슦�꽑�닚�쐞 (以묒슂�룄) 異붽�
 CREATE TABLE todo (
 	todo_seq	number	NOT NULL,
@@ -137,7 +156,7 @@ CREATE TABLE todo (
 	startdate	DATE	NOT NULL,
 	enddate		DATE	NOT NULL,
 	category	varchar2(200)	NOT NULL,
-	progress	varchar2(200)	NOT NULL,
+	status	varchar2(200)	NOT NULL,
 	priority	number NOT NULL,
 	finish_ck	varchar2(6)	NOT NULL,
 	CONSTRAINT finish_ck_chk CHECK(finish_ck IN('Y','N'))
@@ -151,6 +170,9 @@ CREATE TABLE project (
 	finish_ck	varchar2(6)	NOT NULL,
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
+
+-- 프로젝트 이름 컬럼 추가
+ALTER TABLE PROJECT ADD PROJECT_NAME VARCHAR2(4000);
 
 select * from project;
 
@@ -172,6 +194,8 @@ CREATE TABLE issue (
 SELECT * FROM ISSUE;
 
 INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다', '나야나', '심각','15/12/30','버그', '이슈테스트입니다.');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다2', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
 
 CREATE TABLE skill (
 	personal_seq	number	NOT NULL,

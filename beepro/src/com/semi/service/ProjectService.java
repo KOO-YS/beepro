@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
+import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
-import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
 
 public class ProjectService {
@@ -51,8 +51,11 @@ public class ProjectService {
 	}
 
 	// 선택한 하나의 이슈 정보를 자세히
-	public void issueDetail(HttpServletRequest request, HttpServletResponse response) {
-		int seq = Integer.parseInt(request.getParameter("issue_seq"));
+	public IssueVo issueDetail(HttpServletRequest request, HttpServletResponse response) {
+		int issueSeq = Integer.parseInt(request.getParameter("seq"));
+		System.out.println("선택한 이슈 번호 : " + issueSeq);
+		return projectDao.selectOneIssue(issueSeq);
+		
 	}
 
 	// 업무 생성 서비스
@@ -78,11 +81,91 @@ public class ProjectService {
 	public List<TodoVo> selectAllTodo(int project_seq, String manager) {
 		return projectDao.selectAllTodo(project_seq, manager);
 	}
-
+	
+	// 선택 업무 출력
 	public TodoVo selectOneTodo(HttpServletRequest request, HttpServletResponse response) {
 		int todoSeq = Integer.parseInt(request.getParameter("seq"));
 		System.out.println("선택한 seq : " + todoSeq);
 		return projectDao.selectOneTodo(todoSeq);
+	}
+	// 업무 내용 변경
+	public int updateTodo(HttpServletRequest request, HttpServletResponse response) {
+		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		int priority = Integer.parseInt(request.getParameter("priority"));
+		Date startDate = Date.valueOf(request.getParameter("from"));
+		Date endDate = Date.valueOf(request.getParameter("to"));
+		TodoVo todo = new TodoVo(todoSeq, projectSeq, title, content, startDate, endDate, priority);
+		
+		System.out.println(todo.toString());
+		
+		return projectDao.updateTodo(todo);
+	}
+	
+	// 업무 상태 변경
+	public void updateTodoStatus(HttpServletRequest request, HttpServletResponse response) {
+		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		String status = request.getParameter("status");
+		
+		projectDao.updateTodoStatus(todoSeq, projectSeq, status);
+	}
+	
+	// 업무 삭제
+	public int deleteTodo(HttpServletRequest request, HttpServletResponse response) {
+		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		
+		return projectDao.deleteTodo(todoSeq, projectSeq);
+	}
+	// 업무 중요도 변경
+	public void updateTodoPriority(HttpServletRequest request, HttpServletResponse response) {
+		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		int priority = Integer.parseInt(request.getParameter("priority"));
+		
+		projectDao.updateTodoPriority(todoSeq, projectSeq, priority);
+	}
+
+
+	public void countCategory() {
+		projectDao.countCategory();
+	}
+
+	// 댓글 작성
+	public boolean commentWrite(HttpServletRequest request, HttpServletResponse response) {
+		int issueSeq = Integer.parseInt(request.getParameter("issueSeq"));
+		
+		String writer = request.getParameter("u_id");
+		String content = request.getParameter("content");
+		String regdate = request.getParameter("regdate");
+		
+		CommentVo vo = new CommentVo();
+		
+		vo.setIssueSeq(issueSeq);
+		vo.setWriter(writer);
+		vo.setContent(content);
+		vo.getRegdate();
+
+		return projectDao.insertComment(vo);
+	
+	}
+
+	// 댓글 삭제
+	public boolean commentDelete(HttpServletRequest request, HttpServletResponse response) {
+		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
+		return projectDao.deleteComment(commentSeq);
+	}
+    
+	// 댓글 수정
+	public void updateComment(HttpServletRequest request, HttpServletResponse response) {
+		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
+		int issueSeq = Integer.parseInt(request.getParameter("issueSeq"));
+		String content = request.getParameter("content");
+		
+		projectDao.updateComment(commentSeq, issueSeq, content);
 	}
 
 }

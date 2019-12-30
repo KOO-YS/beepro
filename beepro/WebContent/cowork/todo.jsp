@@ -22,13 +22,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-	$(function() {
-    	$( "radio" ).click(function() {
-      	
-      	$("Label").css( "color", red );
-    	});
- 	});
-
 	jQuery(function($) {
 		$(".container-fluid").css("display", "none");
 		$(".container-fluid").fadeIn(500);
@@ -71,30 +64,6 @@ to {
 	border-radius: 5px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
-/* 
-.table-wrapper .btn {
-	float: right;
-	color: #333;
-	background-color: #fff;
-	border-radius: 3px;
-	border: none;
-	outline: none !important;
-	margin-left: 10px;
-}
-
-.table-wrapper .btn:hover {
-	color: #333;
-	background: #f2f2f2;
-}
- */
-/* .table-wrapper .btn.btn-primary {
-	color: #fff;
-	background: rgba(75,97,207);
-}
-
-.table-wrapper .btn.btn-primary:hover {
-	background: #03a3e7;
-} */
 
 .table-title .btn {
 	font-size: 13px;
@@ -310,40 +279,62 @@ table.table .avatar {
 }
 
 .rate {
-    float: left;
-    height: 46px;
-    /* padding: 0 10px; */
+  position: relative;
+  height: 1.5rem;
+  width: 7.5rem;
+  background: url(${pageContext.request.contextPath}/cowork/images/off.svg);
+  background-size: 1.5rem 1.5rem;
 }
-.rate:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
+
+.rate_label {
+  position: absolute;
+  height: 100%;
+  background-size: 1.5rem 1.5rem;
 }
-.rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:30px;
-    color:#ccc;
+
+.rate_input {
+  margin: 0;
+  position: absolute;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
 }
-.rate:not(:checked) > label:before {
-    content: '★ ';
+
+.rate .rate_label:nth-of-type(1) {
+  z-index: 5;
+  width: 20%;
 }
-/* .rate > input:checked ~ label {
-    color: #ffc700;    
-} */
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) x> label:hover ~ label {
-    color: #deb217;  
+
+.rate .rate_label:nth-of-type(2) {
+  z-index: 4;
+  width: 40%;
 }
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-    color: #c59b08;
+
+.rate .rate_label:nth-of-type(3) {
+  z-index: 3;
+  width: 60%;
 }
+
+.rate .rate_label:nth-of-type(4) {
+  z-index: 2;
+  width: 80%;
+}
+
+.rate .rate_label:nth-of-type(5) {
+  z-index: 1;
+  width: 100%;
+}
+
+.rate_input:checked + .rate_label,
+.rate_input:focus + .rate_label,
+.rate_label:hover {
+  background-image: url(${pageContext.request.contextPath}/cowork/images/on.svg);
+}
+
+.rate_label:hover ~ .rate_label {
+  background-image: url(${pageContext.request.contextPath}/cowork/images/off.svg);
+}
+
 </style>
 <title>내 업무 </title>
 </head>
@@ -398,7 +389,7 @@ table.table .avatar {
 											</select> <span>entries</span>
 										</div>
 									</div>
-									<div class="col-sm-9">
+									<div class="col-lg-12 col-sm-9">
 										<div class="filter-group">
 											<button class="btn btn-primary" onclick="location.href='cowork/todoForm.jsp'">업무 추가</button>
 											<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#todoModal">
@@ -408,10 +399,11 @@ table.table .avatar {
 										<div class="filter-group">
 											<label>중요도</label><select class="form-control">
 												<option>선택</option>
-												<option value="심각">심각</option>
-												<option value="높음">높음</option>
-												<option value="보통">보통</option>
-												<option value="낮음">낮음</option>
+												<option value="1">☆</option>
+												<option value="2">☆☆</option>
+												<option value="3">☆☆☆</option>
+												<option value="4">☆☆☆☆</option>
+												<option value="5">☆☆☆☆☆</option>
 											</select>
 										</div>
 										<div class="filter-group">
@@ -432,8 +424,8 @@ table.table .avatar {
 								<colgroup>
 									<col width="5%">
 									<col width="10%">
-									<col width="20%">
-									<col width="10%">
+									<col width="15%">
+									<col width="15%">
 									<col width="15%">
 									<col width="15%">
 									<col width="10%">
@@ -442,37 +434,53 @@ table.table .avatar {
 									<tr>
 										<th>no</th>
 										<th>업무명</th>
-										<th>업무 내용</th>
+										<th>상태</th>
+										<!-- <th>업무 내용</th> -->
 										<th>담당자</th>
 										<th>중요도</th>
 										<th>타임라인</th>
 										<!-- <th>마감</th> -->
-										<th>상태</th>
 										<!-- 진행정도에서 100%이 되면 업무 종료 확인 DB 값 -->
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="todo" items="${todoList}" >
+									<input type="hidden" id="projectSeq" value="${todo.projectSeq}">		
 									<tr>
-											
 										<td>${todo.todoSeq}</td>
 										<td><a href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${todo.todoSeq}">${todo.title }</a></td>
-										<td>${todo.content }</td>
+										<%-- <td>${todo.content }</td> --%>
+										<td>
+											<div class="btn-group" style="width: 80%;">
+											  <button type="button" id="statusbtn${todo.todoSeq}" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												${todo.status }
+											  </button>
+											  <div class="dropdown-menu">
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq});">예정</a>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq});">진행 중</a>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq});">검토 중</a>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq});">승인됨</a>
+											    <div class="dropdown-divider"></div>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq});">보류</a>
+											    <a class="dropdown-item" href="javascript:void(0)" onclick="updateTodoStatus(this, ${todo.todoSeq});">완료</a>
+											  </div>
+											</div>
+										</td>
 										<td>${todo.manager }</td>
 										<td>
-											<div class="rate">
-											<!-- id="star-rate" --> 
-											    <input type="radio" name="rate${todo.todoSeq}" value="5" checked/>
-											    <label for="star5" title="text">5 stars</label>
-											    <input type="radio" id="star4" name="rate${todo.todoSeq}" value="4" />
-											    <label for="star4" title="text">4 stars</label>
-											    <input type="radio" id="star3" name="rate${todo.todoSeq}" value="3" />
-											    <label for="star3" title="text">3 stars</label>
-											    <input type="radio" id="star2" name="rate${todo.todoSeq}" value="2" />
-											    <label for="star2" title="text">2 stars</label>
-											    <input type="radio" id="star1" name="rate${todo.todoSeq}" value="1" />
-											    <label for="star1" title="text">1 star</label>
-											 </div>
+										<div class="rate">
+											<input class="rate_input" type="radio" name="priority${todo.todoSeq}" value="1" id="rate${todo.todoSeq}-1" <c:if test="${todo.priority eq '1'}">checked</c:if>/>
+											<label class="rate_label" for="rate${todo.todoSeq}-1"></label>
+											<input class="rate_input" type="radio" name="priority${todo.todoSeq}" value="2" id="rate${todo.todoSeq}-2" <c:if test="${todo.priority eq '2'}">checked</c:if>/>
+											<label class="rate_label" for="rate${todo.todoSeq}-2"></label>
+											<input class="rate_input" type="radio" name="priority${todo.todoSeq}" value="3" id="rate${todo.todoSeq}-3" <c:if test="${todo.priority eq '3'}">checked</c:if>/>
+											<label class="rate_label" for="rate${todo.todoSeq}-3"></label>
+											<input class="rate_input" type="radio" name="priority${todo.todoSeq}" value="4" id="rate${todo.todoSeq}-4" <c:if test="${todo.priority eq '4'}">checked</c:if>/>
+											<label class="rate_label" for="rate${todo.todoSeq}-4"></label>
+											<input class="rate_input" type="radio" name="priority${todo.todoSeq}" value="5" id="rate${todo.todoSeq}-5" <c:if test="${todo.priority eq '5'}">checked</c:if>/>
+											<label class="rate_label" for="rate${todo.todoSeq}-5"></label>
+										  <!-- <div class="star-rating__focus"></div> -->
+										</div>
 										</td>
 										<td>
 										<div class="progress">
@@ -480,9 +488,6 @@ table.table .avatar {
 										</div>
 										</td>
 										<!-- <td>업무 종료</td> -->
-										<td>
-											${todo.progress }
-										</td>
 									</tr>
 									</c:forEach>
 									
@@ -510,26 +515,70 @@ table.table .avatar {
 			</div>
 			<!-- 푸터 -->
 			<jsp:include page="common/footer.html"></jsp:include>
-<div class="modal fade" id="todoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 		</div>
 	</div>
+<script type="text/javascript">
+/* 중요도 변경 */
+$("input[name^=priority]").click(function(){
+	var rate = this.getAttribute('id');	// id에 저장되어있는 1.todoSeq 2.check한 value -> 추출
+
+	var todoSeq = rate.substr(4,1);
+	var priority = rate.substr(6,1);
+	var projectSeq = $("#projectSeq").val();
+	
+	$.ajax({
+		url:'todo',
+		type:'POST',
+		data: {
+			'command':'updateTodoPriority',
+			'todoSeq':todoSeq,
+			'projectSeq':projectSeq,
+			'priority':priority			
+		},
+		error:function(request, status, error){
+			alert("중요도 변경이 실패되었습니다");
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		},
+		success:function(data, textStatus, jqXHR){
+			alert("중요도가 변경되었습니다");
+		}
+	});
+});
+/* 진행 상황 변경 */
+function updateTodoStatus(txt, todoSeq){
+	var status = $(txt).text();		// a태그에서 진행 상황 텍스트 추출
+	$("#statusbtn"+todoSeq).text(status);	// 버튼 텍스트 변경
+	var projectSeq = $("#projectSeq").val();
+	
+	$.ajax({
+		url: 'todo',
+		type: 'POST',
+ 		data: {
+ 			'command':'updateTodoStatus',
+ 			'todoSeq':todoSeq,
+ 			'projectSeq':projectSeq,
+ 			'status':status
+ 		},
+		error:function(request, status, error){
+			alert("상태 변경이 실패되었습니다");
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		},
+		success:function(data, textStatus, jqXHR){
+			alert("진행 상태가 변경되었습니다");
+		}
+	});
+}
+  
+var today = new Date();  
+var dateString = "2019-12-25";  
+  
+var dateArray = dateString.split("-");  
+  
+var dateObj = new Date(dateArray[0], Number(dateArray[1])-1, dateArray[2]);  
+  
+var betweenDay = (today.getTime() - dateObj.getTime())/1000/60/60/24;  
+  
+/* alert(betweenDay);   */
+</script>
 </body>
 </html>
