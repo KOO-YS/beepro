@@ -1,5 +1,6 @@
 package com.semi.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -7,7 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.semi.dao.UserDaoImpl;
 import com.semi.service.UserService;
 
 @WebServlet("/UserServlet")
@@ -57,7 +62,14 @@ public class UserServlet extends HttpServlet {
 		}else if(command.equals("chatList")) {
 			System.out.println("주고받은 대화 반환");
 			userService.chatList(request, response);
+			
+		}else if(command.equals("userprofile")) {
+			System.out.println("프로필사진 변경");
+			try {
+				userService.profileUpdate(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-
 	}
 }

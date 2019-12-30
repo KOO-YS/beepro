@@ -51,7 +51,7 @@
 		
 		UserDaoImpl dao = new UserDaoImpl();
 		
-		int result = dao.join(new UserVo(u_id, u_name, u_pwd1, u_email, sha256.getSHA256(u_email), "N"));
+		int result = dao.join(new UserVo(u_id, u_name, u_pwd1, u_email, sha256.getSHA256(u_email), "N",""));
 
 		if (result == -1) {
 

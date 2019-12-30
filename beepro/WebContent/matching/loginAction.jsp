@@ -17,6 +17,7 @@
  	String u_pwd = null;	
  	String u_email = null;
  	String u_name = null;
+ 	String u_photo = null;
 
  	if(request.getParameter("u_id") != null) {
 
@@ -37,10 +38,14 @@
  	if (result == 1) {
 
  		session.setAttribute("u_id", u_id);		
- 		u_email = dao.getUserEmail(u_id);		
- 		u_name = dao.getUserName(u_id);		
+ 		u_email = dao.getUserEmail(u_id);	
  		session.setAttribute("u_email", u_email);
+ 		
+ 		u_name = dao.getUserName(u_id);		
  		session.setAttribute("u_name", u_name);
+ 		
+ 		u_photo = dao.getUserPhoto(u_id);	
+ 		session.setAttribute("u_photo", u_photo);
 
  		PrintWriter script = response.getWriter();
  		script.println("<script>");		

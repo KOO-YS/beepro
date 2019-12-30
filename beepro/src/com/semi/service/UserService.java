@@ -1,5 +1,6 @@
 package com.semi.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
@@ -13,9 +14,13 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.dao.UserDaoImpl;
 import com.semi.vo.MessageVo;
 
@@ -111,7 +116,63 @@ public class UserService {
 			System.out.println("\n*******비밀번호 변경 실패*********\n");
 		}
 	}
-	
+	//프로필 사진 업로드
+	public void profileUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("0. 서블랫입장");
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		MultipartRequest multi = null;
+		int fileMaxSize = 10*1024*1024;
+
+		String savePath =request.getServletContext().getRealPath("upload");
+		HttpSession session = request.getSession();
+	    String u_id = (String)session.getAttribute("u_id");
+
+		
+		System.out.println("1. savePath : " + savePath);
+		
+		try {
+		System.out.println("0. try입장");
+
+		
+		multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
+
+		System.out.println("2. multi : " + multi);
+		String userID = multi.getParameter("u_id");
+		System.out.println("3. userID : " + userID);
+		
+		String fileName = "";
+		File file = multi.getFile("userProfile");
+		if(file !=null) {
+			String ext = file.getName().substring(file.getName().lastIndexOf(".")+1);
+					if(ext.equals("jpg")|| ext.equals("png")|| ext.equals("gif")) {
+						
+						String prev = new UserDaoImpl().getUserPhoto(userID);
+						File prevFile = new File(savePath + "/"+prev);
+						if(prevFile.exists()) {
+							System.out.println("---중복파일 존재---");
+							prevFile.delete();//기존파일 있다면 삭제							
+						}
+						fileName = file.getName();
+					}else {
+						if(file.exists()) {
+							file.delete();
+						}
+					}
+				new UserDaoImpl().changePhoto(userID,fileName);
+				String u_photo = dao.getUserPhoto(u_id);	
+		 		session.setAttribute("u_photo", u_photo);
+				System.out.println("---DB에 프로필 변경완료---");
+				response.sendRedirect("matching/mypage.jsp");
+			}
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("matching/mypage.jsp");
+		}
+	}
+
 	
 	/* 메세지 부분 서비스 */
 	

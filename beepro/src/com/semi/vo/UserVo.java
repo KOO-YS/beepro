@@ -10,11 +10,12 @@ public class UserVo {
 		private String u_local;
 		private String u_emailhash;
 		private String u_emailck;
+		private String u_photo;
 		
 		public UserVo() {}
 		
 		public UserVo(String u_id, String u_name, String u_pwd, String u_email, String u_local, String u_emailhash,
-				String u_emailck) {
+				String u_emailck, String u_photo) {
 			super();
 			this.u_id = u_id;
 			this.u_name = u_name;
@@ -23,9 +24,10 @@ public class UserVo {
 			this.u_local = u_local;
 			this.u_emailhash = u_emailhash;
 			this.u_emailck = u_emailck;
+			this.u_photo= u_photo;
 		}
 		
-		public UserVo(String u_id,String u_name,  String u_pwd, String u_email,  String u_emailhash, String u_emailck) {
+		public UserVo(String u_id,String u_name,  String u_pwd, String u_email,  String u_emailhash, String u_emailck, String u_photo) {
 			super();
 			this.u_id = u_id;
 			this.u_name = u_name;
@@ -33,6 +35,7 @@ public class UserVo {
 			this.u_email = u_email;
 			this.u_emailhash = u_emailhash;
 			this.u_emailck = u_emailck;
+			this.u_photo= u_photo;
 
 		}
 
@@ -102,6 +105,14 @@ public class UserVo {
 
 		public void setU_emailck(String u_emailck) {
 			this.u_emailck = u_emailck;
+		}
+
+		public String getU_photo() {
+			return u_photo;
+		}
+
+		public void setU_photo(String u_photo) {
+			this.u_photo = u_photo;
 		}
 		
 

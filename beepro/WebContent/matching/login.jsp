@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>    
-    
+   
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+    <title>Login</title>
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="css/agency.css" rel="stylesheet">
 <style>
@@ -264,9 +265,9 @@ function findPwd() {
             <form method="post" action="./registerAction.jsp">
                 <h1>Create Account</h1>
                 <div class="social-container">
-						<span>카카오톡 / 구글 계정으로 회원가입</span>
+						<span>네이버 / 구글 계정으로 회원가입</span>
 						<br><br>
-						<a href="#" class="social"><img src="img/kakaotalk.png" style="width: 35px; border-radius: 20px;"></a>
+						<a href="#" class="social"><img src="img/naver.PNG" style="width: 35px; border-radius: 20px;"></a>
 						<a href="#" class="social"><img src="img/google.png" style="width: 35px; border-radius: 20px;"></a>
 					</div>
                 <span>BEEPRO 계정 회원가입</span>
@@ -282,11 +283,11 @@ function findPwd() {
             <form method="post" action="./loginAction.jsp">
 				<h1>Sign in</h1>
                 <div class="social-container">
-					<span>카카오톡 / 구글 계정으로 로그인</span>
-					<br><br>
-					<a href="#" class="social"><img src="img/kakaotalk.png" style="width: 35px; border-radius: 20px;"></a>
+					<span>구글 계정으로 로그인<br><br></span>
+					<a href="#" class="social"><img src="img/naver.PNG" style="width: 35px; border-radius: 20px;"></a>
                     <a href="#" class="social"><img src="img/google.png" style="width: 35px; border-radius: 20px;"></a>
                     <!-- <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a> -->
+
                 </div>
 				
 				<span>BEEPRO 계정으로 로그인</span>
@@ -313,6 +314,7 @@ function findPwd() {
             </div>
         </div>
     </div>
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 </body>
 </html>
 
