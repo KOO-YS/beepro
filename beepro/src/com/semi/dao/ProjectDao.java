@@ -28,8 +28,8 @@ public interface ProjectDao {
     String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
     
     // 댓글 부분
-    String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL,?,?,TO_DATE(SYSDATE, 'yyyy-mm-dd hh24:mi:ss'))";
-    String selectAllCommentSql = "SELECT * FROM COMMENTS ORDER BY COMMENTS_SEQ";
+    String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL,?,?,?,SYSDATE)";
+    String selectAllCommentSql = "SELECT * FROM COMMENTS WHERE ISSUE_SEQ=?";
     String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
     String updateCommentSql = "UPDATE COMMENTS SET CONTENT=? WHERE COMMENTS_SEQ=? AND ISSUE_SEQ=?";
     
@@ -63,10 +63,9 @@ public interface ProjectDao {
 
 	public boolean insertComment(CommentVo vo);
 
-	public List<CommentVo> selectAllComment();
+	public List<CommentVo> selectAllComment(int seq);
 	
 	public boolean deleteComment(int comments_seq);
-
 
 	public void updateComment(int commentSeq, int issueSeq, String content);
 

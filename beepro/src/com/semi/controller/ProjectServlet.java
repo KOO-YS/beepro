@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
@@ -75,6 +76,10 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("issueform")) {
 			System.out.println("이슈 생성");
+			HttpSession session = request.getSession();
+			String u_id = (String)session.getAttribute("u_id");
+			System.out.println(u_id);
+			
 			boolean success = projectService.issueWrite(request, response);
 
 			if (success) {
@@ -100,12 +105,21 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("issueDetail")) {
 			System.out.println("이슈 상세 정보");
 			int seq = Integer.parseInt(request.getParameter("issue_seq"));
-
+			// 이슈 디테일
 			IssueVo vo = dao.selectOneIssue(seq);
+			// 댓글리스트
+			List<CommentVo> list = dao.selectAllComment(seq);
 			request.setAttribute("vo", vo);
-
+			request.setAttribute("list", list);			
 			dispatch("cowork/issueDetail.jsp", request, response);
-
+		
+//		} else if (command.equals("commentList")) {
+//			System.out.println("댓글 리스트");
+//			List<CommentVo> list = dao.selectAllComment();
+//
+//			request.setAttribute("list", list);
+//			dispatch("cowork/issueDetail.jsp", request, response);
+//
 		} else if (command.equals("todo-list")) { // 1
 			System.out.println("업무 리스트 출력");
 			// index.jsp 에서 project, id 에 세션 요구됨
@@ -170,21 +184,19 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("selectChart")) {
 			projectService.countCategory();
 
-		} else if (command.equals("commentList")) {
-			System.out.println("댓글 리스트");
-			List<CommentVo> list = dao.selectAllComment();
-
-			request.setAttribute("list", list);
-			dispatch("cowork/commentList.jsp", request, response);
-
 		} else if (command.equals("commentWrite")) {
 			System.out.println("댓글 생성");
+			HttpSession session = request.getSession();
+			String u_id = (String)session.getAttribute("u_id");
 			
 			boolean success = projectService.commentWrite(request, response);
 			
+			int num = Integer.parseInt(request.getParameter("issueSeq"));
+			
 			if (success) {
 				System.out.println("댓글 생성 성공");
-				response.sendRedirect("comment?command=commentList");
+				response.sendRedirect("issue?command=issueDetail&issue_seq="+num);
+//				dispatch("issue?command=issueDetail&issue_seq="+num, request, response);
 			} else {
 				System.out.println("댓글 생성 실패");
 			}

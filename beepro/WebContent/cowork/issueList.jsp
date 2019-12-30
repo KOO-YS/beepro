@@ -302,6 +302,13 @@ table.table .avatar {
 	font-size: 13px;
 }
 
+.label_box { width:50px;
+             background-color:pink;
+             text-align:center;
+             padding:5px 5px;
+             color:white;
+             border-radius:6px;
+           }
 </style>
 <title>이슈 관리</title>
 </head>
@@ -393,9 +400,8 @@ table.table .avatar {
 										<td>${issue.issueSeq}</td>
 										<td>${issue.title}</td>
 										<td>${u_name}</td>
-										<td><span class="status text-success">&bull;</span>
-											${issue.level}</td>
-										<td>${issue.category}</td>
+										<td><div class="label_box">${issue.level}</div></td>
+										<td><div class="label_box">${issue.category}</div></td>
 										<td>${issue.regdate}</td>
 										<td><a href="${pageContext.request.contextPath}/issue?command=issueDetail&issue_seq=${issue.issueSeq}" class="view" title="View Details"
 											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
