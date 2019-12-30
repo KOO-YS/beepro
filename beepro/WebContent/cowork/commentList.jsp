@@ -320,56 +320,8 @@
 					            ${vo.content }
 					         </div>
 					        
-							 <button type="button" class="btn btn-primary" style="float:right; margin-top:30px;"
-							  onclick="location.href='${pageContext.request.contextPath}/comment?command=commentList'">
-							      <b>댓  글</b>
-							  </button>	   
 							  
-							 <div> 
-							  <div id="comment-label-wrap">
-					           <div id="comment-label">
-					                           댓글
-					           </div>
-					         </div>
-					         
-					           <c:choose>
-					              <c:when test="${empty list}">
-					                 <div id="none">작성된 댓글이 없습니다</div>
-					              </c:when>
-					       
-					              <c:otherwise>
-					                <c:forEach var="list" items="${list}">
-					                <div id="content_wrap">
-					                  <div id="writer">
-					                    ${list.writer}
-					                  </div>
-					                   
-					                   <div id="regdate">
-					                   ${list.regdate}
-					                   </div>
-					                   
-					                   <div id="content">
-					                   ${list.content}
-					                   </div>
-					                   
-					                   <div id="buttons">
-                                        <input type="button" value="삭 제"
-                                        onclick="location.href='${pageContext.request.contextPath}/
-                                        comment?command=deleteComment&commentSeq=${list.commentSeq}'">
-					                   </div>
-					                 </div>
-					                </c:forEach>
-					              </c:otherwise>
-					           </c:choose>
-					             
-					             <form action="../comment" method="post">
-					             <input type="hidden" name="u_id" value="${u_id}">
-					             <input type="text" name="comment" placeholder="댓글을 입력하세요" style="width:1056px; margin-top:20px;">
-    							 <button type="button" class="btn btn-primary" style="float:right; margin-top:15px; z-index:999;"
-							  onclick="location.href='${pageContext.request.contextPath}/comment?command=commentWrite'">
-							      <b>댓글작성</b>
-							  </button>	 
-							 </form>
+	
 					        </div>       
 					       </div>
 					    </div>

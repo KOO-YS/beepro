@@ -7,6 +7,7 @@
 	response.setContentType("text/html; charset=UTF-8");
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -174,7 +175,49 @@
 .box { background: #f1f1f1;
        padding: 15px;
        margin-top: 20px !important;}
-       
+
+#comment-label-wrap { margin-top:35px;
+                    border-top:1px solid #ddd;
+                    border-bottom:1px solid #ddd;
+                    height:50px;
+                    line-height:50px;
+                    font-size:16px;
+                    }
+                    
+#comment-label { color:rgb(75,97,207); 
+                 font-weight:bold;
+                 width:90px;
+                 text-align:center;
+                 height:50px;
+                 border-bottom:4px solid rgb(75,97,207);
+                 }  
+
+#none { width:100%;
+        hegiht:60px;
+        line-height:60px;
+        text-align:center;
+        padding:30px;
+      } 
+      
+#writer{ color:black;
+         font-size:16px;
+         font-weight:bold;
+       }  
+
+#regdate { font-size:11px;}
+
+#content { margin-top:20px;
+           color:#334152;
+         }
+
+#content_wrap { padding:30px;
+                width:100%;
+                height:auto;
+                margin-top:20px;
+                border-radius:5px;
+                border:1px solid rgb(75,97,207);
+              }
+                  
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -264,10 +307,46 @@
 					            ${vo.content }
 					         </div>
 					        
-							 <button type="button" class="btn btn-primary" style="float:right; margin-top:30px;"
-							  onclick="location.href='${pageContext.request.contextPath}/comment?command=commentList'">
-							      <b>on</b>
-							  </button>	         
+					        <div> 
+							  <div id="comment-label-wrap">
+					           <div id="comment-label">
+					                           댓글
+					           </div>
+					         </div>
+					         
+					           <c:choose>
+					              <c:when test="${empty list}">
+					                 <div id="none">작성된 댓글이 없습니다</div>
+					              </c:when>
+					       
+					              <c:otherwise>
+					                <c:forEach var="list" items="${list}">
+					                <div id="content_wrap">
+					                  <div id="writer">
+					                    ${list.writer}
+					                  </div>
+					                   
+					                   <div id="regdate">
+					                   <fmt:formatDate value="${list.regdate}" pattern="yyyy/mm/dd HH:mm:ss" />
+					                   </div>
+					                   
+					                   <div id="content">
+					                   ${list.content}
+					                   </div>
+					                 </div>
+					                </c:forEach>
+					              </c:otherwise>
+					           </c:choose>
+					       </div>
+					             <form action="comment" method="post">
+					             <input type="hidden" name="command" value="commentWrite">
+					             <input type="hidden" name="u_id" value="${u_id}"> <!-- 댓글 쓰는사람 아이디 갖고오는거  -->
+					             <input type="hidden" name="issueSeq" value="${vo.issueSeq}">
+					             <input type="text" name="content" placeholder="댓글을 입력하세요" style="width:1056px; margin-top:20px;">
+    							 <button type="submit" class="btn btn-primary" style="float:right; margin-top:15px; z-index:999;">
+							      <b>댓글작성</b>
+							  </button>	 
+							 </form>
 					       </div>
 					    </div>
 					  </div>

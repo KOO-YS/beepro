@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
@@ -348,8 +350,9 @@ public class ProjectDaoImple implements ProjectDao {
 
 		try {
 			pstmt = con.prepareStatement(insertCommentSql);
-			pstmt.setString(1, vo.getWriter());
-			pstmt.setString(2, vo.getContent());
+			pstmt.setInt(1, vo.getIssueSeq());
+			pstmt.setString(2, vo.getWriter());
+			pstmt.setString(3, vo.getContent());
 
 			res = pstmt.executeUpdate();
 
@@ -364,20 +367,21 @@ public class ProjectDaoImple implements ProjectDao {
 
 	// 댓글 조회
 	@Override
-	public List<CommentVo> selectAllComment() {
+	public List<CommentVo> selectAllComment(int seq) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
-		List<CommentVo> res = new ArrayList<>();
+		List<CommentVo> res = new ArrayList<CommentVo>();
 
 		try {
 			pstmt = con.prepareStatement(selectAllCommentSql);
+			pstmt.setInt(1, seq);
+			
 			rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
 				CommentVo vo = new CommentVo();
-
+				
 				vo.setCommentSeq(rs.getInt(1));
 				vo.setIssueSeq(rs.getInt(2));
 				vo.setWriter(rs.getString(3));
