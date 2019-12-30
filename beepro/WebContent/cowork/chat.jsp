@@ -12,6 +12,8 @@
 <meta charset="UTF-8">
 <title>chat</title>
 
+
+
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/custom.css" rel="stylesheet">
 
@@ -22,29 +24,29 @@
 	}
 
 	String get_id = null;
-	if (request.getAttribute("get_id") != null) {
+  	if (request.getAttribute("get_id") != null) {
 		get_id = (String) request.getParameter("get_id");
-	}
+	}  
 	
 	if(u_id == null){
 %>
 	<script type="text/javascript">
 		alert("현재 로그인이 되어 있지 않습니다.");
-		location.href="index.html";
+/* 		location.href="index.html"; */
 	</script>
- <%
+
+<%
 	}
-	
 	if(get_id == null){
 		
 %>
 	<script type="text/javascript">
 		alert("대화상대가 지정되어 있지 않습니다.");
-		history.back(); 
+		history.back();
 	</script>
 <%
 	}
-%> 
+%>
 
 <script type="text/javascript" src ="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -60,12 +62,12 @@ function sumbitFunction(){
 		var content = $('#chatContent').val();
 		$.ajax({
 			type : "POST",
-			url : "../chat?command=chatsubmit",
+			url : "../chat?command=chatSubmit",
 			data : {
 				send_id : encodeURIComponent(send_id),
 				get_id : encodeURIComponent(get_id),
 				content : encodeURIComponent(content)
-			},
+			}, 
 			success : function(result) {
 				if (result == 1) {
 
@@ -85,8 +87,9 @@ function sumbitFunction(){
 	}
 	var lastID = 0;
 	function chatListFunction(type){
-		var send_id = '<%=u_id%>';
-		var get_id = '<%=get_id%>';
+		var send_id = '<%= u_id%>';
+		var get_id = '<%= get_id%>';
+		
 		$.ajax({
 			type: "POST",
 			url: "../chat?command=chatList",
@@ -96,7 +99,9 @@ function sumbitFunction(){
 				listType: type
 			},
 			success: function(data){
-				if(data == "") return;
+				if(data == ""){
+					return;
+				}
 				var parsed = JSON.parse(data);  //json형태로 파싱
 				var result = parsed.result;
 				for(var i = 0 ; i < result.length ; i++){
@@ -214,7 +219,7 @@ function sumbitFunction(){
 											<a href="#" class="media-heading">Lucy Doe</a>
 											<p>Nope, That\'s it.</p>
 											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i> 09:31
+												<i class="fa fa-clock-o fa-fw"></i> 09:31	
 											</p>
 										</div>
 									</div>
@@ -278,15 +283,13 @@ function sumbitFunction(){
 	</div>
 	
 	
-<%--  	<%
-		session.removeAttribute("messageContent");
-		session.removeAttribute("messageType");
-	%> --%> 
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			chatListFunction('ten');
+			chatListFunction('0');
 			getInfiniteChat();  /* 3초 간격으로 메세지를 가져올 수 있음 */
+			getInfiniteUnread();
+
 		});	
 	</script>
 

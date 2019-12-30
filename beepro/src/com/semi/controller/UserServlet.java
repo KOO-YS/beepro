@@ -57,6 +57,9 @@ public class UserServlet extends HttpServlet {
 		}else if(command.equals("chatList")) {
 			System.out.println("주고받은 대화 반환");
 			userService.chatList(request, response);
+		}else if(command.equals("chatUnread")) {
+			System.out.println("읽지 않은 메세지");
+			userService.chatUnread(request, response);
 		}
 
 	}
