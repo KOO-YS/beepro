@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.semi.dao.UserDaoImpl"%>
 <%@ page import="com.semi.vo.UserVo"%>
-<%@ page import="com.semi.vo.UserVo"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="util.sha256"%>
 <%	request.setCharacterEncoding("UTF-8");%>

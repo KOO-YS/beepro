@@ -70,15 +70,16 @@ CREATE TABLE beepro_user (
 	emailHash	varchar2(300)	NOT NULL,
 	location	varchar2(300),
 	email_ck	varchar2(6)	NOT NULL,
+	userProfile varchar2(1000),
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
-SELECT * FROM BEEPRO_USER;
-delete from BEEPRO_USER where user_id = 'test3';
 
 
---SELECT * FROM beepro_user;
+
+
+SELECT * FROM beepro_user;
 
 CREATE TABLE message (
 	message_seq	number	PRIMARY KEY,
