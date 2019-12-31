@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.io.PrintWriter"%>    
+<%@ page import="java.io.PrintWriter"%>   
+<%	request.setCharacterEncoding("UTF-8");%>
+<%	response.setContentType("text/html; charset=UTF-8");%> 
    
 <!DOCTYPE html>
 <html>
@@ -10,8 +12,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
     <title>Login</title>
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="css/agency.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <style>
 
 * {
@@ -234,6 +239,9 @@ input {
 	width: 40px;
 }
 
+.pwd{
+	cursor:pointer;
+}
 
 </style>
 <script type="text/javascript">
@@ -252,9 +260,9 @@ input {
 }
 
 //비밀번호 찾기 팝업창
-function findPwd() {
+/* function findPwd() {
 	window.open("findPwd.jsp", "pw찾기", "left=50, top=50, width=320, height=300, resizeable=no");
-}
+} */
 
 
 </script>
@@ -293,10 +301,9 @@ function findPwd() {
 				<span>BEEPRO 계정으로 로그인</span>
                 <input type="text" name ="u_id" placeholder="ID" />
                 <input type="password" name="u_pwd" placeholder="Password" />
-                <a onclick="findPwd();">Forgot your password?</a>
+				<a class = pwd data-toggle="modal" data-target="#forgotPwd">Forgot your password?</a>
 				
-                <button class="btn btn-primary"onclick="location.href='index.jsp'">Sign In</button>
-				
+				<button class="btn btn-primary"onclick="location.href='index.jsp'">Sign In</button>
             </form>
         </div>
         <div class="overlay-container">
@@ -314,7 +321,39 @@ function findPwd() {
             </div>
         </div>
     </div>
-<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+    
+<!-- 비밀번호 찾기 모달 -->
+<div class="modal fade" id="forgotPwd" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updatePwdLabel">비밀번호 찾기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="../user?command=findPwd" method="post">
+			<div class="modal-body">
+			
+			<label for="u_id">아이디</label>
+			<input type="text" id="u_id" name ="u_id"/>
+			
+			<label for="u_name">이름</label>
+			<input type="text" id="u_name" name ="u_name"/>
+			
+			<label for="u_email">이메일</label>
+			<input type="email" id="u_email" name ="u_email"/>
+			<!--<input type="submit" id="btn" value="pw찾기" />-->   
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary">찾기</button>
+      </div>
+	</form>
+    </div>
+  </div>
+</div>
+<!-- 비밀번호 변경 모달 end--> 
 </body>
 </html>
 
