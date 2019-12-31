@@ -204,18 +204,21 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("deleteComment")) {
 			System.out.println("댓글 삭제");
 			projectService = new ProjectService();
-
+			
 			boolean success = projectService.commentDelete(request, response);
-
+			
+			int num = Integer.parseInt(request.getParameter("issueSeq"));
+			System.out.println("이슈시퀀스:"+num);
+			
 			if (success) {
 				System.out.println("댓글 삭제 성공");
-				dispatch("comment?command=commentList", request, response);
+				response.sendRedirect("issue?command=issueDetail&issue_seq="+num);
 			} else {
 				System.out.println("댓글 삭제 실패");
 			}
 
-		} else if (command.equals("updateCommentForm")) {
-
+		} else if (command.equals("updateComment")) {
+			System.out.println("댓글 수정");
 		}
 	}
 }

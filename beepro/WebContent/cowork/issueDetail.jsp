@@ -216,8 +216,8 @@
                 margin-top:20px;
                 border-radius:5px;
                 border:1px solid rgb(75,97,207);
-              }
-                  
+              }            
+            
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -333,6 +333,15 @@
 					                   <div id="content">
 					                   ${list.content}
 					                   </div>
+					              
+					                   <button type="button" class="btn btn-primary" 
+					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=updateComment'">
+					                                             수정
+					                   </button>
+					                   <button type="button" class="btn btn-primary"
+					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}'">
+					                                             삭제
+					                   </button>
 					                 </div>
 					                </c:forEach>
 					              </c:otherwise>

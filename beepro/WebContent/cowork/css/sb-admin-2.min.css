@@ -10225,7 +10225,7 @@ opacity
 .sidebar {
 	width: 6.5rem;
 	min-height: 100vh;
-	height: 100%
+	height:inherit;
 }
 
 .sidebar .nav-item {
