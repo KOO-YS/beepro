@@ -23,7 +23,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
+    	$('.label_box:contains("버그")').css('background-color','#f85b94');
+    	$('.label_box:contains("개선")').css('background-color','#3598fe');
+    	$('.label_box:contains("요구사항")').css('background-color','#3bcde2');
+    	$('.label_box:contains("테스트 케이스")').css('background-color','#0088a2');
     	
+    	$('.label_box:contains("심각")').css('background-color','#ed5565');
+    	$('.label_box:contains("높음")').css('background-color','#f8ac59');
+    	$('.label_box:contains("보통")').css('background-color','#1c84c6');
+    	$('.label_box:contains("낮음")').css('background-color','#23c6c8');
     });
 
 	jQuery(function($) {
@@ -42,6 +50,44 @@
 	$(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip();
 	});
+	
+	// input 검색 기능
+	$(document).ready(function(){
+		$("#keyword").keyup(function(){
+			var k = $(this).val();
+			$("#issue-table > tbody > tr").hide();
+			var temp = $("#issue-table > tbody > tr > td:contains('"+k+"')");
+			
+			$(temp).parent().show();
+		});
+	});
+	
+	// 중요도 검색기능
+	function displaySelect1(){
+		var langSelect = document.getElementById("select1");
+		
+		var selectValue = langSelect.options[langSelect.selectedIndex].value;
+		
+		$("#issue-table > tbody > tr").hide();
+		var temp = $("#issue-table > tbody > tr > td:contains('"+selectValue+"')");
+		
+		$(temp).parent().show();
+
+	}
+	
+	// 이슈 분류 검색 기능
+	function displaySelect2(){
+		var langSelect = document.getElementById("select2");
+		
+		var selectValue = langSelect.options[langSelect.selectedIndex].value;
+		
+		$("#issue-table > tbody > tr").hide();
+		var temp = $("#issue-table > tbody > tr > td:contains('"+selectValue+"')");
+		
+		$(temp).parent().show();
+
+	}
+  
 </script>
 <style type="text/css">
 .container-fluid {
@@ -309,9 +355,10 @@ table.table .avatar {
 .label_box { width:50px;
              background-color:pink;
              text-align:center;
-             padding:5px 5px;
+             padding:3px 3px;
              color:white;
              border-radius:6px;
+             font-size:13px;
            }
 </style>
 <title>이슈 관리</title>
@@ -341,15 +388,9 @@ table.table .avatar {
 							</div>
 						</div>
 						<div class="filter-group col-sm-4">
-						   <input type="text" class="form-control" size="50" style="border:0;" placeholder="검색하실 항목을 입력하세요">
+						   <input id="keyword" type="text" class="form-control" size="50" style="border:0;" placeholder="검색하실 항목을 입력하세요">
 						</div>
                           
-                         <div style="float:left; margin-left:360px; margin-top:-37.5px;"> 
-                          <button type="button" class="btn btn-primary">
-							  <i class="fa fa-search"></i>
-						    </button>
-                         </div>
-                         
 						<div class="table-wrapper">
 						    <div class="table-filter">
 								<div class="row">
@@ -365,8 +406,9 @@ table.table .avatar {
 									</div>
 									<div class="col-sm-9">
 										<div class="filter-group">
-											<label>중요도</label><select class="form-control">
-												<option>선택</option>
+											<label>중요도</label>
+											<select class="form-control" onchange="displaySelect1()" id="select1">
+												<option value="">선택</option>
 												<option value="심각">심각</option>
 												<option value="높음">높음</option>
 												<option value="보통">보통</option>
@@ -375,8 +417,9 @@ table.table .avatar {
 										</div>
 										<div class="filter-group">
 										
-											<label>이슈타입</label> <select class="form-control">
-												<option>선택</option>
+											<label>이슈타입</label>
+											<select class="form-control" onchange="displaySelect2()" id="select2">
+												<option value="">선택</option>
 												<option value="버그">버그</option>
 												<option value="개선">개선</option>
 												<option value="요구사항">요구사항</option>
@@ -386,7 +429,7 @@ table.table .avatar {
 									</div>
 								</div>
 							</div>
-							<table class="table table-striped table-hover">
+							<table class="table table-striped table-hover" id="issue-table">
 								<thead>
 									<tr>
 									    <th>NO</th>
