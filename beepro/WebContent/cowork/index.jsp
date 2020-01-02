@@ -67,6 +67,8 @@
 		<!-- index와 업무 진행상황 페이지에 차이점이 필요할때 사용 -->
 	</c:redirect> --%>
 
+	</c:redirect>
+ --%>
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -209,8 +211,6 @@
 <%
 	}
 %>
-	
 
->>>>>>> 91e888b1d25643543387fc04b17d6f5dd8975022
 </body>
 </html>
