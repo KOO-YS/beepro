@@ -10,6 +10,8 @@ DROP TABLE issue;
 DROP TABLE skill;
 DROP TABLE project_member;
 
+SELECT * FROM COMMENTS;
+
 DROP SEQUENCE ISSUE_SEQ;
 DROP SEQUENCE PROJECT_SEQ;
 DROP SEQUENCE TODO_SEQ;
@@ -68,23 +70,27 @@ CREATE TABLE beepro_user (
 	emailHash	varchar2(300)	NOT NULL,
 	location	varchar2(300),
 	email_ck	varchar2(6)	NOT NULL,
+	userProfile varchar2(1000),
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
+
 SELECT * FROM BEEPRO_USER;
 delete from BEEPRO_USER where user_id = 'test3';
 UPDATE BEEPRO_USER SET email_ck = 'Y' WHERE name='예지';
 
 
---SELECT * FROM beepro_user;
+
+
+SELECT * FROM beepro_user;
 
 CREATE TABLE message (
 	message_seq	number	PRIMARY KEY,
     send_id	varchar2(100)	NOT NULL,
 	get_id	varchar2(100)	NOT NULL,
 	content	varchar2(4000)	NOT NULL,
-	regdate	Date	NOT NULL,
+	regdate	DATE	NOT NULL
 	read_ck number
 );
 
@@ -114,8 +120,11 @@ CREATE TABLE matching_project (
 	pm_id	varchar2(100)	NOT NULL,
 	title	varchar2(300)	NOT NULL, 
 	content	varchar2(4000)	NOT NULL,
+	skill	varchar2(4000),
 	need_person	varchar2(200)	NOT NULL,
-	location	varchar2(300)	
+	location	varchar2(300),	
+	startdate	varchar2(100),
+	enddate		varchar2(100)
 );
 
 INSERT INTO MATCHING_PROJECT VALUES (PROJECT_SEQ.NEXTVAL, 'bmi6638@naver.com', '첫번째 프로젝트입니다.', '프로젝트 테스트입니다', '프론트앤드', '충청도');
@@ -127,13 +136,15 @@ CREATE TABLE comments (
 	issue_seq	number	NOT NULL,
 	writer	varchar2(30)	NOT NULL,
 	content	varchar2(2000)	NOT NULL,
-	regdate	Date	NOT NULL
+	regdate	DATE	NOT NULL
 );
 
 
 INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL, '작성자', 'TEST', TO_DATE(SYSDATE,'yyyy-mm-dd hh24:mi:ss'));
 
 INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL, 'd', 'werwerwerwerwer', TO_DATE(SYSDATE,'yyyy-mm-dd hh24:mi:ss'));
+
+INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL,'ddd','ddd',SYSDATE);
 
 SELECT * FROM COMMENTS;
 
@@ -147,8 +158,8 @@ CREATE TABLE todo (
 	manager	varchar2(30)	NOT NULL,
 	title	varchar2(500)	NOT NULL,
     content	varchar2(4000)	NOT NULL,
-	startdate	Date	NOT NULL,
-	enddate	Date	NOT NULL,
+	startdate	DATE	NOT NULL,
+	enddate		DATE	NOT NULL,
 	category	varchar2(200)	NOT NULL,
 	status	varchar2(200)	NOT NULL,
 	priority	number NOT NULL,
@@ -258,3 +269,10 @@ ALTER TABLE project_member ADD CONSTRAINT FK_project_TO_project_mem FOREIGN KEY 
 ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (member_id) REFERENCES beepro_user (user_id);
 
 COMMIT;
+
+
+SELECT * FROM matching_project;
+
+SELECT SYSDATE AS BASIC , TO_DATE(SYSDATE, 'YYYY.MM.DD HH24:MI:SS') FROM DUAL;
+
+

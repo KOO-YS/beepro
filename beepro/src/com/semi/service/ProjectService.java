@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
@@ -18,16 +19,22 @@ public class ProjectService {
 	// 이슈 생성 서비스
 	public boolean issueWrite(HttpServletRequest request, HttpServletResponse response) {
 		ProjectDaoImple dao = new ProjectDaoImple();
+		HttpSession session = request.getSession();
+		
+		
 
 		String title = request.getParameter("title");
-		String writer = request.getParameter("writer");
+		String u_id = (String)session.getAttribute("u_id");
 		String issue_level = request.getParameter("issue_level");
 		String issue_category = request.getParameter("issue_category");
 		String content = request.getParameter("content");
 
+		
+		System.out.println("u_id 서비스에 들어왔음 : "+u_id);
+		
 		IssueVo vo = new IssueVo();
 		vo.setTitle(title);
-		vo.setWriter(writer);
+		vo.setWriter(u_id);
 		vo.setLevel(issue_level);
 		vo.setCategory(issue_category);
 		vo.setContent(content);
@@ -129,24 +136,28 @@ public class ProjectService {
 		projectDao.updateTodoPriority(todoSeq, projectSeq, priority);
 	}
 
+
 	public void countCategory() {
 		projectDao.countCategory();
 	}
 
 	// 댓글 작성
 	public boolean commentWrite(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("시퀀스 받아오기 전");
 		int issueSeq = Integer.parseInt(request.getParameter("issueSeq"));
+		System.out.println("시퀀스 : "+issueSeq);
 		
-		String writer = request.getParameter("u_id");
+		HttpSession session = request.getSession();
+		String writer = (String)session.getAttribute("u_id");
+		System.out.println("아이디 : " + writer);
 		String content = request.getParameter("content");
-		String regdate = request.getParameter("regdate");
+		System.out.println("내용 : " +content);
 		
 		CommentVo vo = new CommentVo();
 		
 		vo.setIssueSeq(issueSeq);
 		vo.setWriter(writer);
 		vo.setContent(content);
-		vo.getRegdate();
 
 		return projectDao.insertComment(vo);
 	

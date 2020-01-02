@@ -1,5 +1,6 @@
 package com.semi.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -9,6 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import com.semi.dao.UserDaoImpl;
 import com.semi.service.UserService;
@@ -22,13 +28,15 @@ public class UserServlet extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		dual(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		dual(request, response);
 	}
 
@@ -61,6 +69,15 @@ public class UserServlet extends HttpServlet {
 		}else if(command.equals("chatList")) {
 			System.out.println("주고받은 대화 반환");
 			userService.chatList(request, response);
+			
+		}else if(command.equals("userprofile")) {
+			System.out.println("프로필사진 변경");
+			try {
+				userService.profileUpdate(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}else if(command.equals("chatUnread")) {
 			System.out.println("읽지 않은 메세지");
 			userService.chatUnread(request, response);
@@ -80,7 +97,6 @@ public class UserServlet extends HttpServlet {
 			System.out.println("하트보내기");
 			
 		}
-
 	}
 	
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
