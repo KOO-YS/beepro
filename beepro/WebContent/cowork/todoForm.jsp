@@ -138,7 +138,7 @@ $( function() {
 							  </div>
 							  <div class="form-group col-lg-3">
 							    <label for="manager">담당자</label>
-							    <input type="text" class="form-control" id="manager" name="manager" value="매니저 or 아이디" readonly>
+							    <input type="text" class="form-control" id="manager" name="manager" value="${u_name}" readonly>
 							  </div>
 							  <div class="form-group col-lg-3">
 							    <label for="category">분류</label>

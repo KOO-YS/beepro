@@ -1,6 +1,7 @@
 package com.semi.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
@@ -57,12 +59,6 @@ public class ProjectServlet extends HttpServlet {
 		 *	https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
 		 *  */
 
-//		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다 : 구분값 설정 필요 (hidden값(예: command)
-//		 * or url/(추가 url로 구분 문자열 예: userservlet/login의 login)) : 구분값을 통해 service 로 값 전달
-//		 * 방식 예시
-//		 * https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
-//		 */
-
 		String command = request.getParameter("command");
 		System.out.println("[ " + command + " ]");
 		// 서비스와 연결
@@ -108,8 +104,10 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("todo-list")) {	// 1
 			System.out.println("업무 리스트 출력");
-			// index.jsp 에서 project, id 에 세션 요구됨
-			List<TodoVo> todoList = projectService.selectAllTodo(1, "매니저 or 아이디");
+			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
+			HttpSession session = request.getSession();
+			String userId = (String)session.getAttribute("u_name");
+			List<TodoVo> todoList = projectService.selectAllTodo(1,userId);	// sequence **
 
 			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
@@ -167,9 +165,34 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("중요도 변경");
 			projectService.updateTodoPriority(request, response);
 		
-		} else if(command.equals("selectChart")) {
-			projectService.countCategory();
+		} else if(command.equals("selectChart")) {			// 폐기 
+			HashMap<String, Integer> categoryMap = projectService.countCategory();
+			
+			request.setAttribute("categoryMap", categoryMap);
+			dispatch("/cowork/analysis.jsp", request, response);
+		
+		} else if(command.equals("dashboard")) {
+			System.out.println("dashboard 출력");
+			HttpSession session = request.getSession();
+			String userId = (String)session.getAttribute("u_name");
+			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
+			int projectSeq = 1;	
+			System.out.println("userId :: "+userId+"\nprojectSeq :: "+projectSeq);
+			// issue Count
+			HashMap<String, Integer> count = projectService.getCounts(userId, projectSeq);
+			// deadline todo	// TODO 개인 업무 or 팀 업무? -> 우선 개인 업무로 진행
+			List<TodoVo> urgentTodo = projectService.getUrgentTodo(userId, projectSeq);
+			// week issues
+			List<IssueVo> weekIssue = projectService.getWeekIssue(projectSeq);
+			// todo category Count & Rate
+			HashMap<String, Integer> todoType = projectService.getTodoType(projectSeq);
+			
+			request.setAttribute("count", count);
+			request.setAttribute("urgent", urgentTodo);
+			request.setAttribute("weekIssue", weekIssue);
+			request.setAttribute("todoType", todoType);
+			
+			dispatch("/cowork/dashboard.jsp",request,response);
 		}
 	}
-
 }

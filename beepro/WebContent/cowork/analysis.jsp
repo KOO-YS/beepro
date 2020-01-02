@@ -173,7 +173,7 @@
 					                    <div class="card shadow mb-6">
 						                    <!-- Card Header - Dropdown -->
 						                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						                        <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+						                        <h6 class="m-0 font-weight-bold text-primary">분야별 할 일 개수</h6>
 						                    </div>
 						                    <!-- Card Body -->
 						                    <div class="card-body row">
@@ -182,24 +182,22 @@
 						                        </div>
 						                        <div class="col-6 mt-5 text-center small">
 							                        <span class="mr-2">
-							                            <i class="fas fa-circle text-primary"></i> 기획
+							                            <i class="fas fa-circle" style="color:#e74a3b"></i> 기획
 							                        </span>
 							                        <span class="mr-2">
-							                            <i class="fas fa-circle text-success"></i> 디자인
+							                            <i class="fas fa-circle" style="color:#f6c23e"></i> 디자인
 							                        </span>
 							                        <span class="mr-2">
-							                            <i class="fas fa-circle text-info"></i> 프론트앤드
+							                            <i class="fas fa-circle" style="color:#4b61cf"></i> 프론트앤드
 							                        </span>
 							                        <span class="mr-2">
-							                            <i class="fas fa-circle text-primary"></i> 백앤드
+							                            <i class="fas fa-circle" style="color:#36b9cc"></i> 백앤드
 							                        </span>
 						                        </div>
 						                    </div>
 					                    </div>
 					                </div>
 								</div>
-          
-            				
 					</div>
 				</div>
 			</div>
@@ -208,15 +206,16 @@
 		</div>
 	</div>
 <script>
+
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
     labels: ["기획", "디자인", "프론트앤드","백앤드"],
     datasets: [{
-      data: [2, 1, 3, 5],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', 'red'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf','black'],
+      data: [${categoryMap["planning"]}, ${categoryMap["design"]}, ${categoryMap["front-end"]}, ${categoryMap["back-end"]}],
+      backgroundColor: ['#e74a3b', '#f6c23e', '#4b61cf', '#36b9cc'],
+      hoverBackgroundColor: ['#bd4237', '#e3b43d', '#4759b5','#329ead'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
     }],
   },

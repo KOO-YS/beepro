@@ -24,7 +24,15 @@
      <servlet-name>page</servlet-name>
      <url-pattern>/page</url-pattern>
   </servlet-mapping>
-
+  <!-- 협업 매핑 -->
+	<servlet>
+		<servlet-name>project</servlet-name>
+		<servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>project</servlet-name>
+		<url-pattern>/project</url-pattern>
+	</servlet-mapping>
   <!-- 이슈 매핑 -->
   <servlet>
      <servlet-name>issue</servlet-name>
