@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>beepro</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	
+  <!-- 댓글 매핑 -->
+   <servlet>
+   <servlet-name>comment</servlet-name>
+   <servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>comment</servlet-name>
+     <url-pattern>/comment</url-pattern>
+  </servlet-mapping>
+	
+  <!-- 페이징 매핑 -->
+   <servlet>
+     <servlet-name>page</servlet-name>
+     <servlet-class>com.semi.controller.PageServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>page</servlet-name>
+     <url-pattern>/page</url-pattern>
+  </servlet-mapping>
+
+  <!-- 이슈 매핑 -->
+  <servlet>
+     <servlet-name>issue</servlet-name>
+     <servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>issue</servlet-name>
+     <url-pattern>/issue</url-pattern>
+  </servlet-mapping>
+
+	<!-- todo 매핑 -->
+	<servlet>
+		<servlet-name>todo</servlet-name>
+		<servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>todo</servlet-name>
+		<url-pattern>/todo</url-pattern>
+	</servlet-mapping>
+
+	<!-- 채팅 맵핑 -->
+	<servlet>
+		<servlet-name>chat</servlet-name>
+		<servlet-class>com.semi.controller.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>chat</servlet-name>
+		<url-pattern>/chat</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 개인 매칭 페이지 맵핑 -->
+	<servlet>
+		<servlet-name>personalMatching</servlet-name>
+		<servlet-class>com.semi.controller.MatchingServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>personalMatching</servlet-name>
+		<url-pattern>/personalMatching</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
+	<!-- 비밀번호 찾기 맵핑 -->
+	<servlet>
+		<servlet-name>findPwd</servlet-name>
+		<servlet-class>com.semi.controller.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>findPwd</servlet-name>
+		<url-pattern>/findPwd</url-pattern>
+	</servlet-mapping>
+
+</web-app>
