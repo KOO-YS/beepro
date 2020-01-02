@@ -200,12 +200,6 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("중요도 변경");
 			projectService.updateTodoPriority(request, response);
 		
-		} else if(command.equals("selectChart")) {			// 폐기 
-			HashMap<String, Integer> categoryMap = projectService.countCategory();
-			
-			request.setAttribute("categoryMap", categoryMap);
-			dispatch("/cowork/analysis.jsp", request, response);
-		
 		} else if(command.equals("dashboard")) {
 			System.out.println("dashboard 출력");
 			HttpSession session = request.getSession();
@@ -228,9 +222,6 @@ public class ProjectServlet extends HttpServlet {
 			request.setAttribute("todoType", todoType);
 			
 			dispatch("/cowork/dashboard.jsp",request,response);
-
-		} else if (command.equals("selectChart")) {
-			projectService.countCategory();
 
 		} else if (command.equals("commentWrite")) {
 			System.out.println("댓글 생성");

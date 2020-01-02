@@ -62,11 +62,11 @@
 </head>
 
 <body id="page-top">
-	<c:redirect url="/project?command=dashboard">
-		<%-- <c:param name="NUM1" value="5"/> --%>
+	<%-- <c:redirect url="/project?command=dashboard">
+		<c:param name="NUM1" value="5"/>
 		<!-- index와 업무 진행상황 페이지에 차이점이 필요할때 사용 -->
 	</c:redirect>
-
+ --%>
   <!-- Page Wrapper -->
   <div id="wrapper">
 
