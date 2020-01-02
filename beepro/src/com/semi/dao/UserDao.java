@@ -10,6 +10,12 @@ public interface UserDao {
 	String getEmailCkSql ="SELECT email_ck FROM beepro_user WHERE user_id = ?";
 	String setEmailCkSql = "UPDATE beepro_user SET email_ck ='Y' WHERE email= ? ";
 	
+	String insertHeartSql = "INSERT INTO heart VALUES(?,?) ";
+	String selectAllHeartSql = " SELECT * FROM heart ";
+	String followerSql = " SELECT send_id FROM heart WHERE get_id=?  ";
+	String followingSql = " SELECT get_id FROM heart WHERE send_id=? ";
+	
+	
 	public int login(String u_id, String u_pwd);
 	public int join(UserVo vo);
 	public String getUserEmail(String u_id);

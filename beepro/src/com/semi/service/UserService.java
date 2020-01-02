@@ -234,4 +234,8 @@ public class UserService {
 	
 	
 	
+	
+	/* 관심 사람관련 서비스 */
+	
+	
 }
