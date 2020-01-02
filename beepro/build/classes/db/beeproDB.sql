@@ -83,12 +83,9 @@ CREATE TABLE message (
     send_id	varchar2(100)	NOT NULL,
 	get_id	varchar2(100)	NOT NULL,
 	content	varchar2(4000)	NOT NULL,
-<<<<<<< HEAD
 	regdate	DATE	NOT NULL
-=======
 	regdate	Date	NOT NULL,
 	read_ck number
->>>>>>> afdb1a85d41d0417d1719da0c0e73fe99af54f75
 );
 
 CREATE TABLE heart (
@@ -124,9 +121,10 @@ CREATE TABLE matching_project (
 	enddate		varchar2(100)
 );
 
+SELECT * FROM MATCHING_PROJECT;
+
 INSERT INTO MATCHING_PROJECT VALUES (PROJECT_SEQ.NEXTVAL, 'bmi6638@naver.com', '첫번째 프로젝트입니다.', '프로젝트 테스트입니다', '프론트앤드', '충청도');
 
-SELECT * FROM MATCHING_PROJECT;
 
 CREATE TABLE comments (
 	comments_seq	number,
@@ -265,5 +263,3 @@ ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (me
 
 COMMIT;
 
-
-SELECT * FROM matching_project;

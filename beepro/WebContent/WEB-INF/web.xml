@@ -79,6 +79,9 @@
 		<url-pattern>/personalMatching</url-pattern>
 	</servlet-mapping>
 	
+	
+	
+	
 	<!-- 비밀번호 찾기 맵핑 -->
 	<servlet>
 		<servlet-name>findPwd</servlet-name>
