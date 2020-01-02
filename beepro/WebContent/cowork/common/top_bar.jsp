@@ -211,13 +211,6 @@ a:hover {
 					All Alerts</a>
 			</div></li>
 
-
-
-
-
-
-
-
 		<!-- Nav Item - Messages -->
 		<li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
 		<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
@@ -279,7 +272,6 @@ a:hover {
 					onclick="msgclick();">Read More Messages</a>
 			</div> -->  
 			</li>
-<<<<<<< HEAD
 			
 			<!-- 메세지 끝 -->
 
@@ -309,8 +301,6 @@ a:hover {
 
         </nav>
 		<!-- 탑 메뉴 끝 -->
-=======
-
 
 
 
@@ -361,5 +351,3 @@ a:hover {
 <%
 	}
 %>
-
->>>>>>> 0ea91356eef7d7d80cf2f5b3b7b7a016f9f8de46
