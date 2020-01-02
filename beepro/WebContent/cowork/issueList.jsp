@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<% request.setCharacterEncoding("UTF-8"); %>
-<% response.setContentType("text/html; charset=UTF-8"); %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+<%
+	response.setContentType("text/html; charset=UTF-8");
+%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<link href="${pageContext.request.contextPath}/cowork/css/issueWriteTable.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css" rel="stylesheet">
@@ -20,8 +24,23 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- datepicker -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+	$(document).ready(function() {
+		$('.label_box:contains("버그")').css('background-color', '#f85b94');
+		$('.label_box:contains("개선")').css('background-color', '#3598fe');
+		$('.label_box:contains("요구사항")').css('background-color', '#3bcde2');
+		$('.label_box:contains("테스트케이스")').css('background-color', '#0088a2');
+
+		$('.label_box:contains("심각")').css('background-color', '#ed5565');
+		$('.label_box:contains("높음")').css('background-color', '#f8ac59');
+		$('.label_box:contains("보통")').css('background-color', '#1c84c6');
+		$('.label_box:contains("낮음")').css('background-color', '#23c6c8');
+	});
+
 	jQuery(function($) {
 		$(".container-fluid").css("display", "none");
 		$(".container-fluid").fadeIn(500);
@@ -35,9 +54,47 @@
 		}
 	});
 
-	$(document).ready(function() {
+/* 	$(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip();
-	});
+	}); */
+
+	// input 검색 기능
+	$(document).ready(function() {
+            $("#keyword").keyup(function() {
+                var k = $(this).val();
+                $("#issue-table > tbody > tr").hide();
+                var temp = $("#issue-table > tbody > tr > td:nth-child(7n+2):contains('" + k + "')");
+
+                $(temp).parent().show();
+            });
+        });
+
+	// 중요도 검색기능
+	function displaySelect1() {
+		var langSelect = document.getElementById("select1");
+		
+		var selectValue = langSelect.options[langSelect.selectedIndex].value;
+
+		$("#issue-table > tbody > tr").hide();
+		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue+ "')");
+
+		$(temp).parent().show();
+
+	}
+
+	// 이슈 분류 검색 기능
+	function displaySelect2() {
+		var langSelect = document.getElementById("select2");
+
+		var selectValue = langSelect.options[langSelect.selectedIndex].value;
+
+		$("#issue-table > tbody > tr").hide();
+		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue
+				+ "')");
+
+		$(temp).parent().show();
+
+	}
 </script>
 <style type="text/css">
 .container-fluid {
@@ -171,8 +228,8 @@ to {
 .filter-icon i {
 	font-size: 16px;
 	opacity: 0.7;
-	margin-right:-20px;
-	}
+	margin-right: -20px;
+}
 
 table.table tr th, table.table tr td {
 	border-color: #e9e9e9;
@@ -302,6 +359,15 @@ table.table .avatar {
 	font-size: 13px;
 }
 
+.label_box {
+	width: 50px;
+	background-color: pink;
+	text-align: center;
+	padding: 3px 3px;
+	color: white;
+	border-radius: 6px;
+	font-size: 13px;
+}
 </style>
 <title>이슈 관리</title>
 </head>
@@ -330,17 +396,11 @@ table.table .avatar {
 							</div>
 						</div>
 						<div class="filter-group col-sm-4">
-						   <input type="text" class="form-control" size="50" style="border:0;" placeholder="검색하실 항목을 입력하세요">
+							<input id="keyword" type="text" class="form-control" size="50" style="border:0;" placeholder="검색하실 항목을 입력하세요">
 						</div>
-                          
-                         <div style="float:left; margin-left:360px; margin-top:-37.5px;"> 
-                          <button type="button" class="btn btn-primary">
-							  <i class="fa fa-search"></i>
-						    </button>
-                         </div>
-                         
+
 						<div class="table-wrapper">
-						    <div class="table-filter">
+							<div class="table-filter">
 								<div class="row">
 									<div class="col-sm-3">
 										<div class="show-entries">
@@ -354,8 +414,9 @@ table.table .avatar {
 									</div>
 									<div class="col-sm-9">
 										<div class="filter-group">
-											<label>중요도</label><select class="form-control">
-												<option>선택</option>
+											<label>중요도</label> <select class="form-control"
+												onchange="displaySelect1()" id="select1">
+												<option value="">선택</option>
 												<option value="심각">심각</option>
 												<option value="높음">높음</option>
 												<option value="보통">보통</option>
@@ -363,22 +424,24 @@ table.table .avatar {
 											</select>
 										</div>
 										<div class="filter-group">
-										
-											<label>이슈타입</label> <select class="form-control">
-												<option>선택</option>
+
+											<label>이슈타입</label> <select class="form-control"
+												onchange="displaySelect2()" id="select2">
+												<option value="">선택</option>
 												<option value="버그">버그</option>
 												<option value="개선">개선</option>
 												<option value="요구사항">요구사항</option>
+												<option value="테스트케이스">테스트케이스</option>
 											</select>
 										</div>
-							             <span class="filter-icon"><i class="fa fa-filter"></i></span>
+										<span class="filter-icon"><i class="fa fa-filter"></i></span>
 									</div>
 								</div>
 							</div>
-							<table class="table table-striped table-hover">
+							<table class="table table-striped table-hover" id="issue-table">
 								<thead>
 									<tr>
-									    <th>NO</th>
+										<th>NO</th>
 										<th>이슈제목</th>
 										<th>작성자</th>
 										<th>중요도</th>
@@ -388,25 +451,23 @@ table.table .avatar {
 									</tr>
 								</thead>
 								<tbody>
-								  <c:forEach var="issue" items="${issueList}">
-									<tr>
-										<td>${issue.issueSeq}</td>
-										<td>${issue.title}</td>
-										<td>${issue.writer}</td>
-										<td><span class="status text-success">&bull;</span>
-											${issue.level}</td>
-										<td>${issue.category}</td>
-										<td>${issue.regdate}</td>
-										<td><a href="${pageContext.request.contextPath}/issue?command=issueDetail&issue_seq=${issue.issueSeq}" class="view" title="View Details"
-											data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
-									</tr>
-								  </c:forEach>
+									<c:forEach var="issue" items="${issueList}">
+										<tr>
+											<td>${issue.issueSeq}</td>
+											<td>${issue.title}</td>
+											<td>${u_name}</td>
+											<td><div class="label_box">${issue.level}</div></td>
+											<td><div class="label_box">${issue.category}</div></td>
+											<td>${issue.regdate}</td>
+											<td><a
+												href="${pageContext.request.contextPath}/issue?command=issueDetail&issue_seq=${issue.issueSeq}"
+												class="view" title="View Details" data-toggle="tooltip"><i
+													class="material-icons">&#xE5C8;</i></a></td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 							<div class="clearfix">
-								<div class="hint-text">
-									Showing <b>5</b> out of <b>25</b> entries
-								</div>
 								<ul class="pagination">
 									<li class="page-item disabled"><a href="#">Previous</a></li>
 									<li class="page-item active"><a href="#" class="page-link">1</a></li>
@@ -424,7 +485,7 @@ table.table .avatar {
 				</div>
 			</div>
 			<!-- 푸터 -->
-			<jsp:include page="common/footer.html"></jsp:include>  
+			<jsp:include page="common/footer.html"></jsp:include>
 		</div>
 	</div>
 </body>

@@ -26,25 +26,19 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-   $(document).ready(function() {
-      $("#headers").load("common/side_bar.jsp");
-      $("#top_bar").load("common/top_bar.jsp");
-      $("#footer").load("common/footer.html")
-   });
+   $(document).ready(function(){
+	    $("#issue_content").click(function(){
+	        $("#member").attr("disabled",false).attr("readonly",false);    	
+	    });
+	    
+	    $("#title").click(function(){
+	        $("#p_name").attr("disabled",false).attr("readonly",false);    	
+	    });
+	});
 
+  
 </script>
-<script>
-$(document).ready(function(){
-    $("#issue_content").click(function(){
-        $("#member").attr("disabled",false).attr("readonly",false);    	
-    });
-    
-    $("#title").click(function(){
-        $("#p_name").attr("disabled",false).attr("readonly",false);    	
-    });
-});
-</script>
-<title>beepro - 이슈 생성하기</title>
+<title>beepro - 이슈 수정하기</title>
 <style>
 .rate {
     float: left;
@@ -91,6 +85,7 @@ $(document).ready(function(){
 	}
 %>
    <div id="wrapper">
+   <jsp:include page="common/side_bar.jsp"></jsp:include>
       <!-- 상단 메뉴 바 -->
       <div id="headers"></div>
 
@@ -99,7 +94,7 @@ $(document).ready(function(){
 
          <!-- 메인 내용이 들어갈 구역을 정의하는 div -->
          <div id="content">
-
+              <jsp:include page="common/top_bar.jsp"></jsp:include>
             <!-- 왼쪽 메뉴 바 -->
             <div id="top_bar"></div>
 
@@ -109,12 +104,13 @@ $(document).ready(function(){
                   <h5><b>이슈 생성</b></h5>
                   <hr>
                   <form action="../issue" method="post">
-                     <input type="hidden" name="command" value="issueform">
+                     <input type="hidden" name="command" value="issueUpdateform">
                      <input type="hidden" name="projectSeq" value="1">
+                     <input type="hidden" name="issueSeq" value="${vo.issueSeq}">
                      <div class="row">
                        <div class="form-group col-lg-8">
                          <label for="title">이슈 제목<span style="color:red;"> *</span></label>
-                         <input type="text" class="form-control" id="title" name="title">
+                         <input type="text" class="form-control" id="title" name="title" value="${vo.title}">
                        </div>
                        <div class="form-group col-lg-4">
                          <label for="category">프로젝트 명<span style="color:red;"> *</span></label>
@@ -128,28 +124,28 @@ $(document).ready(function(){
                      </div>
                        <div class="form-group">
                          <label for="content">이슈 내용</label>
-                         <textarea class="form-control" id="issue_content" name="content" rows="10"></textarea>
+                         <textarea class="form-control" id="issue_content" name="content" rows="10">${vo.content}</textarea>
                        </div>
                      <div class="row">
                        <div class="form-group col-lg-6 form-checkbox form-checkbox-inline">
                          <label for="content">이슈타입<span style="color:red;"> *</span></label><br>
                         <label class="form-checkbox-label">
-                        <input name=bug class="form-checkbox-field" type="checkbox" />
+                        <input name=bug class="form-checkbox-field" type="checkbox" value="버그" <c:if test="${ vo.category eq '버그'}">checked="checked"</c:if>/>
                         <i class="form-checkbox-button"></i>
                         <span>버그</span>
                    </label>
                <label class="form-checkbox-label">
-                <input name=update class="form-checkbox-field" type="checkbox" />
+                <input name=update class="form-checkbox-field" type="checkbox" value="개선" <c:if test="${ vo.category eq '개선'}">checked="checked"</c:if>/>
                 <i class="form-checkbox-button"></i>
                 <span>개선</span>
             </label>
             <label class="form-checkbox-label">
-                <input name=want class="form-checkbox-field" type="checkbox" />
+                <input name=want class="form-checkbox-field" type="checkbox" value="요구사항" <c:if test="${ vo.category eq '요구사항'}">checked="checked"</c:if>/>
                 <i class="form-checkbox-button"></i>
                 <span>요구사항</span>
             </label>
             <label class="form-checkbox-label">
-                <input name=test class="form-checkbox-field" type="checkbox" />
+                <input name=test class="form-checkbox-field" type="checkbox" value="테스트케이스" <c:if test="${ vo.category eq '테스트케이스'}">checked="checked"</c:if>/>
                 <i class="form-checkbox-button"></i>
                 <span>테스트 케이스</span>
             </label>
@@ -164,22 +160,22 @@ $(document).ready(function(){
                      <div class="form-group col-lg-12" style=" margin-top:12px; ">
                         <label for="content" style="margin-left:-265px;">중요도<span style="color:red;"> *</span></label>
                          <label class="form-radio-label" style="float:left; margin-right:15px; margin-left:-15px;">
-                         <input name=pronoun class="form-radio-field" type="radio" required value="He" />
+                         <input name=pronoun class="form-radio-field" type="radio" id="level" required value="심각" <c:if test="${ vo.level eq '심각'}">checked="checked"</c:if>/>
                          <i class="form-radio-button"></i>
                         <span>심각</span>
                        </label>
             <label class="form-radio-label" style="float:left; margin-right:15px;">
-                <input name=pronoun class="form-radio-field" type="radio" required value="She" />
+                <input name=pronoun class="form-radio-field" type="radio" id="level" required value="높음" <c:if test="${ vo.level eq '높음'}">checked="checked"</c:if>/>
                 <i class="form-radio-button"></i>
                 <span>높음</span>
             </label>
             <label class="form-radio-label" style="float:left; margin-right:15px;">
-                <input name=pronoun class="form-radio-field" type="radio" required value="They" />
+                <input name=pronoun class="form-radio-field" type="radio" id="level" required value="보통" <c:if test="${ vo.level eq '보통'}">checked="checked"</c:if>/>
                 <i class="form-radio-button"></i>
                 <span>보통</span>
             </label>
             <label class="form-radio-label" style="float:left;">
-                <input name=pronoun class="form-radio-field" type="radio" required value="Ze" />
+                <input name=pronoun class="form-radio-field" type="radio" id="level" required value="낮음" <c:if test="${ vo.level eq '낮음'}">checked="checked"</c:if>/>
                 <i class="form-radio-button"></i>
                 <span>낮음</span>
             </label>
@@ -192,7 +188,7 @@ $(document).ready(function(){
             </div>
          </div>
          <!-- 푸터 -->
-         <jsp:include page="common/footer.html"></jsp:include> 
+         <jsp:include page="common/footer.html"></jsp:include>
       </div>
    </div>
 </body>

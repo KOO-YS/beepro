@@ -1,5 +1,6 @@
 package com.semi.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.semi.vo.CommentVo;
@@ -17,19 +18,41 @@ public interface ProjectDao {
     
     // 업무부분
     String insertTodoSql = "INSERT INTO TODO VALUES(TODO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
-    String selectAllTodoSql = "SELECT * FROM TODO WHERE MANAGER = ? AND PROJECT_SEQ = ?";
-    String selectOneTodoSql = "SELECT * FROM TODO WHERE TODO_SEQ = ?";
+    String getAllTodoSql = "SELECT * FROM TODO WHERE MANAGER = ? AND PROJECT_SEQ = ?";
+    String getOneTodoSql = "SELECT * FROM TODO WHERE TODO_SEQ = ?";
     String updateTodoSql = "UPDATE TODO SET TITLE=?, CONTENT=?, PRIORITY=?, STARTDATE=?, ENDDATE=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
-    String updateTodoStatusSql = "UPDATE TODO SET STATUS=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
+    String updateTodoStatusSql = "UPDATE TODO SET STATUS=?, FINISH_CK=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     String deleteTodoSql = "DELETE FROM TODO WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     String updateTodoPrioritySql = "UPDATE TODO SET PRIORITY=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     
     // 프로젝트부분
     String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
     
+    // 업무 진행상황 부분
+    String getByTodoTypeSql = "SELECT CATEGORY 분류,"
+    		+ " TRUNC(COUNT(CASE WHEN FINISH_CK = 'Y' THEN 1 END)/COUNT(*)*100) 분류별진행률,"
+    		+ " COUNT(*) 분류별업무"
+    		+ " FROM TODO"
+    		+ " WHERE PROJECT_SEQ=? GROUP BY CATEGORY";
+    
+    String getTodoInfoSql = "SELECT COUNT(*) 총업무수,"
+    		+ " COUNT(CASE WHEN FINISH_CK='Y' THEN 1 END)/COUNT(*)*100 총업무진행률,"
+    		+ " COUNT(CASE WHEN FINISH_CK='N' AND MANAGER=? THEN 1 END) 개인잔여업무"
+    		+ " FROM TODO"
+    		+ " WHERE PROJECT_SEQ=?";
+    
+    String getIssueInfoSql = "SELECT COUNT(*) 총이슈,"
+    		+ " COUNT(CASE WHEN REGDATE BETWEEN TO_CHAR(SYSDATE-7,'YY/MM/DD') AND TO_CHAR(SYSDATE+1,'YY/MM/DD') THEN 1 END) 이번주생성이슈,"
+    		+ " COUNT(CASE WHEN WRITER=? THEN 1 END) 개인등록이슈"
+    		+ " FROM ISSUE  WHERE PROJECT_SEQ = ?";
+    
+    String getWeekIssueSql = "SELECT * FROM ISSUE WHERE PROJECT_SEQ=? AND REGDATE  BETWEEN TO_CHAR(SYSDATE-7,'YY/MM/DD') AND TO_CHAR(SYSDATE+1,'YY/MM/DD') AND ROWNUM < 4";
+    
+    String getUrgentTodoSql = "SELECT * FROM TODO WHERE MANAGER=? AND PROJECT_SEQ=? AND ENDDATE BETWEEN TO_CHAR(SYSDATE,'YY/MM/DD') AND TO_CHAR(SYSDATE+7,'YY/MM/DD') AND ROWNUM<5";
+
     // 댓글 부분
-    String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL, ISSUE_SEQ.NEXTVAL,?,?,TO_DATE(SYSDATE, 'yyyy-mm-dd hh24:mi:ss'))";
-    String selectAllCommentSql = "SELECT * FROM COMMENTS ORDER BY COMMENTS_SEQ";
+    String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL,?,?,?,SYSDATE)";
+    String selectAllCommentSql = "SELECT * FROM COMMENTS WHERE ISSUE_SEQ=?";
     String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
     String updateCommentSql = "UPDATE COMMENTS SET CONTENT=? WHERE COMMENTS_SEQ=? AND ISSUE_SEQ=?";
     
@@ -41,7 +64,7 @@ public interface ProjectDao {
     
     public boolean updateIssue(IssueVo vo);
     
-    public boolean deleteIssue(int issue_seq);
+    public boolean deleteIssue(int issueSeq);
     
     public int insertTodo(TodoVo todo);
 
@@ -53,20 +76,30 @@ public interface ProjectDao {
 
 	public int updateTodo(TodoVo todo);
 
-	public void updateTodoStatus(int todoSeq, int projectSeq, String status);
+	public void updateTodoStatus(int todoSeq, int projectSeq, String status, char finishCk);
 
 	public int deleteTodo(int todoSeq, int projectSeq);
 
 	public void updateTodoPriority(int todoSeq, int projectSeq, int priority);
 
-	public void countCategory();
+	public HashMap<String, Integer> countCategory();
+
+	public HashMap<String, Integer> getTodoInfo(String userId, int projectSeq);
+
+	public HashMap<String, Integer> getIssueInfo(String userId, int projectSeq);
+
+	public List<IssueVo> getWeekIssue(int projectSeq);
+
+	public HashMap<String, Integer> getTodoType(int projectSeq);
+
+	public List<TodoVo> getUrsentTodo(String userId, int projectSeq);
+
 
 	public boolean insertComment(CommentVo vo);
 
-	public List<CommentVo> selectAllComment();
+	public List<CommentVo> selectAllComment(int seq);
 	
 	public boolean deleteComment(int comments_seq);
-
 
 	public void updateComment(int commentSeq, int issueSeq, String content);
 

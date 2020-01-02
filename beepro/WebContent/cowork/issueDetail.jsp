@@ -7,6 +7,7 @@
 	response.setContentType("text/html; charset=UTF-8");
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,20 +31,17 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
-	  
-	  $(".badge1").text("버그").css("background-color","#ed5565");
-	  $(".badge1").text("개선").css("background-color","#ed5565");
-	  $(".badge1").text("요구사항").css("background-color","#ed5565");
-	  $(".badge1").text("테스트 케이스").css("background-color","#ed5565");
-	  
-	  $(".badge2").text("심각").css("background-color","#ed5565");
-	  $(".badge2").text("높음").css("background-color","#f8a274");
-	  $(".badge2").text("보통").css("background-color","#1983c6");
-	  $(".badge2").text("낮음").css("background-color","#23cad8");
-  });
-  
-
+$(document).ready(function() {
+	$('.badge1:contains("버그")').css('background-color','#f85b94');
+	$('.badge1:contains("개선")').css('background-color','#3598fe');
+	$('.badge1:contains("요구사항")').css('background-color','#3bcde2');
+	$('.badge1:contains("테스트케이스")').css('background-color','#0088a2');
+	
+	$('.badge2:contains("심각")').css('background-color','#ed5565');
+	$('.badge2:contains("높음")').css('background-color','#f8ac59');
+	$('.badge2:contains("보통")').css('background-color','#1c84c6');
+	$('.badge2:contains("낮음")').css('background-color','#23c6c8');
+});
 </script>
 <style type="text/css">
 .support {
@@ -133,7 +131,6 @@
     vertical-align: baseline;
     color:white;
     font-weight:bold;
-    margin-left:120px;
     border-radius: 4px;}
     
 .badge2 { display: inline-block;
@@ -146,7 +143,6 @@
     background-color:skyblue;
     color:white;
     font-weight:bold;
-    margin-left:120px;
     border-radius: 4px;}
     
 .badge3 { display: inline-block;
@@ -157,7 +153,6 @@
     white-space: nowrap;
     vertical-align: baseline;
     font-weight:bold;
-    margin-left:120px;
     border-radius: 4px;}
     
 .issue-label2 { font-size: 12px;
@@ -174,7 +169,58 @@
 .box { background: #f1f1f1;
        padding: 15px;
        margin-top: 20px !important;}
-       
+
+#comment-label-wrap { margin-top:35px;
+                    border-top:1px solid #ddd;
+                    border-bottom:1px solid #ddd;
+                    height:50px;
+                    line-height:50px;
+                    font-size:16px;
+                    }
+                    
+#comment-label { color:rgb(75,97,207); 
+                 font-weight:bold;
+                 width:90px;
+                 text-align:center;
+                 height:50px;
+                 border-bottom:4px solid rgb(75,97,207);
+                 }  
+
+#none { width:100%;
+        hegiht:60px;
+        line-height:60px;
+        text-align:center;
+        padding:30px;
+      } 
+      
+#writer{ color:black;
+         font-size:16px;
+         font-weight:bold;
+       }  
+
+#regdate { font-size:11px;}
+
+#content { margin-top:20px;
+           color:#334152;
+         }
+
+#content_wrap { padding:30px;
+                width:100%;
+                height:auto;
+                margin-top:20px;
+                border-radius:5px;
+                border:1px solid rgb(75,97,207);
+              }            
+ 
+.show-ticket { right: 10px;
+               top: 10px;
+                position: absolute;
+                text-decoration: none;
+                white-space: nowrap;
+                cursor: pointer !important;
+                display: inline-block;
+                margin-right: 20px !important;
+             }         
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -203,6 +249,15 @@
 					        </div>
 					          ${vo.title }
 					      </h4>
+					      
+					      <div class="show-ticket">
+   					         <a href="${pageContext.request.contextPath}/issue?command=issueUpdate&issue_seq=${vo.issueSeq}">
+					           <img src="<%=request.getContextPath()%>/cowork/images/modify.png" width="30" height="30" style="margin-right:15px;"/>
+					         </a>
+					         <a href="${pageContext.request.contextPath}/issue?command=issueDelete&issue_seq=${vo.issueSeq}">
+					           <img src="<%=request.getContextPath()%>/cowork/images/close.png" width="45" height="45" />
+					         </a>
+					      </div>
 					    </div>
 					    
 					    <div class="issue_div">
@@ -213,7 +268,7 @@
 					                 <span>작성자</span>
 					               </label>
 					               <div class="subheader2">
-					                 보미보미 bmi6638
+					                ${u_name}&nbsp;&nbsp;${u_email} 
 					               </div>
 					            </div>
 					         </div>
@@ -240,7 +295,7 @@
 					              </label>
 					              <div>
 					                <span class="badge2">
-					                   ${vo.level }
+					                   ${vo.level}
 					                </span>
 					              </div>
 					             </div>
@@ -264,10 +319,56 @@
 					            ${vo.content }
 					         </div>
 					        
-							 <button type="button" class="btn btn-primary" style="float:right; margin-top:30px;"
-							  onclick="location.href='${pageContext.request.contextPath}/comment?command=commentList'">
-							      <b>on</b>
-							  </button>	         
+					        <div> 
+							  <div id="comment-label-wrap">
+					           <div id="comment-label">
+					                           댓글
+					           </div>
+					         </div>
+					         
+					           <c:choose>
+					              <c:when test="${empty list}">
+					                 <div id="none">작성된 댓글이 없습니다</div>
+					              </c:when>
+					       
+					              <c:otherwise>
+					                <c:forEach var="list" items="${list}">
+					                <div id="content_wrap">
+					                  <div id="writer">
+					                    ${list.writer}
+					                  </div>
+					                   
+					                   <div id="regdate">
+					                   <fmt:formatDate value="${list.regdate}" pattern="yyyy/mm/dd HH:mm:ss" />
+					                   </div>
+					                   
+					                   <div id="content">
+					                   ${list.content}
+					                   </div>
+					              
+					                   <button type="button" class="btn btn-primary" id="btn1"
+					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=updateComment'">
+					                                             수정
+					                   </button>
+					                   <button type="button" class="btn btn-primary" id="btn2"
+					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}'">
+					                                             삭제
+					                   </button>
+					                 </div>
+					                </c:forEach>
+					              </c:otherwise>
+					           </c:choose>
+					       </div>
+					       
+					             <form action="comment" method="post">
+					             <input type="hidden" name="command" value="commentWrite">
+					             <input type="hidden" name="u_id" value="${u_id}"> <!-- 댓글 쓰는사람 아이디 갖고오는거  -->
+					             <input type="hidden" name="issueSeq" value="${vo.issueSeq}">
+					             <input type="text" name="content" placeholder="댓글을 입력하세요" style="width:1056px; margin-top:20px;">
+    							 <button type="submit" class="btn btn-primary" style="float:right; margin-top:15px; z-index:999;">
+							      <b>댓글작성</b>
+							  </button>	 
+							 </form>
 					       </div>
 					    </div>
 					  </div>
