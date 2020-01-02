@@ -485,7 +485,70 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		return -1; //데이터베이스 오류
 	}
 	
-	
+		public ArrayList<MessageVo> getBox(String u_id){
+			
+			ArrayList<MessageVo> chatList = null;
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String SQL=" SELECT * FROM message WHERE message_seq IN (SELECT MAX(message_seq) FROM message WHERE get_id = ? OR send_id = ? GROUP BY send_id, get_id) ";
+			try {
+				pstmt = con.prepareStatement(SQL);
+				pstmt.setString(1, u_id);
+				pstmt.setString(2, u_id);
+				rs = pstmt.executeQuery();
+				 
+				chatList = new ArrayList<MessageVo>();
+				while(rs.next()) {
+					MessageVo msg = new MessageVo();
+					msg.setMessageSeq(rs.getInt("message_seq"));
+					msg.setSend_id(rs.getString("send_id"));
+					msg.setGet_id(rs.getString("get_id"));
+					msg.setContent(rs.getString("content").replace(" ", "&nbsp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n","<br>"));
+					//오전 오후 나타내기 위한
+					int regdate= Integer.parseInt(rs.getString("regdate").substring(11,13));
+					String timeType = "오전";
+					if(regdate >= 12) {
+						timeType = "오후";
+						regdate -=12;
+					}
+					msg.setRegdate(rs.getString("regdate").substring(0,11) +" " + timeType + " " + regdate + ":"+rs.getString("regdate").substring(14,16)+"");
+					chatList.add(msg);
+					
+					for(int i = 0 ; i < chatList.size() ; i++) {
+					MessageVo x = chatList.get(i);
+					for(int j = 0 ; j < chatList.size() ; j++) {
+						MessageVo y = chatList.get(j);
+						if(x.getSend_id().equals(y.getGet_id()) && x.getGet_id().equals(y.getSend_id())) {
+							if(x.getMessageSeq()<y.getMessageSeq()) {
+								chatList.remove(x);
+								i--;
+								break;
+							} else {
+								chatList.remove(y);
+								j--;
+							}
+						}
+					}
+				}
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				close(rs);
+				close(pstmt);
+				close(con);
+			}
+					
+			return chatList; //리스트 반환
+		}
+		
+		
+		
+		
+		
+		
+		/* 하트 DAO */
 	
 
 }

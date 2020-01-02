@@ -76,6 +76,10 @@ CREATE TABLE beepro_user (
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
 
+SELECT * FROM BEEPRO_USER;
+delete from BEEPRO_USER where user_id = 'test3';
+UPDATE BEEPRO_USER SET email_ck = 'Y' WHERE name='예지';
+
 
 
 
@@ -87,7 +91,6 @@ CREATE TABLE message (
 	get_id	varchar2(100)	NOT NULL,
 	content	varchar2(4000)	NOT NULL,
 	regdate	DATE	NOT NULL
-	regdate	Date	NOT NULL,
 	read_ck number
 );
 

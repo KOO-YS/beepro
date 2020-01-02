@@ -12,10 +12,10 @@
 <meta charset="UTF-8">
 <title>chat</title>
 
+<script type="text/javascript" src ="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-
-<link href="css/bootstrap.css" rel="stylesheet">
-<link href="css/custom.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/css/bootstrap.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/css/custom.css" rel="stylesheet">
 
 <%
 	String u_id = null;
@@ -42,13 +42,13 @@
 %>
 	<script type="text/javascript">
 		alert("대화상대가 지정되어 있지 않습니다.");
-		history.back();
+		/* history.back(); */
 	</script>
 <%
 	}
 %>
 
-<script type="text/javascript" src ="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 <script type="text/javascript">
 function autoClosingAlert(selector,delay){
 	var alert = $(selector);
@@ -62,7 +62,7 @@ function sumbitFunction(){
 		var content = $('#chatContent').val();
 		$.ajax({
 			type : "POST",
-			url : "../chat?command=chatSubmit",
+			url : "${pageContext.request.contextPath}/chat?command=chatSubmit",
 			data : {
 				send_id : encodeURIComponent(send_id),
 				get_id : encodeURIComponent(get_id),
@@ -70,7 +70,6 @@ function sumbitFunction(){
 			}, 
 			success : function(result) {
 				if (result == 1) {
-
 					autoClosingAlert('#successMessage', 2000);
 					//alert("메시지 전송에 성공했습니다.");
 				} else if (result == 0) {
@@ -92,7 +91,7 @@ function sumbitFunction(){
 		
 		$.ajax({
 			type: "POST",
-			url: "../chat?command=chatList",
+			url: "${pageContext.request.contextPath}/chat?command=chatList",
 			data:{
 				send_id: encodeURIComponent(send_id),
 				get_id: encodeURIComponent(get_id),
@@ -122,7 +121,7 @@ function sumbitFunction(){
 			$('#chatList').append(
 					'<li class="mar-btm">' +
 					'<div class="media-right">'+
-						'<img src="images/icon.png"'+
+						'<img src="${pageContext.request.contextPath}/cowork/images/icon.png"'+
 							'class="img-circle img-sm" alt="Profile Picture">'+
 					'</div>'+
 					'<div class="media-body pad-hor speech-right">'+
@@ -143,7 +142,7 @@ function sumbitFunction(){
 			$('#chatList').append(
 					'<li class="mar-btm">'+
 					'<div class="media-left">'+
-						'<img src="images/icon.png"'+
+						'<img src="${pageContext.request.contextPath}/cowork/images/icon.png"'+
 							'class="img-circle img-sm" alt="Profile Picture">'+
 					'</div>'+
 					'<div class="media-body pad-hor">'+
@@ -162,6 +161,7 @@ function sumbitFunction(){
 			$('#scroll').scrollTop($('#scroll')[0].scrollHeight); //메세지가 올 때마다 스크롤 올려줌
 		}
 	}
+	
 	
 	function getInfiniteChat(){
 		setInterval(function(){
@@ -208,38 +208,7 @@ function sumbitFunction(){
 						<div id="scroll" class="nano-content pad-all" tabindex="0"
 							style="right: -17px;">
 							<ul id="chatList" class="list-unstyled media-block" >
-
-								<li class="mar-btm">
-									<div class="media-right">
-										<img src="https://bootdey.com/img/Content/avatar/avatar2.png"
-											class="img-circle img-sm" alt="Profile Picture">
-									</div>
-									<div class="media-body pad-hor speech-right">
-										<div class="speech">
-											<a href="#" class="media-heading">Lucy Doe</a>
-											<p>Nope, That\'s it.</p>
-											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i> 09:31	
-											</p>
-										</div>
-									</div>
-								</li>
-								
-								<li class="mar-btm">
-									<div class="media-left">
-										<img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-											class="img-circle img-sm" alt="Profile Picture">
-									</div>
-									<div class="media-body pad-hor">
-										<div class="speech">
-											<a href="#" class="media-heading">John Doe</a>
-											<p>Thank you for contacting us today</p>
-											<p class="speech-time">
-												<i class="fa fa-clock-o fa-fw"></i> 09:32
-											</p>
-										</div>
-									</div>
-								</li>
+									<!-- 채팅창부분 -->					
 								
 							</ul>
 							
@@ -288,7 +257,6 @@ function sumbitFunction(){
 		$(document).ready(function(){
 			chatListFunction('0');
 			getInfiniteChat();  /* 3초 간격으로 메세지를 가져올 수 있음 */
-			getInfiniteUnread();
 
 		});	
 	</script>

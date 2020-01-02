@@ -2,7 +2,9 @@ package com.semi.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import com.semi.dao.UserDaoImpl;
 import com.semi.service.UserService;
+import com.semi.vo.MessageVo;
 
 @WebServlet("/UserServlet")
 public class UserServlet extends HttpServlet {
@@ -76,6 +81,27 @@ public class UserServlet extends HttpServlet {
 		}else if(command.equals("chatUnread")) {
 			System.out.println("읽지 않은 메세지");
 			userService.chatUnread(request, response);
+		} else if (command.equals("chatBox")) {
+			System.out.println("대화 목록");
+			String u_id = request.getParameter("u_id");
+			UserDaoImpl chatDAO = new UserDaoImpl();
+			ArrayList<MessageVo> list = chatDAO.getBox(u_id);
+			request.setAttribute("list", list);
+			dispatch("/cowork/chatList.jsp", request, response);
+		}else if (command.equals("chatting")) {
+			System.out.println("채팅하기");
+			String get_id = request.getParameter("get_id");
+			request.setAttribute("get_id", get_id);
+			dispatch("/cowork/chat.jsp", request, response);
+		}else if(command.equals("sendHeart")) {
+			System.out.println("하트보내기");
+			
 		}
+	}
+	
+	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatch = request.getRequestDispatcher(url);
+		dispatch.forward(request, response);
 	}
 }
