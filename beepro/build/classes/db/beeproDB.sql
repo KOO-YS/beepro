@@ -195,9 +195,17 @@ CREATE TABLE issue (
 
 SELECT * FROM ISSUE;
 
-INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다', '나야나', '심각','15/12/30','버그', '이슈테스트입니다.');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '해인 프로젝트', '전해인', '높음','15/11/30','버그', '이슈테스트2입니다.');
 
-INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다2', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '지민', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '김봄 프로젝트 ', '김보미', '낮음','15/11/30','테스트케이스', '이슈테스트2');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '얀스 프로젝트 ', '구연수', '높음','15/11/30','요구사항', '이슈테스트2');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '예즤 프로젝트 ', '이예지', '보통','15/11/30','개선', '이슈테스트2');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '유나 프로젝트 ', '추유나', '보통','15/11/30','테스트케이스', '이슈테스트2');
 
 CREATE TABLE skill (
 	personal_seq	number	NOT NULL,

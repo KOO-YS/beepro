@@ -35,7 +35,7 @@ $(document).ready(function() {
 	$('.badge1:contains("버그")').css('background-color','#f85b94');
 	$('.badge1:contains("개선")').css('background-color','#3598fe');
 	$('.badge1:contains("요구사항")').css('background-color','#3bcde2');
-	$('.badge1:contains("테스트 케이스")').css('background-color','#0088a2');
+	$('.badge1:contains("테스트케이스")').css('background-color','#0088a2');
 	
 	$('.badge2:contains("심각")').css('background-color','#ed5565');
 	$('.badge2:contains("높음")').css('background-color','#f8ac59');
@@ -211,7 +211,16 @@ $(document).ready(function() {
                 border-radius:5px;
                 border:1px solid rgb(75,97,207);
               }            
-          
+ 
+.show-ticket { right: 10px;
+               top: 10px;
+                position: absolute;
+                text-decoration: none;
+                white-space: nowrap;
+                cursor: pointer !important;
+                display: inline-block;
+                margin-right: 20px !important;
+             }         
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -240,6 +249,15 @@ $(document).ready(function() {
 					        </div>
 					          ${vo.title }
 					      </h4>
+					      
+					      <div class="show-ticket">
+   					         <a href="${pageContext.request.contextPath}/issue?command=issueUpdate&issue_seq=${vo.issueSeq}">
+					           <img src="<%=request.getContextPath()%>/cowork/images/modify.png" width="30" height="30" style="margin-right:15px;"/>
+					         </a>
+					         <a href="${pageContext.request.contextPath}/issue?command=issueDelete&issue_seq=${vo.issueSeq}">
+					           <img src="<%=request.getContextPath()%>/cowork/images/close.png" width="45" height="45" />
+					         </a>
+					      </div>
 					    </div>
 					    
 					    <div class="issue_div">
@@ -277,7 +295,7 @@ $(document).ready(function() {
 					              </label>
 					              <div>
 					                <span class="badge2">
-					                   ${vo.level }
+					                   ${vo.level}
 					                </span>
 					              </div>
 					             </div>

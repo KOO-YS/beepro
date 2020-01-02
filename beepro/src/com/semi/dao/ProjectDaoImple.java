@@ -128,7 +128,25 @@ public class ProjectDaoImple implements ProjectDao {
 	// 이슈 삭제
 	@Override
 	public boolean deleteIssue(int issue_seq) {
-		return false;
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+
+		try {
+			pstmt = con.prepareStatement(deleteIssueSql);
+			pstmt.setInt(1, issue_seq);
+
+			res = pstmt.executeUpdate();
+
+			if (res > 0) {
+				commit(con);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+		return true;
 	}
 
 	// 업무 생성
@@ -376,12 +394,12 @@ public class ProjectDaoImple implements ProjectDao {
 		try {
 			pstmt = con.prepareStatement(selectAllCommentSql);
 			pstmt.setInt(1, seq);
-			
+
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				CommentVo vo = new CommentVo();
-				
+
 				vo.setCommentSeq(rs.getInt(1));
 				vo.setIssueSeq(rs.getInt(2));
 				vo.setWriter(rs.getString(3));
@@ -447,5 +465,5 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return true;
 	}
- 
+
 }

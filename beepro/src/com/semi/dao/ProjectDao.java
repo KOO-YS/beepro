@@ -41,7 +41,7 @@ public interface ProjectDao {
     
     public boolean updateIssue(IssueVo vo);
     
-    public boolean deleteIssue(int issue_seq);
+    public boolean deleteIssue(int issueSeq);
     
     public int insertTodo(TodoVo todo);
 

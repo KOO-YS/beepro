@@ -48,13 +48,19 @@ public class ProjectService {
 	}
 
 	// 이슈 삭제 서비스
-	public void issueDelete(HttpServletRequest request, HttpServletResponse response) {
-
+	public boolean issueDelete(HttpServletRequest request, HttpServletResponse response) {
+        int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+        return projectDao.deleteIssue(issueSeq);
 	}
 
 	// 이슈 전체 조회 서비스
 	public List<IssueVo> issueAll(HttpServletRequest request, HttpServletResponse response) {
           return projectDao.selectAllIssue();
+	}
+	
+	// 이슈 수정
+	public boolean issueUpdate(HttpServletRequest request, HttpServletResponse response) {
+		return false;
 	}
 
 	// 선택한 하나의 이슈 정보를 자세히
@@ -177,5 +183,4 @@ public class ProjectService {
 		
 		projectDao.updateComment(commentSeq, issueSeq, content);
 	}
-
 }
