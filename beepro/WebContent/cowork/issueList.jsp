@@ -10,34 +10,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<link
-	href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css"
-	rel="stylesheet" type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-<link
-	href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/css/issueWriteTable.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css" rel="stylesheet">
 <!-- Bootstrap core JavaScript-->
-<script
-	src="${pageContext.request.contextPath}/cowork/vendor/jquery/jquery.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/cowork/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
-<script
-	src="${pageContext.request.contextPath}/cowork/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/vendor/jquery-easing/jquery.easing.min.js"></script>
 <!-- Custom scripts for all pages-->
-<script
-	src="${pageContext.request.contextPath}/cowork/js/sb-admin-2.min.js"></script>
+<script src="${pageContext.request.contextPath}/cowork/js/sb-admin-2.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- datepicker -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.label_box:contains("버그")').css('background-color', '#f85b94');
@@ -64,37 +54,29 @@
 		}
 	});
 
-	$(document).ready(function() {
+/* 	$(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip();
-	});
+	}); */
 
 	// input 검색 기능
-	$(document)
-			.ready(
-					function() {
-						$("#keyword")
-								.keyup(
-										function() {
-											var k = $(this).val();
-											$("#issue-table > tbody > tr")
-													.hide();
-											var temp = $("#issue-table > tbody > tr > td:contains('"
-													+ k + "')");
+	$(document).ready(function() {
+            $("#keyword").keyup(function() {
+                var k = $(this).val();
+                $("#issue-table > tbody > tr").hide();
+                var temp = $("#issue-table > tbody > tr > td:nth-child(7n+2):contains('" + k + "')");
 
-											$(temp).parent().show();
-										});
-					});
+                $(temp).parent().show();
+            });
+        });
 
 	// 중요도 검색기능
 	function displaySelect1() {
 		var langSelect = document.getElementById("select1");
+		
 		var selectValue = langSelect.options[langSelect.selectedIndex].value;
-		var langSelect2 = document.getElementById("select2");
-		var selectValue2 = langSelect2.options[langSelect2.selectedIndex].value;
 
 		$("#issue-table > tbody > tr").hide();
-		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue
-				+ "')");
+		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue+ "')");
 
 		$(temp).parent().show();
 
@@ -414,8 +396,7 @@ table.table .avatar {
 							</div>
 						</div>
 						<div class="filter-group col-sm-4">
-							<input id="keyword" type="text" class="form-control" size="50"
-								style="border: 0;" placeholder="검색하실 항목을 입력하세요">
+							<input id="keyword" type="text" class="form-control" size="50" style="border:0;" placeholder="검색하실 항목을 입력하세요">
 						</div>
 
 						<div class="table-wrapper">
