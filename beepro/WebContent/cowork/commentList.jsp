@@ -7,7 +7,6 @@
 	response.setContentType("text/html; charset=UTF-8");
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,17 +30,20 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-	$('.badge1:contains("버그")').css('background-color','#f85b94');
-	$('.badge1:contains("개선")').css('background-color','#3598fe');
-	$('.badge1:contains("요구사항")').css('background-color','#3bcde2');
-	$('.badge1:contains("테스트 케이스")').css('background-color','#0088a2');
-	
-	$('.badge2:contains("심각")').css('background-color','#ed5565');
-	$('.badge2:contains("높음")').css('background-color','#f8ac59');
-	$('.badge2:contains("보통")').css('background-color','#1c84c6');
-	$('.badge2:contains("낮음")').css('background-color','#23c6c8');
-});
+  $(document).ready(function(){
+	  
+	  $(".badge1").text("버그").css("background-color","#ed5565");
+	  $(".badge1").text("개선").css("background-color","#ed5565");
+	  $(".badge1").text("요구사항").css("background-color","#ed5565");
+	  $(".badge1").text("테스트 케이스").css("background-color","#ed5565");
+	  
+	  $(".badge2").text("심각").css("background-color","#ed5565");
+	  $(".badge2").text("높음").css("background-color","#f8a274");
+	  $(".badge2").text("보통").css("background-color","#1983c6");
+	  $(".badge2").text("낮음").css("background-color","#23cad8");
+  });
+  
+
 </script>
 <style type="text/css">
 .support {
@@ -131,6 +133,7 @@ $(document).ready(function() {
     vertical-align: baseline;
     color:white;
     font-weight:bold;
+    margin-left:120px;
     border-radius: 4px;}
     
 .badge2 { display: inline-block;
@@ -143,6 +146,7 @@ $(document).ready(function() {
     background-color:skyblue;
     color:white;
     font-weight:bold;
+    margin-left:120px;
     border-radius: 4px;}
     
 .badge3 { display: inline-block;
@@ -153,6 +157,7 @@ $(document).ready(function() {
     white-space: nowrap;
     vertical-align: baseline;
     font-weight:bold;
+    margin-left:120px;
     border-radius: 4px;}
     
 .issue-label2 { font-size: 12px;
@@ -170,7 +175,7 @@ $(document).ready(function() {
        padding: 15px;
        margin-top: 20px !important;}
 
-#comment-label-wrap { margin-top:35px;
+#comment-label-wrap { margin-top:120px;
                     border-top:1px solid #ddd;
                     border-bottom:1px solid #ddd;
                     height:50px;
@@ -191,7 +196,7 @@ $(document).ready(function() {
         line-height:60px;
         text-align:center;
         padding:30px;
-      } 
+      }  
       
 #writer{ color:black;
          font-size:16px;
@@ -210,12 +215,26 @@ $(document).ready(function() {
                 margin-top:20px;
                 border-radius:5px;
                 border:1px solid rgb(75,97,207);
-              }            
-          
+              }
+
+#buttons { float:right; 
+           margin-top:-80px;
+           font-size:12px;
+          }
+
+#buttons > input { background:none;
+                   border:0;
+                   outline:0;}
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
 <body>
+<%
+   String u_id = null;
+   if (session.getAttribute("u_id") != null) {
+      u_id = (String)session.getAttribute("u_id");
+   } 
+%>
 	<div id="wrapper">
 		<!-- 상단 메뉴 바 -->
 		<jsp:include page="common/side_bar.jsp"></jsp:include>
@@ -250,7 +269,7 @@ $(document).ready(function() {
 					                 <span>작성자</span>
 					               </label>
 					               <div class="subheader2">
-					                ${u_name}&nbsp;&nbsp;${u_email} 
+					                 보미보미 bmi6638
 					               </div>
 					            </div>
 					         </div>
@@ -301,56 +320,9 @@ $(document).ready(function() {
 					            ${vo.content }
 					         </div>
 					        
-					        <div> 
-							  <div id="comment-label-wrap">
-					           <div id="comment-label">
-					                           댓글
-					           </div>
-					         </div>
-					         
-					           <c:choose>
-					              <c:when test="${empty list}">
-					                 <div id="none">작성된 댓글이 없습니다</div>
-					              </c:when>
-					       
-					              <c:otherwise>
-					                <c:forEach var="list" items="${list}">
-					                <div id="content_wrap">
-					                  <div id="writer">
-					                    ${list.writer}
-					                  </div>
-					                   
-					                   <div id="regdate">
-					                   <fmt:formatDate value="${list.regdate}" pattern="yyyy/mm/dd HH:mm:ss" />
-					                   </div>
-					                   
-					                   <div id="content">
-					                   ${list.content}
-					                   </div>
-					              
-					                   <button type="button" class="btn btn-primary" id="btn1"
-					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=updateComment'">
-					                                             수정
-					                   </button>
-					                   <button type="button" class="btn btn-primary" id="btn2"
-					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}'">
-					                                             삭제
-					                   </button>
-					                 </div>
-					                </c:forEach>
-					              </c:otherwise>
-					           </c:choose>
-					       </div>
-					       
-					             <form action="comment" method="post">
-					             <input type="hidden" name="command" value="commentWrite">
-					             <input type="hidden" name="u_id" value="${u_id}"> <!-- 댓글 쓰는사람 아이디 갖고오는거  -->
-					             <input type="hidden" name="issueSeq" value="${vo.issueSeq}">
-					             <input type="text" name="content" placeholder="댓글을 입력하세요" style="width:1056px; margin-top:20px;">
-    							 <button type="submit" class="btn btn-primary" style="float:right; margin-top:15px; z-index:999;">
-							      <b>댓글작성</b>
-							  </button>	 
-							 </form>
+							  
+	
+					        </div>       
 					       </div>
 					    </div>
 					  </div>

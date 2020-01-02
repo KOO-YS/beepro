@@ -14,6 +14,17 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	
+  <!-- 댓글 매핑 -->
+   <servlet>
+   <servlet-name>comment</servlet-name>
+   <servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>comment</servlet-name>
+     <url-pattern>/comment</url-pattern>
+  </servlet-mapping>
+	
   <!-- 페이징 매핑 -->
    <servlet>
      <servlet-name>page</servlet-name>
@@ -76,14 +87,17 @@
 		<url-pattern>/personalMatching</url-pattern>
 	</servlet-mapping>
 	
-	<!-- 비밀번호 찾기 맵핑 -->
+	<!-- 유저 맵핑 -->
 	<servlet>
-		<servlet-name>findPwd</servlet-name>
+		<servlet-name>user</servlet-name>
 		<servlet-class>com.semi.controller.UserServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>findPwd</servlet-name>
-		<url-pattern>/findPwd</url-pattern>
+		<servlet-name>user</servlet-name>
+		<url-pattern>/user</url-pattern>
 	</servlet-mapping>
+	
+
+	
 
 </web-app>

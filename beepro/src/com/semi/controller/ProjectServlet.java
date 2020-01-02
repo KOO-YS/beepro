@@ -17,6 +17,7 @@ import org.json.simple.JSONObject;
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
 import com.semi.service.ProjectService;
+import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
@@ -52,12 +53,11 @@ public class ProjectServlet extends HttpServlet {
 
 	private void dual(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
-		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다
-		 * 			   : 구분값 설정 필요 (hidden값(예: command) or url/(추가 url로 구분 문자열 예: userservlet/login의 login)) 
-		 *			   : 구분값을 통해 service 로 값 전달
-		 *  방식 예시
-		 *	https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
-		 *  */
+		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다 : 구분값 설정 필요 (hidden값(예: command)
+		 * or url/(추가 url로 구분 문자열 예: userservlet/login의 login)) : 구분값을 통해 service 로 값 전달
+		 * 방식 예시
+		 * https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
+		 */
 
 		String command = request.getParameter("command");
 		System.out.println("[ " + command + " ]");
@@ -71,6 +71,10 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("issueform")) {
 			System.out.println("이슈 생성");
+			HttpSession session = request.getSession();
+			String u_id = (String)session.getAttribute("u_id");
+			System.out.println(u_id);
+			
 			boolean success = projectService.issueWrite(request, response);
 
 			if (success) {
@@ -96,13 +100,22 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("issueDetail")) {
 			System.out.println("이슈 상세 정보");
 			int seq = Integer.parseInt(request.getParameter("issue_seq"));
-			
+			// 이슈 디테일
 			IssueVo vo = dao.selectOneIssue(seq);
+			// 댓글리스트
+			List<CommentVo> list = dao.selectAllComment(seq);
 			request.setAttribute("vo", vo);
-			
+			request.setAttribute("list", list);			
 			dispatch("cowork/issueDetail.jsp", request, response);
-
-		} else if (command.equals("todo-list")) {	// 1
+		
+//		} else if (command.equals("commentList")) {
+//			System.out.println("댓글 리스트");
+//			List<CommentVo> list = dao.selectAllComment();
+//
+//			request.setAttribute("list", list);
+//			dispatch("cowork/issueDetail.jsp", request, response);
+//
+		} else if (command.equals("todo-list")) { // 1
 			System.out.println("업무 리스트 출력");
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
 			HttpSession session = request.getSession();
@@ -112,7 +125,7 @@ public class ProjectServlet extends HttpServlet {
 			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
 
-		} else if (command.equals("todoForm")) {	// 2
+		} else if (command.equals("todoForm")) { // 2
 			System.out.println("새 업무 생성");
 			int success = projectService.insertTodo(request, response);
 			if (success > 0) {
@@ -122,7 +135,7 @@ public class ProjectServlet extends HttpServlet {
 				System.out.println("생성 오류 발생");
 			}
 
-		} else if (command.equals("todo-detail")) {	// 3
+		} else if (command.equals("todo-detail")) { // 3
 			System.out.println("상세 보기 페이지");
 			TodoVo detail = projectService.selectOneTodo(request, response);
 			if (detail != null) {
@@ -130,38 +143,38 @@ public class ProjectServlet extends HttpServlet {
 				request.setAttribute("detail", detail);
 				dispatch("/cowork/todoDetail.jsp", request, response);
 			}
-			
-		} else if(command.equals("updateTodo")) {	// 4
+
+		} else if (command.equals("updateTodo")) { // 4
 			System.out.println("업무 내용 수정");
 			int success = projectService.updateTodo(request, response);
 			String msg = "";
-			if(success>0) {
-				msg =  "성공적으로 수정되었습니다";
+			if (success > 0) {
+				msg = "성공적으로 수정되었습니다";
 			} else {
 				msg = "수정을 실패했습니다";
 			}
 			JSONObject obj = new JSONObject();
-			obj.put("result",msg);
+			obj.put("result", msg);
 			response.getWriter().print(obj);
-			
-		} else if(command.equals("updateTodoStatus")) {	// 5
+
+		} else if (command.equals("updateTodoStatus")) { // 5
 			System.out.println("진행도 변경");
 			projectService.updateTodoStatus(request, response);
-		
-		} else if(command.equals("deleteTodo")) {		// 6
+
+		} else if (command.equals("deleteTodo")) { // 6
 			System.out.println("업무 삭제");
 			int success = projectService.deleteTodo(request, response);
 			String msg = "";
-			if(success>0) {
-				msg =  "업무가 성공적으로 삭제되었습니다";
+			if (success > 0) {
+				msg = "업무가 성공적으로 삭제되었습니다";
 			} else {
 				msg = "업무 삭제 실패했습니다";
 			}
 			JSONObject obj = new JSONObject();
-			obj.put("result",msg);
+			obj.put("result", msg);
 			response.getWriter().print(obj);
-		
-		} else if(command.equals("updateTodoPriority")) {	// 7
+
+		} else if (command.equals("updateTodoPriority")) { // 7
 			System.out.println("중요도 변경");
 			projectService.updateTodoPriority(request, response);
 		
@@ -193,6 +206,45 @@ public class ProjectServlet extends HttpServlet {
 			request.setAttribute("todoType", todoType);
 			
 			dispatch("/cowork/dashboard.jsp",request,response);
+
+		} else if (command.equals("selectChart")) {
+			projectService.countCategory();
+
+		} else if (command.equals("commentWrite")) {
+			System.out.println("댓글 생성");
+			HttpSession session = request.getSession();
+			String u_id = (String)session.getAttribute("u_id");
+			
+			boolean success = projectService.commentWrite(request, response);
+			
+			int num = Integer.parseInt(request.getParameter("issueSeq"));
+			
+			if (success) {
+				System.out.println("댓글 생성 성공");
+				response.sendRedirect("issue?command=issueDetail&issue_seq="+num);
+//				dispatch("issue?command=issueDetail&issue_seq="+num, request, response);
+			} else {
+				System.out.println("댓글 생성 실패");
+			}
+
+		} else if (command.equals("deleteComment")) {
+			System.out.println("댓글 삭제");
+			projectService = new ProjectService();
+			
+			boolean success = projectService.commentDelete(request, response);
+			
+			int num = Integer.parseInt(request.getParameter("issueSeq"));
+			System.out.println("이슈시퀀스:"+num);
+			
+			if (success) {
+				System.out.println("댓글 삭제 성공");
+				response.sendRedirect("issue?command=issueDetail&issue_seq="+num);
+			} else {
+				System.out.println("댓글 삭제 실패");
+			}
+
+		} else if (command.equals("updateComment")) {
+			System.out.println("댓글 수정");
 		}
 	}
 }

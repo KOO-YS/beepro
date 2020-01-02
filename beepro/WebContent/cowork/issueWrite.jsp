@@ -24,7 +24,6 @@
 <!-- datepicker -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
    $(document).ready(function() {
@@ -44,7 +43,7 @@ $(document).ready(function(){
         $("#p_name").attr("disabled",false).attr("readonly",false);    	
     });
 });
-</script>   
+</script>
 <title>beepro - 이슈 생성하기</title>
 <style>
 .rate {
@@ -85,6 +84,12 @@ $(document).ready(function(){
 </style>
 </head>
 <body>
+<%
+	String u_id = null;
+	if (session.getAttribute("u_id") != null) {
+		u_id = (String)session.getAttribute("u_id");
+	}
+%>
    <div id="wrapper">
       <!-- 상단 메뉴 바 -->
       <div id="headers"></div>
@@ -156,7 +161,6 @@ $(document).ready(function(){
                 </select>
              </div>
            </div>
-                     
                      <div class="form-group col-lg-12" style=" margin-top:12px; ">
                         <label for="content" style="margin-left:-265px;">중요도<span style="color:red;"> *</span></label>
                          <label class="form-radio-label" style="float:left; margin-right:15px; margin-left:-15px;">
@@ -191,9 +195,5 @@ $(document).ready(function(){
          <jsp:include page="common/footer.html"></jsp:include> 
       </div>
    </div>
-<script type="text/javascript">
-
-</script>
-
 </body>
 </html>

@@ -456,7 +456,7 @@ table.table .avatar {
 										<%-- <td>${todo.content }</td> --%>
 										<td>
 											<div class="btn-group" style="width: 80%;">
-											  <button type="button" id="statusBtn${todo.todoSeq}" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											  <button type="button" id="statusbtn${todo.todoSeq}" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												${todo.status }
 											  </button>
 											  <div class="dropdown-menu">
@@ -550,7 +550,7 @@ $("input[name^=priority]").click(function(){
 /* 진행 상황 변경 */
 function updateTodoStatus(txt, todoSeq){
 	var status = $(txt).text();		// a태그에서 진행 상황 텍스트 추출
-	$("#statusBtn"+todoSeq).text(status);	// 버튼 텍스트 변경
+	$("#statusbtn"+todoSeq).text(status);	// 버튼 텍스트 변경
 	var projectSeq = $("#projectSeq").val();
 	
 	$.ajax({

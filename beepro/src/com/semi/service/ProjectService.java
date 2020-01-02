@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
+import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
@@ -18,16 +20,22 @@ public class ProjectService {
 	// 이슈 생성 서비스
 	public boolean issueWrite(HttpServletRequest request, HttpServletResponse response) {
 		ProjectDaoImple dao = new ProjectDaoImple();
+		HttpSession session = request.getSession();
+		
+		
 
 		String title = request.getParameter("title");
-		String writer = request.getParameter("writer");
+		String u_id = (String)session.getAttribute("u_id");
 		String issue_level = request.getParameter("issue_level");
 		String issue_category = request.getParameter("issue_category");
 		String content = request.getParameter("content");
 
+		
+		System.out.println("u_id 서비스에 들어왔음 : "+u_id);
+		
 		IssueVo vo = new IssueVo();
 		vo.setTitle(title);
-		vo.setWriter(writer);
+		vo.setWriter(u_id);
 		vo.setLevel(issue_level);
 		vo.setCategory(issue_category);
 		vo.setContent(content);
@@ -52,9 +60,10 @@ public class ProjectService {
 
 	// 선택한 하나의 이슈 정보를 자세히
 	public IssueVo issueDetail(HttpServletRequest request, HttpServletResponse response) {
-		int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+		int issueSeq = Integer.parseInt(request.getParameter("seq"));
 		System.out.println("선택한 이슈 번호 : " + issueSeq);
 		return projectDao.selectOneIssue(issueSeq);
+		
 	}
 
 	// 업무 생성 서비스
@@ -130,11 +139,6 @@ public class ProjectService {
 		
 		projectDao.updateTodoPriority(todoSeq, projectSeq, priority);
 	}
-	
-	// 업무 개수 비교 	- 폐기
-	public HashMap<String, Integer> countCategory() {
-		return projectDao.countCategory();
-	}
 	// 대시보드 통계 데이터 출력
 	public HashMap<String, Integer> getCounts(String userId, int projectSeq) {
 		
@@ -170,5 +174,41 @@ public class ProjectService {
 		List<TodoVo> urgentTodo = projectDao.getUrsentTodo(userId, projectSeq);
 		return urgentTodo;
 	}
+
+	// 댓글 작성
+	public boolean commentWrite(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("시퀀스 받아오기 전");
+		int issueSeq = Integer.parseInt(request.getParameter("issueSeq"));
+		System.out.println("시퀀스 : "+issueSeq);
+		
+		HttpSession session = request.getSession();
+		String writer = (String)session.getAttribute("u_id");
+		System.out.println("아이디 : " + writer);
+		String content = request.getParameter("content");
+		System.out.println("내용 : " +content);
+		
+		CommentVo vo = new CommentVo();
+		
+		vo.setIssueSeq(issueSeq);
+		vo.setWriter(writer);
+		vo.setContent(content);
+
+		return projectDao.insertComment(vo);
 	
+	}
+
+	// 댓글 삭제
+	public boolean commentDelete(HttpServletRequest request, HttpServletResponse response) {
+		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
+		return projectDao.deleteComment(commentSeq);
+	}
+    
+	// 댓글 수정
+	public void updateComment(HttpServletRequest request, HttpServletResponse response) {
+		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
+		int issueSeq = Integer.parseInt(request.getParameter("issueSeq"));
+		String content = request.getParameter("content");
+		
+		projectDao.updateComment(commentSeq, issueSeq, content);
+	}
 }

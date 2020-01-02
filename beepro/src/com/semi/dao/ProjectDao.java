@@ -3,6 +3,7 @@ package com.semi.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
@@ -48,6 +49,12 @@ public interface ProjectDao {
     String getWeekIssueSql = "SELECT * FROM ISSUE WHERE PROJECT_SEQ=? AND REGDATE  BETWEEN TO_CHAR(SYSDATE-7,'YY/MM/DD') AND TO_CHAR(SYSDATE+1,'YY/MM/DD') AND ROWNUM < 4";
     
     String getUrgentTodoSql = "SELECT * FROM TODO WHERE MANAGER=? AND PROJECT_SEQ=? AND ENDDATE BETWEEN TO_CHAR(SYSDATE,'YY/MM/DD') AND TO_CHAR(SYSDATE+7,'YY/MM/DD') AND ROWNUM<5";
+
+    // 댓글 부분
+    String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL,?,?,?,SYSDATE)";
+    String selectAllCommentSql = "SELECT * FROM COMMENTS WHERE ISSUE_SEQ=?";
+    String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
+    String updateCommentSql = "UPDATE COMMENTS SET CONTENT=? WHERE COMMENTS_SEQ=? AND ISSUE_SEQ=?";
     
     public List<IssueVo> selectAllIssue();
     
@@ -87,6 +94,14 @@ public interface ProjectDao {
 
 	public List<TodoVo> getUrsentTodo(String userId, int projectSeq);
 
+
+	public boolean insertComment(CommentVo vo);
+
+	public List<CommentVo> selectAllComment(int seq);
+	
+	public boolean deleteComment(int comments_seq);
+
+	public void updateComment(int commentSeq, int issueSeq, String content);
 
 }
 
