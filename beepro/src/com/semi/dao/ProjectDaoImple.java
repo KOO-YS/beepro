@@ -4,11 +4,13 @@ import static common.JDBCTemplet.close;
 import static common.JDBCTemplet.commit;
 import static common.JDBCTemplet.getConnection;
 
+import java.beans.Transient;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -177,15 +179,15 @@ public class ProjectDaoImple implements ProjectDao {
 
 	// 업무 리스트 출력
 	@Override
-	public List<TodoVo> selectAllTodo(int project_seq, String manager) {
+	public List<TodoVo> selectAllTodo(int project_seq, String userId) {
 		Connection con = getConnection();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		List<TodoVo> res = new ArrayList<TodoVo>();
 
 		try {
-			pstm = con.prepareStatement(selectAllTodoSql);
-			pstm.setString(1, manager);
+			pstm = con.prepareStatement(getAllTodoSql);
+			pstm.setString(1, userId);
 			pstm.setInt(2, project_seq);
 
 			rs = pstm.executeQuery();
@@ -222,6 +224,7 @@ public class ProjectDaoImple implements ProjectDao {
 	}
 
 	// 업무 상세 페이지 정보 출력
+	// FIXME projectSeq 설정 필요
 	@Override
 	public TodoVo selectOneTodo(int todoSeq) {
 		Connection con = getConnection();
@@ -229,7 +232,7 @@ public class ProjectDaoImple implements ProjectDao {
 		ResultSet rs = null;
 		TodoVo res = new TodoVo();
 		try {
-			pstm = con.prepareStatement(selectOneTodoSql);
+			pstm = con.prepareStatement(getOneTodoSql);
 			pstm.setInt(1, todoSeq);
 
 			rs = pstm.executeQuery();
@@ -303,14 +306,15 @@ public class ProjectDaoImple implements ProjectDao {
 
 	// 업무 상태 변경
 	@Override
-	public void updateTodoStatus(int todoSeq, int projectSeq, String status) {
+	public void updateTodoStatus(int todoSeq, int projectSeq, String status, char finishCk) {
 		Connection con = getConnection();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(updateTodoStatusSql);
 			pstm.setString(1, status);
-			pstm.setInt(2, todoSeq);
-			pstm.setInt(3, projectSeq);
+			pstm.setString(2, String.valueOf(finishCk));
+			pstm.setInt(3, todoSeq);
+			pstm.setInt(4, projectSeq);
 
 			pstm.executeUpdate();
 		} catch (SQLException e) {
@@ -353,10 +357,159 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 	}
 
+	// 업무 개수 분류		// TODO 폐기
 	@Override
-	public void countCategory() {
-		// TODO Auto-generated method stub
-
+	public HashMap<String, Integer> countCategory() {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		HashMap<String, Integer> categoryMap = new HashMap<String, Integer>();
+		try {
+			pstm = con.prepareStatement(getByTodoTypeSql);
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				categoryMap.put(rs.getString(1), rs.getInt(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return categoryMap;
+	}
+	
+	// 대시보드 통계 - Todo 종합
+	@Override
+	public HashMap<String, Integer> getTodoInfo(String userId, int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		HashMap<String, Integer> todoInfo = new HashMap<String, Integer>();
+		try {
+			pstm = con.prepareStatement(getTodoInfoSql);
+			pstm.setString(1, userId);
+			pstm.setInt(2, projectSeq);
+			
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				todoInfo.put("totalTodoCnt", rs.getInt(1));			// 전체 업무 수
+				todoInfo.put("totalTodoRate", rs.getInt(2));		// 전체 업무 진행률
+				todoInfo.put("userTodoLeft", rs.getInt(3));			// 개인 잔여 업무 수
+//				todoInfo.put("userTodoRate", rs.getInt(3));			// 개인 업무 진행률
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return todoInfo;
+	}
+	
+	// 대시보드 통계 - Issue 종합
+	@Override
+	public HashMap<String, Integer> getIssueInfo(String userId, int projectSeq) {
+		// FIXME 유저에게 할당된 이슈 수 추가
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		HashMap<String, Integer> issueInfo = new HashMap<String, Integer>();
+		
+		try {
+			pstm = con.prepareStatement(getIssueInfoSql);
+			pstm.setString(1, userId);
+			pstm.setInt(2, projectSeq);
+			
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				issueInfo.put("totalIssueCnt", rs.getInt(1));		// 전체 이슈 수
+				issueInfo.put("weekIssueCnt", rs.getInt(2));		// 일주일 생성 이슈 수
+				issueInfo.put("userIssueCnt", rs.getInt(3));		// 개인 등록 이슈 수
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return issueInfo;
+	}
+	
+	// 이번주 발생 Issue 최대 3개 출력 
+	@Override
+	public List<IssueVo> getWeekIssue(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<IssueVo> weekIssue = new ArrayList<IssueVo>();
+		try {
+			pstm = con.prepareStatement(getWeekIssueSql);
+			pstm.setInt(1, projectSeq);
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				IssueVo issue = new IssueVo();
+	
+				issue.setIssueSeq(rs.getInt(1));
+				issue.setProjectSeq(rs.getInt(2));
+				issue.setTitle(rs.getString(3));
+				issue.setWriter(rs.getString(4));
+				issue.setLevel(rs.getString(5));
+				issue.setRegdate(rs.getDate(6));
+				issue.setCategory(rs.getString(7));
+				issue.setContent(rs.getString(8));
+				
+				weekIssue.add(issue);
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return weekIssue;
+	}
+	
+	// 마감기한 일주일 남은 todo 리스트 최대 3개 출력
+	@Override
+	public List<TodoVo> getUrsentTodo(String userId, int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<TodoVo> urgentTodo = new ArrayList<TodoVo>();
+		TodoVo todo = null;
+		try {
+			pstm = con.prepareStatement(getUrgentTodoSql);
+			pstm.setString(1, userId);
+			pstm.setInt(2, projectSeq);
+			
+			rs = pstm.executeQuery();
+			while (rs.next()) {
+				todo = new TodoVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
+										rs.getDate(6), rs.getDate(7), rs.getString(8), rs.getString(9), rs.getInt(10),
+										rs.getString(11));
+				System.out.println(todo.toString());
+				urgentTodo.add(todo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return urgentTodo;
+	}
+	
+	// todo 분류별 통계
+	@Override
+	public HashMap<String, Integer> getTodoType(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		HashMap<String, Integer> todoType = new HashMap<String, Integer>();
+		try {
+			pstm = con.prepareStatement(getByTodoTypeSql);
+			pstm.setInt(1, projectSeq);
+			
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				System.out.println("1 & 2 :"+rs.getString(1)+rs.getInt(2));
+				todoType.put(rs.getString(1)+"Rate", rs.getInt(2));
+				System.out.println("1 & 3 :"+rs.getString(1)+rs.getInt(3));
+				todoType.put(rs.getString(1)+"Cnt", rs.getInt(3));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return todoType;
 	}
 
 	// 댓글 입력

@@ -59,16 +59,13 @@
 
   <title>협업페이지</title>
 
-  <!-- Custom fonts for this template-->
-  <link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-<link href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css" rel="stylesheet">
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 
 <body id="page-top">
+	<c:redirect url="/project?command=dashboard">
+		<%-- <c:param name="NUM1" value="5"/> --%>
+		<!-- index와 업무 진행상황 페이지에 차이점이 필요할때 사용 -->
+	</c:redirect>
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -214,5 +211,6 @@
 %>
 	
 
+>>>>>>> 91e888b1d25643543387fc04b17d6f5dd8975022
 </body>
 </html>

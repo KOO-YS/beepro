@@ -1,6 +1,7 @@
 package com.semi.service;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -122,8 +123,11 @@ public class ProjectService {
 		int todoSeq = Integer.parseInt(request.getParameter("todoSeq"));
 		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 		String status = request.getParameter("status");
-		
-		projectDao.updateTodoStatus(todoSeq, projectSeq, status);
+		char finishCk = 'N';
+		if(status.equals("완료")) {	// 완료 상태로 변경했을 경우
+			finishCk = 'Y';
+		}
+		projectDao.updateTodoStatus(todoSeq, projectSeq, status, finishCk);
 	}
 	
 	// 업무 삭제
@@ -141,10 +145,40 @@ public class ProjectService {
 		
 		projectDao.updateTodoPriority(todoSeq, projectSeq, priority);
 	}
-
-
-	public void countCategory() {
-		projectDao.countCategory();
+	// 대시보드 통계 데이터 출력
+	public HashMap<String, Integer> getCounts(String userId, int projectSeq) {
+		
+		// TODO 1개씩 출력 - 전체업무진행률(finishCk Y/N)*, 업무별진행률*, 이슈Count*, 업무count*, N업무
+		HashMap<String, Integer> totalInfo = new HashMap<String, Integer>();
+		
+		HashMap<String, Integer> todoInfo = projectDao.getTodoInfo(userId, projectSeq);		// -> 업무
+		HashMap<String, Integer> issueInfo = projectDao.getIssueInfo(userId, projectSeq);	// ->이슈
+		// TODO 분야별 업무개수, 진행률
+		
+		// total로 hashMap 병합
+		totalInfo.putAll(todoInfo);
+		totalInfo.putAll(issueInfo);
+		
+		return totalInfo;
+	}
+	
+	// 이번주에 생성된 이슈 리스트 
+	public List<IssueVo> getWeekIssue(int projectSeq) {
+		// TODO 이번주 발생 이슈 리스트 출력 (최대 3개?)
+		List<IssueVo> issues = projectDao.getWeekIssue(projectSeq);
+		return issues;
+	}
+	// 업무 분류별 통계 데이터 출력
+	public HashMap<String, Integer> getTodoType(int projectSeq) {
+		HashMap<String, Integer> todoType = projectDao.getTodoType(projectSeq);
+		return todoType;
+	}
+	
+	// 마감일자 1주 이내 업무 알람
+	public List<TodoVo> getUrgentTodo(String userId, int projectSeq) {
+		// TODO Auto-generated method stub
+		List<TodoVo> urgentTodo = projectDao.getUrsentTodo(userId, projectSeq);
+		return urgentTodo;
 	}
 
 	// 댓글 작성

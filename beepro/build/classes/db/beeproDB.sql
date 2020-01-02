@@ -167,7 +167,7 @@ CREATE TABLE todo (
 	CONSTRAINT finish_ck_chk CHECK(finish_ck IN('Y','N'))
 );
 select * from todo;
-
+SELECT CATEGORY, COUNT(*) FROM TODO GROUP BY CATEGORY;
 CREATE TABLE project (
 	project_seq	number	PRIMARY KEY,
 	startdate	date	NOT NULL,
@@ -208,6 +208,8 @@ INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '얀스 프로젝트 ', '구�
 
 INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '예즤 프로젝트 ', '이예지', '보통','15/11/30','개선', '이슈테스트2');
 
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다2', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '1', 'TESTTT','kk','심각',SYSDATE, '버그','TTTTTTTTTTT');
 INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '유나 프로젝트 ', '추유나', '보통','15/11/30','테스트케이스', '이슈테스트2');
 
 CREATE TABLE skill (

@@ -13,7 +13,6 @@ button { background-color:#4b61cf;
          border:0;
         }
 </style>
-
 <ul style="background:rgba(75,97,207);" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- LEFT 메뉴 끝-->
           <!-- Sidebar - Brand -->
@@ -23,16 +22,10 @@ button { background-color:#4b61cf;
             </div>
             <div class="sidebar-brand-text mx-3">SEMI PROJECT</div>
           </a>
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">
-              <i class="fas fa-fw fa-tachometer-alt"></i>
-              <span>Dashboard</span></a>
-          </li>
-    
           <!-- Divider -->
           <hr class="sidebar-divider">
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/cowork/analysis.jsp">
+            <a class="nav-link" href="${pageContext.request.contextPath}/project?command=dashboard">
               <i class="fas fa-fw fa-cog"></i>
               <span>업무진행상황</span>
             </a>
