@@ -72,9 +72,9 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("issueform")) {
 			System.out.println("이슈 생성");
 			HttpSession session = request.getSession();
-			String u_id = (String)session.getAttribute("u_id");
+			String u_id = (String) session.getAttribute("u_id");
 			System.out.println(u_id);
-			
+
 			boolean success = projectService.issueWrite(request, response);
 
 			if (success) {
@@ -86,8 +86,37 @@ public class ProjectServlet extends HttpServlet {
 			}
 		} else if (command.equals("issueDelete")) {
 			System.out.println("이슈 삭제 요청");
-			projectService = new ProjectService();
-			projectService.issueDelete(request, response);
+			boolean success = projectService.issueDelete(request, response);
+
+			if (success) {
+				System.out.println("이슈 삭제 성공");
+				dispatch("issue?command=issueAll", request, response);
+			} else {
+				System.out.println("이슈 삭제 실패");
+				dispatch("cowork/issueDetail.jsp", request, response);
+			}
+
+		} else if (command.equals("issueUpdate")) {
+			System.out.println("이슈 수정");
+			int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+			IssueVo vo = dao.selectOneIssue(issueSeq);
+
+			request.setAttribute("vo", vo);
+			dispatch("cowork/issueUpdate.jsp", request, response);
+
+		} else if (command.equals("issueUpdateform")) {
+			System.out.println("이슈 수정 폼 이동");
+			
+			int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+			
+			boolean success = projectService.issueUpdate(request, response);
+			
+			if(success) {
+				System.out.println("성공적으로 수정");
+				dispatch("issue?command=issueDetail&issue_seq=?"+issueSeq, request, response);
+			} else {
+				System.out.println("수정 실패");
+			}
 
 		} else if (command.equals("issueAll")) {
 			System.out.println("이슈 전체 보기");
@@ -105,16 +134,9 @@ public class ProjectServlet extends HttpServlet {
 			// 댓글리스트
 			List<CommentVo> list = dao.selectAllComment(seq);
 			request.setAttribute("vo", vo);
-			request.setAttribute("list", list);			
+			request.setAttribute("list", list);
 			dispatch("cowork/issueDetail.jsp", request, response);
-		
-//		} else if (command.equals("commentList")) {
-//			System.out.println("댓글 리스트");
-//			List<CommentVo> list = dao.selectAllComment();
-//
-//			request.setAttribute("list", list);
-//			dispatch("cowork/issueDetail.jsp", request, response);
-//
+
 		} else if (command.equals("todo-list")) { // 1
 			System.out.println("업무 리스트 출력");
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
@@ -213,15 +235,15 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("commentWrite")) {
 			System.out.println("댓글 생성");
 			HttpSession session = request.getSession();
-			String u_id = (String)session.getAttribute("u_id");
-			
+			String u_id = (String) session.getAttribute("u_id");
+
 			boolean success = projectService.commentWrite(request, response);
-			
+
 			int num = Integer.parseInt(request.getParameter("issueSeq"));
-			
+
 			if (success) {
 				System.out.println("댓글 생성 성공");
-				response.sendRedirect("issue?command=issueDetail&issue_seq="+num);
+				response.sendRedirect("issue?command=issueDetail&issue_seq=" + num);
 //				dispatch("issue?command=issueDetail&issue_seq="+num, request, response);
 			} else {
 				System.out.println("댓글 생성 실패");
@@ -230,15 +252,15 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("deleteComment")) {
 			System.out.println("댓글 삭제");
 			projectService = new ProjectService();
-			
+
 			boolean success = projectService.commentDelete(request, response);
-			
+
 			int num = Integer.parseInt(request.getParameter("issueSeq"));
-			System.out.println("이슈시퀀스:"+num);
-			
+			System.out.println("이슈시퀀스:" + num);
+
 			if (success) {
 				System.out.println("댓글 삭제 성공");
-				response.sendRedirect("issue?command=issueDetail&issue_seq="+num);
+				response.sendRedirect("issue?command=issueDetail&issue_seq=" + num);
 			} else {
 				System.out.println("댓글 삭제 실패");
 			}
