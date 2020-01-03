@@ -86,7 +86,7 @@
           <div class="col-9">
             <div class="row" style="float:right; ">
             	<c:if test="${!empty sessionScope.u_id }">
-            		<button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">글쓰기</button>
+            		<button onclick="location.href='matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">글쓰기</button>
             	</c:if>
             </div>
               <!-- 게시물 -->

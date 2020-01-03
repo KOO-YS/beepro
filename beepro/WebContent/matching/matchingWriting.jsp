@@ -102,7 +102,7 @@
                <input type="text" class="floatLabel" value="김지민" readonly >
             </div>
             <div class="controls2">
-               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" >
+               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput">
             </div>
          </div>
          <div class="grid">
