@@ -15,6 +15,7 @@ SELECT * FROM COMMENTS;
 DROP SEQUENCE ISSUE_SEQ;
 DROP SEQUENCE PROJECT_SEQ;
 DROP SEQUENCE TODO_SEQ;
+DROP SEQUENCE MESSAGE_SEQ;
 
 
 CREATE SEQUENCE ISSUE_SEQ
@@ -54,6 +55,13 @@ CREATE SEQUENCE COMMENTS_SEQ
 	MINVALUE 1
 	NOCYCLE;
 	
+CREATE SEQUENCE PERSONAL_SEQ
+	START WITH 1
+	INCREMENT BY 1
+	MAXVALUE 10000
+	MINVALUE 1
+	NOCYCLE;
+	
 CREATE TABLE beepro_user (
     user_id varchar2(100)	PRIMARY KEY,
     pwd	varchar2(100)	NOT NULL,
@@ -69,7 +77,7 @@ CREATE TABLE beepro_user (
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
 
 SELECT * FROM beepro_user;
-
+select * from message;
 CREATE TABLE message (
 	message_seq	number	PRIMARY KEY,
     send_id	varchar2(100)	NOT NULL,
@@ -99,6 +107,8 @@ CREATE TABLE matching_personal (
 	title	varchar2(500)	NOT NULL,
 	content	varchar2(4000)	NOT NULL
 );
+
+SELECT * FROM MATCHING_PERSONAL;
 
 CREATE TABLE matching_project (
 	project_seq	number	PRIMARY KEY,
@@ -153,6 +163,9 @@ CREATE TABLE todo (
 );
 select * from todo;
 SELECT CATEGORY, COUNT(*) FROM TODO GROUP BY CATEGORY;
+
+
+-- 이전에 PROJECT 테이블을 생성한 사람 -> 하단에 테이블 수정 쿼리(이름 추가) 따로 실행 필요 
 CREATE TABLE project (
 	project_seq	number	PRIMARY KEY,
 	startdate	date	NOT NULL,
@@ -160,9 +173,18 @@ CREATE TABLE project (
 	finish_ck	varchar2(6)	NOT NULL,
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
-
 -- 프로젝트 이름 컬럼 추가
 ALTER TABLE PROJECT ADD PROJECT_NAME VARCHAR2(4000);
+
+-- PROJECT 테이블을 최초로 생성하는 사람
+CREATE TABLE project (
+	project_seq	number	PRIMARY KEY,
+	startdate	date	NOT NULL,
+	enddate	date	NOT NULL,
+	finish_ck	varchar2(6)	NOT NULL,
+	project_name varchar2(4000),			-- 생성
+	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
+);
 
 select * from project;
 
@@ -263,3 +285,4 @@ ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (me
 
 COMMIT
 
+SELECT * FROM BEEPRO_USER
