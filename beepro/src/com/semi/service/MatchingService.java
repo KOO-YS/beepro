@@ -12,6 +12,14 @@ import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 
 public class MatchingService {
+	
+	/** 
+	 * 신규 프로젝트 작성 기능
+	 * 
+	 * @param request  view에서 form에 담은 데이터(request)를 Vo로 옮기기 위해서 받아옴.
+	 * @param response
+	 * @return DB INSERT 후 성공 여부에 따라 int 형으로 결과값을 받을 수 있음.
+	 */
 
    MatchingDao Dao = new MatchingDaoImpl();
    

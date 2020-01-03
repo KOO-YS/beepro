@@ -157,8 +157,10 @@ public class ProjectDaoImple implements ProjectDao {
 		Connection con = getConnection();
 		PreparedStatement pstm = null;
 		int res = 0;
+		System.out.println("다오 들어옴");
 		try {
 			pstm = con.prepareStatement(insertTodoSql);
+			System.out.println(insertTodoSql);
 			pstm.setInt(1, todo.getProjectSeq());
 			pstm.setString(2, todo.getManager());
 			pstm.setString(3, todo.getTitle());
@@ -168,11 +170,14 @@ public class ProjectDaoImple implements ProjectDao {
 			pstm.setString(7, todo.getCategory());
 			pstm.setString(8, "예정");
 			pstm.setInt(9, todo.getPriority());
-
+			System.out.println("res == before:: "+res);
 			res = pstm.executeUpdate();
-
+			System.out.println("res == after:: "+res);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstm, con);
+			System.out.println("DB 종료");
 		}
 		return res;
 	}

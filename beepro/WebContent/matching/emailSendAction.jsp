@@ -127,7 +127,8 @@ div{
    <header class="masthead" style="background-color: rgba(75,97,207);">
     <div class="container">
       <div class="intro-text" style="padding-top: 150px; padding-bottom: 100px;">
-        <div class="alert alert-success mt-4">입력하신 이메일 주소로 인증메일이 전송되었습니다:)<br>
+        <div class="alert alert-success mt-4">
+        	입력하신 이메일 주소로 인증메일이 전송되었습니다:)<br>
         	인증이 완료되면 beepro의 모든 기능을 이용하실 수 있습니다!</div>
 
       </div>
