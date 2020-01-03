@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
-
 <head>
 
   <meta charset="utf-8">
@@ -13,17 +14,17 @@
   <title>NAME</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
   <!-- Custom styles for this template -->
-  <link href="css/agency.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
 
   <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -31,7 +32,6 @@
   <!-- heart button https://codepen.io/kieranfivestars/pen/PwzjgN-->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -70,62 +70,53 @@
               <div class="chk-block" style="margin-top:50px">
                   search
                   <hr>
-                  <input type="checkbox"> test<br>
-                  <input type="checkbox"> test<br>
-                  <input type="checkbox"> test<br>
-                  <input type="checkbox"> test<br>
+                  <input type="checkbox"> java<br>
+                  <input type="checkbox"> Python<br>
+                  <input type="checkbox"> C/C++<br>
+                  <input type="checkbox"> php<br>
+                  <input type="checkbox"> SQL<br>
+                  <input type="checkbox"> Go<br>
+                  <hr>
+                  <input type="checkbox"> html<br>
+                  <input type="checkbox"> css<br>
+                  <input type="checkbox"> javascript<br>
+                  <div><button type='submit'>검색</button></div>
               </div>
           </div>
           <div class="col-9">
-            <div class="row" style="float:right; "><button onclick="location.href='projectWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">글쓰기</button></div>
+            <div class="row" style="float:right; ">
+            	<c:if test="${!empty sessionScope.u_id }">
+            		<button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">글쓰기</button>
+            	</c:if>
+            </div>
               <!-- 게시물 -->
-              <div class="row post-card" style="margin-top:50px">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-11 col-sm-10">
-                            <h4>title  프로젝트 제목</h4>
-                        </div>
-                        <div class="col-lg-1 col-sm-2">
-                            <!-- heart -->
-                            <i class="heart" style="float: right;"></i>
-                        </div>
-                        <hr>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5">
-                                                                  구하는 인원  : 5명 <br>상세 정보 <br>위치?
-                            </div>
-                            <div class="col-lg-6">
-                                	프로젝트 관련 상세 정보
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 게시물 end -->
-
-              <!-- 게시물 -->
-              <div class="row post-card">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-11 col-sm-10">
-                        <h4>title  프로젝트 제목</h4>
-                    </div>
-                    <div class="col-lg-1 col-sm-2">
-                        <!-- heart -->
-                        <i class="heart" style="float: right;"></i>
-                    </div>
-                    <hr>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-5">
-                                                              구하는 인원  : 5명 <br>상세 정보 <br>위치?
-                        </div>
-                        <div class="col-lg-6">
-                             	프로젝트 관련 상세 정보
-                        </div>
-                    </div>
-                </div>
-              </div>
+            	<c:forEach var="matchingVo" items="${matchingList}" varStatus="matching">
+            		<div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
+	                    <div class="col-lg-12">
+	                        <div class="row">
+	                            <div class="col-lg-11 col-sm-10">
+	                            <h4><a href="matching?command=matchingView&project_seq=${matchingVo.project_seq }" >${matchingVo.title }</a></h4>
+	                        </div>
+	                        <div class="col-lg-1 col-sm-2">
+	                            <!-- heart -->
+	                            <i class="heart" style="float: right;"></i>
+	                        </div>
+	                        <hr>
+	                        </div>
+	                        <div class="row">
+	                            <div class="col-lg-5" >
+	                                                                  모집 인원  : ${matchingVo.need_person}명 <br>
+	                                                                  위치 : ${matchingVo.location}<br><br>
+	                                                                  프로그램 및 언어 능력 : ${matchingVo.skill}
+	                            </div>
+	                            <div class="col-lg-6">
+	                                                                  프로젝트 시작일 : ${matchingVo.startdate}<br> 
+	                                                                  프로젝트 마감일 : ${matchingVo.enddate }<br>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+				</c:forEach>
                 <!-- 게시물 end -->
                 <div class="row" style="display: block;">
                     <nav aria-label="Page navigation example">

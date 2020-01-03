@@ -25,7 +25,6 @@
   <!-- Custom styles for this template -->
   <link href="css/agency.css" rel="stylesheet">
 </head>
-
 <body id="page-top">
 
   <jsp:include page="common/main_nav.jsp"></jsp:include>
@@ -95,7 +94,7 @@
           <div class="portfolio-caption">
             <h4>project</h4>
             <img src="https://previews.123rf.com/images/unitonevector/unitonevector1908/unitonevector190800830/128682281-vector-illustration-coworking-large-long-table-people-share-workspace-by-working-together-on-laptop-.jpg" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='project.jsp'">project matching</button>
+            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='matchingList.jsp'">project matching</button>
           </div>
         </div>
         <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
