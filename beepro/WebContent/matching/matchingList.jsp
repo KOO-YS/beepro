@@ -31,14 +31,42 @@
 
   <!-- heart button https://codepen.io/kieranfivestars/pen/PwzjgN-->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-</head>
+  <!-- 검색창css -->
+  <link href='${pageContext.request.contextPath}/matching/css/search.css' rel='stylesheet' type='text/css'>
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
+
+	  <script type="text/javascript">
+		$('.dropdown-toggle').click(function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).closest('.search-dropdown').toggleClass('open');
+		});
+	
+		$('.dropdown-menu > li > a').click(
+				function(e) {
+					e.preventDefault();
+					var clicked = $(this);
+					clicked.closest('.dropdown-menu').find('.menu-active')
+							.removeClass('menu-active');
+					clicked.parent('li').addClass('menu-active');
+					clicked.closest('.search-dropdown').find('.toggle-active')
+							.html(clicked.html());
+				});
+	
+		$(document).click(function() {
+			$('.search-dropdown.open').removeClass('open');
+		});
+	</script>
+
+</head>
 <body id="page-top">
 
   <jsp:include page="common/sub_nav.jsp"></jsp:include>
   
   <!-- Header -->
+  
+  
   <header class="masthead" style="background-color: rgba(75,97,207);">
     <div class="container">
       <div class="intro-text" style="padding-top: 150px; padding-bottom: 100px;">
@@ -61,62 +89,80 @@
       </div>
   </div>
   
+  
+  
   <!-- project -->
   <section class="bg-light page-section">
     <div class="container">
+    
+    <div>
+    <!-- 검색창 -->
+<form class="expanding-search-form">
+							<div class="search-dropdown">
+								<button class="button dropdown-toggle" type="button">
+									<span class="toggle-active">Everything</span> <span
+										class="ion-arrow-down-b"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li class="menu-active"><a href="#">Everything</a></li>
+									<li><a href="#">People</a></li>
+									<li><a href="#">Products</a></li>
+									<li><a href="#">Blog</a></li>
+								</ul>
+							</div>
+							<input class="search-input" id="global-search" type="search"
+								placeholder="Search"> <label class="search-label"
+								for="global-search"> <span class="sr-only">Global
+									Search</span>
+							</label>
+							<button class="button search-button" type="button">
+								<span class="icon ion-search"> <span class="sr-only">Search</span>
+								</span>
+							</button>
+						</form>
+	</div>
         
         <div class="row" >
           <div class="col-3">
               <div class="chk-block" style="margin-top:50px">
                   search
                   <hr>
-                  <input type="checkbox"> java<br>
-                  <input type="checkbox"> Python<br>
-                  <input type="checkbox"> C/C++<br>
-                  <input type="checkbox"> php<br>
-                  <input type="checkbox"> SQL<br>
-                  <input type="checkbox"> Go<br>
-                  <hr>
-                  <input type="checkbox"> html<br>
-                  <input type="checkbox"> css<br>
-                  <input type="checkbox"> javascript<br>
-                  <div><button type='submit'>검색</button></div>
-              </div>
+					</div>
           </div>
           <div class="col-9">
             <div class="row" style="float:right; ">
-            	<c:if test="${!empty sessionScope.u_id }">
-            		<button onclick="location.href='matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">글쓰기</button>
-            	</c:if>
+               <c:if test="${!empty sessionScope.u_id }">
+                  <button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">글쓰기</button>
+               </c:if>
             </div>
               <!-- 게시물 -->
-            	<c:forEach var="matchingVo" items="${matchingList}" varStatus="matching">
-            		<div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
-	                    <div class="col-lg-12">
-	                        <div class="row">
-	                            <div class="col-lg-11 col-sm-10">
-	                            <h4><a href="matching?command=matchingView&project_seq=${matchingVo.project_seq }" >${matchingVo.title }</a></h4>
-	                        </div>
-	                        <div class="col-lg-1 col-sm-2">
-	                            <!-- heart -->
-	                            <i class="heart" style="float: right;"></i>
-	                        </div>
-	                        <hr>
-	                        </div>
-	                        <div class="row">
-	                            <div class="col-lg-5" >
-	                                                                  모집 인원  : ${matchingVo.need_person}명 <br>
-	                                                                  위치 : ${matchingVo.location}<br><br>
-	                                                                  프로그램 및 언어 능력 : ${matchingVo.skill}
-	                            </div>
-	                            <div class="col-lg-6">
-	                                                                  프로젝트 시작일 : ${matchingVo.startdate}<br> 
-	                                                                  프로젝트 마감일 : ${matchingVo.enddate }<br>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-				</c:forEach>
+               <c:forEach var="matchingVo" items="${matchingList}" varStatus="matching">
+                  <div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
+                       <div class="col-lg-12">
+                           <div class="row">
+                               <div class="col-lg-11 col-sm-10">
+                               <h4><a href="matching?command=matchingView&project_seq=${matchingVo.project_seq }" >${matchingVo.title }</a></h4>
+                           </div>
+                           <div class="col-lg-1 col-sm-2">
+                               <!-- heart -->
+                               <i class="heart" style="float: right;"></i>
+                           </div>
+                           <hr>
+                           </div>
+                           <div class="row">
+                               <div class="col-lg-5" >
+                                                                     모집 인원  : ${matchingVo.need_person}명 <br>
+                                                                     위치 : ${matchingVo.location}<br><br>
+                                                                     프로그램 및 언어 능력 : ${matchingVo.skill}
+                               </div>
+                               <div class="col-lg-6">
+                                                                     프로젝트 시작일 : ${matchingVo.startdate}<br> 
+                                                                     프로젝트 마감일 : ${matchingVo.enddate }<br>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+            </c:forEach>
                 <!-- 게시물 end -->
                 <div class="row" style="display: block;">
                     <nav aria-label="Page navigation example">
@@ -142,14 +188,14 @@
   <jsp:include page="common/footer.jsp"></jsp:include>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for this template -->
-  <script src="js/agency.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 
 </body>
 
