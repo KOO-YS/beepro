@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/db/beeproDB.sql=UTF-8
+encoding//WebContent/beeproDB.sql=UTF-8
 encoding//src/util=UTF-8
 encoding/<project>=UTF-8
