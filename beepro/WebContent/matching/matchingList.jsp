@@ -58,7 +58,59 @@
 			$('.search-dropdown.open').removeClass('open');
 		});
 	</script>
+<style>
+.search-form .form-group {
+  float: right !important;
+  transition: all 0.35s, border-radius 0s;
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+}
+.search-form .form-group input.form-control {
+  padding-right: 20px;
+  border: 0 none;
+  background: transparent;
+  box-shadow: none;
+  display:block;
+}
+.search-form .form-group input.form-control::-webkit-input-placeholder {
+  display: none;
+}
+.search-form .form-group input.form-control:-moz-placeholder {
+  /* Firefox 18- */
+  display: none;
+}
+.search-form .form-group input.form-control::-moz-placeholder {
+  /* Firefox 19+ */
+  display: none;
+}
+.search-form .form-group input.form-control:-ms-input-placeholder {
+  display: none;
+}
+.search-form .form-group:hover,
+.search-form .form-group.hover {
+  width: 100%;
+  border-radius: 4px 25px 25px 4px;
+}
+.search-form .form-group span.form-control-feedback {
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  color: #3596e0;
+  left: initial;
+  font-size: 14px;
+}
 
+</style>
 </head>
 <body id="page-top">
 
@@ -80,48 +132,37 @@
   <div class="keywords">
       <div class="container">
         <div class="row" id="keywordBtns">
+        	<div class="col-5">
             <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
             <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
             <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
+            </div>
+            <div class="col-7">
+              <!-- <div class="input-group-prepend"> -->
+			    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+			    <div class="dropdown-menu">
+			      <a class="dropdown-item" href="#">Action</a>
+			      <a class="dropdown-item" href="#">Another action</a>
+			      <a class="dropdown-item" href="#">Something else here</a>
+			      <div role="separator" class="dropdown-divider"></div>
+			      <a class="dropdown-item" href="#">Separated link</a>
+			    </div>
+			  
+				  <form class="form-inline md-form form-sm active-cyan-2 mt-2">
+					  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
+					    aria-label="Search">
+					  <i class="fas fa-search" aria-hidden="true"></i>
+					</form>
+			  </div>
         </div>    
       </div>
   </div>
   
   
   
-  <!-- project -->
+<!-- project -->
   <section class="bg-light page-section">
     <div class="container">
-    
-    <div>
-    <!-- 검색창 -->
-<form class="expanding-search-form">
-							<div class="search-dropdown">
-								<button class="button dropdown-toggle" type="button">
-									<span class="toggle-active">Everything</span> <span
-										class="ion-arrow-down-b"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li class="menu-active"><a href="#">Everything</a></li>
-									<li><a href="#">People</a></li>
-									<li><a href="#">Products</a></li>
-									<li><a href="#">Blog</a></li>
-								</ul>
-							</div>
-							<input class="search-input" id="global-search" type="search"
-								placeholder="Search"> <label class="search-label"
-								for="global-search"> <span class="sr-only">Global
-									Search</span>
-							</label>
-							<button class="button search-button" type="button">
-								<span class="icon ion-search"> <span class="sr-only">Search</span>
-								</span>
-							</button>
-						</form>
-	</div>
-        
         <div class="row" >
           <div class="col-3">
               <div class="chk-block" style="margin-top:50px">
