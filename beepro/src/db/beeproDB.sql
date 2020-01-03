@@ -75,10 +75,6 @@ CREATE TABLE beepro_user (
 );
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
-
-
-
-
 SELECT * FROM beepro_user;
 
 CREATE TABLE message (

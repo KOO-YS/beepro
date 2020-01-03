@@ -14,13 +14,10 @@
 
 <%
 	UserDaoImpl dao = new UserDaoImpl();
-
 	String u_id = null;
 
 	if(session.getAttribute("u_id") != null) {
-
 		u_id = (String) session.getAttribute("u_id");
-
 	}
 
 	if(u_id == null) {
@@ -28,7 +25,7 @@
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('로그인을 해주세요.');");
-		script.println("location.href = 'userLogin.jsp'");
+		script.println("location.href = 'matching/login.jsp'");
 		script.println("</script>");
 		script.close();
 	}
@@ -41,13 +38,10 @@
 
 		script.println("<script>");
 		script.println("alert('이미 인증 된 회원입니다.');");
-		script.println("location.href = 'index.jsp'");
+		script.println("location.href = 'matching/index.jsp'");
 		script.println("</script>");
 		script.close();		
-
-
 	}
-
 
 	String host = "http://localhost:8787/beepro/matching/";	
 	String from = "teambeepro@gmail.com";
@@ -60,9 +54,7 @@
 		"<a href='" + host + "emailCheckAction.jsp?code=" + new sha256().getSHA256(to) + "'>이메일 인증하기</a>";
 
 	
-
 	// SMTP에 접속하기 위한 정보를 기입합니다.
-
 	Properties p = new Properties();
 
 	p.put("mail.smtp.user", from);
@@ -77,12 +69,11 @@
 	p.put("mail.smtp.socketFactory.fallback", "false");
 
 	 
-
 	try{
 
 	    Authenticator auth = new Gmail();
 	    Session ses = Session.getInstance(p, auth);
-	    ses.setDebug(true);
+	    //ses.setDebug(true);
 	    MimeMessage msg = new MimeMessage(ses); 
 	    msg.setSubject(subject);
 	    Address fromAddr = new InternetAddress(from);
@@ -93,7 +84,6 @@
 	    Transport.send(msg);
 
 	} catch(Exception e){
-
 	    e.printStackTrace();
 
 		PrintWriter script = response.getWriter();

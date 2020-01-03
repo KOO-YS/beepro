@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -23,17 +24,17 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.dao.UserDaoImpl;
 import com.semi.vo.MessageVo;
+import com.semi.vo.TodoVo;
 
 import util.Gmail;
 
 public class UserService {
 	UserDaoImpl dao = new UserDaoImpl();
+
+	/* 유저관리 부분 서비스 */	
 	
-		
 	//임시 비밀번호 재설정
 	public void findPwd(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
 		
 		String host = "http://localhost:8787/beepro_2/matching/";		
 		String from = "teambeepro@gmail.com";		
@@ -151,8 +152,6 @@ public class UserService {
 
 	//프로필 사진 업로드
 	public void profileUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=UTF-8");
 		
 		MultipartRequest multi = null;
 		int fileMaxSize = 10*1024*1024;
@@ -316,6 +315,8 @@ public class UserService {
 			response.getWriter().write(new UserDaoImpl().getAllUnreadChat(u_id)+"");
 		}
 	}
+
+	
 	
 	
 	

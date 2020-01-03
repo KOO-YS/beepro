@@ -112,7 +112,31 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		return 0;//데이터베이스 오류
 		
 	}
+	@Override
+	public int withdrawal(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;		
+		ResultSet rs = null;
+			
+		try {
 
+			pstmt = con.prepareStatement(deleteSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			System.out.println("2..쿼리문 실행");
+			
+			if(rs.next()) {
+					return 1;  //회원정보 있음
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}finally {
+			close(rs, pstmt, con);
+		}
+		return 0;//데이터베이스 오류
+	}	
 	
 	//아이디로 이름 가져오기
 		public String getUserName(String u_id) {
@@ -139,7 +163,8 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 				}
 				return null; // 데이터베이스 오류
 			}
-	//아이디로 이름 가져오기
+		
+	//아이디로 pwd 가져오기
 	public String getUserPwd(String u_id) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;	
@@ -147,8 +172,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 						
 		String SQL = "SELECT pwd FROM beepro_user WHERE user_id = ?";
 						
-		try {
-							
+		try {							
 			pstmt = con.prepareStatement(SQL);							
 			pstmt.setString(1, u_id);							
 			rs = pstmt.executeQuery();
@@ -160,7 +184,8 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 				e.printStackTrace();
 			}
 			return null; // 데이터베이스 오류
-			}
+			}	
+	
 	@Override
 	//아이디로 이메일 인증여부 가져오기
 	public String getUserEmailChecked(String u_id) {
@@ -170,9 +195,10 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		try {
 			pstmt = con.prepareStatement(getEmailCkSql);
 			pstmt.setString(1, u_id);
-			rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();	
 			
 			while(rs.next()) {
+				
 				return rs.getString(1); //이메일 인증여부 반환
 			}
 		} catch (SQLException e) {
@@ -483,9 +509,6 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			close(con);
 		}
 		return -1; //데이터베이스 오류
-	}
-	
-	
-	
+	}			
 
 }
