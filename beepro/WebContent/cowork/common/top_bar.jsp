@@ -135,6 +135,12 @@ a:hover {
    text-decoration: none;
    color: white;
 }
+
+#none { width:100%;
+        hegiht:60px;
+        line-height:60px;
+        text-align:center;
+      } 
 </style>
 
 
@@ -292,14 +298,14 @@ a:hover {
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                            내 정보
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal2">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                              워크스페이스 이동
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="../matching/index.jsp" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href=#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                           로그아웃
+                               로그아웃
                 </a>
               </div>
             </li>
@@ -308,9 +314,10 @@ a:hover {
 
         </nav>
         
+          <!-- 로그아웃 모달  -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Notice</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -325,6 +332,60 @@ a:hover {
         </div>
       </div>
     </div>
+    
+    <!-- 워크스페이스 모달  -->
+      <div class="modal fade" id="logoutModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body" style="font-size:14px;">
+             <c:choose>
+	             <c:when test="${empty list}">
+	                <div id="none">
+	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
+	                                        매칭을 통해 생성하십시오.<br>
+	                  <a class="btn btn-primary" href="../matching/matchingList.jsp">매칭하러가기</a>  
+	                </div>
+	             </c:when>
+	      
+	             <c:otherwise>
+	                                       이동하실 워크 스페이스를 선택하세요.
+	               <c:forEach var="list" items="${list}">
+	               <div id="content_wrap">
+	                 <div id="writer">
+	                   ${list.writer}
+	                 </div>
+	                  
+	                  <div id="regdate">
+	                  <fmt:formatDate value="${list.regdate}" pattern="yyyy/mm/dd HH:mm:ss" />
+	                  </div>
+	                  
+	                  <div id="content">
+	                  ${list.content}
+	                  </div>
+	             
+	                  <button type="button" class="btn btn-primary" id="btn1"
+	                  onclick="location.href='${pageContext.request.contextPath}/comment?command=updateComment'">
+	                                            수정
+	                  </button>
+	                  <button type="button" class="btn btn-primary" id="btn2"
+	                  onclick="location.href='${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}'">
+	                                            삭제
+	                  </button>
+	                </div>
+	               </c:forEach>
+	             </c:otherwise>
+	          </c:choose>           
+          </div>
+        </div>
+      </div>
+    </div>
+    
       <!-- 탑 메뉴 끝 -->
    <%
    if (u_id != null) {

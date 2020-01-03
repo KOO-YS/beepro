@@ -120,5 +120,4 @@
       <url-pattern>/msg</url-pattern>
    </servlet-mapping>
    
-
 </web-app>
