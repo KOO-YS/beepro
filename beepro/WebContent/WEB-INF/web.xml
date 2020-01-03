@@ -76,7 +76,18 @@
 	
 	<servlet-mapping>
 		<servlet-name>personalMatching</servlet-name>
-		<url-pattern>/personalMatching</url-pattern>
+		<url-pattern>/personMatching</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 프로젝트 매칭 페이지 맵핑 -->
+	<servlet>
+		<servlet-name>projectMatching</servlet-name>
+		<servlet-class>com.semi.controller.MatchingServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>projectMatching</servlet-name>
+		<url-pattern>/matching</url-pattern>
 	</servlet-mapping>
 	
 	
