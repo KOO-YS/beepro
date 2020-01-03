@@ -446,9 +446,13 @@ table.table .avatar {
 								<tbody>
 									<c:forEach var="todo" items="${todoList}" >
 									<input type="hidden" id="projectSeq" value="${todo.projectSeq}">		
-									<tr>
-										<td>${todo.todoSeq}</td>
-										<td><a href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${todo.todoSeq}">${todo.title }</a></td>
+									<tr <c:if test="${todo.finishCk eq 'Y'}"> style="background: paleturquoise;"</c:if>>										
+									<td>${todo.todoSeq}</td>
+										<td>
+											<small style="">${todo.category}</small><br>
+											<a href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${todo.todoSeq}">
+												${todo.title }
+											</a></td>
 										<%-- <td>${todo.content }</td> --%>
 										<td>
 											<div class="btn-group" style="width: 80%;">
@@ -479,7 +483,6 @@ table.table .avatar {
 											<label class="rate_label" for="rate${todo.todoSeq}-4"></label>
 											<input class="rate_input" type="radio" name="priority${todo.todoSeq}" value="5" id="rate${todo.todoSeq}-5" <c:if test="${todo.priority eq '5'}">checked</c:if>/>
 											<label class="rate_label" for="rate${todo.todoSeq}-5"></label>
-										  <!-- <div class="star-rating__focus"></div> -->
 										</div>
 										</td>
 										<td>

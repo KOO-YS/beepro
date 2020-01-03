@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +18,9 @@
 <link href="${pageContext.request.contextPath}/matching/css/common.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/matching/css/notice.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
-<script src="js/plugins/tagEditor/jquery.caret.min.js"></script>
-<script src="js/plugins/tagEditor/jquery.tag-editor.js"></script>
+<script src="https://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+<script src="${pageContext.request.contextPath}/matching/js/plugins/tagEditor/jquery.caret.min.js"></script>
+<script src="${pageContext.request.contextPath}/matching/js/plugins/tagEditor/jquery.tag-editor.js"></script>
 <script type="text/javascript">
    (function($) {
       function floatLabel(inputType) {
@@ -36,9 +38,23 @@
             });
          });
       }
-      
+      	
       $(document).ready(function(){
-         $('#skill').tagEditor({placeholder : '언어 및 프로그램 능력을 작성하세요'});
+    	  var skill = new Array();
+    	  <c:if test="${!empty matchingVo}" >
+	    	  <c:forEach var="skill" items="${matchingVo.skillArr}">
+	  				skill.push('${skill}');
+	  		  </c:forEach>
+	  	  </c:if>
+         $('#skill').tagEditor({
+        	 placeholder : '언어 및 프로그램 능력을 작성하세요'
+        	,initialTags: skill
+        	,autocomplete: {
+        	        delay: 0 // show suggestions immediately
+        	        ,position: { collision: 'flip' } // automatic menu position up/down
+                    ,source: ['java', 'phython', 'C/C++', 'php', 'Python', 'Go']
+        	    }
+        	 });
       });
       // just add a class of "floatLabel to the input field!"
       floatLabel(".floatLabel");
@@ -58,7 +74,7 @@
 	          <li class="nav-item">
 	            <a class="nav-link js-scroll-trigger" href="#matching" id="match-sub" >매칭 matching</a>
 	            <ul class="sub-nav">
-	              <li><a class="nav-link" href="project.jsp">by project</a></li>
+	              <li><a class="nav-link" href="${pageContext.request.contextPath}/matching?command=matchingAll">by project</a></li>
 	              <li><a class="nav-link" href="personal.jsp">by personal</a></li>
 	            </ul>
 	          </li>
@@ -72,9 +88,8 @@
 	      </div>
 	    </div>
 	  </nav>
-	<form action="${pageContext.request.contextPath}/matchingServlet" method="post">
-	<input type="hidden" name="command"  value="projectWrite"/>
-	<input type="hidden" name="pm_id"  value="5@naver.com"/> <!-- 임시 데이터 나중에 꼭 로그인 아이디로 수정할것 -->
+	<form action="${pageContext.request.contextPath}/matching" method="post">
+		<input type="hidden" name="command"  value="matchingWrite"/>	
    <div class="container margin-t-100">
          <!--  General -->
          <div class="form-group">
@@ -102,13 +117,14 @@
                <div class="controls">
                   <i class="fa fa-calendar"></i>
                   <span class="gray">&nbsp;&nbsp;프로젝트 종료일 </span>
-                  <input type="date" id="enddate" class="floatLabel" name="enddate" placeholder="프로젝트 종료" />
+                  <input type="date" id="enddate" class="floatLabel" name="enddate" placeholder="프로젝트 종료"/>
                </div>
             </div>
          </div>
          <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-               <i class="fa fa-sort"></i> <select class="floatLabel" name="location">
+               <i class="fa fa-sort"></i> 
+               <select class="floatLabel" name="location">
                   <option value="" >지역을 선택하세요</option>
                   <option value="seoul">서울</option>
                   <option value="gangwon">강원</option>
@@ -138,6 +154,7 @@
                      <option value="1">1</option>
                      <option value="2">2</option>
                      <option value="3">3</option>
+                     <option value="4">4</option>
                      <option value="5">5</option>
                      <option value="6">6</option>
                      <option value="7">7</option>

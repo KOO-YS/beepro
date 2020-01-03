@@ -16,14 +16,6 @@ DROP SEQUENCE ISSUE_SEQ;
 DROP SEQUENCE PROJECT_SEQ;
 DROP SEQUENCE TODO_SEQ;
 
---location, skill 而щ읆�� not null �젣�빟議곌굔 �븞嫄몄뼱 �몺
-
---CREATE SEQUENCE USER_SEQ
---  START WITH 1
---  INCREMENT BY 1
---  MAXVALUE 10000
---  MINVALUE 1
---  NOCYCLE;
 
 CREATE SEQUENCE ISSUE_SEQ
   START WITH 1
@@ -75,6 +67,7 @@ CREATE TABLE beepro_user (
 );
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
+
 SELECT * FROM beepro_user;
 
 CREATE TABLE message (
@@ -82,8 +75,7 @@ CREATE TABLE message (
     send_id	varchar2(100)	NOT NULL,
 	get_id	varchar2(100)	NOT NULL,
 	content	varchar2(4000)	NOT NULL,
-	regdate	DATE	NOT NULL
-	regdate	Date	NOT NULL,
+	regdate	DATE	NOT NULL,
 	read_ck number
 );
 
@@ -160,7 +152,7 @@ CREATE TABLE todo (
 	CONSTRAINT finish_ck_chk CHECK(finish_ck IN('Y','N'))
 );
 select * from todo;
-
+SELECT CATEGORY, COUNT(*) FROM TODO GROUP BY CATEGORY;
 CREATE TABLE project (
 	project_seq	number	PRIMARY KEY,
 	startdate	date	NOT NULL,
@@ -174,7 +166,7 @@ ALTER TABLE PROJECT ADD PROJECT_NAME VARCHAR2(4000);
 
 select * from project;
 
-INSERT INTO PROJECT VALUES (PROJECT_SEQ.NEXTVAL, '19/11/12', '19/12/20', 'Y');
+INSERT INTO PROJECT VALUES (PROJECT_SEQ.NEXTVAL, '19/11/12', '19/12/20', 'Y', '플플플');
 
 delete from project;
 
@@ -191,9 +183,19 @@ CREATE TABLE issue (
 
 SELECT * FROM ISSUE;
 
-INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다', '나야나', '심각','15/12/30','버그', '이슈테스트입니다.');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '해인 프로젝트', '전해인', '높음','15/11/30','버그', '이슈테스트2입니다.');
 
-INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '4', '이슈 테스트합니다2', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '지민', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '김봄 프로젝트 ', '김보미', '낮음','15/11/30','테스트케이스', '이슈테스트2');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '얀스 프로젝트 ', '구연수', '높음','15/11/30','요구사항', '이슈테스트2');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '예즤 프로젝트 ', '이예지', '보통','15/11/30','개선', '이슈테스트2');
+
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '이슈 테스트합니다2', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', 'TESTTT','kk','심각',SYSDATE, '버그','TTTTTTTTTTT');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '유나 프로젝트 ', '추유나', '보통','15/11/30','테스트케이스', '이슈테스트2');
 
 CREATE TABLE skill (
 	personal_seq	number	NOT NULL,
@@ -201,8 +203,6 @@ CREATE TABLE skill (
 	backend 	varchar2(1000),
 	frontend	varchar2(1000)	
 );
-
-
 
 -- 蹂듯빀 湲곕낯�궎 異붽�
 
@@ -261,11 +261,5 @@ ALTER TABLE project_member ADD CONSTRAINT FK_project_TO_project_mem FOREIGN KEY 
 
 ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (member_id) REFERENCES beepro_user (user_id);
 
-COMMIT;
-
-
-SELECT * FROM matching_project;
-
-SELECT SYSDATE AS BASIC , TO_DATE(SYSDATE, 'YYYY.MM.DD HH24:MI:SS') FROM DUAL;
-
+COMMIT
 

@@ -142,7 +142,7 @@ $( function() {
 							    <label for="star-rate">중요도</label><br>
 							    <!-- https://codepen.io/just_bonnie_n/pen/gObadwZ -->
 							    <div class="rate" id="star-rate">
-								    <input type="radio" id="star5" name="priority" value="5" checked/>
+								    <input type="radio" id="star5" name="priority" value="5" />
 								    <label for="star5" title="text">5 stars</label>
 								    <input type="radio" id="star4" name="priority" value="4" />
 								    <label for="star4" title="text">4 stars</label>
