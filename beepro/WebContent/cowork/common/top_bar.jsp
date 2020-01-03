@@ -143,11 +143,6 @@ a:hover {
       } 
 </style>
 
-<script type="text/javascript">
-      function msgclick(){
-         window.open('../cowork/chat.jsp', '실시간 채팅', 'top=100, left=500, width=550px, height=580px, status=no, menubar=no, toolbar=no, resizable=no');
-      }
-   </script>
 
 <!-- 탑 메뉴 -->
 <nav
@@ -349,8 +344,8 @@ a:hover {
             </button>
           </div>
           <div class="modal-body" style="font-size:14px;">
-             <c:choose>
-	             <c:when test="${empty list}">
+             <%-- <c:choose> --%>
+	             <%-- <c:when test="${empty list}">
 	                <div id="none">
 	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
 	                                        매칭을 통해 생성하십시오.<br>
@@ -384,8 +379,8 @@ a:hover {
 	                  </button>
 	                </div>
 	               </c:forEach>
-	             </c:otherwise>
-	          </c:choose>           
+	             </c:otherwise> --%>
+	         <%--  </c:choose>     --%>       
           </div>
         </div>
       </div>

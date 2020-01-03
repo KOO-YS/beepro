@@ -32,6 +32,60 @@
   <!-- heart button https://codepen.io/kieranfivestars/pen/PwzjgN-->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
+
+<style>
+.search-form .form-group {
+  float: right !important;
+  transition: all 0.35s, border-radius 0s;
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+}
+.search-form .form-group input.form-control {
+  padding-right: 20px;
+  border: 0 none;
+  background: transparent;
+  box-shadow: none;
+  display:block;
+}
+.search-form .form-group input.form-control::-webkit-input-placeholder {
+  display: none;
+}
+.search-form .form-group input.form-control:-moz-placeholder {
+  /* Firefox 18- */
+  display: none;
+}
+.search-form .form-group input.form-control::-moz-placeholder {
+  /* Firefox 19+ */
+  display: none;
+}
+.search-form .form-group input.form-control:-ms-input-placeholder {
+  display: none;
+}
+.search-form .form-group:hover,
+.search-form .form-group.hover {
+  width: 100%;
+  border-radius: 4px 25px 25px 4px;
+}
+.search-form .form-group span.form-control-feedback {
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  z-index: 2;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  color: #3596e0;
+  left: initial;
+  font-size: 14px;
+}
+
+</style>
 </head>
 <body id="page-top">
 
@@ -53,18 +107,35 @@
   <div class="keywords">
       <div class="container">
         <div class="row" id="keywordBtns">
+        	<div class="col-5">
             <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
             <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
             <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
+            </div>
+            <div class="col-7">
+              <!-- <div class="input-group-prepend"> -->
+			    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+			    <div class="dropdown-menu">
+			      <a class="dropdown-item" href="#">Action</a>
+			      <a class="dropdown-item" href="#">Another action</a>
+			      <a class="dropdown-item" href="#">Something else here</a>
+			      <div role="separator" class="dropdown-divider"></div>
+			      <a class="dropdown-item" href="#">Separated link</a>
+			    </div>
+			  
+				  <form class="form-inline md-form form-sm active-cyan-2 mt-2">
+					  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
+					    aria-label="Search">
+					  <i class="fas fa-search" aria-hidden="true"></i>
+					</form>
+			  </div>
         </div>    
       </div>
   </div>
   
   
   
-  <!-- project -->
+<!-- project -->
   <section class="bg-light page-section">
     <div class="container">
         <div class="row" >
