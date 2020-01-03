@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.semi.vo.MessageVo;
+import com.semi.vo.MsgVo;
 import com.semi.vo.UserVo;
 
 import common.JDBCTemplet;
