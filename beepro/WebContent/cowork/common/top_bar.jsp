@@ -143,11 +143,6 @@ a:hover {
       } 
 </style>
 
-<script type="text/javascript">
-      function msgclick(){
-         window.open('../cowork/chat.jsp', '실시간 채팅', 'top=100, left=500, width=550px, height=580px, status=no, menubar=no, toolbar=no, resizable=no');
-      }
-   </script>
 
 <!-- 탑 메뉴 -->
 <nav
