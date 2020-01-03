@@ -387,17 +387,4 @@ a:hover {
     </div>
     
       <!-- 탑 메뉴 끝 -->
-   <%
-   if (u_id != null) {
-%>
 
-<script type="text/javascript">
-   $(document).ready(function(){
-      getUnread();
-      getInfiniteUnread();
-   });
-</script>
-
-<%
-   }
-%>

@@ -336,8 +336,7 @@ table.table .avatar {
 
 	UserDaoImpl dao = new UserDaoImpl();
 
-%>
-
+%> 
 
 
 </head>
@@ -415,5 +414,13 @@ table.table .avatar {
 			<jsp:include page="common/footer.html"></jsp:include>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+   $(document).ready(function(){
+      getUnread();
+      getInfiniteUnread();
+   });
+</script>
+	
 </body>
 </html>
