@@ -31,33 +31,6 @@
 
   <!-- heart button https://codepen.io/kieranfivestars/pen/PwzjgN-->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-  <!-- 검색창css -->
-  <link href='${pageContext.request.contextPath}/matching/css/search.css' rel='stylesheet' type='text/css'>
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
-
-	  <script type="text/javascript">
-		$('.dropdown-toggle').click(function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			$(this).closest('.search-dropdown').toggleClass('open');
-		});
-	
-		$('.dropdown-menu > li > a').click(
-				function(e) {
-					e.preventDefault();
-					var clicked = $(this);
-					clicked.closest('.dropdown-menu').find('.menu-active')
-							.removeClass('menu-active');
-					clicked.parent('li').addClass('menu-active');
-					clicked.closest('.search-dropdown').find('.toggle-active')
-							.html(clicked.html());
-				});
-	
-		$(document).click(function() {
-			$('.search-dropdown.open').removeClass('open');
-		});
-	</script>
 
 </head>
 <body id="page-top">
@@ -94,34 +67,6 @@
   <!-- project -->
   <section class="bg-light page-section">
     <div class="container">
-    
-    <div>
-    <!-- 검색창 -->
-<form class="expanding-search-form">
-							<div class="search-dropdown">
-								<button class="button dropdown-toggle" type="button">
-									<span class="toggle-active">Everything</span> <span
-										class="ion-arrow-down-b"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li class="menu-active"><a href="#">Everything</a></li>
-									<li><a href="#">People</a></li>
-									<li><a href="#">Products</a></li>
-									<li><a href="#">Blog</a></li>
-								</ul>
-							</div>
-							<input class="search-input" id="global-search" type="search"
-								placeholder="Search"> <label class="search-label"
-								for="global-search"> <span class="sr-only">Global
-									Search</span>
-							</label>
-							<button class="button search-button" type="button">
-								<span class="icon ion-search"> <span class="sr-only">Search</span>
-								</span>
-							</button>
-						</form>
-	</div>
-        
         <div class="row" >
           <div class="col-3">
               <div class="chk-block" style="margin-top:50px">

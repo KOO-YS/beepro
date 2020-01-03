@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,7 +100,7 @@
 
             </div>
             <div class="controls">
-               <input type="text" class="floatLabel" value="김지민" readonly >
+               <input type="text" class="floatLabel" value="${u_name}" readonly >
             </div>
             <div class="controls2">
                <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput">

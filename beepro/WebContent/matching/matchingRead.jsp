@@ -57,10 +57,19 @@
          $("#modifyBtn").on("click",function(){
         	 $("form[name=modifyForm]").submit();
          });
+         
+         $("#deleteBtn").on("click",function(){
+             $("input[name=command]").val("matchingDelete");
+             $("form[name=modifyForm]").submit();
+          });
       });
       // just add a class of "floatLabel to the input field!"
       floatLabel(".floatLabel");
    })(jQuery);
+   
+      
+
+		
 </script>
 </head>
 <body>
@@ -188,9 +197,10 @@
                   <p class="info-text margin-b-10">상세 내용</p>
                   <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요." <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>${matchingVo.content}</textarea>
                </div>
-               <a href="${pageContext.request.contextPath}/matching?command=matchingAll" class="col-1-4 btn btn-primary" style="float: left;">목록</a>
+               <a href="${pageContext.request.contextPath}/matching?command=matchingAll" class="col-1-8 btn btn-primary" style="float: left;">목록</a>
                <c:if test="${matchingVo.modifyYn }">
-               	<button type="button" class="col-1-4 btn btn-primary" style="float: right;" id="modifyBtn">수정</button>
+               	<button type="button" class="col-1-8 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
+               	<button type="button" class="col-1-8 btn btn-primary" style="float: right;" id="modifyBtn">수정</button>
                </c:if>
             </div>
 
