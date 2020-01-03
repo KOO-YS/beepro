@@ -20,36 +20,6 @@
 	}
 	%>   
 
-<script type="text/javascript">
-	function getUnread(){
-		$.ajax({
-			type : "POST",
-			url : "../chat?command=chatUnread",
-			data : {
-				u_id : encodeURIComponent('<%=u_id%>')
-			},
-			success : function(result){
-				
-				if(result >= 1){	//결과값이 1보다 크면 결과 출력
-					showUnread(result);
-				} else{
-					showUnread('');
-				}
-			}
-			
-		});
-	}
-	function getInfiniteUnread(){
-		setInterval(function(){
-			getUnread();
-		}, 4000);
-	}
-	function showUnread(result){
-		$('#unread').html(result);
-	}
-	
-</script>
-
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -194,23 +164,5 @@
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
 
-
-
-<%
-	if (u_id != null) {
-%>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		getInfiniteUnread();
-	});
-</script>
-
-<%
-	}
-%>
-	
-
->>>>>>> 91e888b1d25643543387fc04b17d6f5dd8975022
 </body>
 </html>

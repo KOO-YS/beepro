@@ -197,7 +197,7 @@ $( function() {
 		</div>
 	</div>
 <script type="text/javascript">
-
+alert($("#manager").val());
 </script>
 
 </body>

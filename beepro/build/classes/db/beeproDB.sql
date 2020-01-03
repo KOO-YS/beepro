@@ -15,6 +15,7 @@ SELECT * FROM COMMENTS;
 DROP SEQUENCE ISSUE_SEQ;
 DROP SEQUENCE PROJECT_SEQ;
 DROP SEQUENCE TODO_SEQ;
+DROP SEQUENCE MESSAGE_SEQ;
 
 --location, skill 而щ읆�� not null �젣�빟議곌굔 �븞嫄몄뼱 �몺
 
@@ -84,7 +85,7 @@ UPDATE BEEPRO_USER SET email_ck = 'Y' WHERE name='예지';
 
 
 SELECT * FROM beepro_user;
-
+select * from message;
 CREATE TABLE message (
 	message_seq	number	PRIMARY KEY,
     send_id	varchar2(100)	NOT NULL,
@@ -168,6 +169,9 @@ CREATE TABLE todo (
 );
 select * from todo;
 SELECT CATEGORY, COUNT(*) FROM TODO GROUP BY CATEGORY;
+
+
+-- 이전에 PROJECT 테이블을 생성한 사람 -> 하단에 테이블 수정 쿼리(이름 추가) 따로 실행 필요 
 CREATE TABLE project (
 	project_seq	number	PRIMARY KEY,
 	startdate	date	NOT NULL,
@@ -175,9 +179,18 @@ CREATE TABLE project (
 	finish_ck	varchar2(6)	NOT NULL,
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
-
 -- 프로젝트 이름 컬럼 추가
 ALTER TABLE PROJECT ADD PROJECT_NAME VARCHAR2(4000);
+
+-- PROJECT 테이블을 최초로 생성하는 사람
+CREATE TABLE project (
+	project_seq	number	PRIMARY KEY,
+	startdate	date	NOT NULL,
+	enddate	date	NOT NULL,
+	finish_ck	varchar2(6)	NOT NULL,
+	project_name varchar2(4000),			-- 생성
+	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
+);
 
 select * from project;
 
