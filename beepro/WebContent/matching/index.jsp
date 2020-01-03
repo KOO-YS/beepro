@@ -30,7 +30,7 @@
   <jsp:include page="common/main_nav.jsp"></jsp:include>
   
   <!-- Header -->
-  <header class="masthead" style="background-color: rgba(75,97,207);">
+  <header class="masthead" style="background-image:url('img/main_keyimage.jpg')">
     <div class="container">
       <div class="intro-text">
         <div class="intro-lead-in">matching & cowork</div>

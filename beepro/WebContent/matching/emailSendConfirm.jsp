@@ -73,28 +73,25 @@ div{
 
 
   <!-- Header -->
-  <header class="masthead" style="background-color: rgba(75,97,207);">
+  <header class="masthead" style="background-color: rgba(75,97,207); ">
     <div class="container">
-      <div class="intro-text" style="padding-top: 150px; padding-bottom: 100px;">
+      <div class="intro-text" style="padding-top: 150px; padding-bottom: 100px; ">
         <div class="intro-lead-in">이메일을 인증해주세요:)</div>
-        	가입한 이메일 주소 인증을 하셔야 Beepro 사이트 이용 가능합니다. <br>
-		  	혹시 인증 메일을 받지 못하셨나요?
+        	
       </div>
     </div>
   </header>
   <!-- profile -->
  
 
-
 	<div class="container">
 
 	    <div class="alert alert-warning mt-4" role="alert">
-
-	
-		  <br><br><br>
-
+	    <br>
+			가입한 이메일 주소 인증을 하셔야 Beepro 사이트 이용 가능합니다. <br>
+		  	혹시 인증 메일을 받지 못하셨나요?
+		  <br><br>
 		</div>
-
 		<a href="emailSendAction.jsp" class="btn btn-primary">인증 메일 다시 받기</a>
 
     </div>
