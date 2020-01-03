@@ -91,5 +91,16 @@
 		<servlet-name>findPwd</servlet-name>
 		<url-pattern>/findPwd</url-pattern>
 	</servlet-mapping>
+	
+	<!-- 쪽지 맵핑 -->
+	<servlet>
+		<servlet-name>msg</servlet-name>
+		<servlet-class>com.semi.controller.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>msg</servlet-name>
+		<url-pattern>/msg</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>
