@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
@@ -35,7 +36,7 @@ public class MatchingServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
+		HttpSession session = request.getSession();
 		dual(request, response);
 	}
 	
@@ -69,13 +70,16 @@ public class MatchingServlet extends HttpServlet {
             System.out.println("글 게시 실패"); 
          }
          System.out.println("매칭 생성");
-      
+         
+         
+     //매칭 전체보기 
       } else if (command.equals("matchingAll")) {
         System.out.println("매칭 전체 보기");
         List<MatchingProVo> list = matchingService.matchingProAll(request);
         request.setAttribute("matchingList", list);
         dispatch("matching/matchingList.jsp", request, response);
-        
+      
+     //매칭 상세보기
       } else if (command.equals("matchingRead")) {
          System.out.println("매칭 상세보기");
          MatchingProVo matchingProVo = matchingService.matchingRead(request);
@@ -83,6 +87,8 @@ public class MatchingServlet extends HttpServlet {
          request.setAttribute("matchingVo", matchingProVo);
          dispatch("matching/matchingRead.jsp", request, response);
          
+         
+     // 프로젝트 매칭 글 삭제   
       } else if(command.equals("matchingDelete")) {
          System.out.println("매칭 글 삭제");
          int success = matchingService.matchingDelete(request);
@@ -94,13 +100,16 @@ public class MatchingServlet extends HttpServlet {
                System.out.println("글 삭제 실패"); 
             }
           
+          
+     //프로젝트 매칭 글 수정 
       } else if( command.equals("matchingView")) {
          System.out.println("매칭 글 수정 페이지");
          MatchingProVo matchingProVo = matchingService.matchingRead(request);
          
          request.setAttribute("matchingVo", matchingProVo);
          dispatch("matching/matchingRead.jsp", request, response);
-         
+       
+    
       } else if( command.equals("matchingModifyProc")) {
          System.out.println("매칭 글 수정 수정");
          String project_seq = (String) request.getParameter("project_seq");
@@ -150,6 +159,7 @@ public class MatchingServlet extends HttpServlet {
                System.out.println("글 삭제 실패"); 
             }
       
+          
       //개인 매칭 게시글 목록
       } else if(command.equals("selectAllPer")) {
          List<MatchingPerVo> list = dao.selectAllPer();

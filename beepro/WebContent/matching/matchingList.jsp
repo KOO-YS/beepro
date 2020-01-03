@@ -31,33 +31,8 @@
 
   <!-- heart button https://codepen.io/kieranfivestars/pen/PwzjgN-->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-  <!-- 검색창css -->
-  <link href='${pageContext.request.contextPath}/matching/css/search.css' rel='stylesheet' type='text/css'>
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 
-	  <script type="text/javascript">
-		$('.dropdown-toggle').click(function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			$(this).closest('.search-dropdown').toggleClass('open');
-		});
-	
-		$('.dropdown-menu > li > a').click(
-				function(e) {
-					e.preventDefault();
-					var clicked = $(this);
-					clicked.closest('.dropdown-menu').find('.menu-active')
-							.removeClass('menu-active');
-					clicked.parent('li').addClass('menu-active');
-					clicked.closest('.search-dropdown').find('.toggle-active')
-							.html(clicked.html());
-				});
-	
-		$(document).click(function() {
-			$('.search-dropdown.open').removeClass('open');
-		});
-	</script>
 <style>
 .search-form .form-group {
   float: right !important;
