@@ -25,9 +25,12 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			pstmt.setString(1, u_id);
 			rs = pstmt.executeQuery();
 			String pwd_ch = sha256.getSHA256(u_pwd);
+			System.out.println("pwd_ch"+pwd_ch);
+			System.out.println("u_pwd"+u_pwd);
 			
 			if(rs.next()) {
 				if(rs.getString(1).equals(pwd_ch))
+					
 					return 1;  //로그인성공
 				else
 					return 0; //비밀번호 불일치, 로그인 실패
