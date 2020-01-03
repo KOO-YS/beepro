@@ -111,7 +111,7 @@
                <input type="text" class="floatLabel" value="김지민" readonly >
             </div>
             <div class="controls2">
-               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>
+               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" readonly="readonly"<c:if test="${!matchingVo.modifyYn }"></c:if>>
             </div>
          </div>
          <div class="grid">

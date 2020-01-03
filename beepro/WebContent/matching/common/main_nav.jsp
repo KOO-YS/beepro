@@ -33,7 +33,7 @@
             <a class="nav-link js-scroll-trigger" href="#matching" id="match-sub">매칭 matching</a>
             <ul class="sub-nav">
               <li><a class="nav-link" href="${pageContext.request.contextPath}/matching?command=matchingAll">by project</a></li>
-              <li><a class="nav-link" href="personal.jsp">by personal</a></li>
+              <li><a class="nav-link" href="${pageContext.request.contextPath}/personMatching?command=selectAllPer">by personal</a></li>
             </ul>
           </li>
           <li class="nav-item">
@@ -52,7 +52,7 @@
          	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='mypage.jsp'">
               MyPage
             </button>&nbsp;
-          	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='userLogout.jsp'">
+          	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='../user?command=logout'">
              logout
             </button> 
             

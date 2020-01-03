@@ -20,36 +20,6 @@
 	}
 	%>   
 
-<script type="text/javascript">
-	function getUnread(){
-		$.ajax({
-			type : "POST",
-			url : "../chat?command=chatUnread",
-			data : {
-				u_id : encodeURIComponent('<%=u_id%>')
-			},
-			success : function(result){
-				
-				if(result >= 1){	//결과값이 1보다 크면 결과 출력
-					showUnread(result);
-				} else{
-					showUnread('');
-				}
-			}
-			
-		});
-	}
-	function getInfiniteUnread(){
-		setInterval(function(){
-			getUnread();
-		}, 4000);
-	}
-	function showUnread(result){
-		$('#unread').html(result);
-	}
-	
-</script>
-
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -62,10 +32,11 @@
 </head>
 
 <body id="page-top">
-	<%-- <c:redirect url="/project?command=dashboard">
-		<c:param name="NUM1" value="5"/>
+	<c:redirect url="/project?command=dashboard">
+		<%-- <c:param name="NUM1" value="5"/> --%>
 		<!-- index와 업무 진행상황 페이지에 차이점이 필요할때 사용 -->
-	</c:redirect> --%>
+	</c:redirect>
+
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -192,22 +163,5 @@
   <!-- Page level custom scripts -->
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
-
-
-
-<%
-	if (u_id != null) {
-%>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		getInfiniteUnread();
-	});
-</script>
-
-<%
-	}
-%>
-
 </body>
 </html>

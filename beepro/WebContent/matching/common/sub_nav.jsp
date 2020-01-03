@@ -10,7 +10,7 @@
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     
-    <link href="/matching/css/agency.css" rel="stylesheet">
+    <link href="/matching/css/agency.css" rel="stylesheet"> 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
@@ -25,7 +25,7 @@
             <a class="nav-link js-scroll-trigger" href="#matching" id="match-sub" >매칭 matching</a>
             <ul class="sub-nav">
               <li><a class="nav-link" href="${pageContext.request.contextPath}/matching?command=matchingAll">by project</a></li>
-              <li><a class="nav-link" href="matchingList.jsp">by personal</a></li>
+              <li><a class="nav-link" href="${pageContext.request.contextPath}/personMatching?command=selectAllPer">by personal</a></li>
             </ul>
           </li>
           <li class="nav-item">

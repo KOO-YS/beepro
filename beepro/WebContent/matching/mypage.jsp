@@ -240,7 +240,17 @@
 					  </tbody>
 					</table>
 				 </div>
-			 </div> <!-- 관심목록 end -->			 
+			 </div> <!-- 관심목록 end -->	
+			 <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+         
+       	<br>
+         <button class="btn btn-primary" data-toggle="modal" data-target="#withdrawal" style="margin-top: 40px; background:#ff4040;"> 회원 탈퇴</button>
+        
+        </div>        
+      </div>
+    </div>    		 
 		</div>
 	</section>
 	
@@ -256,7 +266,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="updatePwdForm.jsp" method="post">
+	<form action="../user?command=updatePwd" method="post">
       <div class="modal-body">
       
         	  <div class="form-group">
@@ -313,6 +323,34 @@
   </div>
 </div>
 <!-- 프로필 사진 변경 모달 end-->
+<!-- 회원탈퇴 모달 -->
+<div class="modal fade" id="withdrawal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="withdrawalLabel">beepro 탈퇴하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	<form action="../user?command=withdrawal" method="post">
+      <div class="modal-body">
+			  <div class="form-group">
+			    <label for="newPwd_chk">패스워드 확인</label>
+			    <input type="password" class="form-control" name="pwd_chk" id="pwd_chk" required aria-describedby="pwdinfo">
+			    <small id="pwdinfo" class="form-text text-muted">비밀번호를 입력하신 후 확인을 누르면 탈퇴처리가 됩니다.</small>
+
+			  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary">확인</button>
+      </div>
+	</form>
+    </div>
+  </div>
+</div>
+<!-- 회원탈퇴 모달 end--> 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
