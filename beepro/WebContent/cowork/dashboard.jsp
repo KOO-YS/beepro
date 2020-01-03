@@ -162,23 +162,90 @@
 					            </div>
 							</div>
 							<hr>
+							<!-- Content Row -->
+					            <div class="row">
+					                <!-- Content Column -->
+					                <div class="col-lg-5 mb-4">
+					
+					                    <!-- Project Card Example -->
+					                    <div class="card shadow mb-4">
+					                    <div class="card-header py-3">
+					                        <h6 class="m-0 font-weight-bold text-primary">업무 분류별 진행률XXX</h6>
+					                    </div>
+					                    <div class="card-body">
+					                        <h4 class="small font-weight-bold">기획<span class="float-right">${todoType['planningRate']}%</span></h4>
+					                        <div class="progress mb-4">
+					                        <div class="progress-bar bg-danger" role="progressbar" style="width: ${todoType['planningRate']}%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+					                        </div>
+					                        <h4 class="small font-weight-bold">디자인<span class="float-right">${todoType['designRate']}%</span></h4>
+					                        <div class="progress mb-4">
+					                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${todoType['designRate']}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+					                        </div>
+					                        <h4 class="small font-weight-bold">프론트앤드<span class="float-right">${todoType['front-endRate']}%</span></h4>
+					                        <div class="progress mb-4">
+					                        <div class="progress-bar" role="progressbar" style="width:${todoType['front-endRate']}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+					                        </div>
+					                        <h4 class="small font-weight-bold">백앤드<span class="float-right">${todoType['back-endRate']}%</span></h4>
+					                        <div class="progress mb-4">
+					                        <div class="progress-bar bg-info" role="progressbar" style="width: ${todoType['back-endRate']}%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+					                        </div>
+					                    </div>
+					                    </div>
+					                </div>
+					            
+					                <!-- Pie Chart -->
+					                <div class="col-xl-6 col-lg-12">
+					                    <div class="card shadow mb-6">
+						                    <!-- Card Header - Dropdown -->
+						                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						                        <h6 class="m-0 font-weight-bold text-primary">분야별 업무XXX</h6>
+						                    </div>
+						                    <!-- Card Body -->
+						                    <div class="card-body row">
+						                        <div class="col-6 chart-pie pt-4 pb-2">
+						                        	<canvas id="myPieChart"></canvas>
+						                        </div>
+						                        <div class="col-6 mt-5 text-center small">
+							                        <span class="mr-2">
+							                            <i class="fas fa-circle" style="color:#e74a3b"></i> 기획
+							                        </span>
+							                        <span class="mr-2">
+							                            <i class="fas fa-circle" style="color:#f6c23e"></i> 디자인
+							                        </span>
+							                        <span class="mr-2">
+							                            <i class="fas fa-circle" style="color:#4b61cf"></i> 프론트앤드
+							                        </span>
+							                        <span class="mr-2">
+							                            <i class="fas fa-circle" style="color:#36b9cc"></i> 백앤드
+							                        </span>
+						                        </div>
+						                    </div>
+					                    </div>
+					                </div>
+								</div>		<!-- Content Row end-->
 							<div class="row">
 					            <div class="col-lg-11 col-md-11">
 					              <div class="card border-left-danger shadow h-100 py-2">
 					                <div class="card-body">
 					                  <div class="row no-gutters align-items-center">
 					                    <div class="col mr-2">
-					                    	<div class="font-weight-bold text-danger text-uppercase mb-1">마감기한 임박XXX</div>
+					                    	<div class="font-weight-bold text-danger text-uppercase mb-1">마감기한 임박 업무 XXX</div>
 					                      <hr>
 						                   <div class="row">
 						                   <c:forEach var="urgent" items="${urgent}">
-							                   <div class="col-lg-6 mb-3">
-								                  <div class="card bg-danger text-white shadow">
+						                   <div class="col-lg-3 mb-3">
+							                  <a style="width:100%;" href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${urgent.todoSeq}" class="btn btn-danger btn-icon-split">
+							                    <span class="text">${urgent.title}</span>
+							                  </a>
+							                </div>
+							                   <%-- <div class="col-lg-6 mb-3">
+								                  <div class="card shadow">
 								                    <div class="card-body">
-									                      ${urgent.title}
+									                      <a class="text-danger" href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${urgent.todoSeq}">${urgent.title}</a>
 								                    	<div class="row">
 								                    	<div class="col-lg-8 col-sm-6">
-									                      <div class="text-white-50 small">${urgent.category}</div>
+									                      <div class="small">${urgent.category}</div>
+									                      
 									                    </div>
 									                    <div class="col-lg-4 col-sm-6">
 										                   	<div class="rate">
@@ -198,7 +265,7 @@
 								                    	</div>
 								                    </div>
 								                  </div>
-								                </div>
+								                </div> --%>
 						                   </c:forEach>
 						                   	</div>
 					                    </div>
@@ -261,6 +328,8 @@
 					            </div>
 				            </div>
 							
+									
+					          
 							<div class="card shadow mb-4 col-11">
 						            <div class="card-header py-3">
 						              <h6 class="m-0 font-weight-bold text-primary">이번주에 발생한 이슈XXX</h6>
@@ -292,69 +361,7 @@
 						              </div>
 						            </div>
 						          </div> <!-- card shadow mb-4 -->
-							
-					          <!-- Content Row -->
-					            <div class="row">
-					                <!-- Content Column -->
-					                <div class="col-lg-5 mb-4">
 					
-					                    <!-- Project Card Example -->
-					                    <div class="card shadow mb-4">
-					                    <div class="card-header py-3">
-					                        <h6 class="m-0 font-weight-bold text-primary">업무 분류별 진행률XXX</h6>
-					                    </div>
-					                    <div class="card-body">
-					                        <h4 class="small font-weight-bold">기획<span class="float-right">${todoType['planningRate']}%</span></h4>
-					                        <div class="progress mb-4">
-					                        <div class="progress-bar bg-danger" role="progressbar" style="width: ${todoType['planningRate']}%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-					                        </div>
-					                        <h4 class="small font-weight-bold">디자인<span class="float-right">${todoType['designRate']}%</span></h4>
-					                        <div class="progress mb-4">
-					                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${todoType['designRate']}%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-					                        </div>
-					                        <h4 class="small font-weight-bold">프론트앤드<span class="float-right">${todoType['front-endRate']}%</span></h4>
-					                        <div class="progress mb-4">
-					                        <div class="progress-bar" role="progressbar" style="width:${todoType['front-endRate']}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-					                        </div>
-					                        <h4 class="small font-weight-bold">백앤드<span class="float-right">${todoType['back-endRate']}%</span></h4>
-					                        <div class="progress mb-4">
-					                        <div class="progress-bar bg-info" role="progressbar" style="width: ${todoType['back-endRate']}%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-					                        </div>
-					                    </div>
-					                    </div>
-					                </div>
-					            
-					                <!-- Pie Chart -->
-					                <div class="col-xl-6 col-lg-12">
-					                    <div class="card shadow mb-6">
-						                    <!-- Card Header - Dropdown -->
-						                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						                        <h6 class="m-0 font-weight-bold text-primary">분야별 업무XXX</h6>
-						                    </div>
-						                    <!-- Card Body -->
-						                    <div class="card-body row">
-						                        <div class="col-6 chart-pie pt-4 pb-2">
-						                        	<canvas id="myPieChart"></canvas>
-						                        </div>
-						                        <div class="col-6 mt-5 text-center small">
-							                        <span class="mr-2">
-							                            <i class="fas fa-circle" style="color:#e74a3b"></i> 기획
-							                        </span>
-							                        <span class="mr-2">
-							                            <i class="fas fa-circle" style="color:#f6c23e"></i> 디자인
-							                        </span>
-							                        <span class="mr-2">
-							                            <i class="fas fa-circle" style="color:#4b61cf"></i> 프론트앤드
-							                        </span>
-							                        <span class="mr-2">
-							                            <i class="fas fa-circle" style="color:#36b9cc"></i> 백앤드
-							                        </span>
-						                        </div>
-						                    </div>
-					                    </div>
-					                </div>
-								</div>		<!-- Content Row end-->
-							
 					</div>
 				</div>
 			</div>

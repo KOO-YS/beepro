@@ -13,6 +13,17 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	<!-- cowork 매핑 -->
+	<servlet>
+		<servlet-name>project</servlet-name>
+		<servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>project</servlet-name>
+		<url-pattern>/project</url-pattern>
+	</servlet-mapping>
+	
 	
   <!-- 댓글 매핑 -->
    <servlet>
@@ -79,6 +90,7 @@
 		<url-pattern>/personMatching</url-pattern>
 	</servlet-mapping>
 	
+	<!-- 비밀번호 찾기 맵핑 -->
 	<!-- 프로젝트 매칭 페이지 맵핑 -->
 	<servlet>
 		<servlet-name>projectMatching</servlet-name>
@@ -92,14 +104,14 @@
 		
 	<!-- 유저 맵핑 -->
 	<servlet>
-		<servlet-name>user</servlet-name>
+		<servlet-name>findPwd</servlet-name>
 		<servlet-class>com.semi.controller.UserServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>user</servlet-name>
-		<url-pattern>/user</url-pattern>
+		<servlet-name>findPwd</servlet-name>
+		<url-pattern>/findPwd</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- 쪽지 맵핑 -->
 	<servlet>
 		<servlet-name>msg</servlet-name>
@@ -110,5 +122,4 @@
 		<url-pattern>/msg</url-pattern>
 	</servlet-mapping>
 	
-
 </web-app>
