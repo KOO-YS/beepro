@@ -8,7 +8,7 @@ import com.semi.vo.MatchingProVo;
 public interface MatchingDao {
 
 	// 개인 매칭
-
+	public int MatchingWrite(MatchingProVo MatchingProVo);
 	// 글쓰기
 	String insertPerSql = "INSERT INTO matching_personal VALUES(personal_seq.nextval, ?, ?, ?, ?, ?)";
 	// 수정
