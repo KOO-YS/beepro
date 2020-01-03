@@ -196,9 +196,6 @@ $( function() {
 			<div id="footer"></div>
 		</div>
 	</div>
-<script type="text/javascript">
-alert($("#manager").val());
-</script>
 
 </body>
 </html>
