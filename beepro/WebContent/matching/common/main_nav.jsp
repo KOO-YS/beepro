@@ -32,7 +32,7 @@
             <!-- <a class="nav-link js-scroll-trigger" href="#matching"><span id="match-sub"> 매칭 matching </span></a> -->
             <a class="nav-link js-scroll-trigger" href="#matching" id="match-sub">매칭 matching</a>
             <ul class="sub-nav">
-              <li><a class="nav-link" href="project.jsp">by project</a></li>
+              <li><a class="nav-link" href="${pageContext.request.contextPath}/matching?command=matchingAll">by project</a></li>
               <li><a class="nav-link" href="personal.jsp">by personal</a></li>
             </ul>
           </li>

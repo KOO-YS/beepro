@@ -1,67 +1,67 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <meta charset="UTF-8">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <%
-	request.setCharacterEncoding("UTF-8");
+   request.setCharacterEncoding("UTF-8");
 %>
 <%
-	response.setContentType("text/html; charset=UTF-8");
+   response.setContentType("text/html; charset=UTF-8");
 %>  
 
 <%
-	String u_id = null;
-	if (session.getAttribute("u_id") != null) {
-		u_id = (String) session.getAttribute("u_id");
-	}
+   String u_id = null;
+   if (session.getAttribute("u_id") != null) {
+      u_id = (String) session.getAttribute("u_id");
+   }
 %>   
 
 <script type="text/javascript">
-	function getUnread(){
-		$.ajax({
-			type : "POST",
-			url : "${pageContext.request.contextPath}/chat?command=chatUnread",
-			data : {
-				u_id : encodeURIComponent('<%=u_id%>')
-			},
-			success : function(result){
-				
-				if(result >= 1){	//결과값이 1보다 크면 결과 출력
-					showUnread(result);
-				} else{
-					showUnread('');
-				}
-			}
-			
-		});
-	}
-	function getInfiniteUnread(){
-		setInterval(function(){
-			getUnread();
-		}, 4000);
-	}
-	function showUnread(result){
-		$('#unread').html(result);
-	}
-	
+   function getUnread(){
+      $.ajax({
+         type : "POST",
+         url : "${pageContext.request.contextPath}/chat?command=chatUnread",
+         data : {
+            u_id : encodeURIComponent('<%=u_id%>')
+         },
+         success : function(result){
+            
+            if(result >= 1){   //결과값이 1보다 크면 결과 출력
+               showUnread(result);
+            } else{
+               showUnread('');
+            }
+         }
+         
+      });
+   }
+   function getInfiniteUnread(){
+      setInterval(function(){
+         getUnread();
+      }, 4000);
+   }
+   function showUnread(result){
+      $('#unread').html(result);
+   }
+   
 </script>
 
 
 
 <!-- Custom fonts for this template-->
 <link
-	href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css"
-	rel="stylesheet" type="text/css">
+   href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css"
+   rel="stylesheet" type="text/css">
 <link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
+   href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+   rel="stylesheet">
 
 <!-- Custom styles for this template-->
 
 
 <link
-	href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css"
-	rel="stylesheet">
+   href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css"
+   rel="stylesheet">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
  
 
@@ -69,218 +69,219 @@
 <style>
 
 option {
-	border-right: 1px solid #ccc;
+   border-right: 1px solid #ccc;
 }
 
 textarea {
-	outline: 3px solid rgb(221, 226, 236);
-	border: 0;
+   outline: 3px solid rgb(221, 226, 236);
+   border: 0;
 }
 
 textarea:focus {
-	outline: 3px solid rgba(75, 97, 207);
-	border: 0;
+   outline: 3px solid rgba(75, 97, 207);
+   border: 0;
 }
 
 input {
-	outline: 3px solid rgb(221, 226, 236);
-	border: 0;
-	height: 30px;
+   outline: 3px solid rgb(221, 226, 236);
+   border: 0;
+   height: 30px;
 }
 
 input:focus {
-	outline: 3px solid rgba(75, 97, 207);
-	border: 0;
-	height: 30px;
+   outline: 3px solid rgba(75, 97, 207);
+   border: 0;
+   height: 30px;
 }
 
 select:focus {
-	outline: 3px solid rgba(75, 97, 207);
-	border: 0;
+   outline: 3px solid rgba(75, 97, 207);
+   border: 0;
 }
 
 select {
-	width: 300px;
-	padding: .5em .5em;
-	outline: 3px solid rgb(221, 226, 236);
-	font-size: 14px;
-	border: 0;
+   width: 300px;
+   padding: .5em .5em;
+   outline: 3px solid rgb(221, 226, 236);
+   font-size: 14px;
+   border: 0;
 }
 
 #box {
-	float: left;
-	width: 350px;
-	height: 150px;
+   float: left;
+   width: 350px;
+   height: 150px;
 }
 
 #box2 {
-	float: left;
-	width: 180px;
-	height: 150px;
-	margin-left: 52px;
+   float: left;
+   width: 180px;
+   height: 150px;
+   margin-left: 52px;
 }
 
 #title {
-	font-size: 14px;
-	color: black;
-	font-weight: bold;
+   font-size: 14px;
+   color: black;
+   font-weight: bold;
 }
 
 button a {
-	text-decoration: none;
-	color: white;
+   text-decoration: none;
+   color: white;
 }
 
 a:hover {
-	text-decoration: none;
-	color: white;
+   text-decoration: none;
+   color: white;
 }
 </style>
 
 <script type="text/javascript">
-		function msgclick(){
-			window.open('../cowork/chat.jsp', '실시간 채팅', 'top=100, left=500, width=550px, height=580px, status=no, menubar=no, toolbar=no, resizable=no');
-		}
-	</script>
+      function msgclick(){
+         window.open('../cowork/chat.jsp', '실시간 채팅', 'top=100, left=500, width=550px, height=580px, status=no, menubar=no, toolbar=no, resizable=no');
+      }
+   </script>
 
 <!-- 탑 메뉴 -->
 <nav
-	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+   class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-	<!-- 이슈만들기 모달창 -->
-	<button type="button" class="btn btn-primary" data-toggle="modal"
-		data-target="#exampleModal" style="margin-left: 840px;"
-		onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite'">
-		<b>+&nbsp;&nbsp;이슈 생성하기</b>
-	</button>
+   <!-- 이슈만들기 모달창 -->
+   <button type="button" class="btn btn-primary" data-toggle="modal"
+      data-target="#exampleModal" style="margin-left: 840px;"
+      onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite'">
+      <b>+&nbsp;&nbsp;이슈 생성하기</b>
+   </button>
 
-	<!-- 탑 메뉴 끝-->
+   <!-- 탑 메뉴 끝-->
 
-	<!-- Sidebar Toggle (Topbar) -->
+   <!-- Sidebar Toggle (Topbar) -->
 
-	<button id="sidebarToggleTop"
-		class="btn btn-link d-md-none rounded-circle mr-3">
-		<i class="fa fa-bars"></i>
-	</button>
-	<!-- Topbar Navbar -->
-	<ul class="navbar-nav ml-auto">
-		<!-- Nav Item - Alerts -->
-		<li class="nav-item dropdown no-arrow mx-1"><a
-			class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
-			role="button" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
-				<span class="badge badge-danger badge-counter">3+</span>
-		</a> <!-- Dropdown - Alerts -->
-			<div
-				class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-				aria-labelledby="alertsDropdown">
-				<h6 class="dropdown-header">Alerts Center</h6>
-				<a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="mr-3">
-						<div class="icon-circle bg-primary">
-							<i class="fas fa-file-alt text-white"></i>
-						</div>
-					</div>
-					<div>
-						<div class="small text-gray-500">December 12, 2019</div>
-						<span class="font-weight-bold">A new monthly report is
-							ready to download!</span>
-					</div>
-				</a> <a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="mr-3">
-						<div class="icon-circle bg-success">
-							<i class="fas fa-donate text-white"></i>
-						</div>
-					</div>
-					<div>
-						<div class="small text-gray-500">December 7, 2019</div>
-						$290.29 has been deposited into your account!
-					</div>
-				</a> <a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="mr-3">
-						<div class="icon-circle bg-warning">
-							<i class="fas fa-exclamation-triangle text-white"></i>
-						</div>
-					</div>
-					<div>
-						<div class="small text-gray-500">December 2, 2019</div>
-						Spending Alert: We've noticed unusually high spending for your
-						account.
-					</div>
-				</a> <a class="dropdown-item text-center small text-gray-500" href="#">Show
-					All Alerts</a>
-			</div></li>
-
-
+   <button id="sidebarToggleTop"
+      class="btn btn-link d-md-none rounded-circle mr-3">
+      <i class="fa fa-bars"></i>
+   </button>
+   <!-- Topbar Navbar -->
+   <ul class="navbar-nav ml-auto">
+      <!-- Nav Item - Alerts -->
+      <li class="nav-item dropdown no-arrow mx-1"><a
+         class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
+         role="button" data-toggle="dropdown" aria-haspopup="true"
+         aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+            <span class="badge badge-danger badge-counter">3+</span>
+      </a> <!-- Dropdown - Alerts -->
+         <div
+            class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+            aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">Alerts Center</h6>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+               <div class="mr-3">
+                  <div class="icon-circle bg-primary">
+                     <i class="fas fa-file-alt text-white"></i>
+                  </div>
+               </div>
+               <div>
+                  <div class="small text-gray-500">December 12, 2019</div>
+                  <span class="font-weight-bold">A new monthly report is
+                     ready to download!</span>
+               </div>
+            </a> <a class="dropdown-item d-flex align-items-center" href="#">
+               <div class="mr-3">
+                  <div class="icon-circle bg-success">
+                     <i class="fas fa-donate text-white"></i>
+                  </div>
+               </div>
+               <div>
+                  <div class="small text-gray-500">December 7, 2019</div>
+                  $290.29 has been deposited into your account!
+               </div>
+            </a> <a class="dropdown-item d-flex align-items-center" href="#">
+               <div class="mr-3">
+                  <div class="icon-circle bg-warning">
+                     <i class="fas fa-exclamation-triangle text-white"></i>
+                  </div>
+               </div>
+               <div>
+                  <div class="small text-gray-500">December 2, 2019</div>
+                  Spending Alert: We've noticed unusually high spending for your
+                  account.
+               </div>
+            </a> <a class="dropdown-item text-center small text-gray-500" href="#">Show
+               All Alerts</a>
+         </div></li>
 
 
 
 
 
 
-		<!-- Nav Item - Messages -->
-		<li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
-		<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
-			role="button" > <i class="fas fa-envelope fa-fw"></i> 
-			
-			<!-- Counter - Messages -->
-				<span class="badge badge-danger badge-counter" id="unread"></span>
-		</a> <!-- Dropdown - Messages -->
-		<!-- 	<div
-				class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-				aria-labelledby="messagesDropdown">
-				<h6 class="dropdown-header">Message Center</h6>
-				<a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="dropdown-list-image mr-3">
-						<img class="rounded-circle"
-							src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
-						<div class="status-indicator bg-success"></div>
-					</div>
-					<div class="font-weight-bold">
-						<div class="text-truncate">Hi there! I am wondering if you
-							can help me with a problem I've been having.</div>
-						<div class="small text-gray-500">Emily Fowler · 58m</div>
-					</div>
-				</a> <a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="dropdown-list-image mr-3">
-						<img class="rounded-circle"
-							src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
-						<div class="status-indicator"></div>
-					</div>
-					<div>
-						<div class="text-truncate">I have the photos that you
-							ordered last month, how would you like them sent to you?</div>
-						<div class="small text-gray-500">Jae Chun · 1d</div>
-					</div>
-				</a> <a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="dropdown-list-image mr-3">
-						<img class="rounded-circle"
-							src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
-						<div class="status-indicator bg-warning"></div>
-					</div>
-					<div>
-						<div class="text-truncate">Last month's report looks great,
-							I am very happy with the progress so far, keep up the good work!</div>
-						<div class="small text-gray-500">Morgan Alvarez · 2d</div>
-					</div>
-				</a> <a class="dropdown-item d-flex align-items-center" href="#">
-					<div class="dropdown-list-image mr-3">
-						<img class="rounded-circle"
-							src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-						<div class="status-indicator bg-success"></div>
-					</div>
-					<div>
-						<div class="text-truncate">Am I a good boy? The reason I ask
-							is because someone told me that people say this to all dogs, even
-							if they aren't good...</div>
-						<div class="small text-gray-500">Chicken the Dog · 2w</div>
-					</div>
-				</a> <a class="dropdown-item text-center small text-gray-500"
-					onclick="msgclick();">Read More Messages</a>
-			</div> -->  
-			</li>
-			
-			<!-- 메세지 끝 -->
+
+
+      <!-- Nav Item - Messages -->
+      <li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
+      <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
+         role="button" > <i class="fas fa-envelope fa-fw"></i> 
+         
+         <!-- Counter - Messages -->
+            <span class="badge badge-danger badge-counter" id="unread"></span>
+      </a> <!-- Dropdown - Messages -->
+      <!--    <div
+            class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+            aria-labelledby="messagesDropdown">
+            <h6 class="dropdown-header">Message Center</h6>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+               <div class="dropdown-list-image mr-3">
+                  <img class="rounded-circle"
+                     src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+                  <div class="status-indicator bg-success"></div>
+               </div>
+               <div class="font-weight-bold">
+                  <div class="text-truncate">Hi there! I am wondering if you
+                     can help me with a problem I've been having.</div>
+                  <div class="small text-gray-500">Emily Fowler · 58m</div>
+               </div>
+            </a> <a class="dropdown-item d-flex align-items-center" href="#">
+               <div class="dropdown-list-image mr-3">
+                  <img class="rounded-circle"
+                     src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
+                  <div class="status-indicator"></div>
+               </div>
+               <div>
+                  <div class="text-truncate">I have the photos that you
+                     ordered last month, how would you like them sent to you?</div>
+                  <div class="small text-gray-500">Jae Chun · 1d</div>
+               </div>
+            </a> <a class="dropdown-item d-flex align-items-center" href="#">
+               <div class="dropdown-list-image mr-3">
+                  <img class="rounded-circle"
+                     src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+                  <div class="status-indicator bg-warning"></div>
+               </div>
+               <div>
+                  <div class="text-truncate">Last month's report looks great,
+                     I am very happy with the progress so far, keep up the good work!</div>
+                  <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+               </div>
+            </a> <a class="dropdown-item d-flex align-items-center" href="#">
+               <div class="dropdown-list-image mr-3">
+                  <img class="rounded-circle"
+                     src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                  <div class="status-indicator bg-success"></div>
+               </div>
+               <div>
+                  <div class="text-truncate">Am I a good boy? The reason I ask
+                     is because someone told me that people say this to all dogs, even
+                     if they aren't good...</div>
+                  <div class="small text-gray-500">Chicken the Dog · 2w</div>
+               </div>
+            </a> <a class="dropdown-item text-center small text-gray-500"
+               onclick="msgclick();">Read More Messages</a>
+         </div> -->  
+         </li>
+         
+         <!-- 메세지 끝 -->
+      
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -292,14 +293,18 @@ a:hover {
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="../matching/mypage.jsp">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                           내 정보
+                </a>
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-			                  내 정보
+                             워크스페이스 이동
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="../matching/index.jsp" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-			                  로그아웃
+                           로그아웃
                 </a>
               </div>
             </li>
@@ -307,19 +312,36 @@ a:hover {
           </ul>
 
         </nav>
-		<!-- 탑 메뉴 끝 -->
-	<%
-	if (u_id != null) {
+        
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Notice</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">정말 로그아웃 하시겠습니까?</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">취  소</button>
+            <a class="btn btn-primary" href="../matching/userLogout.jsp">로그아웃</a>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- 탑 메뉴 끝 -->
+   <%
+   if (u_id != null) {
 %>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		getUnread();
-		getInfiniteUnread();
-	});
+   $(document).ready(function(){
+      getUnread();
+      getInfiniteUnread();
+   });
 </script>
 
 <%
-	}
+   }
 %>
-

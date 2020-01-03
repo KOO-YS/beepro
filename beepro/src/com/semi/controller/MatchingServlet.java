@@ -1,7 +1,9 @@
 package com.semi.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
+import com.semi.vo.MatchingProVo;
 
 //매칭
 
-@WebServlet("/matchingServlet")
+@WebServlet("/matching")
 public class MatchingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -36,6 +39,11 @@ public class MatchingServlet extends HttpServlet {
 		dual(request, response);
 	}
 	
+	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatch = request.getRequestDispatcher(url);
+		dispatch.forward(request, response);
+	   }
+	
 	private void dual(HttpServletRequest request, 
 			
 			HttpServletResponse response) throws ServletException, IOException {
@@ -47,22 +55,66 @@ public class MatchingServlet extends HttpServlet {
 		 *	https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
 		 *  */
 
-		String command = request.getParameter("command");
+		String command = request.getParameter("command"); //동작 구분을 위한 데이터
 		System.out.println("[ " + command + " ]");
 		//서비스와 연결
 		MatchingService matchingService = new MatchingService();
 		
-		if(command.equals("projectWrite")) {
-			int success = matchingService.projectWrite(request, response);
-			System.out.println("프로젝트 생성");
-		} else if (command.equals("projectAll")) {
-		  System.out.println("프로젝트 전체 보기");
-		} else if (command.equals("projectRead")) {
-			System.out.println("프로젝트 상세보기");
-		} else if( command.equals("projectDelete")) {
-			System.out.println("프로젝트 글 삭제");
-		} else if( command.equals("projectUpdate")) {
-			System.out.println("프로젝트 글 수정");
+		if(command.equals("matchingWrite")) {
+          int success = matchingService.matchingWrite(request, response);
+         
+         if(success > 0) {
+            System.out.println("글 게시 성공");
+            //dispatch("/matching/matching.jsp", request, response);
+            response.sendRedirect("matching?command=matchingAll");
+         } else{
+            System.out.println("글 게시 실패"); 
+         }
+			System.out.println("매칭 생성");
+		
+		} else if (command.equals("matchingAll")) {
+		  System.out.println("매칭 전체 보기");
+		  List<MatchingProVo> list = matchingService.matchingProAll(request);
+		  request.setAttribute("matchingList", list);
+		  dispatch("matching/matchingList.jsp", request, response);
+		  
+		} else if (command.equals("matchingRead")) {
+			System.out.println("매칭 상세보기");
+			MatchingProVo matchingProVo = matchingService.matchingRead(request);
+			System.out.println(matchingProVo.toString());
+			request.setAttribute("matchingVo", matchingProVo);
+			dispatch("matching/matchingRead.jsp", request, response);
+			
+		} else if(command.equals("matchingDelete")) {
+			System.out.println("매칭 글 삭제");
+			int success = matchingService.matchingDelete(request);
+			 if(success > 0) {
+	            System.out.println("글 삭제 성공");
+	            //dispatch("/matching/matching.jsp", request, response);
+	            response.sendRedirect("matching?command=matchingAll");
+	         } else{
+	            System.out.println("글 수정 실패"); 
+	         }
+		} else if( command.equals("matchingView")) {
+			System.out.println("매칭 글 수정 페이지");
+			MatchingProVo matchingProVo = matchingService.matchingRead(request);
+			
+			request.setAttribute("matchingVo", matchingProVo);
+			dispatch("matching/matchingRead.jsp", request, response);
+		} else if( command.equals("matchingModifyProc")) {
+			System.out.println("매칭 글 수정 수정");
+			String project_seq = (String) request.getParameter("project_seq");
+			int success = matchingService.matchingModifyProc(request);
+			 if(success > 0) {
+	            System.out.println("글 수정 성공");
+	            //dispatch("/matching/matching.jsp", request, response);
+	            response.sendRedirect("matching?command=matchingAll");
+	         } else{
+	            System.out.println("글 수정 실패"); 
+	         }
 		}
 	}
+	
+		
+	
 }
