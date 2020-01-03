@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.semi.vo.MessageVo;
+import com.semi.vo.MsgVo;
 import com.semi.vo.UserVo;
 
 import common.JDBCTemplet;
@@ -571,11 +572,119 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		}
 		
 		
+		// 특정 회원으로 부터 현재 읽지 않은 메세지의 개수를 반환
+		public int getUnreadChat(String send_id, String get_id) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = " SELECT COUNT(message_seq) FROM message WHERE send_id = ? AND get_id = ? AND read_ck = 0 ";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, send_id);
+				pstmt.setString(2, get_id);
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					return rs.getInt("COUNT(message_seq)");
+				}
+				return 0; // 받은 메시지 없음
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				close(rs);
+				close(pstmt);
+				close(con);
+			}
+			return -1; // 데이터베이스 오류
+		}
 		
 		
 		
 		
-		/* 하트 DAO */
+		
+		/* 쪽지 DAO */
+
+		// 쪽지 보내기
+		public int insertMsg(String send_id, String get_id, String content) {
+
+			Connection conn = getConnection();
+			PreparedStatement pstmt = null;
+
+			String sql = " INSERT INTO msg VALUES(msg_seq.NEXTVAL,?,?,?,SYSDATE,0) ";
+
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, send_id);
+				pstmt.setString(2, get_id);
+				pstmt.setString(3, content);
+
+				return pstmt.executeUpdate();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt, conn);
+			}
+
+			return -1; // 데이터베이스 오류
+		}
+
+		// 메세지 읽었다고 처리
+		public int readMsg(String send_id, String get_id) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			String sql = " UPDATE msg SET read_ck = 1 WHERE (send_id = ? AND get_id = ?) ";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, get_id); // 받는사람과 보낸사람 교차해서 넣어줌
+				pstmt.setString(2, send_id);
+
+				return pstmt.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt, con);
+			}
+			return -1; // 데이터베이스 오류
+		}
+
+		// 모든 쪽지 목록
+		public ArrayList<MsgVo> getAllMsg(String get_id) {
+
+			ArrayList<MsgVo> list = null;
+			Connection conn = getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = "SELECT * FROM msg WHERE get_id=? ORDER BY regdate ";
+
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, get_id);
+				rs = pstmt.executeQuery();
+
+				list = new ArrayList<MsgVo>();
+
+				while (rs.next()) {
+					MsgVo msg = new MsgVo();
+					msg.setMsg_seq(rs.getInt("msg_seq"));
+					msg.setSend_id(rs.getString("send_id"));
+					msg.setGet_id(rs.getString("get_id"));
+					msg.setContent(rs.getString("content").replace(" ", "&nbsp;").replace("<", "&lt;").replace(">", "&gt;")
+							.replace("\n", "<br>"));
+					msg.setRegdate(rs.getString("regdate"));
+					msg.setRead_ck(rs.getInt("read_ck"));
+
+					list.add(msg);
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rs, pstmt, conn);
+			}
+
+			return list;
+		}
 	
 
 

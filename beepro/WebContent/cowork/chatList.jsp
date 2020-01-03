@@ -8,6 +8,7 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.semi.vo.MessageVo"%>
+<%@ page import="com.semi.dao.UserDaoImpl"%>
 <%@ page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
@@ -332,12 +333,13 @@ table.table .avatar {
 
 <%
 	List<MessageVo> list = (List<MessageVo>) request.getAttribute("list");
+
+	UserDaoImpl dao = new UserDaoImpl();
+
 %>
-<%-- <script type="text/javascript">
-	function sendMsg(getId){
-		window.open('chat.jsp?get_id=<%=get_id%>', '실시간 채팅', 'top=100, left=500, width=550px, height=580px, status=no, menubar=no, toolbar=no, resizable=no');
-	}
-</script> --%>
+
+
+
 </head>
 <body>
 	<div id="wrapper">
@@ -373,6 +375,7 @@ table.table .avatar {
 									<%
 										String send = null;
 										String get = null;
+										int result;
 
 										for (MessageVo vo : list) {
 											
@@ -383,12 +386,19 @@ table.table .avatar {
 											} else {
 												get = send;
 											}
+											result = dao.getUnreadChat(send, u_id);
 									%>
 									<tr onclick="window.open('${pageContext.request.contextPath}/chat?command=chatting&get_id=<%=get %>', '실시간 채팅', 'top=100, left=500, width=550px, height=580px, status=no, menubar=no, toolbar=no, resizable=no');">
-<%--  									<tr onclick="window.open('${pageContext.request.contextPath}/cowork/chat.jsp?get_id=<%=send %>', '실시간 채팅', 'top=100, left=500, width=550px, height=580px, status=no, menubar=no, toolbar=no, resizable=no');">
- --%>										<td><%=send%>님과 채팅</td>
+									<td><%=send%>님과 채팅</td>
 										<td><%=vo.getContent()%>
 											<div class="pull-right"><small><%=vo.getRegdate()%></small></div>
+										</td>
+										<td>
+										<%if(result == 0) { %>
+											<span class="badge badge-danger badge-counter" id="unread"></span>
+										<% }else{ %>
+											<span class="badge badge-danger badge-counter" id="unread"><%=result %></span>
+										<% } %>
 										</td>
 									</tr>
 
