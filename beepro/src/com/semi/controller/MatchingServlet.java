@@ -17,7 +17,7 @@ import com.semi.service.MatchingService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 
-@WebServlet("/matching")
+@WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
    private static final long serialVersionUID = 1L;
        
