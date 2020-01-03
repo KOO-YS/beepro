@@ -1,9 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.io.PrintWriter"%>   
+<%@ page import="java.io.PrintWriter"%>  
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.security.SecureRandom" %>
+<%@ page import="java.math.BigInteger" %> 
 <%	request.setCharacterEncoding("UTF-8");%>
 <%	response.setContentType("text/html; charset=UTF-8");%> 
-   
+
+<%	//네이버 로그인 관련
+    String clientId = "6_0y_JSbbHBEJdCySL56";//애플리케이션 클라이언트 아이디값
+    String redirectURI = URLEncoder.encode("http://localhost:8787/beepro/matching/callbackNAVER.jsp", "UTF-8");
+    SecureRandom random = new SecureRandom();
+    String state = new BigInteger(130, random).toString();
+    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+    apiURL += "&client_id=" + clientId;
+    apiURL += "&redirect_uri=" + redirectURI;
+    apiURL += "&state=" + state;
+    session.setAttribute("state", state);
+ %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +31,9 @@
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="css/agency.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
+
 <style>
 
 * {
@@ -259,18 +276,12 @@ input {
     });
 }
 
-//비밀번호 찾기 팝업창
-/* function findPwd() {
-	window.open("findPwd.jsp", "pw찾기", "left=50, top=50, width=320, height=300, resizeable=no");
-} */
-
-
 </script>
 </head>
 <body>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
-            <form method="post" action="./registerAction.jsp">
+            <form method="post" action="../user?command=register">
                 <h1>Create Account</h1>
                 <div class="social-container">
 						<span>네이버 / 구글 계정으로 회원가입</span>
@@ -288,11 +299,11 @@ input {
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form method="post" action="./loginAction.jsp">
+            <form method="post" action="../user?command=login">
 				<h1>Sign in</h1>
                 <div class="social-container">
-					<span>구글 계정으로 로그인<br><br></span>
-					<a href="#" class="social"><img src="img/naver.PNG" style="width: 35px; border-radius: 20px;"></a>
+					<span>네이버/구글 계정으로 로그인<br><br></span>
+					<a href="<%=apiURL%>" class="social"><img src="img/naver.PNG" style="width: 35px; border-radius: 20px;"></a>
                     <a href="#" class="social"><img src="img/google.png" style="width: 35px; border-radius: 20px;"></a>
                     <!-- <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a> -->
 
@@ -303,7 +314,7 @@ input {
                 <input type="password" name="u_pwd" placeholder="Password" />
 				<a class = pwd data-toggle="modal" data-target="#forgotPwd">Forgot your password?</a>
 				
-				<button class="btn btn-primary"onclick="location.href='index.jsp'">Sign In</button>
+				<button class="btn btn-primary" onclick="location.href='index.jsp'">Sign In</button>
             </form>
         </div>
         <div class="overlay-container">
@@ -353,7 +364,7 @@ input {
     </div>
   </div>
 </div>
-<!-- 비밀번호 변경 모달 end--> 
+<!-- 비밀번호 찾기 모달 end--> 
 </body>
 </html>
 

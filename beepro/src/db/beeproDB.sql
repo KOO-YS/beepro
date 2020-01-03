@@ -55,6 +55,13 @@ CREATE SEQUENCE COMMENTS_SEQ
 	MINVALUE 1
 	NOCYCLE;
 	
+CREATE SEQUENCE PERSONAL_SEQ
+	START WITH 1
+	INCREMENT BY 1
+	MAXVALUE 10000
+	MINVALUE 1
+	NOCYCLE;
+	
 CREATE TABLE beepro_user (
     user_id varchar2(100)	PRIMARY KEY,
     pwd	varchar2(100)	NOT NULL,
@@ -68,13 +75,6 @@ CREATE TABLE beepro_user (
 );
 
 INSERT INTO BEEPRO_USER VALUES ('bmi6638@naver.com', '1234' , '김보미', 'bmi6638@naver.com', 'null' , '구리', 'Y');
-
-SELECT * FROM BEEPRO_USER;
-delete from BEEPRO_USER where user_id = 'test3';
-UPDATE BEEPRO_USER SET email_ck = 'Y' WHERE name='예지';
-
-
-
 
 SELECT * FROM beepro_user;
 select * from message;
@@ -107,6 +107,8 @@ CREATE TABLE matching_personal (
 	title	varchar2(500)	NOT NULL,
 	content	varchar2(4000)	NOT NULL
 );
+
+SELECT * FROM MATCHING_PERSONAL;
 
 CREATE TABLE matching_project (
 	project_seq	number	PRIMARY KEY,
@@ -203,9 +205,9 @@ CREATE TABLE issue (
 
 SELECT * FROM ISSUE;
 
-INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '1', '해인 프로젝트', '전해인', '높음','15/11/30','버그', '이슈테스트2입니다.');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '해인 프로젝트', '전해인', '높음','15/11/30','버그', '이슈테스트2입니다.');
 
-INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '1', '지민', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
+INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '지민', '또나야나', '높음','15/11/30','버그', '이슈테스트2입니다.');
 
 INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '김봄 프로젝트 ', '김보미', '낮음','15/11/30','테스트케이스', '이슈테스트2');
 
@@ -283,3 +285,4 @@ ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (me
 
 COMMIT
 
+SELECT * FROM BEEPRO_USER

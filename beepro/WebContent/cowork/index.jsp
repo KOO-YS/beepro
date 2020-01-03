@@ -35,7 +35,6 @@
 	<c:redirect url="/project?command=dashboard">
 		<%-- <c:param name="NUM1" value="5"/> --%>
 		<!-- index와 업무 진행상황 페이지에 차이점이 필요할때 사용 -->
-
 	</c:redirect>
 
   <!-- Page Wrapper -->
@@ -165,18 +164,5 @@
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
 
-<%-- <%
-	if (u_id != null) {
-%>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		getInfiniteUnread();
-	});
-</script>
-
-<%
-	}
-%> --%>
 </body>
 </html>

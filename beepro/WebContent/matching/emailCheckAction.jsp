@@ -19,24 +19,20 @@
  	String u_email = null;
  	
  	if(u_id == null) {
-
  		PrintWriter script = response.getWriter();
 
  		script.println("<script>");
  		script.println("alert('로그인을 해주세요.');");
  		script.println("location.href = 'login.jsp'");
  		script.println("</script>");
- 		script.close();
-	
+ 		script.close();	
  	}
  	
 	if(session.getAttribute("u_id") != null) {
  		u_id = (String) session.getAttribute("u_id");
  	}	
  	
-	u_email = dao.getUserEmail(u_id);
- 	//System.out.println("u_email: "+ u_email);
- 	
+	u_email = dao.getUserEmail(u_id);	
 	String rightCode = (new sha256().getSHA256(u_email).equals(code)) ? "Y" : "N";
 	System.out.println("rightCode 확인 : "+rightCode);
 
@@ -53,7 +49,6 @@
 		script.println("</script>");
 		
 		script.close();		
-
 
 	} else {
 

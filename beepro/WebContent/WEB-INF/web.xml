@@ -13,7 +13,7 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	<!-- todo 매핑 -->
+	<!-- cowork 매핑 -->
 	<servlet>
 		<servlet-name>project</servlet-name>
 		<servlet-class>com.semi.controller.ProjectServlet</servlet-class>
@@ -87,13 +87,22 @@
 	
 	<servlet-mapping>
 		<servlet-name>personalMatching</servlet-name>
-		<url-pattern>/personalMatching</url-pattern>
+		<url-pattern>/personMatching</url-pattern>
 	</servlet-mapping>
 	
-	
-	
-	
 	<!-- 비밀번호 찾기 맵핑 -->
+	<!-- 프로젝트 매칭 페이지 맵핑 -->
+	<servlet>
+		<servlet-name>projectMatching</servlet-name>
+		<servlet-class>com.semi.controller.MatchingServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>projectMatching</servlet-name>
+		<url-pattern>/matching</url-pattern>
+	</servlet-mapping>
+		
+	<!-- 유저 맵핑 -->
 	<servlet>
 		<servlet-name>findPwd</servlet-name>
 		<servlet-class>com.semi.controller.UserServlet</servlet-class>
@@ -103,4 +112,14 @@
 		<url-pattern>/findPwd</url-pattern>
 	</servlet-mapping>
 
+	<!-- 쪽지 맵핑 -->
+	<servlet>
+		<servlet-name>msg</servlet-name>
+		<servlet-class>com.semi.controller.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>msg</servlet-name>
+		<url-pattern>/msg</url-pattern>
+	</servlet-mapping>
+	
 </web-app>
