@@ -93,9 +93,6 @@ public class UserServlet extends HttpServlet {
 			String get_id = request.getParameter("get_id");
 			request.setAttribute("get_id", get_id);
 			dispatch("/cowork/chat.jsp", request, response);
-		}else if(command.equals("sendHeart")) {
-			System.out.println("하트보내기");
-			
 		}
 	}
 	

@@ -13,6 +13,17 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	<!-- todo 매핑 -->
+	<servlet>
+		<servlet-name>project</servlet-name>
+		<servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>project</servlet-name>
+		<url-pattern>/project</url-pattern>
+	</servlet-mapping>
+	
 	
   <!-- 댓글 매핑 -->
    <servlet>
@@ -35,15 +46,7 @@
      <servlet-name>page</servlet-name>
      <url-pattern>/page</url-pattern>
   </servlet-mapping>
-  <!-- 협업 매핑 -->
-	<servlet>
-		<servlet-name>project</servlet-name>
-		<servlet-class>com.semi.controller.ProjectServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>project</servlet-name>
-		<url-pattern>/project</url-pattern>
-	</servlet-mapping>
+
   <!-- 이슈 매핑 -->
   <servlet>
      <servlet-name>issue</servlet-name>
@@ -87,17 +90,17 @@
 		<url-pattern>/personalMatching</url-pattern>
 	</servlet-mapping>
 	
-	<!-- 유저 맵핑 -->
+	
+	
+	
+	<!-- 비밀번호 찾기 맵핑 -->
 	<servlet>
-		<servlet-name>user</servlet-name>
+		<servlet-name>findPwd</servlet-name>
 		<servlet-class>com.semi.controller.UserServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>user</servlet-name>
-		<url-pattern>/user</url-pattern>
+		<servlet-name>findPwd</servlet-name>
+		<url-pattern>/findPwd</url-pattern>
 	</servlet-mapping>
-	
-
-	
 
 </web-app>

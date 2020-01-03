@@ -1,5 +1,6 @@
 -- DROP 쿼리 3번 실행해야 모든 테이블이 삭제됨
 
+
 DROP TABLE beepro_user;
 DROP TABLE message;
 DROP TABLE heart;
@@ -20,6 +21,7 @@ DROP SEQUENCE MESSAGE_SEQ;
 DROP SEQUENCE COMMENTS_SEQ;
 
 -- #####################################################################################################################################
+
 
 CREATE SEQUENCE ISSUE_SEQ
   START WITH 1

@@ -3,17 +3,8 @@
 package com.semi.vo;
 
 public class MatchingProVo {
-	
 
-	private String subject;
-	private String country;
-	private String start;
-	private String depart;
-	private String region;
-	private String people;
-	private String comments;
-
-	
+	private String project_seq; //프로젝트 시퀀스
 	private String pm_id; //pm 아이디
 	private String skill; //프로젝트 제목
 	private String title; //프로젝트 제목
@@ -22,7 +13,24 @@ public class MatchingProVo {
 	private String location; //지역
 	private String startdate; //시작날짜
 	private String enddate; //끝나는 날짜
+	private String[] skillArr; //스킬 ARRAY
+	private boolean modifyYn = false;	//수정 가능 여부
 	
+	public MatchingProVo() {}
+	
+	public MatchingProVo(String pm_id, String skill, String title, String content, String need_person, String location,
+			String startdate, String enddate) {
+		super();
+		this.pm_id = pm_id;
+		this.skill = skill;
+		this.title = title;
+		this.content = content;
+		this.need_person = need_person;
+		this.location = location;
+		this.startdate = startdate;
+		this.enddate = enddate;
+	}
+
 	public String getPm_id() {
 		return pm_id;
 	}
@@ -87,5 +95,41 @@ public class MatchingProVo {
 		this.skill = skill;
 	}
 	
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		if(this.pm_id != null) {sb.append("pm_id : " + this.pm_id);}
+		if(this.skill != null) {sb.append(", skill : " + this.skill);}
+		if(this.title != null) {sb.append(", title : " + this.title);}
+		if(this.content != null) {sb.append(", content : " + this.content);}
+		if(this.need_person != null) {sb.append(", need_person : " + this.need_person);}
+		if(this.location != null) {sb.append(", location : " + this.location);}
+		if(this.startdate != null) {sb.append(", startdate : " + this.startdate);}
+		if(this.enddate != null) {sb.append(", enddate : " + this.enddate);}
+		
+		return sb.toString();
+	}
 
+	public String getProject_seq() {
+		return project_seq;
+	}
+
+	public void setProject_seq(String project_seq) {
+		this.project_seq = project_seq;
+	}
+
+	public String[] getSkillArr() {
+		return skillArr;
+	}
+
+	public void setSkillArr(String[] skillArr) {
+		this.skillArr = skillArr;
+	}
+
+	public boolean isModifyYn() {
+		return modifyYn;
+	}
+
+	public void setModifyYn(boolean modifyYn) {
+		this.modifyYn = modifyYn;
+	}
 }

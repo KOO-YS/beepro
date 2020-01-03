@@ -84,7 +84,7 @@ public class ProjectService {
 		String category = request.getParameter("category");
 		int priority = Integer.parseInt(request.getParameter("priority"));
 
-		TodoVo todo = new TodoVo(projectSeq, title, content, manager, startDate, endDate, category, priority);
+		TodoVo todo = new TodoVo(1, title, content, manager, startDate, endDate, category, priority);
 
 		System.out.println(todo.toString());
 
