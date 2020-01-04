@@ -71,9 +71,7 @@
 
 		
 </script>
-</head>
-<body>
-	  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+<%-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
 	    <div class="container">
 	      <a class="navbar-brand js-scroll-trigger" href="matching/index.jsp">BeePro	</a>
 	      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,8 +96,12 @@
 	        </ul>
 	      </div>
 	    </div>
-	  </nav>
-	<form action="${pageContext.request.contextPath}/matching" method="post" name="modifyForm">
+</head>
+	  </nav> --%>
+<body id="page-top">
+	  <jsp:include page="common/sub_nav.jsp"></jsp:include>
+   <div class="container" style="padding-top:150px;">
+	<%-- <form action="${pageContext.request.contextPath}/matching" method="post" name="modifyForm">
 		<c:choose>
 			<c:when test="${empty matchingVo }">
 				<input type="hidden" name="command"  value="matchingWrite"/>	
@@ -108,16 +110,15 @@
 				<input type="hidden" name="command"  value="matchingModifyProc"/>	
 				<input type="hidden" name="project_seq" value="${matchingVo.project_seq }">
 			</c:otherwise>
-		</c:choose>
-   <div class="container margin-t-100">
+		</c:choose> --%>
          <!--  General -->
+         <form action="/matching" method="post" name="modifyForm">
          <div class="form-group">
-            <h2 class="heading">새 글 작성</h2>
             <div class="controls">
                <input type="text" id="title" class="floatLabel" name="title" placeholder="프로젝트 제목을 입력하세요" value="${matchingVo.title }" <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>
             </div>
             <div class="controls">
-               <input type="text" class="floatLabel" value="김지민" readonly >
+               <input type="text" class="floatLabel" value="${matchingVo.pm_id}" readonly >
             </div>
             <div class="controls2">
                <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" readonly="readonly"<c:if test="${!matchingVo.modifyYn }"></c:if>>
@@ -141,7 +142,7 @@
          </div>
          <div class="col-1-3 col-1-3-sm">
             <div class="controls">
-               <c:if test="${matchingVo.modifyYn }"><i class="fa fa-sort"></i></c:if>
+               <%-- <c:if test="${matchingVo.modifyYn }"><i class="fa fa-sort"></i></c:if> --%>
                <select class="floatLabel" name="location" <c:if test="${!matchingVo.modifyYn }">disabled="disabled"</c:if>>
                   <option value="" >지역을 선택하세요</option>
                   <option value="seoul" <c:if test="${matchingVo.location eq 'seoul' }">selected</c:if>>서울</option>
@@ -184,7 +185,7 @@
                     	</select>
                		</c:when>
                		<c:otherwise>
-               			<input type="text" class="floatLabel" name="need_person" value="${matchingVo.need_person}" <c:if test="${!matchingVo.modifyYn }">readonly</c:if>/>
+               			<input type="text" class="floatLabel" name="need_person" value="${matchingVo.need_person}" <c:if test="${!matchingVo.modifyYn 	}">readonly</c:if>/>
                		</c:otherwise>
                	</c:choose>
                 </div>
@@ -193,19 +194,149 @@
             <br />
             <div class="grid">
 
-               <div class="controls">
+               	<div class="controls">
                   <p class="info-text margin-b-10">상세 내용</p>
                   <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요." <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>${matchingVo.content}</textarea>
-               </div>
-               <a href="${pageContext.request.contextPath}/matching?command=matchingAll" class="col-1-8 btn btn-primary" style="float: left;">목록</a>
-               <c:if test="${matchingVo.modifyYn }">
-               	<button type="button" class="col-1-8 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
-               	<button type="button" class="col-1-8 btn btn-primary" style="float: right;" id="modifyBtn">수정</button>
-               </c:if>
+               	</div>
+               	<a href="${pageContext.request.contextPath}/matching?command=matchingAll" class="col-3 btn btn-primary" style="float: left;">목록</a>
+               	<c:choose>
+               	<c:when test="${matchingVo.pm_id eq u_id}">
+               		<button type="button" class="col-3 btn btn-primary" style="float: right;" id="modifyBtn">수정</button>
+	               	<button type="button" class="col-1-8 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
+               	</c:when>
+               	<c:otherwise>
+				 	<button class="btn btn-primary col-lg-5" style="float:right;" onclick="">
+				 		<c:choose>
+					 		<c:when test="지원여부 확인">이미 지원하셨습니다</c:when>
+					 		<c:otherwise>지원하기</c:otherwise> 
+					 	</c:choose>
+			 		</button>
+				</c:otherwise> 
+               </c:choose>
             </div>
 
          </div>
          <!-- /.form-group -->
       </form>
+      <div class="container" style="padding:50px 30px;">
+      <hr>
+      	<div class="row">
+      		<c:if test="${matchingVo.pm_id eq u_id}">
+			 <div class="col-lg-7 col-sm-7">
+			 <p class="info-text margin-b-10">현재 지원자 총 N 명</p>
+			 	<table class="table table-sm table-hover">
+				  <thead>
+				    <tr>
+				      <th width="5%"></th>
+				      <th width="40%">지원자</th>
+				      <th width="10%"></th>
+				      <th width="10%"></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>
+				      	<input type="checkbox" value="userId">
+				      </td>
+				      <td>sssyans</td>
+				      <td>
+				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp	'">프로필</button>
+				      </td>
+				      <td>
+				      	<button class="btn btn-primary">쪽지</button>
+				      </td>
+				    </tr>
+				    
+				    <tr>
+				      <td>
+				      	<input type="checkbox" value="userId">
+				      </td>
+				      <td>sssyans</td>
+				      <td>
+				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp	'">프로필</button>
+				      </td>
+				      <td>
+				      	<button class="btn btn-primary">쪽지</button>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+				      	<input type="checkbox" value="userId">
+				      </td>
+				      <td>sssyans</td>
+				      <td>
+				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp	'">프로필</button>
+				      </td>
+				      <td>
+				      	<button class="btn btn-primary">쪽지</button>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+			 </div>
+			 <div class="col-lg-5 col-sm-5">
+			 	<button class="btn btn-primary" style="margin-top:11em;" onclick="createProject();">프로젝트 생성하기</button>
+			 </div>
+			</c:if>
+			 	
+		 </div> <!-- 관심목록 end -->
+      </div>
+      <jsp:include page="common/footer.jsp"></jsp:include>
+      
+<div class="modal fade" id="projectModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updatePwdLabel">프로젝트 생성</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	<form action="../user?command=updatePwd" method="post">
+      <div class="modal-body">
+			바꾸기
+        	  <div class="form-group">
+			    <label for="oriPwd">기존 패스워드</label>
+			    <input type="password" class="form-control" name ="oriPwd" id="oriPwd" required>
+			  </div>
+			  <hr>
+			  <div class="form-group">
+			    <label for="newPwd">새 패스워드</label>
+			    <input type="password" class="form-control" name ="newPwd" id="newPwd" required>
+			  </div>
+			  <div class="form-group">
+			    <label for="newPwd_chk">새 패스워드 확인</label>
+
+			    <input type="password" class="form-control" name="newPwd_chk" id="newPwd_chk" required aria-describedby="pwdinfo">
+			    <small id="pwdinfo" class="form-text text-muted">위와 동일하게 입력해주시기 바랍니다</small>
+
+			  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary">변경</button>
+      </div>
+	</form>
+    </div>
+  </div>
+</div>
+<!-- 비밀번호 변경 모달 end--> 
+      
+<script type="text/javascript">
+function createProject(){
+	if(confirm("프로젝트를 생성하시겠습니까?")){
+		$("#projectModal").modal();
+	}
+}
+</script>
+      <!-- Bootstrap core JavaScript -->
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>  
 </body>
 </html>
