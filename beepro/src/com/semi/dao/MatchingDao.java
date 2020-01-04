@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.ProjectVo;
 
 public interface MatchingDao {
 
@@ -41,7 +42,9 @@ public interface MatchingDao {
 	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ORDER BY PROJECT_SEQ DESC";
 	// 프로젝트 상세페이지
 	String selectMatchingReadSql = "SELECT * FROM MATCHING_PROJECT WHERE PROJECT_SEQ = ?";
-
+    
+	// cowork페이지에 뿌려질 프로젝트 생성하는 부분
+	String insertProjectSql = "INSERT INTO PROJECT VALUES(PROJECT_SEQ.NEXTVAL, ?,?,?,?,?)";
 	public int matchingWrite(MatchingProVo matchingProVo);
 
 	public int matchingDelete(String matching_seq);
@@ -51,5 +54,7 @@ public interface MatchingDao {
 	public List<MatchingProVo> matchingProAll(String pm_id);
 
 	public MatchingProVo matchingRead(String matching_seq);
+
+	public boolean insertProject(ProjectVo vo);
 
 }

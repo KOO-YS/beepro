@@ -1,5 +1,6 @@
 package com.semi.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.ProjectVo;
 
 public class MatchingService {
 	
@@ -173,5 +175,28 @@ public class MatchingService {
       return Dao.selectOnePer(personal_seq);
       
    }
+
+   // 프로젝트 생성
+   public boolean projectWrite(HttpServletRequest request, HttpServletResponse response) {
+	    // 아이디 정보 가져오기
+		HttpSession session = request.getSession();
+		String writer = (String)session.getAttribute("u_id");
+		
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		Date startDate = Date.valueOf(request.getParameter("startDate"));
+		Date endDate = Date.valueOf(request.getParameter("endDate"));
+		String finish_ck = request.getParameter("finish_ck");
+		String content = request.getParameter("content");
+		
+		ProjectVo vo = new ProjectVo();
+		
+		vo.setProjectSeq(projectSeq);
+		vo.setStartDate(startDate);
+		vo.setEndDate(endDate);
+		vo.setFinish_ck(finish_ck);
+		vo.setContent(content);
+		
+	return Dao.insertProject(vo);
+}
    
 }
