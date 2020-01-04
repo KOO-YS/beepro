@@ -4,7 +4,7 @@ package com.semi.vo;
 
 public class MatchingProVo {
 
-	private String project_seq; //프로젝트 시퀀스
+	private String projectM_seq; //프로젝트 시퀀스
 	private String pm_id; //pm 아이디
 	private String skill; //프로젝트 제목
 	private String title; //프로젝트 제목
@@ -109,12 +109,12 @@ public class MatchingProVo {
 		return sb.toString();
 	}
 
-	public String getProject_seq() {
-		return project_seq;
+	public String getProjectM_seq() {
+		return projectM_seq;
 	}
 
-	public void setProject_seq(String project_seq) {
-		this.project_seq = project_seq;
+	public void setProjectM_seq(String projectM_seq) {
+		this.projectM_seq = projectM_seq;
 	}
 
 	public String[] getSkillArr() {

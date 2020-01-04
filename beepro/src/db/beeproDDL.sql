@@ -22,9 +22,16 @@ DROP SEQUENCE PROJECT_SEQ;
 DROP SEQUENCE TODO_SEQ;
 DROP SEQUENCE MESSAGE_SEQ;
 DROP SEQUENCE COMMENTS_SEQ;
+DROP SEQUENCE PROJECTM_SEQ;
 
 -- #####################################################################################################################################
 
+CREATE SEQUENCE PROJECTM_SEQ -- 프로젝트 매칭 글에 대한 시퀀스번호
+  START WITH 1
+  INCREMENT BY 1
+  MAXVALUE 10000
+  MINVALUE 1
+  NOCYCLE;
 
 CREATE SEQUENCE ISSUE_SEQ
   START WITH 1
@@ -114,7 +121,7 @@ CREATE TABLE matching_personal (
 );
 
 CREATE TABLE matching_project ( /* 프로젝트 매칭 공고글 */
-	project_seq	number	PRIMARY KEY,
+	projectM_seq	number	PRIMARY KEY,
 	pm_id	varchar2(100)	NOT NULL,
 	title	varchar2(300)	NOT NULL, 
 	content	varchar2(4000)	NOT NULL,
@@ -178,11 +185,11 @@ CREATE TABLE skill (
 );
 
 CREATE TABLE volunteer ( /* 지원자 테이블 */
-    project_seq number NOT NULL, /* 프로젝트 매칭 공고 글 시퀀스 번호 */
+    projectM_seq number NOT NULL, /* 프로젝트 매칭 공고 글 시퀀스 번호 */
 	user_id varchar2(100) NOT NULL, /* 회원 id */
 	accept varchar2(6) NOT NULL, /* 수락 여부  */
 	CONSTRAINT accept_chk CHECK(accept IN('Y','N')),
-	CONSTRAINT FK_PROJECT_SEQ_TO_VOL FOREIGN KEY (project_seq) REFERENCES project (project_seq), 
+	CONSTRAINT FK_PROJECTM_SEQ_TO_VOL FOREIGN KEY (projectM_seq) REFERENCES matching_project (projectM_seq), 
 	CONSTRAINT FK_USER_ID_TO_VOL FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
 );
 
