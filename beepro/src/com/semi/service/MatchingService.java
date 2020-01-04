@@ -194,17 +194,23 @@ public class MatchingService {
 		System.out.println("post_id : " + post_no);
 		System.out.println("type : " + type);
 
-
 		PostVo postVo = new PostVo(u_id, type, post_no);
 		
-		MatchingDaoImpl dao = new MatchingDaoImpl();
-		if(dao.postChk(postVo) > 0) {
-			response.getWriter().write(new MatchingDaoImpl().insertPost(postVo)+"");
-			System.out.println("관심 게시글 추가");
+		if(u_id == null || u_id.equals("")) {
+			response.getWriter().write("0");
 		}else {
-			response.getWriter().write(new MatchingDaoImpl().deletePer(postVo)+"");
-			System.out.println("관심 게시글 삭제");
+			MatchingDaoImpl dao = new MatchingDaoImpl();
+			if(dao.postChk(postVo) > 0) {
+				response.getWriter().write(new MatchingDaoImpl().insertPost(postVo)+"");
+				System.out.println("관심 게시글 추가");
+			}else {
+				response.getWriter().write(new MatchingDaoImpl().deletePer(postVo)+"");
+				System.out.println("관심 게시글 삭제");
+			}
+			
 		}
+		
+	
 		
 
 	}

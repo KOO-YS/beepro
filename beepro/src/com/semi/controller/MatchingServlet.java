@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
-
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.PostVo;
 
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
@@ -57,7 +57,7 @@ public class MatchingServlet extends HttpServlet {
       System.out.println("[ " + command + " ]");
       //서비스와 연결
       MatchingService matchingService = new MatchingService();
-      MatchingDao dao = new MatchingDaoImpl();
+      MatchingDaoImpl dao = new MatchingDaoImpl();
       
 	HttpSession session = request.getSession();
 	String u_id = (String)session.getAttribute("u_id");
@@ -171,7 +171,8 @@ public class MatchingServlet extends HttpServlet {
          
          // 세션값 넘기기
          request.setAttribute("u_id", u_id);
-         System.out.println("세션넘기기");
+         System.out.println("세션넘기기"); 
+         
          
          RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
          dispatch.forward(request, response);
