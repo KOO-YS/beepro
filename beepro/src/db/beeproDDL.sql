@@ -13,6 +13,8 @@ DROP TABLE issue;
 DROP TABLE skill;
 DROP TABLE project_member;
 DROP TABLE volunteer;
+DROP TABLE post;
+
 
 
 DROP SEQUENCE ISSUE_SEQ;
@@ -87,10 +89,13 @@ CREATE TABLE message (
 	read_ck number
 );
 
+
 CREATE TABLE heart (
 	send_id	varchar2(100)	NOT NULL,
 	get_id	varchar2(100)	NOT NULL
 );
+
+
 
 CREATE TABLE project_member ( /* 프로젝트 구성원 = pm이 프로젝트 지원자들 중 수락한 회원들이 담기는 곳 */
 	project_seq	number	NOT NULL,
@@ -181,6 +186,18 @@ CREATE TABLE volunteer ( /* 지원자 테이블 */
 	CONSTRAINT FK_USER_ID_TO_VOL FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
 );
 
+------------------------------------- 관심 게시글 (post) 추가 !!  %제약조건도 추가해주셔야합니다. %----------------------------------
+CREATE TABLE post (
+	u_id  varchar2(50) NOT NULL,	-- 해당하는 사람의 관심 목록
+    type    varchar2(20) NOT NULL,	-- 사람매칭 or 플젝매칭 게시글인지 구분
+	post_no  number		NOT NULL	-- 게시글 번호
+);
+ALTER TABLE post ADD CONSTRAINT PK_POST PRIMARY KEY (
+	u_id,
+	type,
+    post_no
+);
+------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE heart ADD CONSTRAINT PK_HEART PRIMARY KEY (send_id,get_id);
 
