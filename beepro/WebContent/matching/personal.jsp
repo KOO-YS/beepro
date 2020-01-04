@@ -124,7 +124,7 @@
       </div>
   </section>
   
-  <jsp:include page="${pageContext.request.contextPath}/matching/common/footer.jsp"></jsp:include>
+  <jsp:include page="common/footer.jsp"></jsp:include>
 
   <!-- Bootstrap core JavaScript -->
   <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>

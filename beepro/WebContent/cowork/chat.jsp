@@ -86,8 +86,8 @@ function sumbitFunction(){
 	}
 	var lastID = 0;
 	function chatListFunction(type){
-		var send_id = '<%= u_id%>';
-		var get_id = '<%= get_id%>';
+		var send_id = '<%=u_id%>';
+		var get_id = '<%=get_id%>';
 		
 		$.ajax({
 			type: "POST",

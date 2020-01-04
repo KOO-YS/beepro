@@ -57,10 +57,19 @@
          $("#modifyBtn").on("click",function(){
         	 $("form[name=modifyForm]").submit();
          });
+         
+         $("#deleteBtn").on("click",function(){
+             $("input[name=command]").val("matchingDelete");
+             $("form[name=modifyForm]").submit();
+          });
       });
       // just add a class of "floatLabel to the input field!"
       floatLabel(".floatLabel");
    })(jQuery);
+   
+      
+
+		
 </script>
 <%-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
 	    <div class="container">
@@ -193,6 +202,7 @@
                	<c:choose>
                	<c:when test="${matchingVo.pm_id eq u_id}">
                		<button type="button" class="col-3 btn btn-primary" style="float: right;" id="modifyBtn">수정</button>
+	               	<button type="button" class="col-1-8 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
                	</c:when>
                	<c:otherwise>
 				 	<button class="btn btn-primary col-lg-5" style="float:right;" onclick="">

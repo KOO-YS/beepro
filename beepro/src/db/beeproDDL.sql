@@ -12,6 +12,7 @@ DROP TABLE matching_project;
 DROP TABLE issue;
 DROP TABLE skill;
 DROP TABLE project_member;
+DROP TABLE volunteer;
 
 
 DROP SEQUENCE ISSUE_SEQ;
@@ -91,7 +92,7 @@ CREATE TABLE heart (
 	get_id	varchar2(100)	NOT NULL
 );
 
-CREATE TABLE project_member (
+CREATE TABLE project_member ( /* 프로젝트 구성원 = pm이 프로젝트 지원자들 중 수락한 회원들이 담기는 곳 */
 	project_seq	number	NOT NULL,
 	member_id	varchar2(100)	NOT NULL,
 	pm_ck	varchar2(6)	NOT NULL,
@@ -107,7 +108,7 @@ CREATE TABLE matching_personal (
 	content	varchar2(4000)	NOT NULL
 );
 
-CREATE TABLE matching_project (
+CREATE TABLE matching_project ( /* 프로젝트 매칭 공고글 */
 	project_seq	number	PRIMARY KEY,
 	pm_id	varchar2(100)	NOT NULL,
 	title	varchar2(300)	NOT NULL, 
@@ -134,12 +135,13 @@ CREATE TABLE todo (
 	CONSTRAINT finish_ck_chk CHECK(finish_ck IN('Y','N'))
 );
 
-CREATE TABLE project (
-	project_seq	number	PRIMARY KEY,
+CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
+	project_seq	number	PRIMARY KEY, /* 프로젝트 시퀀스 번호 */
 	startdate	date	NOT NULL,
 	enddate	date	NOT NULL,
-	finish_ck	varchar2(6)	NOT NULL,
-	project_name varchar2(4000),
+	finish_ck	varchar2(6)	NOT NULL, /* 프로젝트 진행 여부 y:종료 n:진행중 */
+	project_name varchar2(4000), /* 프로젝트 명 */
+	project_content varchar2(4000), /* 프로젝트 개요 */
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
@@ -168,6 +170,15 @@ CREATE TABLE skill (
 	user_id     varchar2(100)	NOT NULL,
 	backend 	varchar2(1000),
 	frontend	varchar2(1000)	
+);
+
+CREATE TABLE volunteer ( /* 지원자 테이블 */
+    project_seq number NOT NULL, /* 프로젝트 매칭 공고 글 시퀀스 번호 */
+	user_id varchar2(100) NOT NULL, /* 회원 id */
+	accept varchar2(6) NOT NULL, /* 수락 여부  */
+	CONSTRAINT accept_chk CHECK(accept IN('Y','N')),
+	CONSTRAINT FK_PROJECT_SEQ_TO_VOL FOREIGN KEY (project_seq) REFERENCES project (project_seq), 
+	CONSTRAINT FK_USER_ID_TO_VOL FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
 );
 
 

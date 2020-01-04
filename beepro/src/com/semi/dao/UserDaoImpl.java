@@ -474,7 +474,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 	public int readChat(String send_id, String get_id) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
 		String sql = " UPDATE MESSAGE SET read_ck = 1 WHERE (send_id = ? AND get_id = ?) ";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -484,7 +484,6 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			close(rs);
 			close(pstmt);
 			close(con);
 		}

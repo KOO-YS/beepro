@@ -296,7 +296,9 @@ public class UserService {
 		UserDaoImpl messageDao = new UserDaoImpl();
 		ArrayList<MessageVo> chatList = messageDao.getChatListBySeq(send_id, get_id, messageSeq);
 		
-		if(chatList.size() == 0) return "";
+		if(chatList.size() == 0) { 
+			return ""; 
+			}
 		
 		for(int i = 0 ; i < chatList.size() ; i++) {
 			result.append("[{\"value\": \""+chatList.get(i).getSend_id()+"\"},");
@@ -326,7 +328,6 @@ public class UserService {
 		}
 	}
 	
-	/* 관심 사람관련 서비스 */
 	
 	
 }
