@@ -14,10 +14,12 @@ import javax.servlet.http.HttpSession;
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
-
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+
 import com.semi.vo.VolunteerVo;
+
+import com.semi.vo.PostVo;
 
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
@@ -204,6 +206,159 @@ public class MatchingServlet extends HttpServlet {
 		}
 		// 게시글 controller // 오류나서 잠시 주석처리
 		else if (command.equals("togglePost")) {
+/*
+		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다
+		 * 			   : 구분값 설정 필요 (hidden값(예: command) or url/(추가 url로 구분 문자열 예: userservlet/login의 login)) 
+		 *			   : 구분값을 통해 service 로 값 전달
+		 *  방식 예시
+		 *	https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
+		 *  */
+
+      if(command.equals("matchingWrite")) {
+          int success = matchingService.matchingWrite(request, response);
+         
+         if(success > 0) {
+            System.out.println("글 게시 성공");
+            //dispatch("/matching/matching.jsp", request, response);
+            response.sendRedirect("matching?command=matchingAll");
+         } else{
+            System.out.println("글 게시 실패"); 
+         }
+         System.out.println("매칭 생성");
+         
+         
+     //매칭 전체보기 
+      } else if (command.equals("matchingAll")) {
+        System.out.println("매칭 전체 보기");
+        List<MatchingProVo> list = matchingService.matchingProAll(request);
+        request.setAttribute("matchingList", list);
+        dispatch("matching/matchingList.jsp", request, response);
+      
+     //매칭 상세보기
+      } else if (command.equals("matchingRead")) {
+         System.out.println("매칭 상세보기");
+         MatchingProVo matchingProVo = matchingService.matchingRead(request);
+         System.out.println(matchingProVo.toString());
+         request.setAttribute("matchingVo", matchingProVo);
+         dispatch("matching/matchingRead.jsp", request, response);
+         
+         
+     // 프로젝트 매칭 글 삭제   
+      } else if(command.equals("matchingDelete")) {
+         System.out.println("매칭 글 삭제");
+         int success = matchingService.matchingDelete(request);
+          if(success > 0) {
+               System.out.println("글 삭제 성공");
+               //dispatch("/matching/matching.jsp", request, response);
+               response.sendRedirect("matching?command=matchingAll");
+            } else{
+               System.out.println("글 삭제 실패"); 
+            }
+          
+          
+     //프로젝트 매칭 글 수정 
+      } else if( command.equals("matchingView")) {
+         System.out.println("매칭 글 수정 페이지");
+         MatchingProVo matchingProVo = matchingService.matchingRead(request);
+         
+         request.setAttribute("matchingVo", matchingProVo);
+         dispatch("matching/matchingRead.jsp", request, response);
+       
+    
+      } else if( command.equals("matchingModifyProc")) {
+         System.out.println("매칭 글 수정 수정");
+         String project_seq = (String) request.getParameter("project_seq");
+         int success = matchingService.matchingModifyProc(request);
+          if(success > 0) {
+               System.out.println("글 수정 성공");
+               //dispatch("/matching/matching.jsp", request, response);
+               response.sendRedirect("matching?command=matchingAll");
+            } else{
+               System.out.println("글 수정 실패"); 
+            }
+          
+      //개인 매칭 글쓰기
+      } else if(command.equals("personalWrite")) {
+
+          int success = matchingService.personalWrite(request, response);
+         
+         if(success > 0) {
+            System.out.println("글 게시 성공");
+            dispatch("personMatching?command=selectAllPer", request, response);
+            
+         } else {
+            System.out.println("글 게시 실패");
+         }
+         
+      //개인 매칭 글 수정
+      } else if(command.equals("personalUpdate")) {
+         System.out.println("게시글 수정");
+         String personal_seq = request.getParameter("personal_seq");
+         int success = matchingService.updatePer(request, response);
+         if(success > 0) {
+            System.out.println("게시글 수정 성공");
+            response.sendRedirect("personMatching?command=personalRead&personal_seq=" + personal_seq);
+         } else {
+            System.out.println("게시글 수정 실패");
+         }
+         
+      //매칭 글 삭제   
+      } else if(command.equals("matchingDelete")) {
+         System.out.println("매칭 글 삭제");
+         int success = matchingService.deletePer(request);
+         
+          if(success > 0) {
+               System.out.println("글 삭제 성공");
+               response.sendRedirect("personMatching?command=selectAllPer");
+            } else {
+               System.out.println("글 삭제 실패"); 
+            }
+      
+          
+      //개인 매칭 게시글 목록
+      } else if(command.equals("selectAllPer")) {
+         List<MatchingPerVo> list = dao.selectAllPer();
+         request.setAttribute("personList", list);
+         System.out.println("게시글 리스트 확인");
+         
+         // 세션값 넘기기
+         request.setAttribute("u_id", u_id);
+         System.out.println("세션넘기기"); 
+         
+         
+         RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
+         dispatch.forward(request, response);
+      
+      //개인 매칭 글 상세 확인
+      } else if(command.equals("selectOnePer")) {
+         System.out.println("게시글 상세 확인하기");
+         
+         MatchingPerVo detail = matchingService.selectOnePer(request, response);
+         if(detail != null) {
+            System.out.println("개인 매칭 디테일 정보 출력");
+            request.setAttribute("detail", detail);
+            dispatch("/matching/personalRead.jsp", request, response);
+         }
+
+        // 프로젝트 생성
+      } else if(command.equals("projectWrite")) {
+    	  System.out.println("프로젝트 생성");
+    	  
+    	  
+		  
+		  boolean success = matchingService.projectWrite(request,response);
+		  
+		  if(success) {
+			  System.out.println("프로젝트 생성 성공");
+		  } else {
+              System.out.println("프로젝트 생성 실패");			  
+		  }
+      }
+
+         
+       // 게시글 controller // 
+      } else if(command.equals("togglePost")) {
+
 			System.out.println("관심 게시글 추가");
 			// MatchingService.togglePost(request, response);
 

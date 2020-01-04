@@ -49,9 +49,14 @@
 			}, 
 			success : function(result) {
 				if (result > 0) {
-					alert("관심 게시글에 사람매칭이 추가되었습니다.");
+					alert("해당 게시글이 관심 게시글에  추가되었습니다.");
+					$('#heart').attr('class', 'heart press'); 
+				} else if(result == 0){
+					alert("로그인 후 이용해 주세요.");
+					$('#heart').attr('class', 'heart'); 
 				} else {
 					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
+					
 				}
 			}
 		});
@@ -123,7 +128,7 @@
                      </div>
                      <div class="col-lg-1 col-sm-1">
                          <!-- heart -->
-                         <i class="heart" onclick="addPostFunction('${personal.personal_seq}');"></i>
+                         <i class="heart" id="heart" onclick="addPostFunction('${personal.personal_seq}');"></i>
                      </div>
                      <!-- 게시물 -->
                  </div>

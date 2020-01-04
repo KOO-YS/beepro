@@ -31,6 +31,7 @@
 
   <!-- heart button https://codepen.io/kieranfivestars/pen/PwzjgN-->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 
 <style>
@@ -86,6 +87,38 @@
 }
 
 </style>
+
+<script type="text/javascript">
+
+	function addPostFunction(post_no){
+		var u_id = "${u_id}";
+		$.ajax({
+			type : "POST",
+			url : "${pageContext.request.contextPath}/post?command=togglePost",
+			data : {
+				u_id : encodeURIComponent(u_id),
+				type : encodeURIComponent("project"),
+				post_no : encodeURIComponent(post_no)
+			}, 
+			success : function(result) {
+				if (result > 0) {
+					alert("해당 게시글이 관심 게시글에  추가되었습니다.");
+					$('#heart').attr('class', 'heart press'); 
+				} else if(result == 0){
+					alert("로그인 후 이용해 주세요.");
+					$('#heart').attr('class', 'heart'); 
+				} else {
+					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
+					
+				}
+			}
+		});
+	}
+
+</script>
+
+
+
 </head>
 <body id="page-top">
 
@@ -161,7 +194,7 @@
                            </div>
                            <div class="col-lg-1 col-sm-1">
                                <!-- heart -->
-                               <i class="heart" ></i>
+                               <i class="heart" id="heart" onclick="addPostFunction('${matchingVo.project_seq}');"></i>
                            </div>
                            <hr>
                            </div>
