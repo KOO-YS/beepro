@@ -106,9 +106,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취 소</button>
-					<button type="button" class="btn btn-primary"
-						onclick="location.href='${pageContext.request.contextPath}/cowork/dashboard.jsp'">생
-						성</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/cowork/dashboard.jsp'">생 성</button>
 				</div>
 			</div>
 		</div>
