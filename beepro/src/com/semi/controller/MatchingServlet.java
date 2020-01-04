@@ -59,6 +59,9 @@ public class MatchingServlet extends HttpServlet {
       MatchingService matchingService = new MatchingService();
       MatchingDao dao = new MatchingDaoImpl();
       
+	HttpSession session = request.getSession();
+	String u_id = (String)session.getAttribute("u_id");
+      
       if(command.equals("matchingWrite")) {
           int success = matchingService.matchingWrite(request, response);
          
@@ -166,6 +169,10 @@ public class MatchingServlet extends HttpServlet {
          request.setAttribute("personList", list);
          System.out.println("게시글 리스트 확인");
          
+         // 세션값 넘기기
+         request.setAttribute("u_id", u_id);
+         System.out.println("세션넘기기");
+         
          RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
          dispatch.forward(request, response);
       
@@ -179,7 +186,7 @@ public class MatchingServlet extends HttpServlet {
             request.setAttribute("detail", detail);
             dispatch("/matching/personalRead.jsp", request, response);
          }
-        
+
         // 프로젝트 생성
       } else if(command.equals("projectWrite")) {
     	  System.out.println("프로젝트 생성");
@@ -196,5 +203,12 @@ public class MatchingServlet extends HttpServlet {
               System.out.println("프로젝트 생성 실패");			  
 		  }
       }
+
+         
+       // 게시글 controller // 
+      } else if(command.equals("togglePost")) {
+			System.out.println("관심 게시글 추가");
+			matchingService.togglePost(request, response);
+		}
    }
 }

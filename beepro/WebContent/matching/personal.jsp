@@ -35,6 +35,31 @@
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 
+<script type="text/javascript">
+
+	function addPostFunction(post_no){
+		var u_id = "${u_id}";
+		$.ajax({
+			type : "POST",
+			url : "${pageContext.request.contextPath}/post?command=togglePost",
+			data : {
+				u_id : encodeURIComponent(u_id),
+				type : encodeURIComponent("personal"),
+				post_no : encodeURIComponent(post_no)
+			}, 
+			success : function(result) {
+				if (result > 0) {
+					alert("관심 게시글에 사람매칭이 추가되었습니다.");
+				} else {
+					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
+				}
+			}
+		});
+	}
+
+</script>
+
+
 </head>
 
 <body id="page-top">
@@ -98,7 +123,7 @@
                      </div>
                      <div class="col-lg-1 col-sm-1">
                          <!-- heart -->
-                         <i class="heart"></i>
+                         <i class="heart" onclick="addPostFunction('${personal.personal_seq}');"></i>
                      </div>
                      <!-- 게시물 -->
                  </div>

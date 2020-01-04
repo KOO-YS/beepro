@@ -1,7 +1,8 @@
 package com.semi.dao;
 
-import com.semi.vo.MatchingPerVo;
-import static common.JDBCTemplet.*;
+import static common.JDBCTemplet.close;
+import static common.JDBCTemplet.commit;
+import static common.JDBCTemplet.getConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-import com.semi.vo.ProjectVo;
+import com.semi.vo.PostVo;
 
 public class MatchingDaoImpl implements MatchingDao{
    
@@ -350,4 +352,96 @@ public class MatchingDaoImpl implements MatchingDao{
 		}
 		return (res > 0) ? true : false;
       }
+
+   
+   
+   
+   /* 관심 게시글 DAO*/
+   
+   
+	
+	public int postChk(PostVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT * FROM post WHERE u_id=? AND type=? AND post_no=? ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getU_id());
+			pstmt.setString(2, vo.getType());
+			pstmt.setInt(3, vo.getPost_no());
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				return - 1;  // 컬럼이 존재하면 음수 리턴
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+
+		return 1;		//컬럼이 존재하지 않으면 양수 리턴		
+	}
+
+	public int insertPost(PostVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		String sql = " INSERT INTO post VALUES(?,?,?) ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getU_id());
+			pstmt.setString(2, vo.getType());
+			pstmt.setInt(3, vo.getPost_no());
+			
+			res = pstmt.executeUpdate();
+			if (res > 0) {
+				commit(con);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+		
+		return res;
+	}
+	
+	public int deletePer(PostVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		String sql = " DELETE FROM post WHERE u_id=? AND type=? AND post_no=? ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getU_id());
+			pstmt.setString(2, vo.getType());
+			pstmt.setInt(3, vo.getPost_no());
+			
+			res = pstmt.executeUpdate();
+			
+			if (res > 0) {
+				commit(con);
+			} else {
+				System.out.println("삭제 실패");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+		
+		return -1;
+	}
+
+   
+>>>>>>> f4f91f53ae15623afc445832cbac4b2c7f3d38e0
 }

@@ -115,6 +115,8 @@ hr {
   		<div class="col-2">
   		</div>
   		<div class="col-8">
+  		  	<button class="btn btn-primary" style="margin-bottom: 40px;"> 팔로우 하기 </button>
+  	        <button class="btn btn-primary" style="margin-bottom: 40px;" onclick="sendMsg();"> 쪽지 보내기 </button>
 		  	<p class="bg-light" style="text-align:center;">
 				skills
 			</p>

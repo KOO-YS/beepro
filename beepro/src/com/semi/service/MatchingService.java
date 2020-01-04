@@ -1,6 +1,9 @@
 package com.semi.service;
 
+
 import java.sql.Date;
+import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,8 @@ import com.semi.dao.MatchingDaoImpl;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 import com.semi.vo.ProjectVo;
+import com.semi.vo.PostVo;
+
 
 public class MatchingService {
 	
@@ -199,4 +204,35 @@ public class MatchingService {
 	return Dao.insertProject(vo);
 }
    
+   
+   
+   
+   /* 관심 게시글 서비스 */
+   
+	public void togglePost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+
+		String u_id = request.getParameter("u_id");
+		String type = request.getParameter("type");
+		int post_no = Integer.parseInt(request.getParameter("post_no"));
+
+		System.out.println("u__id : " + u_id);
+		System.out.println("post_id : " + post_no);
+		System.out.println("type : " + type);
+
+
+		PostVo postVo = new PostVo(u_id, type, post_no);
+		
+		MatchingDaoImpl dao = new MatchingDaoImpl();
+		if(dao.postChk(postVo) > 0) {
+			response.getWriter().write(new MatchingDaoImpl().insertPost(postVo)+"");
+			System.out.println("관심 게시글 추가");
+		}else {
+			response.getWriter().write(new MatchingDaoImpl().deletePer(postVo)+"");
+			System.out.println("관심 게시글 삭제");
+		}
+		
+
+	}
 }

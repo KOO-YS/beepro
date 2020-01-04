@@ -159,9 +159,9 @@
                                <div class="col-lg-11 col-sm-10">
                                <h4><a href="matching?command=matchingView&project_seq=${matchingVo.project_seq }" >${matchingVo.title }</a></h4>
                            </div>
-                           <div class="col-lg-1 col-sm-2">
+                           <div class="col-lg-1 col-sm-1">
                                <!-- heart -->
-                               <i class="heart" style="float: right;"></i>
+                               <i class="heart" ></i>
                            </div>
                            <hr>
                            </div>
