@@ -187,6 +187,24 @@ public class MatchingServlet extends HttpServlet {
             request.setAttribute("detail", detail);
             dispatch("/matching/personalRead.jsp", request, response);
          }
+
+        // 프로젝트 생성
+      } else if(command.equals("projectWrite")) {
+    	  System.out.println("프로젝트 생성");
+    	  
+    	  // pm의 아이디 세션을 받아옴 
+		  HttpSession session = request.getSession();
+		  String u_id = (String) session.getAttribute("u_id");
+		  
+		  boolean success = matchingService.projectWrite(request,response);
+		  
+		  if(success) {
+			  System.out.println("프로젝트 생성 성공");
+		  } else {
+              System.out.println("프로젝트 생성 실패");			  
+		  }
+      }
+
          
        // 게시글 controller // 
       } else if(command.equals("togglePost")) {

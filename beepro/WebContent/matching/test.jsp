@@ -34,7 +34,7 @@
 	  var str = "";
 	  $("input[name=test]:checked").each(function(){
 		 var a = $(this).val();
-		 str += a+" / ";
+		 str += a+" ";
 	  });
 		 $(".modal-body #pro_title").val(str);
 	}
@@ -60,9 +60,7 @@
 	<input type="checkbox" name="test" value="사람7">사람7
 	<br>
 	<br>
-  
-  
-  
+
     <button class="dropdown-item" onclick="test()" data-toggle="modal" data-target="#logoutModal2">
 		<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 워크스페이스 이동
 	</button>
@@ -80,7 +78,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form>
+					<form action="../matching" method="post">
 						<p style="color: #334152;">
 							프로젝트 명<span style="color: red;"> *</span>
 						</p>
@@ -92,21 +90,24 @@
 						<input type="text" class="form-control" id="from" name="from"
 							style="width: 200px;"> ~ <input type="text"
 							class="form-control" id="to" name="to" style="width: 200px;">
-						<br> <br>
+						<br><br>
 
 						<p style="color: #334152;">개요</p>
 						<textarea cols="62"></textarea>
+						
+						<!-- 프로젝트 진행중인 값을 hidden으로 표시 -->
+						<input type="hidden" name="finish_ck" value="N">
 
 						<p style="color: #334152;">
 							프로젝트 팀원<span style="color: red;"> *</span>
 						</p>
-						<input type="text" id="pro_title" size="60"><br> <br>
+						<input type="text" id="pro_title" size="60"><br><br>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취 소</button>
-					<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/cowork/dashboard.jsp'">생 성</button>
+					<button type="button" class="btn btn-primary" onclick="location.href='../matching?command=projectWrite'">생 성</button>
 				</div>
 			</div>
 		</div>

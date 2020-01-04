@@ -326,6 +326,33 @@ public class MatchingDaoImpl implements MatchingDao{
       // TODO Auto-generated method stub
       return 0;
    }
+
+    // 프로젝트 생성
+	@Override
+	public boolean insertProject(ProjectVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		
+		try {
+			pstmt = con.prepareStatement(insertProjectSql);
+			pstmt.setInt(1, vo.getProjectSeq());
+			pstmt.setDate(2, vo.getStartDate());
+			pstmt.setDate(3, vo.getEndDate());
+			pstmt.setString(4, vo.getFinish_ck());
+			pstmt.setString(5, vo.getProjectName());
+			pstmt.setString(6, vo.getContent());
+			
+			res = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+		return (res > 0) ? true : false;
+      }
+
    
    
    
@@ -416,4 +443,5 @@ public class MatchingDaoImpl implements MatchingDao{
 	}
 
    
+>>>>>>> f4f91f53ae15623afc445832cbac4b2c7f3d38e0
 }

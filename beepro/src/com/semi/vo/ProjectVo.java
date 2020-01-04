@@ -9,17 +9,20 @@ public class ProjectVo {
 	private Date endDate; // 프로젝트 종료 일
 	private String finish_ck; // 프로젝트 종료 여부
 	private String projectName; // 프로젝트 명
+	private String content;
 	
 	public ProjectVo() {
 	}
-	
-	public ProjectVo(int projectSeq, Date startDate, Date endDate, String finish_ck, String projectName) {
+
+	public ProjectVo(int projectSeq, Date startDate, Date endDate, String finish_ck, String projectName,
+			String content) {
 		super();
 		this.projectSeq = projectSeq;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.finish_ck = finish_ck;
 		this.projectName = projectName;
+		this.content = content;
 	}
 
 	public int getProjectSeq() {
@@ -60,5 +63,13 @@ public class ProjectVo {
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }
