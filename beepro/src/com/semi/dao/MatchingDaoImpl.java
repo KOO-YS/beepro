@@ -15,6 +15,7 @@ import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 import com.semi.vo.PostVo;
 import com.semi.vo.ProjectVo;
+import com.semi.vo.VolunteerVo;
 
 public class MatchingDaoImpl implements MatchingDao{
    
@@ -61,7 +62,7 @@ public class MatchingDaoImpl implements MatchingDao{
             
             while(rs.next()) {
                MatchingProVo matVo = new MatchingProVo();
-               matVo.setProject_seq(rs.getString(1));
+               matVo.setProjectM_seq(rs.getString(1));
                matVo.setPm_id(rs.getString(2));
                matVo.setTitle(rs.getString(3));
                matVo.setContent(rs.getString(4));
@@ -100,7 +101,7 @@ public class MatchingDaoImpl implements MatchingDao{
             rs = pstmt.executeQuery();
             
             while(rs.next()) {
-               matVo.setProject_seq(rs.getString(1));
+               matVo.setProjectM_seq(rs.getString(1));
                matVo.setPm_id(rs.getString(2));
                matVo.setTitle(rs.getString(3));
                matVo.setContent(rs.getString(4));
@@ -143,7 +144,7 @@ public class MatchingDaoImpl implements MatchingDao{
             pstmt.setString(5, matchingProVo.getLocation());
             pstmt.setString(6, matchingProVo.getStartdate());
             pstmt.setString(7, matchingProVo.getEnddate());
-            pstmt.setString(8, matchingProVo.getProject_seq());
+            pstmt.setString(8, matchingProVo.getProjectM_seq());
 
             res = pstmt.executeUpdate(); //실제로 db에 실행시키는 구문
 
@@ -443,5 +444,33 @@ public class MatchingDaoImpl implements MatchingDao{
 		return -1;
 	}
 
-   
+    // 지원자 정보받기
+	public boolean insertVolunteer(VolunteerVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		
+        try {
+			pstmt = con.prepareStatement(insertVolunteerSql);
+			pstmt.setString(1, vo.getUserId());
+			
+			res = pstmt.executeUpdate();
+			
+			if(res > 0) {
+				commit(con);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+	      return true;
+	}
+
+    // 지원자 리스트로 조회
+	@Override
+	public List<VolunteerVo> selectAllVolunteer(int projectM_seq) {
+		return null;
+	}
+
 }

@@ -68,8 +68,28 @@
    })(jQuery);
    
       
-
-		
+   $(document).ready(function() {
+		// 최상단의 전체선택 클릭 시 
+		$("#chkall").click(function() {
+			// 클릭 되었다면
+			if ($("#chkall").prop("checked")) {
+				$("input[name=vol]").prop("checked", true);
+			} else {
+				// 클릭이 안되었다면
+				$("input[name=vol]").prop("checked", false);
+			}
+		});
+	});
+   
+   // 다중 체크박스 선택 값 가져와서 모달창에 뿌려주는 것
+   function test(){
+		  var str = "";
+		  $("input[name=vol]:checked").each(function(){
+			 var a = $(this).val();
+			 str += a+" ";
+		  });
+			 $(".modal-body .form-group #group").val(str);
+		}
 </script>
 <%-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
 	    <div class="container">
@@ -205,12 +225,12 @@
 	               	<button type="button" class="col-1-8 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
                	</c:when>
                	<c:otherwise>
-				 	<button class="btn btn-primary col-lg-5" style="float:right;" onclick="">
+               	    	<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">
 				 		<c:choose>
 					 		<c:when test="지원여부 확인">이미 지원하셨습니다</c:when>
 					 		<c:otherwise>지원하기</c:otherwise> 
 					 	</c:choose>
-			 		</button>
+			 		   </a>
 				</c:otherwise> 
                </c:choose>
             </div>
@@ -227,7 +247,7 @@
 			 	<table class="table table-sm table-hover">
 				  <thead>
 				    <tr>
-				      <th width="5%"></th>
+				      <th width="5%"><input type="checkbox" id="chkall"></th>
 				      <th width="40%">지원자</th>
 				      <th width="10%"></th>
 				      <th width="10%"></th>
@@ -236,20 +256,7 @@
 				  <tbody>
 				    <tr>
 				      <td>
-				      	<input type="checkbox" value="userId">
-				      </td>
-				      <td>sssyans</td>
-				      <td>
-				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp	'">프로필</button>
-				      </td>
-				      <td>
-				      	<button class="btn btn-primary">쪽지</button>
-				      </td>
-				    </tr>
-				    
-				    <tr>
-				      <td>
-				      	<input type="checkbox" value="userId">
+				      	<input type="checkbox" value="userId" name="vol">
 				      </td>
 				      <td>sssyans</td>
 				      <td>
@@ -261,7 +268,19 @@
 				    </tr>
 				    <tr>
 				      <td>
-				      	<input type="checkbox" value="userId">
+				      	<input type="checkbox" value="userId" name="vol">
+				      </td>
+				      <td>sssyans</td>
+				      <td>
+				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp	'">프로필</button>
+				      </td>
+				      <td>
+				      	<button class="btn btn-primary">쪽지</button>
+				      </td>
+				    </tr>
+				    <tr>
+				      <td>
+				      	<input type="checkbox" value="userId" name="vol">
 				      </td>
 				      <td>sssyans</td>
 				      <td>
@@ -292,24 +311,24 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="../user?command=updatePwd" method="post">
+	<form action="../matching" method="post">
       <div class="modal-body">
-			바꾸기
         	  <div class="form-group">
-			    <label for="oriPwd">기존 패스워드</label>
+			    <label for="oriPwd">프로젝트 명</label>
 			    <input type="password" class="form-control" name ="oriPwd" id="oriPwd" required>
 			  </div>
 			  <hr>
 			  <div class="form-group">
-			    <label for="newPwd">새 패스워드</label>
+			    <label for="newPwd">기간</label>
 			    <input type="password" class="form-control" name ="newPwd" id="newPwd" required>
 			  </div>
 			  <div class="form-group">
-			    <label for="newPwd_chk">새 패스워드 확인</label>
-
-			    <input type="password" class="form-control" name="newPwd_chk" id="newPwd_chk" required aria-describedby="pwdinfo">
-			    <small id="pwdinfo" class="form-text text-muted">위와 동일하게 입력해주시기 바랍니다</small>
-
+			    <label for="newPwd">개요</label>
+			    <input type="password" class="form-control" name ="newPwd" id="newPwd" required>
+			  </div>
+			  <div class="form-group">
+			    <label for="newPwd_chk">프로젝트 팀원</label>
+			    <input type="text" class="form-control" name="group" id="group" required>
 			  </div>
       </div>
       <div class="modal-footer">

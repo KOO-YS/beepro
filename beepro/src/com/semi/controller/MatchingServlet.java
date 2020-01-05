@@ -15,6 +15,8 @@ import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.VolunteerVo;
+
 
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
@@ -57,9 +59,11 @@ public class MatchingServlet extends HttpServlet {
 		System.out.println("[ " + command + " ]");
 		// 서비스와 연결
 		MatchingService matchingService = new MatchingService();
+
 		MatchingDaoImpl dao = new MatchingDaoImpl();
 		
 		// 현재 로그인 중인 아이디로 세션 받아옴
+
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
 
@@ -87,7 +91,16 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("매칭 상세보기");
 			MatchingProVo matchingProVo = matchingService.matchingRead(request);
 			System.out.println(matchingProVo.toString());
+
 			request.setAttribute("matchingVo", matchingProVo);
+
+			
+			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
+			List<VolunteerVo> list = dao.selectAllVolunteer(projectM_seq);
+			
+			request.setAttribute("matchingVo", matchingProVo);
+			request.setAttribute("volList", list);
+
 			dispatch("matching/matchingRead.jsp", request, response);
 
 			// 프로젝트 매칭 글 삭제
@@ -113,6 +126,9 @@ public class MatchingServlet extends HttpServlet {
 		} else if (command.equals("matchingModifyProc")) {
 			System.out.println("매칭 글 수정 수정");
 			String project_seq = (String) request.getParameter("project_seq");
+
+			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
+
 			int success = matchingService.matchingModifyProc(request);
 			if (success > 0) {
 				System.out.println("글 수정 성공");
@@ -201,10 +217,26 @@ public class MatchingServlet extends HttpServlet {
 				System.out.println("프로젝트 생성 실패");
 			}
 		}
-		// 게시글 controller //
-		else if (command.equals("togglePost")) {
+       // 게시글 controller // 
+		else if(command.equals("togglePost")) {
 			System.out.println("관심 게시글 추가");
 			matchingService.togglePost(request, response);
+
+		} else if (command.equals("insertVolunteer")) {
+			System.out.println("아이디:" + u_id);
+			System.out.println("지원하기");
+			
+			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
+			System.out.println("프로젝트 공고 글 번호 : "+ projectM_seq);
+
+			boolean success = matchingService.insertVolunteer(request, response);
+
+			if (success) {
+				System.out.println("지원성공");
+				response.sendRedirect("matching/mypage.jsp");
+			} else {
+				System.out.println("지원실패");
+			}
 		}
 	}
 }
