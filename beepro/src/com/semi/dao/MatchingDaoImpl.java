@@ -14,6 +14,7 @@ import java.util.List;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 import com.semi.vo.PostVo;
+import com.semi.vo.ProjectVo;
 
 public class MatchingDaoImpl implements MatchingDao{
    
@@ -443,5 +444,4 @@ public class MatchingDaoImpl implements MatchingDao{
 	}
 
    
->>>>>>> f4f91f53ae15623afc445832cbac4b2c7f3d38e0
 }
