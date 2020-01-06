@@ -89,7 +89,7 @@
 		<servlet-name>projectMatching</servlet-name>
 		<url-pattern>/matching</url-pattern>
 	</servlet-mapping>
-		
+			
 	<!-- 유저 맵핑 -->
 	<servlet>
 		<servlet-name>user</servlet-name>
@@ -109,6 +109,8 @@
 		<servlet-name>msg</servlet-name>
 		<url-pattern>/msg</url-pattern>
 	</servlet-mapping>
+	
+	
 	
 
 </web-app>

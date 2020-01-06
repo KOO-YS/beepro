@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
@@ -171,6 +172,23 @@ public class MatchingServlet extends HttpServlet {
             request.setAttribute("detail", detail);
             dispatch("/matching/personalRead.jsp", request, response);
          }
-      }
+         
+     //마이페이지로 매칭 게시글목록 전달
+      }else if(command.equals("mypage")) {
+    	  System.out.println("마이페이지");
+    	  //personal 목록담기
+    	  List<MatchingPerVo> list1 = dao.selectAllPer();
+  	      request.setAttribute("personalList", list1);
+  	      
+  	      //project 목록 담기
+  	      HttpSession session = request.getSession();
+  	      String u_id = (String) session.getAttribute("u_id");
+  	      List<MatchingProVo> list2 = dao.matchingProAll(u_id);
+	      request.setAttribute("projectList", list2);
+  	         
+	      dispatch("matching/mypage.jsp", request, response);
+	      
+
+      }						
    }
 }

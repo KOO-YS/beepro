@@ -32,7 +32,7 @@
             <a class="nav-link js-scroll-trigger" href="#about">협업 cowork</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="mypage.jsp">마이페이지</a>
+            <a class="nav-link js-scroll-trigger" onclick="location.href='../matching?command=mypage'">마이페이지</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="message.jsp">쪽지</a>
