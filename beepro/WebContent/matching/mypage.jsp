@@ -268,7 +268,6 @@
       </div>
 	<form action="../user?command=updatePwd" method="post">
       <div class="modal-body">
-      
         	  <div class="form-group">
 			    <label for="oriPwd">기존 패스워드</label>
 			    <input type="password" class="form-control" name ="oriPwd" id="oriPwd" required>

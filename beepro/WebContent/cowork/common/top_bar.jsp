@@ -2,13 +2,13 @@
    pageEncoding="UTF-8"%>
 <meta charset="UTF-8">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.semi.vo.ProjectVo" %>
  <%
    request.setCharacterEncoding("UTF-8");
 %>
 <%
    response.setContentType("text/html; charset=UTF-8");
-%>  
-
+%>
 <%
    String u_id = null;
    if (session.getAttribute("u_id") != null) {
@@ -55,13 +55,8 @@
 <link
    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
    rel="stylesheet">
-
 <!-- Custom styles for this template-->
-
-
-<link
-   href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css"
-   rel="stylesheet">
+<link href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css" rel="stylesheet">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
  
 
@@ -212,13 +207,6 @@ a:hover {
                All Alerts</a>
          </div></li>
 
-
-
-
-
-
-
-
       <!-- Nav Item - Messages -->
       <li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
       <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
@@ -294,14 +282,16 @@ a:hover {
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="../matching/mypage.jsp">
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/matching/mypage.jsp">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                            내 정보
                 </a>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal2">
+                
+                <a class="dropdown-item" href="../matching?command=selectAllProject" data-toggle="modal" data-target="#logoutModal2">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                              워크스페이스 이동
                 </a>
+                
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href=#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -309,9 +299,7 @@ a:hover {
                 </a>
               </div>
             </li>
-
           </ul>
-
         </nav>
         
           <!-- 로그아웃 모달  -->
@@ -333,58 +321,7 @@ a:hover {
       </div>
     </div>
     
-    <!-- 워크스페이스 모달  -->
-      <div class="modal fade" id="logoutModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-          <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body" style="font-size:14px;">
-             <%-- <c:choose> --%>
-	             <%-- <c:when test="${empty list}">
-	                <div id="none">
-	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
-	                                        매칭을 통해 생성하십시오.<br>
-	                  <a class="btn btn-primary" href="../matching/matchingList.jsp">매칭하러가기</a>  
-	                </div>
-	             </c:when>
-	      
-	             <c:otherwise>
-	                                       이동하실 워크 스페이스를 선택하세요.
-	               <c:forEach var="list" items="${list}">
-	               <div id="content_wrap">
-	                 <div id="writer">
-	                   ${list.writer}
-	                 </div>
-	                  
-	                  <div id="regdate">
-	                  <fmt:formatDate value="${list.regdate}" pattern="yyyy/mm/dd HH:mm:ss" />
-	                  </div>
-	                  
-	                  <div id="content">
-	                  ${list.content}
-	                  </div>
-	             
-	                  <button type="button" class="btn btn-primary" id="btn1"
-	                  onclick="location.href='${pageContext.request.contextPath}/comment?command=updateComment'">
-	                                            수정
-	                  </button>
-	                  <button type="button" class="btn btn-primary" id="btn2"
-	                  onclick="location.href='${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}'">
-	                                            삭제
-	                  </button>
-	                </div>
-	               </c:forEach>
-	             </c:otherwise> --%>
-	         <%--  </c:choose>     --%>       
-          </div>
-        </div>
-      </div>
-    </div>
+ 
     
       <!-- 탑 메뉴 끝 -->
 

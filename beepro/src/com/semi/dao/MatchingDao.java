@@ -44,11 +44,15 @@ public interface MatchingDao {
 	// 프로젝트 상세페이지
 	String selectMatchingReadSql = "SELECT * FROM MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
     
-	// cowork페이지에 뿌려질 프로젝트 생성하는 부분
-	String insertProjectSql = "INSERT INTO PROJECT VALUES(PROJECT_SEQ.NEXTVAL, ?,?,?,?,?)";
+	// cowork 페이지에 뿌려질 프로젝트 생성하는 부분
+	String insertProjectSql = "INSERT INTO PROJECT VALUES(?,?,?,'N',?,?,?,'N')";
+	String selectAllProjectSql = "SELECT * FROM PROJECT";
 	
 	// 지원자
-	String insertVolunteerSql = "INSERT INTO VOLUNTEER VALUES(PROJECTM_SEQ.NEXTVAL, ?,'N')";
+	String insertVolunteerSql = "INSERT INTO VOLUNTEER VALUES(1, ?,'N')";
+	
+	// 지원자 전체조회
+	String selectAllVolunteerSql = "SELECT * FROM VOLUNTEER WHERE PROJECTM_SEQ=?";
 	
 	public int matchingWrite(MatchingProVo matchingProVo);
 
@@ -65,5 +69,7 @@ public interface MatchingDao {
 	public boolean insertVolunteer(VolunteerVo vo);
 
 	public List<VolunteerVo> selectAllVolunteer(int projectM_seq);
+
+	public List<ProjectVo> selectAllProject();
 
 }
