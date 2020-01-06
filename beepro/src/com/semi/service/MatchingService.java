@@ -280,5 +280,5 @@ public class MatchingService {
 			response.getWriter().write('1'); //빨강하트
 		}
 	}
-
+	
 }
