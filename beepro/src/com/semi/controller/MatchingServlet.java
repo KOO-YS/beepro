@@ -15,8 +15,8 @@ import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.VolunteerVo;
 
 @WebServlet("/MatchingServlet")
@@ -194,7 +194,8 @@ public class MatchingServlet extends HttpServlet {
 			// 세션값 넘기기
 			request.setAttribute("u_id", u_id);
 			System.out.println("세션넘기기");
-
+			
+			
 			RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
 			dispatch.forward(request, response);
 
@@ -212,22 +213,31 @@ public class MatchingServlet extends HttpServlet {
 			// 프로젝트 생성
 		} else if (command.equals("projectCreate")) {
 			System.out.println("프로젝트 생성");
-			System.out.println("pm아이디:"+u_id);
-			
-			boolean success = matchingService.insertProject(request, response);
 
-			if (success) {
-				System.out.println("프로젝트 생성 성공");
-				response.sendRedirect("cowork/dashboard.jsp");
-			} else {
-				System.out.println("프로젝트 생성 실패");
-			}
+			System.out.println("pm아이디:"+u_id);
+
+			// pm의 아이디 세션을 받아옴 (위에 선언했습니다 ! 그냥 u_id로 받아오면 돼요!)
+			/*
+			 * HttpSession session = request.getSession(); String u_id = (String)
+			 * session.getAttribute("u_id");
+			 */
+
+			/* boolean success = matchingService.projectWrite(request, response); */
+
+
+			/*
+			 * if (success) { System.out.println("프로젝트 생성 성공");
+			 * response.sendRedirect("cowork/dashboard.jsp"); } else {
+			 * System.out.println("프로젝트 생성 실패"); }
+			 */
+
 			
 		  // 프로젝트 조회
 		} else if(command.equals("selectAllProject")) {
 			System.out.println("프로젝트 전체 조회");
             List<ProjectVo> list = matchingService.selectAllProject(request,response);
             request.setAttribute("list", list);
+            dispatch("cowork/common/dashboard.jsp",request,response);
             
          // 게시글 controller // 
 		}else if(command.equals("togglePost")) {
