@@ -1,6 +1,7 @@
 package com.semi.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -190,11 +191,13 @@ public class MatchingServlet extends HttpServlet {
 			List<MatchingPerVo> list = dao.selectAllPer();
 			request.setAttribute("personList", list);
 			System.out.println("게시글 리스트 확인");
-
-			// 세션값 넘기기
-			request.setAttribute("u_id", u_id);
-			System.out.println("세션넘기기");
 			
+			// 관심게시글 가져오기
+
+				
+				ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
+				request.setAttribute("postList", postList);
+
 			
 			RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
 			dispatch.forward(request, response);
