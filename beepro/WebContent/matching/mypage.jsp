@@ -164,7 +164,7 @@
 	</div>	<!-- container end -->
 	<section>
 		<div class="container">
-			<h5>내가 쓴 project 글 목록</h5>
+			<h5>내가 쓴 project 글 목록</h5><br>
 			<div class="row">
 			<c:forEach items="${projectList}" var="list" > 					
 				<div class="col-lg-3">
@@ -192,8 +192,8 @@
 			</div>	
 			
 			<div class="container">
-			<h5>내가 쓴 personal 목록</h5>
-			<div class="row">
+			<h5>내가 쓴 personal 목록</h5><br>
+			<div class="row">		
 			<c:forEach items="${personalList}" var="list" > 					
 				<div class="col-lg-3">
 					<div class="card">
