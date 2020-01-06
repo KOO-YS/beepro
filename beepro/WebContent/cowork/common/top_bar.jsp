@@ -140,15 +140,17 @@ a:hover {
 
 
 <!-- 탑 메뉴 -->
-<nav
-   class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
    <!-- 이슈만들기 모달창 -->
-   <button type="button" class="btn btn-primary" data-toggle="modal"
+  <form action="../issue?command=issueWrite" method="post">
+   <input type="hidden" name="projectSeq" value="${vo.projectSeq}">
+   <button type="submit" class="btn btn-primary" data-toggle="modal"
       data-target="#exampleModal" style="margin-left: 840px;"
-      onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite'">
+      onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite&projectSeq=${vo.projectSeq}'">
       <b>+&nbsp;&nbsp;이슈 생성하기</b>
    </button>
+  </form>
 
    <!-- 탑 메뉴 끝-->
 

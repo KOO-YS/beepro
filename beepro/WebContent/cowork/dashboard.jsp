@@ -4,6 +4,7 @@
 <% response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.semi.vo.ProjectVo" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,7 +96,9 @@
 <title>협업 페이지</title>
 </head>
 <body>
-
+<%
+   ProjectVo vo = (ProjectVo)session.getAttribute("vo");
+%>
 	<div id="wrapper">
 		<jsp:include page="common/side_bar.jsp"></jsp:include>
 		<!-- 내용이 들어갈 구역을 정의하는 div -->
@@ -400,7 +403,7 @@ var myPieChart = new Chart(ctx, {
   },
 });
  </script>
- 			   <!-- 워크스페이스 모달  -->
+ 	<!-- 워크스페이스 모달  -->
       <div class="modal fade" id="logoutModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -412,7 +415,7 @@ var myPieChart = new Chart(ctx, {
           </div>
           <div class="modal-body" style="font-size:14px;">
               <c:choose>
-	             <c:when test="${empty list}">
+	             <c:when test="${empty vo}">
 	                <div id="none">
 	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
 	                                        매칭을 통해 생성하십시오.<br>
@@ -422,8 +425,8 @@ var myPieChart = new Chart(ctx, {
 	      
 	             <c:otherwise>
 	                                       이동하실 워크 스페이스를 선택하세요.
-	               <c:forEach var="list" items="${list}">
-	                   ${list.projectName}
+	               <c:forEach var="vo" items="${vo}">
+	                   ${vo.projectName}
 	                </div>
 	               </c:forEach>
 	             </c:otherwise>

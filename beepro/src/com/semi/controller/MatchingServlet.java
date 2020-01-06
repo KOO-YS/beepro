@@ -214,6 +214,9 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("프로젝트 생성");
 			System.out.println("pm아이디:"+u_id);
 			
+			List<ProjectVo> vo = dao.selectAllProject();
+			session.setAttribute("vo", vo);
+			
 			boolean success = matchingService.insertProject(request, response);
 
 			if (success) {
@@ -226,8 +229,7 @@ public class MatchingServlet extends HttpServlet {
 		  // 프로젝트 조회
 		} else if(command.equals("selectAllProject")) {
 			System.out.println("프로젝트 전체 조회");
-            List<ProjectVo> list = matchingService.selectAllProject(request,response);
-            request.setAttribute("list", list);
+            List<ProjectVo> vo = matchingService.selectAllProject(request,response);
             
          // 게시글 controller // 
 		}else if(command.equals("togglePost")) {

@@ -22,8 +22,6 @@ public class ProjectService {
 		ProjectDaoImple dao = new ProjectDaoImple();
 		HttpSession session = request.getSession();
 		
-		
-
 		String title = request.getParameter("title");
 		String u_id = (String)session.getAttribute("u_id");
 		String issue_level = request.getParameter("issue_level");
