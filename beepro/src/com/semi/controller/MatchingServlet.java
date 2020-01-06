@@ -20,6 +20,7 @@ import com.semi.vo.VolunteerVo;
 
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	public MatchingServlet() {
@@ -250,6 +251,21 @@ public class MatchingServlet extends HttpServlet {
 			} else {
 				System.out.println("지원실패");
 			}
-		}
-	}
+	 //마이페이지로 매칭 게시글목록 전달
+    }else if(command.equals("mypage")) {
+  	  		System.out.println("마이페이지");
+  	  		
+  	  		//personal 목록담기
+  	  		List<MatchingPerVo> list1 = dao.selectAllPer();
+  	  		request.setAttribute("personalList", list1);
+	      
+  	  		//project 목록 담기
+  	  		List<MatchingProVo> list2 = dao.matchingProAll(u_id);
+  	  		request.setAttribute("projectList", list2);
+	         
+  	  		dispatch("matching/mypage.jsp", request, response);
+	      
+
+    }						
+ }
 }

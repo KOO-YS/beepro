@@ -40,7 +40,7 @@ public interface MatchingDao {
 	// 프로젝트 글 삭제
 	String deletematchingSeq = "DELETE MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
 	// 프로젝트 전체 목록 보기
-	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ORDER BY PROJECTM_SEQ DESC";
+	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ORDER BY PROJECT_SEQ DESC";
 	// 프로젝트 상세페이지
 	String selectMatchingReadSql = "SELECT * FROM MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
     

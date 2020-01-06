@@ -49,7 +49,7 @@
             </button>
          <% } else { 
          %> 
-         	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='mypage.jsp'">
+         	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='../matching?command=mypage'">
               MyPage
             </button>&nbsp;
           	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='../user?command=logout'">
