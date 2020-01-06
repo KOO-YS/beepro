@@ -194,7 +194,7 @@
                            </div>
                            <div class="col-lg-1 col-sm-1">
                                <!-- heart -->
-                               <i class="heart" id="heart" onclick="addPostFunction('${matchingVo.project_seq}');"></i>
+                               <i class="heart" id="heart" onclick="addPostFunction('${matchingVo.projectM_seq}');"></i>
                            </div>
                            <hr>
                            </div>

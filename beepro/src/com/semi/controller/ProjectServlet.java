@@ -14,11 +14,14 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
+import com.semi.dao.MatchingDao;
+import com.semi.dao.MatchingDaoImpl;
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
 import com.semi.service.ProjectService;
 import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
 
 @WebServlet("/ProjectServlet")
@@ -64,9 +67,15 @@ public class ProjectServlet extends HttpServlet {
 		// 서비스와 연결
 		ProjectService projectService = new ProjectService();
 		ProjectDao dao = new ProjectDaoImple();
+		MatchingDao mdao = new MatchingDaoImpl();
 
 		if (command.equals("issueWrite")) {
 			System.out.println("이슈 생성 폼으로 이동");
+			HttpSession session = request.getSession();
+			String u_id = (String) session.getAttribute("u_id");
+			
+			List<ProjectVo> vo = mdao.selectAllProject();
+			request.setAttribute("vo", vo);
 			response.sendRedirect("cowork/issueWrite.jsp");
 
 		} else if (command.equals("issueform")) {
@@ -258,6 +267,6 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("updateComment")) {
 			System.out.println("댓글 수정");
-		}
+		} 
 	}
 }

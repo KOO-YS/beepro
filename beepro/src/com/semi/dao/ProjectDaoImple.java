@@ -157,7 +157,6 @@ public class ProjectDaoImple implements ProjectDao {
 		Connection con = getConnection();
 		PreparedStatement pstm = null;
 		int res = 0;
-		System.out.println("다오 들어옴");
 		try {
 			pstm = con.prepareStatement(insertTodoSql);
 			System.out.println(insertTodoSql);
@@ -170,9 +169,7 @@ public class ProjectDaoImple implements ProjectDao {
 			pstm.setString(7, todo.getCategory());
 			pstm.setString(8, "예정");
 			pstm.setInt(9, todo.getPriority());
-			System.out.println("res == before:: "+res);
 			res = pstm.executeUpdate();
-			System.out.println("res == after:: "+res);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -269,8 +266,8 @@ public class ProjectDaoImple implements ProjectDao {
 				ProjectVo project = new ProjectVo();
 
 				project.setProjectSeq(rs.getInt(1));
-				project.setStartDate(rs.getDate(2));
-				project.setEndDate(rs.getDate(3));
+				project.setStartDate(rs.getString(2));
+				project.setEndDate(rs.getString(3));
 				project.setFinish_ck(rs.getString(4));
 				project.setProjectName(rs.getString(5));
 
@@ -361,7 +358,22 @@ public class ProjectDaoImple implements ProjectDao {
 			e.printStackTrace();
 		}
 	}
-
+	// paging)) 1. 업무 count
+	@Override
+	public int getTodoCount() {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int todoCount = 0;
+		try {
+			pstm = con.prepareStatement(getTodoCountSql);
+			todoCount = pstm.executeUpdate();	// Query
+			System.out.println(todoCount);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return todoCount;
+	}
 	// 업무 개수 분류		// TODO 폐기
 	@Override
 	public HashMap<String, Integer> countCategory() {
@@ -506,9 +518,7 @@ public class ProjectDaoImple implements ProjectDao {
 			
 			rs = pstm.executeQuery();
 			while(rs.next()) {
-				System.out.println("1 & 2 :"+rs.getString(1)+rs.getInt(2));
 				todoType.put(rs.getString(1)+"Rate", rs.getInt(2));
-				System.out.println("1 & 3 :"+rs.getString(1)+rs.getInt(3));
 				todoType.put(rs.getString(1)+"Cnt", rs.getInt(3));
 			}
 		} catch (SQLException e) {

@@ -3,6 +3,7 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.semi.vo.ProjectVo" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,12 +85,12 @@ $(document).ready(function(){
 </style>
 </head>
 <body>
-<%
+<%-- <%
 	String u_id = null;
 	if (session.getAttribute("u_id") != null) {
 		u_id = (String)session.getAttribute("u_id");
 	}
-%>
+%> --%>
    <div id="wrapper">
       <!-- 상단 메뉴 바 -->
       <div id="headers"></div>
@@ -118,12 +119,7 @@ $(document).ready(function(){
                        </div>
                        <div class="form-group col-lg-4">
                          <label for="category">프로젝트 명<span style="color:red;"> *</span></label>
-                         <select name="p_name" class="form-control" id="p_name" disabled>
-                           <c:forEach var="project_list" items="${projectList}" varStatus="status">
-                            <option value="" selected>진행 중인 프로젝트를 선택해주세요.</option>
-                            <option value="${project_list.subject}">${project_list.subject}</option>
-                           </c:forEach>
-                         </select>
+                         <input type="text" name="projectName" value="${list.projectName}" readonly>
                        </div> 
                      </div>
                        <div class="form-group">

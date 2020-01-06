@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.semi.vo.MatchingPerVo" %>
+<%@ page import="com.semi.vo.PostVo" %>
+<%@ page import="com.semi.dao.MatchingDaoImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,6 +39,28 @@
 
 <script type="text/javascript">
 
+/* 	$(document).ready(function(){
+		var post_no = "${personal.personal_seq}";
+	var u_id = "${u_id}";
+	$.ajax({
+		type : "POST",
+		url : "${pageContext.request.contextPath}/post?command=chkPost",
+		data : {
+			u_id : encodeURIComponent(u_id),
+			type : encodeURIComponent("personal"),
+			post_no : encodeURIComponent(post_no)		//어떻게 받아올까?
+		}, 
+		success : function(result) {
+			if (result > 0) {
+				$('#heart').attr('class', 'heart press'); 
+			} else {
+				$('#heart').attr('class', 'heart'); 
+			}
+		}
+	});
+
+});	 */
+
 	function addPostFunction(post_no){
 		var u_id = "${u_id}";
 		$.ajax({
@@ -50,13 +74,13 @@
 			success : function(result) {
 				if (result > 0) {
 					alert("해당 게시글이 관심 게시글에  추가되었습니다.");
-					$('#heart').attr('class', 'heart press'); 
+ 					$('#heart').attr('class', 'heart press');
 				} else if(result == 0){
 					alert("로그인 후 이용해 주세요.");
 					$('#heart').attr('class', 'heart'); 
 				} else {
 					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
-					
+ 					$('#heart').attr('class', 'heart press');
 				}
 			}
 		});
@@ -126,6 +150,7 @@
                           ${personal.skill} <br><br> 
                          <button class="btn btn-outline-primary" style="cursor: default;">${personal.emp_category}</button>
                      </div>
+
                      <div class="col-lg-1 col-sm-1">
                          <!-- heart -->
                          <i class="heart" id="heart" onclick="addPostFunction('${personal.personal_seq}');"></i>

@@ -16,7 +16,7 @@
   
   <servlet>
    <servlet-name>project</servlet-name>
-   <servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+   <servlet-class>com.semi.controller.MatchingServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
