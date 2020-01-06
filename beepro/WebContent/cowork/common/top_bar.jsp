@@ -210,8 +210,9 @@ a:hover {
          </div></li>
 
       <!-- Nav Item - Messages -->
-      <li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
-      <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
+<%--       <li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
+ --%><li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/cowork/chatList.jsp'">
+       <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
          role="button" > <i class="fas fa-envelope fa-fw"></i> 
          
          <!-- Counter - Messages -->
@@ -326,4 +327,3 @@ a:hover {
  
     
       <!-- 탑 메뉴 끝 -->
-

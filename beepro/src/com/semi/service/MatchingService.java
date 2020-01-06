@@ -289,4 +289,11 @@ public class MatchingService {
 		}
 	}
 	
+    // 모든 매칭 프로젝트 list 조회
+	public List<MatchingProVo> selectAllPro(HttpServletRequest request, HttpServletResponse response) {
+		MatchingDaoImpl dao = new MatchingDaoImpl();
+		String u_id = request.getParameter("u_id");
+		return dao.matchingProAll(u_id);
+	}
+	
 }

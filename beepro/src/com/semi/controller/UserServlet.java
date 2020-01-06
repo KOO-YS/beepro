@@ -94,25 +94,34 @@ public class UserServlet extends HttpServlet {
 				e.printStackTrace();
 			}	
 						
-		}else if(command.equals("chatList")) {
+		}else if (command.equals("chatList")) {
 			System.out.println("주고받은 대화 반환");
 			userService.chatList(request, response);
 			
-		}else if(command.equals("chatUnread")) {
+		} else if (command.equals("chatUnread")) {
 			System.out.println("읽지 않은 메세지");
 			userService.chatUnread(request, response);
+			
 		} else if (command.equals("chatBox")) {
+//			String u_id = request.getParameter("u_id");
+//			UserDaoImpl chatDAO = new UserDaoImpl();
+//			ArrayList<MessageVo> list = chatDAO.getBox(u_id);
+//			request.setAttribute("list", list);
+//			
+//			dispatch("/cowork/chatList.jsp", request, response);
 			System.out.println("대화 목록");
-			String u_id = request.getParameter("u_id");
-			UserDaoImpl chatDAO = new UserDaoImpl();
-			ArrayList<MessageVo> list = chatDAO.getBox(u_id);
-			request.setAttribute("list", list);
-			dispatch("/cowork/chatList.jsp", request, response);
-		}else if (command.equals("chatting")) {
+			userService.chatBox(request, response);
+			
+		} else if (command.equals("chatting")) {
 			System.out.println("채팅하기");
 			String get_id = request.getParameter("get_id");
 			request.setAttribute("get_id", get_id);
+			
 			dispatch("/cowork/chat.jsp", request, response);
+			
+		} else if(command.equals("oneUnread")) {
+			System.out.println("특정 사용자의 안읽은 메세지");
+			userService.oneUnread(request, response);
 		} else if(command.equals("sendMsg")) {
 			
 		} else if(command.equals("readMsg")) {

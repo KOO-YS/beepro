@@ -15,8 +15,8 @@ import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.VolunteerVo;
 
 @WebServlet("/MatchingServlet")
@@ -194,7 +194,8 @@ public class MatchingServlet extends HttpServlet {
 			// 세션값 넘기기
 			request.setAttribute("u_id", u_id);
 			System.out.println("세션넘기기");
-
+			
+			
 			RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
 			dispatch.forward(request, response);
 
@@ -214,9 +215,6 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("프로젝트 생성");
 			System.out.println("pm아이디:"+u_id);
 			
-			List<ProjectVo> vo = dao.selectAllProject();
-			session.setAttribute("vo", vo);
-			
 			boolean success = matchingService.insertProject(request, response);
 
 			if (success) {
@@ -230,6 +228,9 @@ public class MatchingServlet extends HttpServlet {
 		} else if(command.equals("selectAllProject")) {
 			System.out.println("프로젝트 전체 조회");
             List<ProjectVo> vo = matchingService.selectAllProject(request,response);
+            List<ProjectVo> list = matchingService.selectAllProject(request,response);
+            request.setAttribute("list", list);
+            dispatch("cowork/common/dashboard.jsp",request,response);
             
          // 게시글 controller // 
 		}else if(command.equals("togglePost")) {
@@ -260,11 +261,11 @@ public class MatchingServlet extends HttpServlet {
   	  		System.out.println("마이페이지");
   	  		
   	  		//personal 목록담기
-  	  		List<MatchingPerVo> list1 = dao.selectAllPer();
+  	  		List<MatchingPerVo> list1 = matchingService.selectAllPer(request, response);
   	  		request.setAttribute("personalList", list1);
 	      
   	  		//project 목록 담기
-  	  		List<MatchingProVo> list2 = dao.matchingProAll(u_id);
+  	  		List<MatchingProVo> list2 = matchingService.selectAllPro(request, response);
   	  		request.setAttribute("projectList", list2);
 	         
   	  		dispatch("matching/mypage.jsp", request, response);

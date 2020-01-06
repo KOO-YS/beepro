@@ -199,135 +199,260 @@ public class UserService {
 
 	
 	/* 메세지 부분 서비스 */
-	
-	
-	//메세지 보내는 서비스
+
+	// 메세지 보내는 서비스
 	public void chatSubmit(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String send_id = request.getParameter("send_id");
 		String get_id = request.getParameter("get_id");
 		String chatContent = request.getParameter("content");
-		
-		System.out.println("send_id : " + send_id );
-		System.out.println("get_id : " + get_id );
 
-		//아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
-		if(send_id == null || send_id.equals("") || get_id == null || get_id.equals("")
-				|| chatContent == null || chatContent.equals("")) {
+		System.out.println("send_id : " + send_id);
+		System.out.println("get_id : " + get_id);
+
+		// 아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
+		if (send_id == null || send_id.equals("") || get_id == null || get_id.equals("") || chatContent == null
+				|| chatContent.equals("")) {
 			response.getWriter().write("0");
-		}else if(send_id.equals(get_id)) {
+		} else if (send_id.equals(get_id)) {
 			response.getWriter().write("-1");
-		}else {
-			//보내는사람과 받는 사람이 있을 때 보낸다.
+		} else {
+			// 보내는사람과 받는 사람이 있을 때 보낸다.
 			send_id = URLDecoder.decode(send_id, "UTF-8");
-			get_id = URLDecoder.decode(get_id,"UTF-8");
+			get_id = URLDecoder.decode(get_id, "UTF-8");
 			chatContent = URLDecoder.decode(chatContent, "UTF-8");
-			response.getWriter().write(new UserDaoImpl().submit(send_id, get_id, chatContent)+"");
-			
+			response.getWriter().write(new UserDaoImpl().submit(send_id, get_id, chatContent) + "");
+
 		}
-		
-		
+
 	}
-	
-	
-	
-	//주고받은 대화 리스트 서비스
+
+	// 주고받은 대화 리스트 서비스
 	public void chatList(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String send_id = request.getParameter("send_id");
 		String get_id = request.getParameter("get_id");
 		String listType = request.getParameter("listType");
-		
-		System.out.println("send_id : " + send_id );
-		System.out.println("get_id : " + get_id );
-		System.out.println("listType : " + listType );
-		
-		//아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
-		if(send_id == null || send_id.equals("") || get_id == null || get_id.equals("")
-				|| listType == null || listType.equals("")) {
+
+		System.out.println("send_id : " + send_id);
+		System.out.println("get_id : " + get_id);
+		System.out.println("listType : " + listType);
+
+		// 아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
+		if (send_id == null || send_id.equals("") || get_id == null || get_id.equals("") || listType == null
+				|| listType.equals("")) {
 
 			response.getWriter().write("");
-		}else if(listType.equals("ten")) {
+		} else if (listType.equals("ten")) {
 
-			response.getWriter().write(getTen(URLDecoder.decode(send_id,"UTF-8"),URLDecoder.decode( get_id,"UTF-8")));
-	
-		}else {
+			response.getWriter().write(getTen(URLDecoder.decode(send_id, "UTF-8"), URLDecoder.decode(get_id, "UTF-8")));
+
+		} else {
 			try {
-				response.getWriter().write(getID(URLDecoder.decode(send_id,"UTF-8"), URLDecoder.decode( get_id,"UTF-8"), listType));
-			}catch(Exception e) {
+				response.getWriter().write(
+						getID(URLDecoder.decode(send_id, "UTF-8"), URLDecoder.decode(get_id, "UTF-8"), listType));
+			} catch (Exception e) {
 				response.getWriter().write("");
 			}
 		}
-		
+
 	}
-	
+
 	public String getTen(String send_id, String get_id) {
-		
-		//json 사용
+
+		// json 사용
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
 		UserDaoImpl messageDao = new UserDaoImpl();
 		ArrayList<MessageVo> chatList = messageDao.getChatListByRecent(send_id, get_id, 100);
-		//chatList가 비어있으면 공백 문자열을 반환한다.
-		if(chatList.size() == 0) return "";		
-		//chatList가 있으면 그 대화내용을 불러온다.
-		for(int i = 0 ; i < chatList.size() ; i++) {
-			result.append("[{\"value\": \""+chatList.get(i).getSend_id()+"\"},");
-			result.append("{\"value\": \""+chatList.get(i).getGet_id()+"\"},");
-			result.append("{\"value\": \""+chatList.get(i).getContent()+"\"},");
-			result.append("{\"value\": \""+chatList.get(i).getRegdate()+"\"}]");
-			if(i != chatList.size() -1) 
+		// chatList가 비어있으면 공백 문자열을 반환한다.
+		if (chatList.size() == 0)
+			return "";
+		// chatList가 있으면 그 대화내용을 불러온다.
+		for (int i = 0; i < chatList.size(); i++) {
+			result.append("[{\"value\": \"" + chatList.get(i).getSend_id() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getGet_id() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getContent() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getRegdate() + "\"}]");
+			if (i != chatList.size() - 1)
 				result.append(",");
 		}
-		result.append("], \"last\":\""+chatList.get(chatList.size() -1).getMessageSeq()+"\"}");
-		messageDao.readChat(send_id, get_id);	//모든채팅을 읽었다.
-		
+		result.append("], \"last\":\"" + chatList.get(chatList.size() - 1).getMessageSeq() + "\"}");
+		messageDao.readChat(send_id, get_id); // 모든채팅을 읽었다.
+
 		System.out.println(result.toString());
 		return result.toString();
-		
+
 	}
-	
-	public String getID(String send_id, String get_id,String messageSeq) {
+
+	public String getID(String send_id, String get_id, String messageSeq) {
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
 		UserDaoImpl messageDao = new UserDaoImpl();
 		ArrayList<MessageVo> chatList = messageDao.getChatListBySeq(send_id, get_id, messageSeq);
-		
-		if(chatList.size() == 0) { 
-			return ""; 
-			}
-		
-		for(int i = 0 ; i < chatList.size() ; i++) {
-			result.append("[{\"value\": \""+chatList.get(i).getSend_id()+"\"},");
-			result.append("{\"value\": \""+chatList.get(i).getGet_id()+"\"},");
-			result.append("{\"value\": \""+chatList.get(i).getContent()+"\"},");
-			result.append("{\"value\": \""+chatList.get(i).getRegdate()+"\"}]");
-			if(i != chatList.size() -1) 
+
+		if (chatList.size() == 0)
+			return "";
+
+		for (int i = 0; i < chatList.size(); i++) {
+			result.append("[{\"value\": \"" + chatList.get(i).getSend_id() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getGet_id() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getContent() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getRegdate() + "\"}]");
+			if (i != chatList.size() - 1)
 				result.append(",");
 		}
-		result.append("], \"last\":\""+chatList.get(chatList.size() -1).getMessageSeq()+"\"}");
+		result.append("], \"last\":\"" + chatList.get(chatList.size() - 1).getMessageSeq() + "\"}");
 		messageDao.readChat(send_id, get_id);
 		return result.toString();
-		
-	}
 
+	}
 
 	public void chatUnread(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String u_id = request.getParameter("u_id");
-		
-		if(u_id == null || u_id.equals("")) {
+
+		if (u_id == null || u_id.equals("")) {
 			response.getWriter().write("0");
 		} else {
 			u_id = URLDecoder.decode(u_id, "UTF-8");
-			response.getWriter().write(new UserDaoImpl().getAllUnreadChat(u_id)+"");
+			response.getWriter().write(new UserDaoImpl().getAllUnreadChat(u_id) + "");
 		}
 	}
+
+	public void oneUnread(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		String u_id = request.getParameter("u_id");
+		String send_id = request.getParameter("send_id");
+
+		if (u_id == null || u_id.equals("")) {
+			response.getWriter().write("0");
+		} else {
+			u_id = URLDecoder.decode(u_id, "UTF-8");
+			response.getWriter().write(new UserDaoImpl().getUnreadChat(send_id, u_id) + "");
+		}
+	}
+
+	public void chatBox(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		String u_id = request.getParameter("u_id");
+		if (u_id == null || u_id.equals("")) {
+			response.getWriter().write("");
+		} else {
+			try {
+				u_id = URLDecoder.decode(u_id, "UTF-8");
+				response.getWriter().write(getBox(u_id) + "");
+			} catch (Exception e) {
+				response.getWriter().write("");
+			}
+		}
+	}
+
+	public String getBox(String u_id) {
+		StringBuffer result = new StringBuffer("");
+		result.append("{\"result\":[");
+		UserDaoImpl chatDAO = new UserDaoImpl();
+		ArrayList<MessageVo> chatList = chatDAO.getBox(u_id);
+		if (chatList.size() == 0)
+			return "";
+		for (int i = chatList.size() - 1; i >= 0; i--) {
+
+			String unread = "";
+			if (u_id.equals(chatList.get(i).getGet_id())) {
+				unread = chatDAO.getUnreadChat(chatList.get(i).getSend_id(), u_id) + "";
+				if (unread.equals("0")) {
+					unread = "";
+				}
+			}
+			result.append("[{\"value\": \"" + chatList.get(i).getSend_id() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getGet_id() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getContent() + "\"},");
+			result.append("{\"value\": \"" + chatList.get(i).getRegdate() + "\"},");
+			result.append("{\"value\": \"" + unread + "\"}]");
+			if (i != 0) {
+				result.append(",");
+			}
+		}
+		result.append("], \"last\":\"" + chatList.get(chatList.size() - 1).getMessageSeq() + "\"}");
+		return result.toString();
+	}
+
+	/* 쪽지 서비스 */
+
+	// 쪽지 보내기 서비스
+	public void sendMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+
+		String send_id = request.getParameter("send_id");
+		String get_id = request.getParameter("get_id");
+		String content = request.getParameter("content");
+
+		System.out.println("send_id : " + send_id);
+		System.out.println("get_id : " + get_id);
+		System.out.println("content : " + content);
+
+		// 아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
+		if (send_id == null || send_id.equals("") || get_id == null || get_id.equals("") || content == null
+				|| content.equals("")) {
+			System.out.println("쪽지 보내기 실패");
+		} else {
+			// 보내는사람과 받는 사람이 있을 때 보낸다.
+			send_id = URLDecoder.decode(send_id, "UTF-8");
+			get_id = URLDecoder.decode(get_id, "UTF-8");
+			content = URLDecoder.decode(content, "UTF-8");
+
+			if (dao.insertMsg(send_id, get_id, content) > 0) {
+				System.out.println("쪽지 보내기 성공");
+				response.getWriter().write("성공");
+			} else {
+				System.out.println("쪽지 보내기 실패");
+				response.getWriter().write("실패");
+			}
+
+		}
+
+	}
 	
+	// 쪽지 삭제 서비스
+	public void deleteMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+
+		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
+		String send_id = request.getParameter("send_id");
+		String get_id = request.getParameter("get_id");
+
+		if (dao.deleteMsg(msg_seq,send_id,get_id)>0) {
+			System.out.println("쪽지 삭제 성공");
+			response.getWriter().write("성공");
+		} else {
+			System.out.println("쪽지 삭제 실패");
+			response.getWriter().write("실패");
+		}
+
+	}
+	
+	//읽지 않은 쪽지 갯수
+	public void ureadAllMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		String u_id = request.getParameter("u_id");
+
+		if (u_id == null || u_id.equals("")) {
+			response.getWriter().write("0");
+		} else {
+			u_id = URLDecoder.decode(u_id, "UTF-8");
+			response.getWriter().write(new UserDaoImpl().getUnreadAllMsg(u_id) + "");
+		}
+	}
 	
 	
 }
