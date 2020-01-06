@@ -39,7 +39,13 @@ public class UserVo {
 
 		}
 
-
+		public UserVo(String u_id, String u_name, String u_email, String u_local) {
+			super();
+			this.u_id = u_id;
+			this.u_name = u_name;
+			this.u_email = u_email;
+			this.u_local = u_local;
+		}
 
 		public UserVo( String u_name, String u_pwd, String u_email) {
 			super();
@@ -48,7 +54,7 @@ public class UserVo {
 			this.u_pwd = u_pwd;
 			this.u_email = u_email;
 		}
-
+		
 		public String getU_id() {
 			return u_id;
 		}
@@ -114,6 +120,12 @@ public class UserVo {
 		public void setU_photo(String u_photo) {
 			this.u_photo = u_photo;
 		}
-		
 
+		@Override
+		public String toString() {
+			return "UserVo [u_id=" + u_id + ", u_name=" + u_name + ", u_email=" + u_email + ", u_local=" + u_local
+					+ "]";
+		}
+		
+		
 	}

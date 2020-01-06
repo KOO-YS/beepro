@@ -100,19 +100,19 @@
 	  </nav> --%>
 <body id="page-top">
 	  <jsp:include page="common/sub_nav.jsp"></jsp:include>
-   <div class="container" style="padding-top:150px;">
+   <div class="container" style="padding-top: 5em;">
 	<%-- <form action="${pageContext.request.contextPath}/matching" method="post" name="modifyForm">
 		<c:choose>
 			<c:when test="${empty matchingVo }">
-				<input type="hidden" name="command"  value="matchingWrite"/>	
 			</c:when>
 			<c:otherwise>
-				<input type="hidden" name="command"  value="matchingModifyProc"/>	
+				<input type="hidden" name="command"  value="matchingWrite"/>	
 				<input type="hidden" name="project_seq" value="${matchingVo.project_seq }">
 			</c:otherwise>
 		</c:choose> --%>
          <!--  General -->
-         <form action="/matching" method="post" name="modifyForm">
+        <form action="/matching" method="post" name="modifyForm">
+		<input type="hidden" name="command"  value="matchingModifyProc"/>	
          <div class="form-group">
             <div class="controls">
                <input type="text" id="title" class="floatLabel" name="title" placeholder="프로젝트 제목을 입력하세요" value="${matchingVo.title }" <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>
@@ -198,11 +198,11 @@
                   <p class="info-text margin-b-10">상세 내용</p>
                   <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요." <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>${matchingVo.content}</textarea>
                	</div>
-               	<a href="${pageContext.request.contextPath}/matching?command=matchingAll" class="col-3 btn btn-primary" style="float: left;">목록</a>
+               	<a href="${pageContext.request.contextPath}/matching?command=matchingAll" class="col-2 btn btn-primary" style="float:left;">목록</a>
                	<c:choose>
                	<c:when test="${matchingVo.pm_id eq u_id}">
-               		<button type="button" class="col-3 btn btn-primary" style="float: right;" id="modifyBtn">수정</button>
-	               	<button type="button" class="col-1-8 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
+	               	<button type="button" class="col-2 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
+               		<button type="button" class="col-2 btn btn-primary" style="float: right; margin-right:30px;" id="modifyBtn">수정</button>
                	</c:when>
                	<c:otherwise>
 				 	<button class="btn btn-primary col-lg-5" style="float:right;" onclick="">
@@ -215,9 +215,9 @@
                </c:choose>
             </div>
 
-         </div>
+	      </form>
          <!-- /.form-group -->
-      </form>
+         </div>
       <div class="container" style="padding:50px 30px;">
       <hr>
       	<div class="row">

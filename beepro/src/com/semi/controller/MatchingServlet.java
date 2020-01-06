@@ -17,6 +17,7 @@ import com.semi.service.MatchingService;
 
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.UserVo;
 
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
@@ -59,7 +60,14 @@ public class MatchingServlet extends HttpServlet {
       MatchingService matchingService = new MatchingService();
       MatchingDao dao = new MatchingDaoImpl();
       
-      if(command.equals("matchingWrite")) {
+      if(command.equals("profile")) {
+    	  System.out.println("유저 프로필 정보 추출");
+    	  UserVo profile = matchingService.getProfile(request, response);
+    	  // matching?command=profile&userId=1 로 연결
+    	  request.setAttribute("profile", profile);
+    	  dispatch("matching/profile.jsp", request, response);
+      }
+      else if(command.equals("matchingWrite")) {
           int success = matchingService.matchingWrite(request, response);
          
          if(success > 0) {
@@ -70,7 +78,6 @@ public class MatchingServlet extends HttpServlet {
             System.out.println("글 게시 실패"); 
          }
          System.out.println("매칭 생성");
-         
          
      //매칭 전체보기 
       } else if (command.equals("matchingAll")) {

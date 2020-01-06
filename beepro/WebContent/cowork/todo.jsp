@@ -526,7 +526,7 @@ $("input[name^=priority]").click(function(){
 	var rate = this.getAttribute('id');	// id에 저장되어있는 1.todoSeq 2.check한 value -> 추출
 
 	var todoSeq = rate.substr(4,1);
-	var priority = rate.substr(6,1);
+	var priority = rate.substr(7,1);
 	var projectSeq = $("#projectSeq").val();
 	
 	$.ajax({

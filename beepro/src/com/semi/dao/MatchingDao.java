@@ -4,9 +4,15 @@ import java.util.List;
 
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.UserVo;
 
 public interface MatchingDao {
 
+	// 유저 프로필 보기
+	public UserVo getProfile(String userId);
+	// 유저 정보 조회
+	String getUserInfoSql = "SELECT USER_ID, NAME, EMAIL, LOCATION FROM BEEPRO_USER WHERE USER_ID=?";
+	
 	// 개인 매칭
 	public int MatchingWrite(MatchingProVo MatchingProVo);
 	// 글쓰기

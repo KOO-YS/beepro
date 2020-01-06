@@ -93,6 +93,8 @@ public class ProjectService {
 
 	// 업무 리스트 출력 (조건 : 아이디)
 	public List<TodoVo> selectAllTodo(int project_seq, String manager) {
+		
+		
 		return projectDao.selectAllTodo(project_seq, manager);
 	}
 	
