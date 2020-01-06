@@ -104,7 +104,6 @@
             <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='personal.jsp'">personal matching</button>
           </div>
         </div>
-        
       </div>
     </div>
   </section>

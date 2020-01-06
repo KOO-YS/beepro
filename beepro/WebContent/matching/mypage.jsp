@@ -230,7 +230,7 @@
 					  <tbody>
 					    <tr>
 					      <th scope="row">1</th>
-					      <td>yans</td>
+					      <td><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
 					    </tr>
 					    <tr>
 					      <th scope="row">2</th>
@@ -379,14 +379,14 @@
 </div>
 <!-- 회원탈퇴 모달 end--> 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for this template -->
-  <script src="js/agency.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 <script type="text/javascript">
 </script>
 </body>

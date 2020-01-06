@@ -207,8 +207,11 @@ public class UserService {
 		response.setContentType("text/html;charset=UTF-8");
 		String send_id = request.getParameter("send_id");
 		String get_id = request.getParameter("get_id");
-		String chatContent = request.getParameter("chatContent");
+		String chatContent = request.getParameter("content");
 		
+		System.out.println("send_id : " + send_id );
+		System.out.println("get_id : " + get_id );
+
 		//아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
 		if(send_id == null || send_id.equals("") || get_id == null || get_id.equals("")
 				|| chatContent == null || chatContent.equals("")) {
@@ -238,16 +241,19 @@ public class UserService {
 		String get_id = request.getParameter("get_id");
 		String listType = request.getParameter("listType");
 		
+		System.out.println("send_id : " + send_id );
+		System.out.println("get_id : " + get_id );
+		System.out.println("listType : " + listType );
+		
 		//아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
 		if(send_id == null || send_id.equals("") || get_id == null || get_id.equals("")
 				|| listType == null || listType.equals("")) {
-			System.out.println("send_id : " + send_id );
-			System.out.println("get_id : " + get_id );
-			System.out.println("listType : " + listType );
-			
+
 			response.getWriter().write("");
 		}else if(listType.equals("ten")) {
+
 			response.getWriter().write(getTen(URLDecoder.decode(send_id,"UTF-8"),URLDecoder.decode( get_id,"UTF-8")));
+	
 		}else {
 			try {
 				response.getWriter().write(getID(URLDecoder.decode(send_id,"UTF-8"), URLDecoder.decode( get_id,"UTF-8"), listType));
@@ -259,6 +265,7 @@ public class UserService {
 	}
 	
 	public String getTen(String send_id, String get_id) {
+		
 		//json 사용
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
@@ -277,6 +284,8 @@ public class UserService {
 		}
 		result.append("], \"last\":\""+chatList.get(chatList.size() -1).getMessageSeq()+"\"}");
 		messageDao.readChat(send_id, get_id);	//모든채팅을 읽었다.
+		
+		System.out.println(result.toString());
 		return result.toString();
 		
 	}
@@ -287,7 +296,9 @@ public class UserService {
 		UserDaoImpl messageDao = new UserDaoImpl();
 		ArrayList<MessageVo> chatList = messageDao.getChatListBySeq(send_id, get_id, messageSeq);
 		
-		if(chatList.size() == 0) return "";
+		if(chatList.size() == 0) { 
+			return ""; 
+			}
 		
 		for(int i = 0 ; i < chatList.size() ; i++) {
 			result.append("[{\"value\": \""+chatList.get(i).getSend_id()+"\"},");
@@ -303,6 +314,7 @@ public class UserService {
 		
 	}
 
+
 	public void chatUnread(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
@@ -315,14 +327,7 @@ public class UserService {
 			response.getWriter().write(new UserDaoImpl().getAllUnreadChat(u_id)+"");
 		}
 	}
-
 	
-	
-	
-	
-	
-	
-	/* 관심 사람관련 서비스 */
 	
 	
 }

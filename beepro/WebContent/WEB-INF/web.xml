@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	version="3.0">
-	<display-name>beepro</display-name>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
-	</welcome-file-list>
-	
+   xmlns="http://java.sun.com/xml/ns/javaee"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+   version="3.0">
+   <display-name>beepro</display-name>
+   <welcome-file-list>
+      <welcome-file>index.html</welcome-file>
+      <welcome-file>index.htm</welcome-file>
+      <welcome-file>index.jsp</welcome-file>
+      <welcome-file>default.html</welcome-file>
+      <welcome-file>default.htm</welcome-file>
+      <welcome-file>default.jsp</welcome-file>
+   </welcome-file-list>
+  
+  <servlet>
+   <servlet-name>project</servlet-name>
+   <servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>project</servlet-name>
+     <url-pattern>/project</url-pattern>
+  </servlet-mapping>
+   
   <!-- 댓글 매핑 -->
    <servlet>
    <servlet-name>comment</servlet-name>
@@ -24,7 +34,7 @@
      <servlet-name>comment</servlet-name>
      <url-pattern>/comment</url-pattern>
   </servlet-mapping>
-	
+   
   <!-- 페이징 매핑 -->
    <servlet>
      <servlet-name>page</servlet-name>
@@ -47,70 +57,78 @@
      <url-pattern>/issue</url-pattern>
   </servlet-mapping>
 
-	<!-- todo 매핑 -->
-	<servlet>
-		<servlet-name>todo</servlet-name>
-		<servlet-class>com.semi.controller.ProjectServlet</servlet-class>
-	</servlet>
+   <!-- todo 매핑 -->
+   <servlet>
+      <servlet-name>todo</servlet-name>
+      <servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+   </servlet>
 
-	<servlet-mapping>
-		<servlet-name>todo</servlet-name>
-		<url-pattern>/todo</url-pattern>
-	</servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>todo</servlet-name>
+      <url-pattern>/todo</url-pattern>
+   </servlet-mapping>
 
-	<!-- 채팅 맵핑 -->
+   <!-- 채팅 맵핑 -->
+   <servlet>
+      <servlet-name>chat</servlet-name>
+      <servlet-class>com.semi.controller.UserServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>chat</servlet-name>
+      <url-pattern>/chat</url-pattern>
+   </servlet-mapping>
+   
+   <!-- 개인 매칭 페이지 맵핑 -->
+   <servlet>
+      <servlet-name>personalMatching</servlet-name>
+      <servlet-class>com.semi.controller.MatchingServlet</servlet-class>
+   </servlet>
+   
+   <servlet-mapping>
+      <servlet-name>personalMatching</servlet-name>
+      <url-pattern>/personMatching</url-pattern>
+   </servlet-mapping>
+   
+   <!-- 프로젝트 매칭 페이지 맵핑 -->
+   <servlet>
+      <servlet-name>projectMatching</servlet-name>
+      <servlet-class>com.semi.controller.MatchingServlet</servlet-class>
+   </servlet>
+   
+   <servlet-mapping>
+      <servlet-name>projectMatching</servlet-name>
+      <url-pattern>/matching</url-pattern>
+   </servlet-mapping>
+      
+   <!-- 유저 맵핑 -->
+   <servlet>
+      <servlet-name>user</servlet-name>
+      <servlet-class>com.semi.controller.UserServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>user</servlet-name>
+      <url-pattern>/user</url-pattern>
+   </servlet-mapping>
+   
+   <!-- 쪽지 맵핑 -->
+   <servlet>
+      <servlet-name>msg</servlet-name>
+      <servlet-class>com.semi.controller.UserServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>msg</servlet-name>
+      <url-pattern>/msg</url-pattern>
+   </servlet-mapping>
+   
+   	<!-- 관심 목록 맵핑 -->	
 	<servlet>
-		<servlet-name>chat</servlet-name>
-		<servlet-class>com.semi.controller.UserServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>chat</servlet-name>
-		<url-pattern>/chat</url-pattern>
-	</servlet-mapping>
-	
-	<!-- 개인 매칭 페이지 맵핑 -->
-	<servlet>
-		<servlet-name>personalMatching</servlet-name>
+		<servlet-name>post</servlet-name>
 		<servlet-class>com.semi.controller.MatchingServlet</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
-		<servlet-name>personalMatching</servlet-name>
-		<url-pattern>/personMatching</url-pattern>
+		<servlet-name>post</servlet-name>
+		<url-pattern>/post</url-pattern>
 	</servlet-mapping>
-	
-	<!-- 프로젝트 매칭 페이지 맵핑 -->
-	<servlet>
-		<servlet-name>projectMatching</servlet-name>
-		<servlet-class>com.semi.controller.MatchingServlet</servlet-class>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>projectMatching</servlet-name>
-		<url-pattern>/matching</url-pattern>
-	</servlet-mapping>
-			
-	<!-- 유저 맵핑 -->
-	<servlet>
-		<servlet-name>user</servlet-name>
-		<servlet-class>com.semi.controller.UserServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>user</servlet-name>
-		<url-pattern>/user</url-pattern>
-	</servlet-mapping>
-	
-	<!-- 쪽지 맵핑 -->
-	<servlet>
-		<servlet-name>msg</servlet-name>
-		<servlet-class>com.semi.controller.UserServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>msg</servlet-name>
-		<url-pattern>/msg</url-pattern>
-	</servlet-mapping>
-	
-	
-	
 
+	
 </web-app>

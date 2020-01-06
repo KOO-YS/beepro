@@ -25,9 +25,12 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			pstmt.setString(1, u_id);
 			rs = pstmt.executeQuery();
 			String pwd_ch = sha256.getSHA256(u_pwd);
+			System.out.println("pwd_ch"+pwd_ch);
+			System.out.println("u_pwd"+u_pwd);
 			
 			if(rs.next()) {
 				if(rs.getString(1).equals(pwd_ch))
+					
 					return 1;  //로그인성공
 				else
 					return 0; //비밀번호 불일치, 로그인 실패
@@ -471,7 +474,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 	public int readChat(String send_id, String get_id) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
 		String sql = " UPDATE MESSAGE SET read_ck = 1 WHERE (send_id = ? AND get_id = ?) ";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -481,7 +484,6 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			close(rs);
 			close(pstmt);
 			close(con);
 		}

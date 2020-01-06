@@ -1,5 +1,8 @@
 package com.semi.service;
 
+
+import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +13,20 @@ import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.PostVo;
+import com.semi.vo.ProjectVo;
+import com.semi.vo.VolunteerVo;
+
 
 public class MatchingService {
+	
+	/** 
+	 * 신규 프로젝트 작성 기능
+	 * 
+	 * @param request  view에서 form에 담은 데이터(request)를 Vo로 옮기기 위해서 받아옴.
+	 * @param response
+	 * @return DB INSERT 후 성공 여부에 따라 int 형으로 결과값을 받을 수 있음.
+	 */
 
    MatchingDao Dao = new MatchingDaoImpl();
    
@@ -44,7 +59,7 @@ public class MatchingService {
    public List<MatchingProVo> matchingProAll(HttpServletRequest request){
       MatchingDao matchingDao = new MatchingDaoImpl();
       HttpSession session = request.getSession();
-        String pm_id = (String)session.getAttribute("u_id");
+      String pm_id = (String)session.getAttribute("u_id");
         
         
       return matchingDao.matchingProAll(pm_id);
@@ -52,11 +67,11 @@ public class MatchingService {
    
    public MatchingProVo matchingRead(HttpServletRequest request) {
       MatchingDao matchingDao = new MatchingDaoImpl();
-      String matching_seq = (String) request.getParameter("project_seq");
+      String matching_seq = (String) request.getParameter("projectM_seq");
+      int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
+       MatchingProVo matVo = matchingDao.matchingRead(matching_seq);
       
-      MatchingProVo matVo = matchingDao.matchingRead(matching_seq);
-      
-      HttpSession session = request.getSession();
+         HttpSession session = request.getSession();
         String pm_id = (String)session.getAttribute("u_id");
         
         if(pm_id != null && !"".equals(pm_id)) {
@@ -74,7 +89,7 @@ public class MatchingService {
       /*
        * request로 받은 데이터를 String 변수에 담아서 개별로 저장.
        */
-      String project_seq = request.getParameter("project_seq");
+      String projectM_seq = request.getParameter("projectM_seq");
       String title = request.getParameter("title");
       String skill = request.getParameter("skill");
       String content = request.getParameter("content");
@@ -84,7 +99,7 @@ public class MatchingService {
       String enddate = request.getParameter("enddate");
       
       MatchingProVo matVo = new MatchingProVo(pm_id, skill, title, content, need_person, location, startdate, enddate);
-      matVo.setProject_seq(project_seq);
+      matVo.setProjectM_seq(projectM_seq);
       
       return matchingDao.matchingModifyProc(matVo);
    }
@@ -94,7 +109,7 @@ public class MatchingService {
       /*
        * request로 받은 데이터를 String 변수에 담아서 개별로 저장.
        */
-      String matching_seq = request.getParameter("project_seq");
+      String matching_seq = request.getParameter("projectM_seq");
       
       return matchingDao.matchingDelete(matching_seq);
    }
@@ -165,5 +180,82 @@ public class MatchingService {
       return Dao.selectOnePer(personal_seq);
       
    }
+
+   // 프로젝트 생성
+   public boolean projectWrite(HttpServletRequest request, HttpServletResponse response) {
+	    // 아이디 정보 가져오기
+		HttpSession session = request.getSession();
+		String writer = (String)session.getAttribute("u_id");
+		
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		Date startDate = Date.valueOf(request.getParameter("startDate"));
+		Date endDate = Date.valueOf(request.getParameter("endDate"));
+		String finish_ck = request.getParameter("finish_ck");
+		String content = request.getParameter("content");
+		
+		ProjectVo vo = new ProjectVo();
+		
+		vo.setProjectSeq(projectSeq);
+		vo.setStartDate(startDate);
+		vo.setEndDate(endDate);
+		vo.setFinish_ck(finish_ck);
+		vo.setContent(content);
+		
+	return Dao.insertProject(vo);
+}
    
+   public boolean insertVolunteer(HttpServletRequest request, HttpServletResponse response) {
+	   int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
+	   System.out.println("service 프로젝트 공고 글 번호 :" + projectM_seq);
+	   
+	   HttpSession session = request.getSession();
+	   String u_id = (String)session.getAttribute("u_id");
+	   System.out.println("아이디:"+u_id);
+	   
+	    VolunteerVo vo = new VolunteerVo(projectM_seq, u_id);
+	    
+	    MatchingDaoImpl dao = new MatchingDaoImpl();
+	    
+		return dao.insertVolunteer(vo);
+	}
+   
+   
+   
+   
+   /* 관심 게시글 서비스 */
+   
+	public void togglePost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+
+		String u_id = request.getParameter("u_id");
+		String type = request.getParameter("type");
+		int post_no = Integer.parseInt(request.getParameter("post_no"));
+
+		System.out.println("u__id : " + u_id);
+		System.out.println("post_id : " + post_no);
+		System.out.println("type : " + type);
+
+		PostVo postVo = new PostVo(u_id, type, post_no);
+		
+		if(u_id == null || u_id.equals("")) {
+			response.getWriter().write("0");
+		}else {
+			MatchingDaoImpl dao = new MatchingDaoImpl();
+			if(dao.postChk(postVo) > 0) {
+				response.getWriter().write(new MatchingDaoImpl().insertPost(postVo)+"");
+				System.out.println("관심 게시글 추가");
+			}else {
+				response.getWriter().write(new MatchingDaoImpl().deletePer(postVo)+"");
+				System.out.println("관심 게시글 삭제");
+			}
+			
+		}
+		
+	
+		
+
+	}
+
+
 }

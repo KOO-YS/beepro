@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,10 +100,10 @@
 
             </div>
             <div class="controls">
-               <input type="text" class="floatLabel" value="김지민" readonly >
+               <input type="text" class="floatLabel" value="${u_name}" readonly >
             </div>
             <div class="controls2">
-               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" >
+               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput">
             </div>
          </div>
          <div class="grid">
@@ -148,7 +149,10 @@
          </div>
          <div class="grid">
             <div class="col-1-3 col-1-3-sm">
-               <div class="controls">
+            <div class="controls">
+            	<input type="number" id="skill" class="floatLabel" name="need_person" placeholder="인원을 선택하세요">
+            </div>
+               <!-- <div class="controls">
                   <i class="fa fa-sort"></i> <select class="floatLabel" name="need_person">
                      <option value="">인원을 선택하세요</option>
                      <option value="1">1</option>
@@ -162,7 +166,7 @@
                      <option value="9">9</option>
                      <option value="10">10인 이상</option>
                   </select>
-                </div>
+                </div> -->
                </div>
             </div>
             <br />

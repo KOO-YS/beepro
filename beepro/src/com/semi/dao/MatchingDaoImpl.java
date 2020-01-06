@@ -1,7 +1,8 @@
 package com.semi.dao;
 
-import com.semi.vo.MatchingPerVo;
-import static common.JDBCTemplet.*;
+import static common.JDBCTemplet.close;
+import static common.JDBCTemplet.commit;
+import static common.JDBCTemplet.getConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.PostVo;
 import com.semi.vo.ProjectVo;
+import com.semi.vo.VolunteerVo;
 
 public class MatchingDaoImpl implements MatchingDao{
    
@@ -58,7 +62,7 @@ public class MatchingDaoImpl implements MatchingDao{
             
             while(rs.next()) {
                MatchingProVo matVo = new MatchingProVo();
-               matVo.setProject_seq(rs.getString(1));
+               matVo.setProjectM_seq(rs.getString(1));
                matVo.setPm_id(rs.getString(2));
                matVo.setTitle(rs.getString(3));
                matVo.setContent(rs.getString(4));
@@ -97,7 +101,7 @@ public class MatchingDaoImpl implements MatchingDao{
             rs = pstmt.executeQuery();
             
             while(rs.next()) {
-               matVo.setProject_seq(rs.getString(1));
+               matVo.setProjectM_seq(rs.getString(1));
                matVo.setPm_id(rs.getString(2));
                matVo.setTitle(rs.getString(3));
                matVo.setContent(rs.getString(4));
@@ -140,7 +144,7 @@ public class MatchingDaoImpl implements MatchingDao{
             pstmt.setString(5, matchingProVo.getLocation());
             pstmt.setString(6, matchingProVo.getStartdate());
             pstmt.setString(7, matchingProVo.getEnddate());
-            pstmt.setString(8, matchingProVo.getProject_seq());
+            pstmt.setString(8, matchingProVo.getProjectM_seq());
 
             res = pstmt.executeUpdate(); //실제로 db에 실행시키는 구문
 
@@ -324,5 +328,149 @@ public class MatchingDaoImpl implements MatchingDao{
       // TODO Auto-generated method stub
       return 0;
    }
+
+    // 프로젝트 생성
+	@Override
+	public boolean insertProject(ProjectVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		
+		try {
+			pstmt = con.prepareStatement(insertProjectSql);
+			pstmt.setInt(1, vo.getProjectSeq());
+			pstmt.setDate(2, vo.getStartDate());
+			pstmt.setDate(3, vo.getEndDate());
+			pstmt.setString(4, vo.getFinish_ck());
+			pstmt.setString(5, vo.getProjectName());
+			pstmt.setString(6, vo.getContent());
+			
+			res = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+		return (res > 0) ? true : false;
+      }
+
    
+   
+   
+   /* 관심 게시글 DAO*/
+   
+   
+	
+	public int postChk(PostVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT * FROM post WHERE u_id=? AND type=? AND post_no=? ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getU_id());
+			pstmt.setString(2, vo.getType());
+			pstmt.setInt(3, vo.getPost_no());
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				return - 1;  // 컬럼이 존재하면 음수 리턴
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+
+		return 1;		//컬럼이 존재하지 않으면 양수 리턴		
+	}
+
+	public int insertPost(PostVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		String sql = " INSERT INTO post VALUES(?,?,?) ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getU_id());
+			pstmt.setString(2, vo.getType());
+			pstmt.setInt(3, vo.getPost_no());
+			
+			res = pstmt.executeUpdate();
+			if (res > 0) {
+				commit(con);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+		
+		return res;
+	}
+	
+	public int deletePer(PostVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		String sql = " DELETE FROM post WHERE u_id=? AND type=? AND post_no=? ";
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getU_id());
+			pstmt.setString(2, vo.getType());
+			pstmt.setInt(3, vo.getPost_no());
+			
+			res = pstmt.executeUpdate();
+			
+			if (res > 0) {
+				commit(con);
+			} else {
+				System.out.println("삭제 실패");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+		
+		return -1;
+	}
+
+    // 지원자 정보받기
+	public boolean insertVolunteer(VolunteerVo vo) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		
+        try {
+			pstmt = con.prepareStatement(insertVolunteerSql);
+			pstmt.setString(1, vo.getUserId());
+			
+			res = pstmt.executeUpdate();
+			
+			if(res > 0) {
+				commit(con);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+	      return true;
+	}
+
+    // 지원자 리스트로 조회
+	@Override
+	public List<VolunteerVo> selectAllVolunteer(int projectM_seq) {
+		return null;
+	}
+
 }
