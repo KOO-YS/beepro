@@ -1,9 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.semi.vo.ProjectVo" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,7 +109,7 @@ $(document).ready(function(){
                   <hr>
                   <form action="../issue" method="post">
                      <input type="hidden" name="command" value="issueform">
-                     <input type="hidden" name="projectSeq" value="1">
+                     <input type="hidden" name="projectSeq" value="${vo.projectSeq}">
                      <div class="row">
                        <div class="form-group col-lg-8">
                          <label for="title">이슈 제목<span style="color:red;"> *</span></label>
@@ -180,7 +178,7 @@ $(document).ready(function(){
                 <span>낮음</span>
             </label>
                      </div>
-                      <button class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
+                      <button type="submit" class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
                       <button class="btn btn-primary" style="float:right; background-color:white; color:rgb(75,97,207)"
                       onclick="location.href='../issue?command=issueAll'">취   소</button>
                   </form>

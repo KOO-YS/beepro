@@ -216,28 +216,21 @@ public class MatchingServlet extends HttpServlet {
 			// 프로젝트 생성
 		} else if (command.equals("projectCreate")) {
 			System.out.println("프로젝트 생성");
-
 			System.out.println("pm아이디:"+u_id);
+			
+			boolean success = matchingService.insertProject(request, response);
 
-			// pm의 아이디 세션을 받아옴 (위에 선언했습니다 ! 그냥 u_id로 받아오면 돼요!)
-			/*
-			 * HttpSession session = request.getSession(); String u_id = (String)
-			 * session.getAttribute("u_id");
-			 */
-
-			/* boolean success = matchingService.projectWrite(request, response); */
-
-
-			/*
-			 * if (success) { System.out.println("프로젝트 생성 성공");
-			 * response.sendRedirect("cowork/dashboard.jsp"); } else {
-			 * System.out.println("프로젝트 생성 실패"); }
-			 */
-
+			if (success) {
+				System.out.println("프로젝트 생성 성공");
+				response.sendRedirect("cowork/dashboard.jsp");
+			} else {
+				System.out.println("프로젝트 생성 실패");
+			}
 			
 		  // 프로젝트 조회
 		} else if(command.equals("selectAllProject")) {
 			System.out.println("프로젝트 전체 조회");
+            List<ProjectVo> vo = matchingService.selectAllProject(request,response);
             List<ProjectVo> list = matchingService.selectAllProject(request,response);
             request.setAttribute("list", list);
             dispatch("cowork/common/dashboard.jsp",request,response);
