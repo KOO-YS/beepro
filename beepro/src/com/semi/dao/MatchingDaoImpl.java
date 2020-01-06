@@ -13,12 +13,33 @@ import java.util.List;
 
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.UserVo;
 import com.semi.vo.PostVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.VolunteerVo;
 
 public class MatchingDaoImpl implements MatchingDao {
-
+	@Override
+	public UserVo getProfile(String userId) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		UserVo profile = null;
+		try {
+			pstm = con.prepareStatement(getUserInfoSql);
+			pstm.setString(1, userId);
+			
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				rs.getString(1);
+				profile = new UserVo(rs.getString(1), rs.getString(2),rs.getString(3), rs.getString(4));
+				System.out.println(profile.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return profile;
+	}
 	// 프로젝트 매칭 글쓰기
 	// 실제로 DB에 데이터를 넣는 부분
 	public int matchingWrite(MatchingProVo matchingProVo) {
@@ -518,5 +539,4 @@ public class MatchingDaoImpl implements MatchingDao {
 		}
 		return res;
 	}
-
 }

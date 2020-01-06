@@ -15,6 +15,7 @@ import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.UserVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.VolunteerVo;
 
@@ -67,8 +68,15 @@ public class MatchingServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
-
-		if (command.equals("matchingWrite")) {
+		
+		if(command.equals("profile")) {
+			System.out.println("유저 프로필 정보 추출");
+			UserVo profile = matchingService.getProfile(request, response);
+			// matching?command=profile&userId=1 로 연결
+			request.setAttribute("profile", profile);
+			dispatch("matching/profile.jsp", request, response);
+		}
+		else if (command.equals("matchingWrite")) {
 			int success = matchingService.matchingWrite(request, response);
 
 			if (success > 0) {
@@ -230,7 +238,7 @@ public class MatchingServlet extends HttpServlet {
             request.setAttribute("list", list);
             dispatch("cowork/common/dashboard.jsp",request,response);
             
- // 게시글 controller // 
+         // 게시글 controller // 
 		}else if(command.equals("togglePost")) {
 
 			System.out.println("관심 게시글 추가");
@@ -254,8 +262,8 @@ public class MatchingServlet extends HttpServlet {
 			} else {
 				System.out.println("지원실패");
 			}
-	 //마이페이지로 매칭 게시글목록 전달
-    }else if(command.equals("mypage")) {
+			//마이페이지로 매칭 게시글목록 전달
+		}else if(command.equals("mypage")) {
   	  		System.out.println("마이페이지");
   	  		
   	  		//personal 목록담기
@@ -267,8 +275,6 @@ public class MatchingServlet extends HttpServlet {
   	  		request.setAttribute("projectList", list2);
 	         
   	  		dispatch("matching/mypage.jsp", request, response);
-	      
-
-    }						
- }
+		}						
+	}
 }
