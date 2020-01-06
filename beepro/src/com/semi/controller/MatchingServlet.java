@@ -268,11 +268,11 @@ public class MatchingServlet extends HttpServlet {
   	  		System.out.println("마이페이지");
   	  		
   	  		//personal 목록담기
-  	  		List<MatchingPerVo> list1 = dao.selectAllPer();
+  	  		List<MatchingPerVo> list1 = matchingService.selectAllPer(request, response);
   	  		request.setAttribute("personalList", list1);
 	      
   	  		//project 목록 담기
-  	  		List<MatchingProVo> list2 = dao.matchingProAll(u_id);
+  	  		List<MatchingProVo> list2 = matchingService.selectAllPro(request, response);
   	  		request.setAttribute("projectList", list2);
 	         
   	  		dispatch("matching/mypage.jsp", request, response);

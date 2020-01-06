@@ -164,7 +164,7 @@
 	</div>	<!-- container end -->
 	<section>
 		<div class="container">
-			<h5>내가 쓴 project 글 목록</h5>
+			<h5>내가 쓴 project 글 목록</h5><br>
 			<div class="row">
 			<c:forEach items="${projectList}" var="list" > 					
 				<div class="col-lg-3">
@@ -187,11 +187,13 @@
 					</div>
 				</div>
 				</c:forEach>
-			</div>		
 			</div>	
+			<hr style="margin:3em 0;">	
+			</div>	
+			
 			<div class="container">
-			<h5>내가 쓴 personal 목록</h5>
-			<div class="row">
+			<h5>내가 쓴 personal 목록</h5><br>
+			<div class="row">		
 			<c:forEach items="${personalList}" var="list" > 					
 				<div class="col-lg-3">
 					<div class="card">
@@ -214,8 +216,9 @@
 				</div>
 				</c:forEach>		
 			</div>
-					
+			</div>		
 			<!-- 게시글 end -->
+			<div class="container">
 			<hr style="margin:3em 0;">
 			 <h5>관심 유저목록</h5>
 			 <div class="row">
@@ -269,6 +272,7 @@
 					</table>
 				 </div>
 			 </div> <!-- 관심목록 end -->	
+			 </div>
 			 <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
