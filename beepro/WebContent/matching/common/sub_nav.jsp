@@ -30,7 +30,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#about">협업 cowork</a>
+            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/cowork/dashboard.jsp">협업 cowork</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/matching/mypage.jsp">마이페이지</a>

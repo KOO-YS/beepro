@@ -149,13 +149,18 @@ CREATE TABLE todo (
 
 CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	project_seq	number	PRIMARY KEY, /* 프로젝트 시퀀스 번호 */
-	startdate	date	NOT NULL,
-	enddate	date	NOT NULL,
+	startdate	varchar2(600)	NOT NULL,
+	enddate	varchar2(600)	NOT NULL,
 	finish_ck	varchar2(6)	NOT NULL, /* 프로젝트 진행 여부 y:종료 n:진행중 */
 	project_name varchar2(4000), /* 프로젝트 명 */
 	project_content varchar2(4000), /* 프로젝트 개요 */
+	member_id	varchar2(100)	NOT NULL, /* 구성원들 */
+	pm_ck	varchar2(6)	NOT NULL, /* 피엠인지 아닌지 */
+	CONSTRAINT pm_ck_chk CHECK(pm_ck IN('Y','N')),
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
+
+select * from PROJECT;
 
 CREATE TABLE issue (
 	issue_seq	number	NOT NULL,

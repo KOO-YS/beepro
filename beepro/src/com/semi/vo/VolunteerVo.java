@@ -45,4 +45,10 @@ public class VolunteerVo {
 	public void setAccept(String accept) {
 		this.accept = accept;
 	}
+
+	@Override
+	public String toString() {
+		return "VolunteerVo [projectM_seq=" + projectM_seq + ", userId=" + userId + ", accept=" + accept + "]";
+	}
+	
 }

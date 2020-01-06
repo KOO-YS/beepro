@@ -34,7 +34,7 @@ public class MatchingService {
       MatchingDao matchingDao = new MatchingDaoImpl();
       
       HttpSession session = request.getSession();
-        String pm_id = (String)session.getAttribute("u_id");
+      String pm_id = (String)session.getAttribute("u_id");
       
       /*
        * request로 받은 데이터를 String 변수에 담아서 개별로 저장.
@@ -182,27 +182,31 @@ public class MatchingService {
    }
 
    // 프로젝트 생성
-   public boolean projectWrite(HttpServletRequest request, HttpServletResponse response) {
-	    // 아이디 정보 가져오기
-		HttpSession session = request.getSession();
-		String writer = (String)session.getAttribute("u_id");
+	public boolean insertProject(HttpServletRequest request, HttpServletResponse response) {
 		
-		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
-		Date startDate = Date.valueOf(request.getParameter("startDate"));
-		Date endDate = Date.valueOf(request.getParameter("endDate"));
-		String finish_ck = request.getParameter("finish_ck");
+		int projectSeq = Integer.parseInt(request.getParameter("projectM_seq"));
+		System.out.println("프로젝트 시퀀스:" + projectSeq);
+		
+	    String startDate = request.getParameter("startDate");
+	    String endDate = request.getParameter("endDate");
+		String projectName = request.getParameter("projectName");
 		String content = request.getParameter("content");
+		String member = request.getParameter("member");
 		
-		ProjectVo vo = new ProjectVo();
+		ProjectVo vo = new ProjectVo(projectSeq, startDate, endDate, projectName, content, member);
 		
-		vo.setProjectSeq(projectSeq);
-		vo.setStartDate(startDate);
-		vo.setEndDate(endDate);
-		vo.setFinish_ck(finish_ck);
-		vo.setContent(content);
+		System.out.println(vo.toString());
 		
-	return Dao.insertProject(vo);
-}
+		MatchingDaoImpl dao = new MatchingDaoImpl();
+		 
+	    return dao.insertProject(vo);
+    }
+	
+    // 프로젝트 조회
+	public List<ProjectVo> selectAllProject(HttpServletRequest request, HttpServletResponse response) {
+		MatchingDaoImpl dao = new MatchingDaoImpl();
+		return dao.selectAllProject();
+	}
    
    public boolean insertVolunteer(HttpServletRequest request, HttpServletResponse response) {
 	   int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
@@ -213,6 +217,8 @@ public class MatchingService {
 	   System.out.println("아이디:"+u_id);
 	   
 	    VolunteerVo vo = new VolunteerVo(projectM_seq, u_id);
+	    
+	    System.out.println(vo.toString());
 	    
 	    MatchingDaoImpl dao = new MatchingDaoImpl();
 	    
@@ -274,6 +280,5 @@ public class MatchingService {
 			response.getWriter().write('1'); //빨강하트
 		}
 	}
-
 
 }

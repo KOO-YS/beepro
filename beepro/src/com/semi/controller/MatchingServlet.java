@@ -15,11 +15,12 @@ import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.VolunteerVo;
-
 
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	public MatchingServlet() {
@@ -92,14 +93,15 @@ public class MatchingServlet extends HttpServlet {
 			MatchingProVo matchingProVo = matchingService.matchingRead(request);
 			System.out.println(matchingProVo.toString());
 
-			request.setAttribute("matchingVo", matchingProVo);
 
-			
 			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
 			List<VolunteerVo> list = dao.selectAllVolunteer(projectM_seq);
-			
+
+			System.out.println(list.toString());
+
 			request.setAttribute("matchingVo", matchingProVo);
-			request.setAttribute("volList", list);
+
+			request.setAttribute("list", list);
 
 			dispatch("matching/matchingRead.jsp", request, response);
 
@@ -200,8 +202,10 @@ public class MatchingServlet extends HttpServlet {
 			}
 
 			// 프로젝트 생성
-		} else if (command.equals("projectWrite")) {
+		} else if (command.equals("projectCreate")) {
 			System.out.println("프로젝트 생성");
+
+			System.out.println("pm아이디:"+u_id);
 
 			// pm의 아이디 세션을 받아옴 (위에 선언했습니다 ! 그냥 u_id로 받아오면 돼요!)
 			/*
@@ -209,16 +213,26 @@ public class MatchingServlet extends HttpServlet {
 			 * session.getAttribute("u_id");
 			 */
 
-			boolean success = matchingService.projectWrite(request, response);
+			/* boolean success = matchingService.projectWrite(request, response); */
 
-			if (success) {
-				System.out.println("프로젝트 생성 성공");
-			} else {
-				System.out.println("프로젝트 생성 실패");
-			}
-		}
-       // 게시글 controller // 
-		else if(command.equals("togglePost")) {
+
+			/*
+			 * if (success) { System.out.println("프로젝트 생성 성공");
+			 * response.sendRedirect("cowork/dashboard.jsp"); } else {
+			 * System.out.println("프로젝트 생성 실패"); }
+			 */
+
+			
+		  // 프로젝트 조회
+		} else if(command.equals("selectAllProject")) {
+			System.out.println("프로젝트 전체 조회");
+            List<ProjectVo> list = matchingService.selectAllProject(request,response);
+            request.setAttribute("list", list);
+            dispatch("cowork/common/dashboard.jsp",request,response);
+            
+ // 게시글 controller // 
+		}else if(command.equals("togglePost")) {
+
 			System.out.println("관심 게시글 추가");
 			matchingService.togglePost(request, response);
 
@@ -228,9 +242,9 @@ public class MatchingServlet extends HttpServlet {
 		} else if (command.equals("insertVolunteer")) {
 			System.out.println("아이디:" + u_id);
 			System.out.println("지원하기");
-			
+
 			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
-			System.out.println("프로젝트 공고 글 번호 : "+ projectM_seq);
+			System.out.println("프로젝트 공고 글 번호 : " + projectM_seq);
 
 			boolean success = matchingService.insertVolunteer(request, response);
 
@@ -240,6 +254,21 @@ public class MatchingServlet extends HttpServlet {
 			} else {
 				System.out.println("지원실패");
 			}
-		}
-	}
+	 //마이페이지로 매칭 게시글목록 전달
+    }else if(command.equals("mypage")) {
+  	  		System.out.println("마이페이지");
+  	  		
+  	  		//personal 목록담기
+  	  		List<MatchingPerVo> list1 = dao.selectAllPer();
+  	  		request.setAttribute("personalList", list1);
+	      
+  	  		//project 목록 담기
+  	  		List<MatchingProVo> list2 = dao.matchingProAll(u_id);
+  	  		request.setAttribute("projectList", list2);
+	         
+  	  		dispatch("matching/mypage.jsp", request, response);
+	      
+
+    }						
+ }
 }

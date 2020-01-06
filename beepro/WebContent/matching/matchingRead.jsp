@@ -22,6 +22,7 @@
 <script src="${pageContext.request.contextPath}/matching/js/plugins/tagEditor/jquery.caret.min.js"></script>
 <script src="${pageContext.request.contextPath}/matching/js/plugins/tagEditor/jquery.tag-editor.js"></script>
 <script type="text/javascript">
+
    (function($) {
       function floatLabel(inputType) {
          $(inputType).each(function() {
@@ -82,14 +83,15 @@
 	});
    
    // 다중 체크박스 선택 값 가져와서 모달창에 뿌려주는 것
-   function test(){
+/*    function createProject(){
 		  var str = "";
 		  $("input[name=vol]:checked").each(function(){
 			 var a = $(this).val();
 			 str += a+" ";
 		  });
 			 $(".modal-body .form-group #group").val(str);
-		}
+		} */
+		
 </script>
 <%-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
 	    <div class="container">
@@ -227,7 +229,7 @@
                	<c:otherwise>
                	    	<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">
 				 		<c:choose>
-					 		<c:when test="지원여부 확인">이미 지원하셨습니다</c:when>
+					 		<c:when test="${matchingVo.projectM_seq eq list.projectM_seq}">이미 지원하셨습니다</c:when>
 					 		<c:otherwise>지원하기</c:otherwise> 
 					 	</c:choose>
 			 		   </a>
@@ -253,51 +255,28 @@
 				      <th width="10%"></th>
 				    </tr>
 				  </thead>
-				  <tbody>
-				    <tr>
+				   <c:forEach var="list" items="${list}" varStatus="status">
+				     <tbody>
+	                 <tr>
 				      <td>
-				      	<input type="checkbox" value="userId" name="vol">
+				      	<input type="checkbox" value="${list.userId}" name="vol">
 				      </td>
-				      <td>sssyans</td>
+				      <td>${list.userId}</td>
 				      <td>
-				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp	'">프로필</button>
-				      </td>
-				      <td>
-				      	<button class="btn btn-primary">쪽지</button>
-				      </td>
-				    </tr>
-				    <tr>
-				      <td>
-				      	<input type="checkbox" value="userId" name="vol">
-				      </td>
-				      <td>sssyans</td>
-				      <td>
-				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp	'">프로필</button>
-				      </td>
-				      <td>
-				      	<button class="btn btn-primary">쪽지</button>
-				      </td>
-				    </tr>
-				    <tr>
-				      <td>
-				      	<input type="checkbox" value="userId" name="vol">
-				      </td>
-				      <td>sssyans</td>
-				      <td>
-				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp	'">프로필</button>
+				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp'">프로필</button>
 				      </td>
 				      <td>
 				      	<button class="btn btn-primary">쪽지</button>
 				      </td>
 				    </tr>
 				  </tbody>
+				   </c:forEach>
 				</table>
 			 </div>
 			 <div class="col-lg-5 col-sm-5">
 			 	<button class="btn btn-primary" style="margin-top:11em;" onclick="createProject();">프로젝트 생성하기</button>
 			 </div>
 			</c:if>
-			 	
 		 </div> <!-- 관심목록 end -->
       </div>
       <jsp:include page="common/footer.jsp"></jsp:include>
@@ -311,29 +290,32 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="../matching" method="post">
+	<form action="${pageContext.request.contextPath}/project?command=projectCreate" method="post">
+	  <input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}">
+	  <input type="hidden" name="u_id" value="${u_id}">
       <div class="modal-body">
         	  <div class="form-group">
 			    <label for="oriPwd">프로젝트 명</label>
-			    <input type="password" class="form-control" name ="oriPwd" id="oriPwd" required>
+			    <input type="text" class="form-control" name="projectName" id="projectName" required>
 			  </div>
 			  <hr>
-			  <div class="form-group">
-			    <label for="newPwd">기간</label>
-			    <input type="password" class="form-control" name ="newPwd" id="newPwd" required>
+              <div class="form-group">
+			    <label for="oriPwd">기간</label>
+			    <input type="text" class="form-control" name="startDate" value="${matchingVo.startdate}" required><br>
+			    <input type="text" class="form-control" name="endDate" value="${matchingVo.enddate}" required>
 			  </div>
 			  <div class="form-group">
-			    <label for="newPwd">개요</label>
-			    <input type="password" class="form-control" name ="newPwd" id="newPwd" required>
+			    <label for="oriPwd">개요</label>
+			    <input type="text" class="form-control" name="content" id="content" required>
 			  </div>
-			  <div class="form-group">
-			    <label for="newPwd_chk">프로젝트 팀원</label>
-			    <input type="text" class="form-control" name="group" id="group" required>
+			  <div class="oriPwd">
+			    <label for="member">프로젝트 팀원</label>
+			    <input type="text" class="form-control" name="member" id="member" required>
 			  </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <button type="submit" class="btn btn-primary">변경</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취 소</button>
+        <button type="submit" class="btn btn-primary">생 성</button>
       </div>
 	</form>
     </div>

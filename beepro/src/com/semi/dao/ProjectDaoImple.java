@@ -269,8 +269,8 @@ public class ProjectDaoImple implements ProjectDao {
 				ProjectVo project = new ProjectVo();
 
 				project.setProjectSeq(rs.getInt(1));
-				project.setStartDate(rs.getDate(2));
-				project.setEndDate(rs.getDate(3));
+				project.setStartDate(rs.getString(2));
+				project.setEndDate(rs.getString(3));
 				project.setFinish_ck(rs.getString(4));
 				project.setProjectName(rs.getString(5));
 
