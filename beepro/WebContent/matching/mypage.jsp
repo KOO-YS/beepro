@@ -65,7 +65,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <img src="<%= request.getContextPath() %>/upload/${u_photo}"; 
+          <img src="<%= request.getContextPath() %>/upload/${u_photo}";
       	  onerror="this.src='img/bee.png'"
           style="width: 30%; border-radius: 50%; border:10px solid rgba(75,97,207);">
        	<br>

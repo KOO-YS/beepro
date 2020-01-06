@@ -222,6 +222,9 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("관심 게시글 추가");
 			matchingService.togglePost(request, response);
 
+		}else if(command.equals("chkPost")) {
+			matchingService.chkPost(request, response);
+			
 		} else if (command.equals("insertVolunteer")) {
 			System.out.println("아이디:" + u_id);
 			System.out.println("지원하기");

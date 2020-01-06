@@ -377,7 +377,7 @@ public class MatchingDaoImpl implements MatchingDao{
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				return - 1;  // 컬럼이 존재하면 음수 리턴
+				return -1;  // 컬럼이 존재하면 음수 리턴
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

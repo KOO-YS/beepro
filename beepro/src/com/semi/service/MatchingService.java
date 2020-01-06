@@ -251,10 +251,28 @@ public class MatchingService {
 			}
 			
 		}
-		
-	
-		
 
+	}
+	public void chkPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+
+		String u_id = request.getParameter("u_id");
+		String type = request.getParameter("type");
+		int post_no = Integer.parseInt(request.getParameter("post_no"));
+
+		System.out.println("u__id : " + u_id);
+		System.out.println("post_id : " + post_no);
+		System.out.println("type : " + type);
+
+		PostVo postVo = new PostVo(u_id, type, post_no);
+
+		MatchingDaoImpl dao = new MatchingDaoImpl();
+		if(dao.postChk(postVo) > 0) {
+			response.getWriter().write('0'); //회색하트
+		}else {
+			response.getWriter().write('1'); //빨강하트
+		}
 	}
 
 
