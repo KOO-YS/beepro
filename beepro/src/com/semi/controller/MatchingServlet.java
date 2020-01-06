@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.vo.MatchingPerVo;
@@ -60,7 +59,10 @@ public class MatchingServlet extends HttpServlet {
 		System.out.println("[ " + command + " ]");
 		// 서비스와 연결
 		MatchingService matchingService = new MatchingService();
-		MatchingDao dao = new MatchingDaoImpl();
+
+		MatchingDaoImpl dao = new MatchingDaoImpl();
+		
+		// 현재 로그인 중인 아이디로 세션 받아옴
 
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
@@ -90,13 +92,16 @@ public class MatchingServlet extends HttpServlet {
 			MatchingProVo matchingProVo = matchingService.matchingRead(request);
 			System.out.println(matchingProVo.toString());
 
+
 			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
 			List<VolunteerVo> list = dao.selectAllVolunteer(projectM_seq);
 
 			System.out.println(list.toString());
 
 			request.setAttribute("matchingVo", matchingProVo);
+
 			request.setAttribute("list", list);
+
 			dispatch("matching/matchingRead.jsp", request, response);
 
 			// 프로젝트 매칭 글 삭제
@@ -121,7 +126,10 @@ public class MatchingServlet extends HttpServlet {
 
 		} else if (command.equals("matchingModifyProc")) {
 			System.out.println("매칭 글 수정 수정");
+			String project_seq = (String) request.getParameter("project_seq");
+
 			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
+
 			int success = matchingService.matchingModifyProc(request);
 			if (success > 0) {
 				System.out.println("글 수정 성공");
@@ -195,16 +203,24 @@ public class MatchingServlet extends HttpServlet {
 			// 프로젝트 생성
 		} else if (command.equals("projectCreate")) {
 			System.out.println("프로젝트 생성");
-			System.out.println("pm아이디:"+u_id);
-			
-			boolean success = matchingService.insertProject(request, response);
 
-			if (success) {
-				System.out.println("프로젝트 생성 성공");
-				response.sendRedirect("cowork/dashboard.jsp");
-			} else {
-				System.out.println("프로젝트 생성 실패");
-			}
+			System.out.println("pm아이디:"+u_id);
+
+			// pm의 아이디 세션을 받아옴 (위에 선언했습니다 ! 그냥 u_id로 받아오면 돼요!)
+			/*
+			 * HttpSession session = request.getSession(); String u_id = (String)
+			 * session.getAttribute("u_id");
+			 */
+
+			/* boolean success = matchingService.projectWrite(request, response); */
+
+
+			/*
+			 * if (success) { System.out.println("프로젝트 생성 성공");
+			 * response.sendRedirect("cowork/dashboard.jsp"); } else {
+			 * System.out.println("프로젝트 생성 실패"); }
+			 */
+
 			
 		  // 프로젝트 조회
 		} else if(command.equals("selectAllProject")) {
@@ -213,11 +229,11 @@ public class MatchingServlet extends HttpServlet {
             request.setAttribute("list", list);
             dispatch("cowork/common/dashboard.jsp",request,response);
             
-			// 게시글 controller //
-		} else if (command.equals("togglePost")) {
+ // 게시글 controller // 
+		}else if(command.equals("togglePost")) {
 
 			System.out.println("관심 게시글 추가");
-			// MatchingService.togglePost(request, response);
+			matchingService.togglePost(request, response);
 
 		} else if (command.equals("insertVolunteer")) {
 			System.out.println("아이디:" + u_id);
