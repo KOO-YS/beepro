@@ -16,7 +16,7 @@
   
   <servlet>
    <servlet-name>project</servlet-name>
-   <servlet-class>com.semi.controller.ProjectServlet</servlet-class>
+   <servlet-class>com.semi.controller.MatchingServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -120,4 +120,15 @@
       <url-pattern>/msg</url-pattern>
    </servlet-mapping>
    
+   	<!-- 관심 목록 맵핑 -->	
+	<servlet>
+		<servlet-name>post</servlet-name>
+		<servlet-class>com.semi.controller.MatchingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>post</servlet-name>
+		<url-pattern>/post</url-pattern>
+	</servlet-mapping>
+
+	
 </web-app>

@@ -104,7 +104,6 @@
             <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='personal.jsp'">personal matching</button>
           </div>
         </div>
-        
       </div>
     </div>
   </section>
@@ -120,7 +119,7 @@
       </div>
       <div class="row">
         <div class="col-lg-12" style="text-align: center;">
-			<button class="btn btn-primary btn-xl" onclick="location.href='../cowork/index.jsp'">cowork</button> <img src="img/cowork.jpg" alt="" style="width: 100%;">
+			<button class="btn btn-primary btn-xl" onclick="location.href='../cowork/dashboard.jsp'">cowork</button> <img src="img/cowork.jpg" alt="" style="width: 100%;">
         </div>
       </div>
     </div>
