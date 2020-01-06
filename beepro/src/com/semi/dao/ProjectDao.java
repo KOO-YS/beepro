@@ -18,13 +18,15 @@ public interface ProjectDao {
     
     // 업무부분
     String insertTodoSql = "INSERT INTO TODO VALUES(TODO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
-    String getAllTodoSql = "SELECT * FROM TODO WHERE MANAGER = ? AND PROJECT_SEQ = ?";
+    String getAllTodoSql = "SELECT * FROM TODO WHERE MANAGER = ? AND PROJECT_SEQ = ?";		// FIXME 페이징 조건걸기
     String getOneTodoSql = "SELECT * FROM TODO WHERE TODO_SEQ = ?";
     String updateTodoSql = "UPDATE TODO SET TITLE=?, CONTENT=?, PRIORITY=?, STARTDATE=?, ENDDATE=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     String updateTodoStatusSql = "UPDATE TODO SET STATUS=?, FINISH_CK=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     String deleteTodoSql = "DELETE FROM TODO WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     String updateTodoPrioritySql = "UPDATE TODO SET PRIORITY=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
-    
+    // 업무 pg
+    String getTodoCountSql = "SELECT COUNT(*) FROM TODO";
+    String getTodoPageSql = "SELECT * FROM (SELECT TODO.*,ROW_NUMBER() OVER(ORDER BY 1) AS PAGECNT FROM TODO WHERE MANAGER ='userIddddd' AND PROJECT_SEQ=1 ) WHERE PAGECNT BETWEEN 1 AND 3;";
     // 프로젝트부분
     String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
     
@@ -103,5 +105,6 @@ public interface ProjectDao {
 
 	public void updateComment(int commentSeq, int issueSeq, String content);
 
+	public int getTodoCount();
 }
 

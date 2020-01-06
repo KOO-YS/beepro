@@ -13,10 +13,10 @@ import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+import com.semi.vo.UserVo;
 import com.semi.vo.PostVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.VolunteerVo;
-
 
 public class MatchingService {
 	
@@ -28,14 +28,21 @@ public class MatchingService {
 	 * @return DB INSERT 후 성공 여부에 따라 int 형으로 결과값을 받을 수 있음.
 	 */
 
+   MatchingDao matchingDao = new MatchingDaoImpl();
    MatchingDao Dao = new MatchingDaoImpl();
+   
+   // 프로필 정보 추출
+   public UserVo getProfile(HttpServletRequest request, HttpServletResponse response) {
+	   	String userId = request.getParameter("userId");
+	   	UserVo profile = matchingDao.getProfile(userId);
+		return profile;
+	}
    
    public int matchingWrite(HttpServletRequest request, HttpServletResponse response) {
       MatchingDao matchingDao = new MatchingDaoImpl();
       
       HttpSession session = request.getSession();
-      String pm_id = (String)session.getAttribute("u_id");
-      
+        String pm_id = (String)session.getAttribute("u_id");         
       /*
        * request로 받은 데이터를 String 변수에 담아서 개별로 저장.
        */
@@ -156,7 +163,7 @@ public class MatchingService {
       
       MatchingPerVo perVo = new MatchingPerVo(personal_seq, user_id, skill, emp_category, title, content);
       
-      return Dao.updatePer(perVo);
+      return matchingDao.updatePer(perVo);
    }
    
    public int deletePer(HttpServletRequest request) {
@@ -170,14 +177,14 @@ public class MatchingService {
    //글 리스트 출력(personal 페이지)
    public List<MatchingPerVo> selectAllPer(HttpServletRequest request, HttpServletResponse response) {
       System.out.println("글 리스트 출력 서비스");
-      return Dao.selectAllPer();
+      return matchingDao.selectAllPer();
    }
    
    //글 상세 보기
    public MatchingPerVo selectOnePer(HttpServletRequest request, HttpServletResponse response) {
       int personal_seq = Integer.parseInt(request.getParameter("personal_seq"));
       System.out.println("personal_seq : " + personal_seq);
-      return Dao.selectOnePer(personal_seq);
+      return matchingDao.selectOnePer(personal_seq);
       
    }
 
