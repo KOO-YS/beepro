@@ -438,7 +438,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="../user?command=updatePwd" method="post">
+	<form action="${pageContext.request.contextPath}/user?command=updatePwd" method="post">
       <div class="modal-body">
         	  <div class="form-group">
 			    <label for="oriPwd">기존 패스워드</label>
@@ -476,7 +476,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        	  <form method ="post" action="../user?command=userprofile" enctype="multipart/form-data">
+        	  <form method ="post" action="${pageContext.request.contextPath}/user?command=userprofile" enctype="multipart/form-data">
 			      <div class="modal-body">
 			      
 				<span class="btn-file">
@@ -504,7 +504,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="../user?command=withdrawal" method="post">
+	<form action="${pageContext.request.contextPath}/user?command=withdrawal" method="post">
       <div class="modal-body">
 			  <div class="form-group">
 			    <label for="newPwd_chk">패스워드 확인</label>
