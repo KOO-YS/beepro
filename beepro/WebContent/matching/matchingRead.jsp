@@ -290,7 +290,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="${pageContext.request.contextPath}/project?command=projectCreate" method="post">
+	<form action="${pageContext.request.contextPath}/matching?command=projectCreate" method="post">
 	  <input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}">
 	  <input type="hidden" name="u_id" value="${u_id}">
       <div class="modal-body">

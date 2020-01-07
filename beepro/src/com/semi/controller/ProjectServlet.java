@@ -18,6 +18,7 @@ import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
+import com.semi.service.MatchingService;
 import com.semi.service.ProjectService;
 import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
@@ -68,6 +69,7 @@ public class ProjectServlet extends HttpServlet {
 		ProjectService projectService = new ProjectService();
 		ProjectDao dao = new ProjectDaoImple();
 		MatchingDao mdao = new MatchingDaoImpl();
+		MatchingService matchingService = new MatchingService();
 
 		if (command.equals("issueWrite")) {
 			System.out.println("이슈 생성 폼으로 이동");
@@ -75,25 +77,24 @@ public class ProjectServlet extends HttpServlet {
 			String u_id = (String) session.getAttribute("u_id");
             System.out.println("아이디:"+u_id);
             
-			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
-			System.out.println("프로젝트 시퀀스 : " + projectSeq);
-			
-			List<ProjectVo> vo = mdao.selectAllProject();
-			request.setAttribute("vo", vo);
-			
-			dispatch("../issue?command=issueform&projectSeq=" + projectSeq, request, response);
+			List<ProjectVo> list = matchingService.selectAllProject(request,response);
+			session.setAttribute("projectVo", list);
+			dispatch("cowork/issueWrite.jsp" , request, response);
 
 		} else if (command.equals("issueform")) {
 			System.out.println("이슈 생성");
 			HttpSession session = request.getSession();
 			String u_id = (String) session.getAttribute("u_id");
 			System.out.println(u_id);
+			
+			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+			System.out.println("프로젝트 시퀀스 : " + projectSeq);
 
 			boolean success = projectService.issueWrite(request, response);
-
+            
 			if (success) {
 				System.out.println("이슈 생성 성공");
-				dispatch("issue?command=issueAll", request, response);
+				dispatch("issue?command=issueAll&projectSeq="+projectSeq, request, response);
 			} else {
 				System.out.println("이슈 생성 실패");
 				dispatch("issue?command=issueWrite", request, response);

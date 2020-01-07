@@ -189,7 +189,7 @@ public class MatchingService {
    }
 
    // 프로젝트 생성
-	public boolean insertProject(HttpServletRequest request, HttpServletResponse response) {
+	public int insertProject(HttpServletRequest request, HttpServletResponse response) {
 		
 		int projectSeq = Integer.parseInt(request.getParameter("projectM_seq"));
 		System.out.println("프로젝트 시퀀스:" + projectSeq);
@@ -211,7 +211,6 @@ public class MatchingService {
 	
     // 프로젝트 조회
 	public List<ProjectVo> selectAllProject(HttpServletRequest request, HttpServletResponse response) {
-		
 		MatchingDaoImpl dao = new MatchingDaoImpl();
 		return dao.selectAllProject();
 	}

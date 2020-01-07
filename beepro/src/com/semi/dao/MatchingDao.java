@@ -52,7 +52,7 @@ public interface MatchingDao {
     
 	// cowork 페이지에 뿌려질 프로젝트 생성하는 부분
 	String insertProjectSql = "INSERT INTO PROJECT VALUES(?,?,?,'N',?,?,?,'N')";
-	String selectAllProjectSql = "SELECT * FROM PROJECT";
+	String selectAllProjectSql = "SELECT * FROM PROJECT";		// FIXME userid 조건
 	
 	// 지원자
 	String insertVolunteerSql = "INSERT INTO VOLUNTEER VALUES(1, ?,'N')";
@@ -70,7 +70,7 @@ public interface MatchingDao {
 
 	public MatchingProVo matchingRead(String matching_seq);
 
-	public boolean insertProject(ProjectVo vo);
+	public int insertProject(ProjectVo vo);
 	
 	public boolean insertVolunteer(VolunteerVo vo);
 
