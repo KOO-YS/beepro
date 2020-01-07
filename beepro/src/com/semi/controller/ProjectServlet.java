@@ -70,6 +70,7 @@ public class ProjectServlet extends HttpServlet {
 		ProjectDao dao = new ProjectDaoImple();
 		MatchingDao mdao = new MatchingDaoImpl();
 		MatchingService matchingService = new MatchingService();
+		
 
 		if (command.equals("issueWrite")) {
 			System.out.println("이슈 생성 폼으로 이동");
@@ -77,8 +78,13 @@ public class ProjectServlet extends HttpServlet {
 			String u_id = (String) session.getAttribute("u_id");
             System.out.println("아이디:"+u_id);
             
+            int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+            System.out.println("프로젝트 시퀀스:"+projectSeq);
+    
 			List<ProjectVo> list = matchingService.selectAllProject(request,response);
 			session.setAttribute("projectVo", list);
+			session.setAttribute("projectSeq", projectSeq);
+			 
 			dispatch("cowork/issueWrite.jsp" , request, response);
 
 		} else if (command.equals("issueform")) {
@@ -89,14 +95,16 @@ public class ProjectServlet extends HttpServlet {
 			
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스 : " + projectSeq);
-
+			session.setAttribute("projectSeq", projectSeq);
+			
 			boolean success = projectService.issueWrite(request, response);
             
 			if (success) {
 				System.out.println("이슈 생성 성공");
-				dispatch("issue?command=issueAll&projectSeq="+projectSeq, request, response);
+				dispatch("issue?command=issueAll", request, response);
 			} else {
 				System.out.println("이슈 생성 실패");
+				session.setAttribute("projectSeq", projectSeq);
 				dispatch("issue?command=issueWrite", request, response);
 			}
 		} else if (command.equals("issueDelete")) {
@@ -138,11 +146,15 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("issueAll")) {
 			System.out.println("이슈 전체 보기");
 			
-			List<IssueVo> list = dao.selectAllIssue();
+			
+			HttpSession session = request.getSession();
+			int projectSeq = (int)session.getAttribute("projectSeq");	
+			System.out.println("시퀀스번호:"+projectSeq);
+			
+			List<IssueVo> list = dao.selectAllIssue(projectSeq);
+			
 			request.setAttribute("issueList", list);
-
-			RequestDispatcher dispatch = request.getRequestDispatcher("cowork/issueList.jsp");
-			dispatch.forward(request, response);
+			dispatch("cowork/issueList.jsp",request,response);
 
 		} else if (command.equals("issueDetail")) {
 			System.out.println("이슈 상세 정보");
@@ -162,8 +174,8 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("업무 리스트 출력");
 			
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
-			List<TodoVo> todoList = projectService.selectAllTodo(request, response);	// sequence **
-			request.setAttribute("todoList", todoList);
+//			List<TodoVo> todoList = projectService.selectAllTodo(request, response);	// sequence **
+//			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
 
 		} else if(command.equals("todo-paging")) {

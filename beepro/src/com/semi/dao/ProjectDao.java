@@ -15,7 +15,7 @@ public interface ProjectDao {
     String insertIssueSql = "INSERT INTO ISSUE VALUES(ISSUE_SEQ.NEXTVAL,?,?,?,?,SYSDATE,?,?,?)";
     String updateIssueSql = "UPDATE ISSUE SET TITLE=?, ISSUE_LEVEL=?, ISSUE_CATEGORY=?, CONTENT=?, RESPONSIBILITY=? WHERE ISSUE_SEQ=?";
     String deleteIssueSql = "DELETE FROM ISSUE WHERE ISSUE_SEQ=?";
-    String selectAllIssueSql = "SELECT * FROM ISSUE"; 
+    String selectAllIssueSql = "SELECT * FROM ISSUE WHERE PROJECT_SEQ=?"; 
     String selectOneIssueSql = "SELECT * FROM ISSUE WHERE ISSUE_SEQ=?";
     
     // 업무부분
@@ -60,7 +60,7 @@ public interface ProjectDao {
     String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
     String updateCommentSql = "UPDATE COMMENTS SET CONTENT=? WHERE COMMENTS_SEQ=? AND ISSUE_SEQ=?";
     
-    public List<IssueVo> selectAllIssue();
+    public List<IssueVo> selectAllIssue(int projectSeq);
     
     public IssueVo selectOneIssue(int issue_seq);
     

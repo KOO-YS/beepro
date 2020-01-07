@@ -56,7 +56,7 @@ public class ProjectDaoImple implements ProjectDao {
 
 	// 전체 이슈 조회
 	@Override
-	public List<IssueVo> selectAllIssue() {
+	public List<IssueVo> selectAllIssue(int projectSeq) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -64,6 +64,8 @@ public class ProjectDaoImple implements ProjectDao {
 
 		try {
 			pstmt = con.prepareStatement(selectAllIssueSql);
+			pstmt.setInt(1, projectSeq);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
