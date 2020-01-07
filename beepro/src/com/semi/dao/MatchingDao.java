@@ -46,13 +46,13 @@ public interface MatchingDao {
 	// 프로젝트 글 삭제
 	String deletematchingSeq = "DELETE MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
 	// 프로젝트 전체 목록 보기
-	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ORDER BY PROJECT_SEQ DESC";
+	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ORDER BY PROJECTM_SEQ DESC";
 	// 프로젝트 상세페이지
 	String selectMatchingReadSql = "SELECT * FROM MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
     
 	// cowork 페이지에 뿌려질 프로젝트 생성하는 부분
 	String insertProjectSql = "INSERT INTO PROJECT VALUES(?,?,?,'N',?,?,?,'N')";
-	String selectAllProjectSql = "SELECT * FROM PROJECT";
+	String selectAllProjectSql = "SELECT * FROM PROJECT";		// FIXME userid 조건
 	
 	// 지원자
 	String insertVolunteerSql = "INSERT INTO VOLUNTEER VALUES(1, ?,'N')";
@@ -70,7 +70,7 @@ public interface MatchingDao {
 
 	public MatchingProVo matchingRead(String matching_seq);
 
-	public boolean insertProject(ProjectVo vo);
+	public int insertProject(ProjectVo vo);
 	
 	public boolean insertVolunteer(VolunteerVo vo);
 

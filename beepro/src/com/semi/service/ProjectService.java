@@ -21,33 +21,20 @@ public class ProjectService {
 
 	// 이슈 생성 서비스
 	public boolean issueWrite(HttpServletRequest request, HttpServletResponse response) {
-		ProjectDaoImple dao = new ProjectDaoImple();
 		HttpSession session = request.getSession();
 		
-		
-
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 		String title = request.getParameter("title");
-		String u_id = (String)session.getAttribute("u_id");
-		String issue_level = request.getParameter("issue_level");
-		String issue_category = request.getParameter("issue_category");
+		String writer = (String) session.getAttribute("u_id");
+		String level = request.getParameter("level");
+		String category = request.getParameter("category");
 		String content = request.getParameter("content");
+		System.out.println("탕이트 : "+title);
+		IssueVo issue = new IssueVo(projectSeq, title, writer, level, category, content);
 
-		
-		System.out.println("u_id 서비스에 들어왔음 : "+u_id);
-		
-		IssueVo vo = new IssueVo();
-		vo.setTitle(title);
-		vo.setWriter(u_id);
-		vo.setLevel(issue_level);
-		vo.setCategory(issue_category);
-		vo.setContent(content);
+		System.out.println(issue.toString());
 
-		boolean res = dao.insertIssue(vo);
-
-		if (res == true) {
-			System.out.println("데이터 입력 성공");
-		}
-		return res;
+		return projectDao.insertIssue(issue);
 	}
 
 	// 이슈 삭제 서비스

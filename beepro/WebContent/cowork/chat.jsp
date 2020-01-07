@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.semi.dao.UserDaoImpl"  %>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
@@ -28,24 +29,8 @@
 		get_id = (String) request.getParameter("get_id");
 	}  
 	
-	if(u_id == null){
-%>
-	<script type="text/javascript">
-		alert("현재 로그인이 되어 있지 않습니다.");
-/* 		location.href="index.html"; */
-	</script>
-
-<%
-	}
-	if(get_id == null){
-		
-%>
-	<script type="text/javascript">
-		alert("대화상대가 지정되어 있지 않습니다.");
-		/* history.back(); */
-	</script>
-<%
-	}
+  	String sendProfile = new UserDaoImpl().getUserPhoto(u_id);
+  	String getProfile = new UserDaoImpl().getUserPhoto(get_id);
 %>
 
 
@@ -70,7 +55,7 @@ function sumbitFunction(){
 			}, 
 			success : function(result) {
 				if (result == 1) {
-					autoClosingAlert('#successMessage', 2000);
+					//autoClosingAlert('#successMessage', 2000);
 					//alert("메시지 전송에 성공했습니다.");
 				} else if (result == 0) {
 					autoClosingAlert('#dangerMessage', 2000);
@@ -86,8 +71,8 @@ function sumbitFunction(){
 	}
 	var lastID = 0;
 	function chatListFunction(type){
-		var send_id = '<%=u_id%>';
-		var get_id = '<%=get_id%>';
+		var send_id = '<%= u_id%>';
+		var get_id = '<%= get_id%>';
 		
 		$.ajax({
 			type: "POST",
@@ -172,34 +157,12 @@ function sumbitFunction(){
 </head>
 <body>
 
-	<div class="container">
+	<div class="container" style="padding-right: 0; padding-left: 0;">
 		<div class="col-md-12 col-lg-6">
 			<div class="panel">
 				<!--Heading-->
 				<div class="panel-heading">
-					<div class="panel-control">
-						<div class="btn-group">
-							<button class="btn btn-default" type="button"
-								data-toggle="collapse" data-target="#demo-chat-body">
-								<i class="fa fa-chevron-down"></i>
-							</button>
-							<button type="button" class="btn btn-default"
-								data-toggle="dropdown">
-								<i class="fa fa-gear"></i>
-							</button>
-							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="#">Available</a></li>
-								<li><a href="#">Busy</a></li>
-								<li><a href="#">Away</a></li>
-								<li class="divider"></li>
-								<li><a id="demo-connect-chat" href="#"
-									class="disabled-link" data-target="#demo-chat-body">Connect</a></li>
-								<li><a id="demo-disconnect-chat" href="#"
-									data-target="#demo-chat-body">Disconect</a></li>
-							</ul>
-						</div>
-					</div>
-					<h3 class="panel-title">실시간 채팅창</h3>
+					<h3 class="panel-title"><%=get_id %>님과의 채팅창</h3>
 				</div>
 
 				<!--Widget body-->
@@ -208,7 +171,7 @@ function sumbitFunction(){
 						<div id="scroll" class="nano-content pad-all" tabindex="0"
 							style="right: -17px;">
 							<ul id="chatList" class="list-unstyled media-block" >
-									<!-- 채팅창부분 -->					
+									<!-- 채팅창부분 ajax-->					
 								
 							</ul>
 							
@@ -229,7 +192,7 @@ function sumbitFunction(){
 									maxlength="100"></textarea>
 							</div>
 							<div class="col-xs-3">
-								<button class="btn btn-primary btn-block" type="submit"
+								<button class="btn btn-primary btn-block" type="submit" style="margin-top:20px; height:40px; border-radius: .50rem;"
 									onclick="sumbitFunction()">전송</button>
 							</div>
 						</div>

@@ -13,9 +13,9 @@ import java.util.List;
 
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-import com.semi.vo.UserVo;
 import com.semi.vo.PostVo;
 import com.semi.vo.ProjectVo;
+import com.semi.vo.UserVo;
 import com.semi.vo.VolunteerVo;
 
 public class MatchingDaoImpl implements MatchingDao {
@@ -347,11 +347,11 @@ public class MatchingDaoImpl implements MatchingDao {
 
 	// 프로젝트 생성
 	@Override
-	public boolean insertProject(ProjectVo vo) {
+	public int insertProject(ProjectVo vo) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		int res = 0;
-
+		int projectSeq = 0;
 		try {
 			pstmt = con.prepareStatement(insertProjectSql);
 			pstmt.setInt(1, vo.getProjectSeq());
@@ -362,17 +362,18 @@ public class MatchingDaoImpl implements MatchingDao {
 			pstmt.setString(6, vo.getMember());
 			
 			res = pstmt.executeUpdate();
-
+			if(res>0) {	// success
+				projectSeq = vo.getProjectSeq();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt, con);
 		}
-		return (res > 0) ? true : false;
+		return projectSeq;
 	}
 	
 	// 프로젝트 조회
-
 	public List<ProjectVo> selectAllProject() {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
@@ -394,7 +395,7 @@ public class MatchingDaoImpl implements MatchingDao {
 				vo.setContent(rs.getString(6));
 				vo.setMember(rs.getString(7));
 				vo.setPm_ck(rs.getString(8));
-				
+				System.out.println(vo.toString());
 				res.add(vo);
 			}
 		} catch (SQLException e) {
@@ -406,6 +407,34 @@ public class MatchingDaoImpl implements MatchingDao {
 	}
 
 	/* 관심 게시글 DAO */
+	
+	public ArrayList<Integer> selectPostNo(String u_id, String type) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Integer> list = new ArrayList<Integer>();
+
+		String sql = " select DISTINCT post_no from post join matching_personal ON(u_id = user_id) where type=? AND u_id=?";
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, type);
+			pstmt.setString(2, u_id);
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				list.add(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+
+		return list; 	// 자신이 좋아요한 게시글 번호
+	}
 
 	public int postChk(PostVo vo) {
 		Connection con = getConnection();

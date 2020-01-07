@@ -140,11 +140,10 @@ a:hover {
 
 
 <!-- 탑 메뉴 -->
-<nav
-   class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
    <!-- 이슈만들기 모달창 -->
-   <button type="button" class="btn btn-primary" data-toggle="modal"
+   <button type="submit" class="btn btn-primary" data-toggle="modal"
       data-target="#exampleModal" style="margin-left: 840px;"
       onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite'">
       <b>+&nbsp;&nbsp;이슈 생성하기</b>
@@ -208,8 +207,9 @@ a:hover {
          </div></li>
 
       <!-- Nav Item - Messages -->
-      <li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
-      <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
+<%--       <li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
+ --%><li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/cowork/chatList.jsp'">
+       <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
          role="button" > <i class="fas fa-envelope fa-fw"></i> 
          
          <!-- Counter - Messages -->
@@ -287,7 +287,7 @@ a:hover {
                            내 정보
                 </a>
                 
-                <a class="dropdown-item" href="../matching?command=selectAllProject" data-toggle="modal" data-target="#logoutModal2">
+                <a class="dropdown-item" href="../matching?command=selectAllProject" data-toggle="modal" data-target="#workspaceModal">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                              워크스페이스 이동
                 </a>
@@ -320,8 +320,4 @@ a:hover {
         </div>
       </div>
     </div>
-    
- 
-    
       <!-- 탑 메뉴 끝 -->
-

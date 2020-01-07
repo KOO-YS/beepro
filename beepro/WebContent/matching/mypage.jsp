@@ -163,20 +163,48 @@
 		</div>
 	</div>	<!-- container end -->
 	<section>
-		<div class="container">
-			<h5>내가 쓴 project 글 목록</h5>
-			<div class="row">
-			<c:forEach items="${projectList}" var="list" > 					
-				<div class="col-lg-3">
+	<c:choose>	
+			<c:when test="${empty projectList}">	
+			<div class="container">
+			<hr style="margin:3em 0;">	
+			<h5>내가 쓴 project 글 목록</h5><br>
+			<div class="row">	
+			<div class="col-lg-3">
 					<div class="card">
 					  <div class="card-body">
-					    <h5 class="card-title"> <c:out value="${list.title}"/></h5>
+					  <h5 class="card-title"> 등록된 글이 없습니다.	</h5>
+					    <a href="${pageContext.request.contextPath}/matching/matchingWriting.jsp" class="card-link">글 작성하기</a>					    
+					  </div>
+					</div>
+				</div>
+				</div>
+				<hr style="margin:3em 0;">
+			</div>	
+			</c:when>	
+			
+			<c:otherwise>
+			<div class="container">
+			<hr style="margin:3em 0;">	
+			<h5>내가 쓴 project 목록</h5><br>
+			<div class="row">	
+			<c:forEach items="${projectList}" var="list" > 
+			<div class="col-lg-3">
+					<div class="card" style="height: 100%;">
+					  <div class="card-body">
+					    <h5 class="card-title"> 
+					   		 <c:choose>
+								        <c:when test="${fn:length(list.title) gt 12}">
+								        <c:out value="${fn:substring(list.title, 0, 11)}..."></c:out></c:when>
+								        <c:otherwise>
+								        <c:out value="${list.title}">
+								        </c:out></c:otherwise>
+							</c:choose>	
+					    </h5>
 					    <h6 class="card-subtitle mb-2 text-muted">시작일 : <c:out value="${list.startdate}"/></h6>
 					    <p class="card-text">
 								<c:choose>
-								        <c:when test="${fn:length(list.title) gt 26}">
-								        <c:out value="${fn:substring(list.title, 0, 25)}">...
-								        </c:out></c:when>
+								        <c:when test="${fn:length(list.content) gt 29}">
+								        <c:out value="${fn:substring(list.content, 0, 28)}..."></c:out></c:when>
 								        <c:otherwise>
 								        <c:out value="${list.content}">
 								        </c:out></c:otherwise>
@@ -187,22 +215,50 @@
 					</div>
 				</div>
 				</c:forEach>
-			</div>		
+				</div>
+				<hr style="margin:3em 0;">	
 			</div>	
+			</c:otherwise>					
+		</c:choose>	
+		
+		<c:choose>	
+			<c:when test="${empty personalList}">	
 			<div class="container">
-			<h5>내가 쓴 personal 목록</h5>
-			<div class="row">
-			<c:forEach items="${personalList}" var="list" > 					
-				<div class="col-lg-3">
+			<h5>내가 쓴 personal 목록</h5><br>
+			<div class="row">	
+			<div class="col-lg-3">
 					<div class="card">
 					  <div class="card-body">
-					    <h5 class="card-title"> <c:out value="${list.title}"/></h5>
+					  <h5 class="card-title"> 등록된 글이 없습니다.	</h5>
+					    <a href="${pageContext.request.contextPath}/matching/personalWriting.jsp" class="card-link">글 작성하기</a>					    
+					  </div>
+					</div>
+				</div>
+				</div>
+			</div>	
+			</c:when>	
+			<c:otherwise>
+			<div class="container">
+			<h5>내가 쓴 personal 목록</h5><br>
+			<div class="row">	
+			<c:forEach items="${personalList}" var="list" > 
+			<div class="col-lg-3">
+					<div class="card" style="height: 100%;">
+					  <div class="card-body">
+					    <h5 class="card-title"> 
+					   			<c:choose>
+								        <c:when test="${fn:length(list.title) gt 12}">
+								        <c:out value="${fn:substring(list.title, 0, 11)}..."></c:out></c:when>
+								        <c:otherwise>
+								        <c:out value="${list.title}">
+								        </c:out></c:otherwise>
+								</c:choose>	
+					    </h5>
 					    <h6 class="card-subtitle mb-2 text-muted">희망 분야 : <c:out value="${list.emp_category}"/></h6>
 					    <p class="card-text">
 								<c:choose>
-								        <c:when test="${fn:length(list.title) gt 26}">
-								        <c:out value="${fn:substring(list.title, 0, 25)}">...
-								        </c:out></c:when>
+								        <c:when test="${fn:length(list.content) gt 29}">
+								        <c:out value="${fn:substring(list.content, 0, 28)}..."></c:out></c:when>
 								        <c:otherwise>
 								        <c:out value="${list.content}">
 								        </c:out></c:otherwise>
@@ -212,10 +268,13 @@
 					  </div>
 					</div>
 				</div>
-				</c:forEach>		
-			</div>
-					
-			<!-- 게시글 end -->
+				</c:forEach>
+				</div>
+			</div>	
+			</c:otherwise>					
+		</c:choose>	
+		<!-- 게시글 end -->
+			<div class="container">
 			<hr style="margin:3em 0;">
 			 <h5>관심 유저목록</h5>
 			 <div class="row">
@@ -269,6 +328,7 @@
 					</table>
 				 </div>
 			 </div> <!-- 관심목록 end -->	
+			 </div>
 			 <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">

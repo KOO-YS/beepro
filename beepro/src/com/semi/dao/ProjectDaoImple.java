@@ -33,17 +33,15 @@ public class ProjectDaoImple implements ProjectDao {
 
 		try {
 			pstmt = con.prepareStatement(insertIssueSql);
-			pstmt.setInt(1, vo.getIssueSeq());
-			pstmt.setInt(2, vo.getProjectSeq());
-			pstmt.setString(3, vo.getTitle());
-			pstmt.setString(4, vo.getWriter());
-			pstmt.setString(5, vo.getLevel());
-			pstmt.setDate(6, vo.getRegdate());
-			pstmt.setString(7, vo.getCategory());
-			pstmt.setString(8, vo.getContent());
+			pstmt.setInt(1, vo.getProjectSeq());
+			pstmt.setString(2, vo.getTitle());
+			pstmt.setString(3, vo.getWriter());
+			pstmt.setString(4, vo.getLevel());
+            pstmt.setString(5, vo.getCategory());
+			pstmt.setString(6, vo.getContent());
 
-			res = pstmt.executeUpdate();
-
+			res=pstmt.executeUpdate();
+			
 			if (res > 0) {
 				commit(con);
 			}
@@ -359,6 +357,7 @@ public class ProjectDaoImple implements ProjectDao {
 			e.printStackTrace();
 		}
 	}
+
 	// paging)) 1. 업무 count
 	@Override
 	public int getTodoCount(int projectSeq, String manager) {
@@ -380,7 +379,8 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return todoCount;
 	}
-	// 업무 개수 분류		// TODO 폐기
+
+	// 업무 개수 분류 // TODO 폐기
 	@Override
 	public HashMap<String, Integer> countCategory() {
 		Connection con = getConnection();
@@ -390,7 +390,7 @@ public class ProjectDaoImple implements ProjectDao {
 		try {
 			pstm = con.prepareStatement(getByTodoTypeSql);
 			rs = pstm.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				categoryMap.put(rs.getString(1), rs.getInt(2));
 			}
 		} catch (SQLException e) {
@@ -398,7 +398,7 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return categoryMap;
 	}
-	
+
 	// 대시보드 통계 - Todo 종합
 	@Override
 	public HashMap<String, Integer> getTodoInfo(String userId, int projectSeq) {
@@ -410,7 +410,7 @@ public class ProjectDaoImple implements ProjectDao {
 			pstm = con.prepareStatement(getTodoInfoSql);
 			pstm.setString(1, userId);
 			pstm.setInt(2, projectSeq);
-			
+
 			rs = pstm.executeQuery();
 			while(rs.next()) {
 				System.out.println("todoCount ::::: "+rs.getInt(1));
@@ -424,7 +424,7 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return todoInfo;
 	}
-	
+
 	// 대시보드 통계 - Issue 종합
 	@Override
 	public HashMap<String, Integer> getIssueInfo(String userId, int projectSeq) {
@@ -433,25 +433,25 @@ public class ProjectDaoImple implements ProjectDao {
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		HashMap<String, Integer> issueInfo = new HashMap<String, Integer>();
-		
+
 		try {
 			pstm = con.prepareStatement(getIssueInfoSql);
 			pstm.setString(1, userId);
 			pstm.setInt(2, projectSeq);
-			
+
 			rs = pstm.executeQuery();
-			while(rs.next()) {
-				issueInfo.put("totalIssueCnt", rs.getInt(1));		// 전체 이슈 수
-				issueInfo.put("weekIssueCnt", rs.getInt(2));		// 일주일 생성 이슈 수
-				issueInfo.put("userIssueCnt", rs.getInt(3));		// 개인 등록 이슈 수
+			while (rs.next()) {
+				issueInfo.put("totalIssueCnt", rs.getInt(1)); // 전체 이슈 수
+				issueInfo.put("weekIssueCnt", rs.getInt(2)); // 일주일 생성 이슈 수
+				issueInfo.put("userIssueCnt", rs.getInt(3)); // 개인 등록 이슈 수
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return issueInfo;
 	}
-	
-	// 이번주 발생 Issue 최대 3개 출력 
+
+	// 이번주 발생 Issue 최대 3개 출력
 	@Override
 	public List<IssueVo> getWeekIssue(int projectSeq) {
 		Connection con = getConnection();
@@ -461,12 +461,12 @@ public class ProjectDaoImple implements ProjectDao {
 		try {
 			pstm = con.prepareStatement(getWeekIssueSql);
 			pstm.setInt(1, projectSeq);
-			
+
 			rs = pstm.executeQuery();
-			
+
 			while (rs.next()) {
 				IssueVo issue = new IssueVo();
-	
+
 				issue.setIssueSeq(rs.getInt(1));
 				issue.setProjectSeq(rs.getInt(2));
 				issue.setTitle(rs.getString(3));
@@ -475,16 +475,16 @@ public class ProjectDaoImple implements ProjectDao {
 				issue.setRegdate(rs.getDate(6));
 				issue.setCategory(rs.getString(7));
 				issue.setContent(rs.getString(8));
-				
+
 				weekIssue.add(issue);
 			}
-		
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return weekIssue;
 	}
-	
+
 	// 마감기한 일주일 남은 todo 리스트 최대 3개 출력
 	@Override
 	public List<TodoVo> getUrsentTodo(String userId, int projectSeq) {
@@ -497,12 +497,12 @@ public class ProjectDaoImple implements ProjectDao {
 			pstm = con.prepareStatement(getUrgentTodoSql);
 			pstm.setString(1, userId);
 			pstm.setInt(2, projectSeq);
-			
+
 			rs = pstm.executeQuery();
 			while (rs.next()) {
 				todo = new TodoVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
-										rs.getDate(6), rs.getDate(7), rs.getString(8), rs.getString(9), rs.getInt(10),
-										rs.getString(11));
+						rs.getDate(6), rs.getDate(7), rs.getString(8), rs.getString(9), rs.getInt(10),
+						rs.getString(11));
 				System.out.println(todo.toString());
 				urgentTodo.add(todo);
 			}
@@ -511,7 +511,7 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return urgentTodo;
 	}
-	
+
 	// todo 분류별 통계
 	@Override
 	public HashMap<String, Integer> getTodoType(int projectSeq) {
@@ -522,11 +522,11 @@ public class ProjectDaoImple implements ProjectDao {
 		try {
 			pstm = con.prepareStatement(getByTodoTypeSql);
 			pstm.setInt(1, projectSeq);
-			
+
 			rs = pstm.executeQuery();
-			while(rs.next()) {
-				todoType.put(rs.getString(1)+"Rate", rs.getInt(2));
-				todoType.put(rs.getString(1)+"Cnt", rs.getInt(3));
+			while (rs.next()) {
+				todoType.put(rs.getString(1) + "Rate", rs.getInt(2));
+				todoType.put(rs.getString(1) + "Cnt", rs.getInt(3));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

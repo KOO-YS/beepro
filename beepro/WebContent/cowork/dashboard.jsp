@@ -4,6 +4,8 @@
 <% response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.semi.vo.ProjectVo" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,11 +93,20 @@
   background-image: url(${pageContext.request.contextPath}/cowork/images/on.svg);
 }
 
+#project_name { padding:30px;
+                width:100%;
+                height:auto;
+                margin-top:15px;
+                border-radius:5px;
+                border:1px solid rgb(75,97,207);
+                font-size:18px;
+                cursor:pointer;
+               }
+
 </style>
 <title>협업 페이지</title>
 </head>
 <body>
-
 	<div id="wrapper">
 		<jsp:include page="common/side_bar.jsp"></jsp:include>
 		<!-- 내용이 들어갈 구역을 정의하는 div -->
@@ -124,7 +135,7 @@
 						                      <ul>
 						                      	<li>
 							                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-							                      	할당된 이슈
+							                      	할당된 이슈${projectSeq}
 							                      </div>
 							                      <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
 						                      	</li>
@@ -360,7 +371,6 @@
 						              </div>
 						            </div>
 						          </div> <!-- card shadow mb-4 -->
-					
 					</div>
 				</div>
 			</div>
@@ -368,6 +378,50 @@
 			<jsp:include page="common/footer.html"></jsp:include>
 		</div>
 	</div>
+
+ 		<!-- 워크스페이스 모달  -->
+      <div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body" style="font-size:14px;">
+          <div id="test100"></div>
+              <c:choose>
+	             <c:when test="${empty projectVo}">
+	                <div id="none">
+	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
+	                                        매칭을 통해 생성하십시오.<br>
+	                  <a class="btn btn-primary" href="../matching?command=matchingAll">매칭하러가기</a>  
+	                </div>
+	             </c:when>
+	      
+	             <c:otherwise>
+	                              이동하실 워크 스페이스를 선택하세요.
+	               <c:forEach var="vo" items="${projectVo}">
+	                <div id="project_name" onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+	                  <div id="title">
+	                     ${vo.projectName}
+	                 </div>
+	                  
+	                 <div id="content">
+	                  ${vo.member}
+	                 </div>
+	                 
+	                 <div id="period">
+	                  ${vo.startDate} - ${vo.endDate}
+	                 </div>
+	               </div>
+	               </c:forEach>
+	             </c:otherwise>
+	         </c:choose>       
+          </div>
+        </div>
+      </div>
 <script>
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
@@ -399,37 +453,6 @@ var myPieChart = new Chart(ctx, {
     cutoutPercentage: 80,
   },
 });
- </script>
- 			   <!-- 워크스페이스 모달  -->
-      <div class="modal fade" id="logoutModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-          <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body" style="font-size:14px;">
-              <c:choose>
-	             <c:when test="${empty list}">
-	                <div id="none">
-	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
-	                                        매칭을 통해 생성하십시오.<br>
-	                  <a class="btn btn-primary" href="../matching?command=matchingAll">매칭하러가기</a>  
-	                </div>
-	             </c:when>
-	      
-	             <c:otherwise>
-	                                       이동하실 워크 스페이스를 선택하세요.
-	               <c:forEach var="list" items="${list}">
-	                   ${list.projectName}
-	                </div>
-	               </c:forEach>
-	             </c:otherwise>
-	         </c:choose>          
-          </div>
-        </div>
-      </div>
+ </script>      
 </body>
 </html>

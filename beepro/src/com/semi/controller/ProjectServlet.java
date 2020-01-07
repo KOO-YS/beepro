@@ -18,6 +18,7 @@ import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
+import com.semi.service.MatchingService;
 import com.semi.service.ProjectService;
 import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
@@ -68,27 +69,32 @@ public class ProjectServlet extends HttpServlet {
 		ProjectService projectService = new ProjectService();
 		ProjectDao dao = new ProjectDaoImple();
 		MatchingDao mdao = new MatchingDaoImpl();
+		MatchingService matchingService = new MatchingService();
 
 		if (command.equals("issueWrite")) {
 			System.out.println("이슈 생성 폼으로 이동");
 			HttpSession session = request.getSession();
 			String u_id = (String) session.getAttribute("u_id");
-			
-			List<ProjectVo> vo = mdao.selectAllProject();
-			request.setAttribute("vo", vo);
-			response.sendRedirect("cowork/issueWrite.jsp");
+            System.out.println("아이디:"+u_id);
+            
+			List<ProjectVo> list = matchingService.selectAllProject(request,response);
+			session.setAttribute("projectVo", list);
+			dispatch("cowork/issueWrite.jsp" , request, response);
 
 		} else if (command.equals("issueform")) {
 			System.out.println("이슈 생성");
 			HttpSession session = request.getSession();
 			String u_id = (String) session.getAttribute("u_id");
 			System.out.println(u_id);
+			
+			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+			System.out.println("프로젝트 시퀀스 : " + projectSeq);
 
 			boolean success = projectService.issueWrite(request, response);
-
+            
 			if (success) {
 				System.out.println("이슈 생성 성공");
-				dispatch("issue?command=issueAll", request, response);
+				dispatch("issue?command=issueAll&projectSeq="+projectSeq, request, response);
 			} else {
 				System.out.println("이슈 생성 실패");
 				dispatch("issue?command=issueWrite", request, response);
@@ -115,14 +121,14 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("issueUpdateform")) {
 			System.out.println("이슈 수정 폼 이동");
-			
+
 			int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
-			
+
 			boolean success = projectService.issueUpdate(request, response);
-			
-			if(success) {
+
+			if (success) {
 				System.out.println("성공적으로 수정");
-				dispatch("issue?command=issueDetail&issue_seq=?"+issueSeq, request, response);
+				dispatch("issue?command=issueDetail&issue_seq=?" + issueSeq, request, response);
 			} else {
 				System.out.println("수정 실패");
 			}
@@ -209,29 +215,29 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("updateTodoPriority")) { // 7
 			System.out.println("중요도 변경");
 			projectService.updateTodoPriority(request, response);
-		
-		} else if(command.equals("dashboard")) {
+
+		} else if (command.equals("dashboard")) {
 			System.out.println("dashboard 출력");
 			HttpSession session = request.getSession();
-			String userId = (String)session.getAttribute("u_name");
+			String userId = (String) session.getAttribute("u_name");
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
-			int projectSeq = 1;	
-			System.out.println("userId :: "+userId+"\nprojectSeq :: "+projectSeq);
+			int projectSeq = 1;
+			System.out.println("userId :: " + userId + "\nprojectSeq :: " + projectSeq);
 			// issue Count
 			HashMap<String, Integer> count = projectService.getCounts(userId, projectSeq);
-			// deadline todo	// TODO 개인 업무 or 팀 업무? -> 우선 개인 업무로 진행
+			// deadline todo // TODO 개인 업무 or 팀 업무? -> 우선 개인 업무로 진행
 			List<TodoVo> urgentTodo = projectService.getUrgentTodo(userId, projectSeq);
 			// week issues
 			List<IssueVo> weekIssue = projectService.getWeekIssue(projectSeq);
 			// todo category Count & Rate
 			HashMap<String, Integer> todoType = projectService.getTodoType(projectSeq);
-			
+
 			request.setAttribute("count", count);
 			request.setAttribute("urgent", urgentTodo);
 			request.setAttribute("weekIssue", weekIssue);
 			request.setAttribute("todoType", todoType);
-			
-			dispatch("/cowork/dashboard.jsp",request,response);
+
+			dispatch("/cowork/dashboard.jsp", request, response);
 
 		} else if (command.equals("commentWrite")) {
 			System.out.println("댓글 생성");
@@ -268,6 +274,6 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("updateComment")) {
 			System.out.println("댓글 수정");
-		} 
+		}
 	}
 }
