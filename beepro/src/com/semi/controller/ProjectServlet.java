@@ -160,14 +160,15 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("todo-list")) { // 1
 			System.out.println("업무 리스트 출력");
+			
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
-			HttpSession session = request.getSession();
-			String userId = (String) session.getAttribute("u_name");
-			List<TodoVo> todoList = projectService.selectAllTodo(1, userId); // sequence **
-
+			List<TodoVo> todoList = projectService.selectAllTodo(request, response);	// sequence **
 			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
 
+		} else if(command.equals("todo-paging")) {
+			System.out.println("페이징");
+			
 		} else if (command.equals("todoForm")) { // 2
 			System.out.println("새 업무 생성");
 			int success = projectService.insertTodo(request, response);

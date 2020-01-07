@@ -20,6 +20,8 @@ import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
 
+import util.Paging;
+
 public class ProjectDaoImple implements ProjectDao {
 
 	// 이슈 생성
@@ -204,17 +206,18 @@ public class ProjectDaoImple implements ProjectDao {
 
 	// 업무 리스트 출력
 	@Override
-	public List<TodoVo> selectAllTodo(int project_seq, String userId) {
+	public List<TodoVo> selectAllTodo(int project_seq, String userId, Paging page) {
 		Connection con = getConnection();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		List<TodoVo> res = new ArrayList<TodoVo>();
 
 		try {
-			pstm = con.prepareStatement(getAllTodoSql);
+			pstm = con.prepareStatement(getTodoPageSql);
 			pstm.setString(1, userId);
 			pstm.setInt(2, project_seq);
-
+			pstm.setInt(3, page.getFirstRow());
+			pstm.setInt(4, page.getEndRow());
 			rs = pstm.executeQuery();
 
 			while (rs.next()) {
@@ -231,8 +234,6 @@ public class ProjectDaoImple implements ProjectDao {
 				todo.setStatus(rs.getString(9));
 				todo.setPriority(rs.getInt(10));
 				todo.setFinishCk(rs.getString(11));
-
-//				System.out.println(todo.toString());
 
 				res.add(todo);
 			}
@@ -384,15 +385,20 @@ public class ProjectDaoImple implements ProjectDao {
 
 	// paging)) 1. 업무 count
 	@Override
-	public int getTodoCount() {
+	public int getTodoCount(int projectSeq, String manager) {
 		Connection con = getConnection();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		int todoCount = 0;
 		try {
 			pstm = con.prepareStatement(getTodoCountSql);
-			todoCount = pstm.executeUpdate(); // Query
-			System.out.println(todoCount);
+			pstm.setString(1, manager);
+			pstm.setInt(2, projectSeq);
+			rs = pstm.executeQuery();	// Query
+			while(rs.next()) {
+				todoCount = rs.getInt(1);				
+			}
+			System.out.println("todo 게시글 개수는 ? : "+todoCount);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -431,10 +437,11 @@ public class ProjectDaoImple implements ProjectDao {
 			pstm.setInt(2, projectSeq);
 
 			rs = pstm.executeQuery();
-			while (rs.next()) {
-				todoInfo.put("totalTodoCnt", rs.getInt(1)); // 전체 업무 수
-				todoInfo.put("totalTodoRate", rs.getInt(2)); // 전체 업무 진행률
-				todoInfo.put("userTodoLeft", rs.getInt(3)); // 개인 잔여 업무 수
+			while(rs.next()) {
+				System.out.println("todoCount ::::: "+rs.getInt(1));
+				todoInfo.put("totalTodoCnt", rs.getInt(1));			// 전체 업무 수
+				todoInfo.put("totalTodoRate", rs.getInt(2));		// 전체 업무 진행률
+				todoInfo.put("userTodoLeft", rs.getInt(3));			// 개인 잔여 업무 수
 //				todoInfo.put("userTodoRate", rs.getInt(3));			// 개인 업무 진행률
 			}
 		} catch (SQLException e) {

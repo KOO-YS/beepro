@@ -2,10 +2,8 @@ package com.semi.service;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -31,6 +29,7 @@ public class MatchingService {
 
    MatchingDao matchingDao = new MatchingDaoImpl();
    MatchingDao Dao = new MatchingDaoImpl();
+   
    
    // 프로필 정보 추출
    public UserVo getProfile(HttpServletRequest request, HttpServletResponse response) {
@@ -64,13 +63,30 @@ public class MatchingService {
       
    }
    
+   //프로젝트 매칭 검색
    public List<MatchingProVo> matchingProAll(HttpServletRequest request){
       MatchingDao matchingDao = new MatchingDaoImpl();
-      HttpSession session = request.getSession();
-      String pm_id = (String)session.getAttribute("u_id");
+      MatchingProVo matVo = new MatchingProVo();
+      String searchKeyword = (String) request.getParameter("searchKeyword");  
+      String searchCat = (String) request.getParameter("searchCat");
+      
+      if(searchCat == null) {
+    	  searchCat = "";
+      }
+      if(searchKeyword == null) {
+    	  searchKeyword = "";
+      }
+      matVo.setSearchCat(searchCat);
+      matVo.setSearchKeyword(searchKeyword);
+      
+      return matchingDao.matchingProAll(matVo);
+
+//      HttpSession session = request.getSession();
+//      String pm_id = (String)session.getAttribute("u_id");
         
         
-      return matchingDao.matchingProAll(pm_id);
+		/* return matchingDao.matchingProAll(pm_id); */
+
    }
    
    public MatchingProVo matchingRead(HttpServletRequest request) {
@@ -241,7 +257,14 @@ public class MatchingService {
 	    
 		return dao.insertVolunteer(vo);
 	}
-   
+   // 모든 매칭 프로젝트 list 조회
+	//김지민 수정!
+	/*
+	 * public List<MatchingProVo> selectAllPro(HttpServletRequest request,
+	 * HttpServletResponse response) { MatchingDaoImpl dao = new MatchingDaoImpl();
+	 * String u_id = request.getParameter("u_id"); return dao.matchingProAll(u_id);
+	 * }
+	 */
    
    
    
@@ -297,6 +320,15 @@ public class MatchingService {
 			response.getWriter().write('1'); //빨강하트
 		}
 	}
+	
+	//내가 쓴 프로젝트 리스트
+	public List<MatchingProVo> AllMyProject(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("내가 쓴 프로젝트 목록 조회");
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return Dao.AllMyProject(u_id);
+	}
+
 //	public List<Integer> selectPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //		request.setCharacterEncoding("UTF-8");
 //		response.setContentType("text/html;charset=UTF-8");
@@ -325,4 +357,14 @@ public class MatchingService {
 		return dao.matchingProAll(u_id);
 	}
 
+
+	
+	 //내가 쓴 퍼스널 리스트
+	 public List<MatchingPerVo> AllMyPersonal(HttpServletRequest request, HttpServletResponse response) {
+	    System.out.println("내가 쓴 퍼스널 목록 조회");
+	    HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return Dao.AllMyPersonal(u_id);
+	   }
+	
 }

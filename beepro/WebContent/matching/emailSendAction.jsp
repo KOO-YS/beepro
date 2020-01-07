@@ -49,7 +49,7 @@
 	String to = dao.getUserEmail(u_id);	
 	System.out.println("to : "+to);
 
-	String subject = "회원가입을 위한 이메일 확인 메일입니다.";
+	String subject = "[beepro]회원가입을 위한 이메일 확인 메일입니다.";
 	String content = "다음 링크에 접속하여 이메일 인증을 진행하세요." +
 		"<a href='" + host + "emailCheckAction.jsp?code=" + new sha256().getSHA256(to) + "'>이메일 인증하기</a>";
 

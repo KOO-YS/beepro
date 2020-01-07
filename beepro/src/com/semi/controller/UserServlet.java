@@ -103,12 +103,6 @@ public class UserServlet extends HttpServlet {
 			userService.chatUnread(request, response);
 			
 		} else if (command.equals("chatBox")) {
-//			String u_id = request.getParameter("u_id");
-//			UserDaoImpl chatDAO = new UserDaoImpl();
-//			ArrayList<MessageVo> list = chatDAO.getBox(u_id);
-//			request.setAttribute("list", list);
-//			
-//			dispatch("/cowork/chatList.jsp", request, response);
 			System.out.println("대화 목록");
 			userService.chatBox(request, response);
 			
@@ -122,7 +116,14 @@ public class UserServlet extends HttpServlet {
 		} else if(command.equals("oneUnread")) {
 			System.out.println("특정 사용자의 안읽은 메세지");
 			userService.oneUnread(request, response);
+			
+		} else if(command.equals("getAllMsg")) {
+			System.out.println("받은 쪽지 출력");
+			userService.getAllMsg(request, response);
+			
 		} else if(command.equals("sendMsg")) {
+			System.out.println("쪽지 보내기");
+			userService.sendMsg(request, response);
 			
 		} else if(command.equals("readMsg")) {
 			
@@ -205,8 +206,6 @@ public class UserServlet extends HttpServlet {
 	 	String u_pwd = dao.getUserPwd(u_id);
 	 	String oriPwd = (String) request.getParameter("pwd_chk");
 		String pwd_chk = sha256.getSHA256(oriPwd);
-		System.out.println(u_pwd);
-		System.out.println(pwd_chk);
 	
  	if(!(pwd_chk.equals(u_pwd))) {
  		PrintWriter script = response.getWriter();

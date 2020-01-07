@@ -20,6 +20,8 @@ import com.semi.vo.UserVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.VolunteerVo;
 
+//import common.Pagination;
+
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
 
@@ -53,6 +55,8 @@ public class MatchingServlet extends HttpServlet {
 
 	private void dual(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
+
+		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다
 		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다 : 구분값 설정 필요 (hidden값(예: command)
 		 * or url/(추가 url로 구분 문자열 예: userservlet/login의 login)) : 구분값을 통해 service 로 값 전달
 		 * 방식 예시
@@ -200,8 +204,8 @@ public class MatchingServlet extends HttpServlet {
 			// 관심게시글 가져오기
 
 				
-				ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
-				request.setAttribute("postList", postList);
+			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
+			request.setAttribute("postList", postList);
 
 			
 
@@ -274,19 +278,21 @@ public class MatchingServlet extends HttpServlet {
 			} else {
 				System.out.println("지원실패");
 			}
-			// 마이페이지로 매칭 게시글목록 전달
-		} else if (command.equals("mypage")) {
-			System.out.println("마이페이지");
 
-			// personal 목록담기
-			List<MatchingPerVo> list1 = matchingService.selectAllPer(request, response);
-			request.setAttribute("personalList", list1);
+			//마이페이지로 매칭 게시글목록 전달
+		}else if(command.equals("mypage")) {
+  	  		System.out.println("마이페이지");
+  	  		
+  	  		//personal 목록담기
+  	  		List<MatchingPerVo> list1 = matchingService.AllMyPersonal(request, response);
+  	  		request.setAttribute("personalList", list1);
+	      
+  	  		//project 목록 담기
+  	  		List<MatchingProVo> list2 = matchingService.AllMyProject(request, response);
+  	  		request.setAttribute("projectList", list2);
+	         
+  	  		dispatch("matching/mypage.jsp", request, response);
+		}						
 
-			// project 목록 담기
-			List<MatchingProVo> list2 = matchingService.selectAllPro(request, response);
-			request.setAttribute("projectList", list2);
-
-			dispatch("matching/mypage.jsp", request, response);
-		}
 	}
 }
