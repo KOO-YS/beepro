@@ -274,31 +274,114 @@
 			</c:otherwise>					
 		</c:choose>	
 		<!-- 게시글 end -->
+		<!-- 관심 게시글 목록 start -->
 			<div class="container">
 			<hr style="margin:3em 0;">
-			 <h5>관심 유저목록</h5>
 			 <div class="row">
-				 <div class="col-lg-6 col-sm-5">
-				 	<table class="table table-sm table-hover">
+			 	 <div class="col-lg-6 col-sm-5">
+			 	 <h5>관심 project 게시글 목록</h5>
+			 	 </div>
+			 	 <div class="col-lg-6 col-sm-5">
+			 	  <h5>관심 personal 게시글 목록</h5>
+			 	 </div>
+			 </div>
+			 <div class="row">
+				 <div class="col-lg-6 col-sm-5" style="height:170px; overflow:scroll; overflow-x:hidden">
+				 	<table class="table table-sm table-hover" style="text-align:center;">
+				 	 <colgroup>
+  						<col width="15%"/>
+  						<col width=""/>
+    					<col width="20%"/>
+ 					</colgroup>
 					  <thead>
 					    <tr>
-					      <th scope="col"></th>
-					      <th scope="col">followers</th>
+					      <th colspan="2" >followers</th>
+					      <th>쪽지</th>
 					    </tr>
 					  </thead>
 					  <tbody>
 					    <tr>
 					      <th scope="row">1</th>
-					      <td><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
 					    </tr>
 					    <tr>
 					      <th scope="row">2</th>
-					      <td>hyeingg</td>
+					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
 					    </tr>
 					    <tr>
 					      <th scope="row">3</th>
-					      <td>tuna</td>
+					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
 					    </tr>
+		
+					  </tbody>
+					</table>
+				 </div>
+<!-- 				<h5>관심 personal 게시글 목록</h5> -->
+				 <div class="col-lg-6 col-sm-5">
+				 	<table class="table table-sm table-hover">
+					  <thead>
+					    <tr>
+					      <th scope="col"></th>
+					      <th scope="col">following</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">1</th>
+					      <td>pomi</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">2</th>
+					      <td>gymin</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">3</th>
+					      <td>edie</td>
+					    </tr>
+					  </tbody>
+					</table>
+				 </div>
+			 </div> 
+			 </div>
+			 <!-- 관심 게시글 목록 end -->
+		<!-- 관심 사람 목록 start -->
+			<div class="container">
+			<hr style="margin:3em 0;">
+			 <h5>관심 유저목록</h5>
+			 <div class="row">
+				 <div class="col-lg-6 col-sm-5" style="height:170px; overflow:scroll; overflow-x:hidden">
+				 	<table class="table table-sm table-hover" style="text-align:center;">
+				 	 <colgroup>
+  						<col width="15%"/>
+  						<col width=""/>
+    					<col width="20%"/>
+ 					</colgroup>
+					  <thead>
+					    <tr>
+					      <th colspan="2" >followers</th>
+					      <th>쪽지</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">1</th>
+					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
+					    </tr>
+					    <tr>
+					      <th scope="row">2</th>
+					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
+					    </tr>
+					    <tr>
+					      <th scope="row">3</th>
+					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
+					    </tr>
+		
 					  </tbody>
 					</table>
 				 </div>
@@ -327,8 +410,10 @@
 					  </tbody>
 					</table>
 				 </div>
-			 </div> <!-- 관심목록 end -->	
+			 </div> 
+			 <hr style="margin:3em 0 0 0;">
 			 </div>
+			 <!-- 관심 사람 목록 end -->
 			 <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -451,4 +536,3 @@
 </body>
 
 </html>
-    

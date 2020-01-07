@@ -54,7 +54,12 @@
 			chks[i].checked = check;
 		}
 	}
+	
+	function getMsgFunction(){
+		
+	}
 </script>
+
 </head>
 
 <body id="page-top">
@@ -154,13 +159,11 @@
 			</div> -->
 			<div class="row">
 				<div class="col-3">
-					<div class="chk-block" style="margin-top: 50px">
+					<div class="chk-block" style="margin-top: 50px; text-align:center;" onclick="getMsgFunction();">
 						<h5>받은 쪽지함</h5>
-						<hr>
-						<input type="checkbox"> test<br> <input
-							type="checkbox"> test<br> <input type="checkbox">
-						test<br> <input type="checkbox"> test<br>
-						
+					</div>
+					<div class="chk-block" style="margin-top: 20px; text-align:center;" onclick="sendMsgFunction();">
+						<h5>보낸 쪽지함</h5>
 					</div>
 				</div>
 
@@ -180,7 +183,7 @@
 								</div>
 								<hr>
 							</div> -->
-							<div class="table-wrapper">
+							<div class="table-wrapper" id="getBox">
 							<input  class="btn btn-primary"  style="bacground-color:red;margin-bottom:10px;"
 								type="button" value="삭제"  data-toggle="modal" data-target="#modalCompose">
 								<form action="">
@@ -196,7 +199,6 @@
 												<th>보낸사람</th>
 												<th>내용</th>
 												<th>날짜</th>
-
 											</tr>
 										</thead>
 										<tbody style="background-color:white">

@@ -3,8 +3,8 @@ package com.semi.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -16,6 +16,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,7 +25,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.dao.UserDaoImpl;
 import com.semi.vo.MessageVo;
-import com.semi.vo.TodoVo;
+import com.semi.vo.MsgVo;
 
 import util.Gmail;
 
@@ -383,6 +384,11 @@ public class UserService {
 		return result.toString();
 	}
 
+	
+	
+	
+	
+	
 	/* 쪽지 서비스 */
 
 	// 쪽지 보내기 서비스
@@ -410,12 +416,11 @@ public class UserService {
 
 			if (dao.insertMsg(send_id, get_id, content) > 0) {
 				System.out.println("쪽지 보내기 성공");
-				response.getWriter().write("성공");
+			
 			} else {
 				System.out.println("쪽지 보내기 실패");
-				response.getWriter().write("실패");
 			}
-
+			response.getWriter().write("<script type='text/javascript'>alert('쪽지 보내기 완료');history.back();</script>");	
 		}
 
 	}
@@ -453,6 +458,29 @@ public class UserService {
 			response.getWriter().write(new UserDaoImpl().getUnreadAllMsg(u_id) + "");
 		}
 	}
+
+	public void getAllMsg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		 ArrayList<MsgVo> list = new  ArrayList<MsgVo>();
+		
+		String u_id = request.getParameter("u_id");
+		if (u_id == null || u_id.equals("")) {
+			System.out.println("로그인 안하고 쪽지 보냄");
+		} else {
+			System.out.println("받은 쪽지함 출력");
+			
+			list = dao.getAllMsg(u_id);
+			request.setAttribute("list", list);
+			dispatch("/matching/message.jsp",request,response);
+		}
+	}
 	
+	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatch = request.getRequestDispatcher(url);
+		dispatch.forward(request, response);
+
+	}
 	
 }
