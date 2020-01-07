@@ -97,6 +97,11 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("매칭 전체 보기");
 			List<MatchingProVo> list = matchingService.matchingProAll(request);
 			request.setAttribute("matchingList", list);
+			
+			// 관심게시글 가져오기
+			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"project");
+			request.setAttribute("postList", postList);
+			
 			dispatch("matching/matchingList.jsp", request, response);
 
 			// 매칭 상세보기
@@ -202,8 +207,6 @@ public class MatchingServlet extends HttpServlet {
 
 			
 			// 관심게시글 가져오기
-
-				
 			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
 			request.setAttribute("postList", postList);
 
