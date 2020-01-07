@@ -2,6 +2,8 @@ package com.semi.dao;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 import com.semi.vo.UserVo;
@@ -47,12 +49,13 @@ public interface MatchingDao {
 	String deletematchingSeq = "DELETE MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
 	// 프로젝트 전체 목록 보기
 	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ORDER BY PROJECTM_SEQ DESC";
+
 	// 프로젝트 상세페이지
 	String selectMatchingReadSql = "SELECT * FROM MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
     
 	// cowork 페이지에 뿌려질 프로젝트 생성하는 부분
 	String insertProjectSql = "INSERT INTO PROJECT VALUES(?,?,?,'N',?,?,?,'N')";
-	String selectAllProjectSql = "SELECT * FROM PROJECT";
+	String selectAllProjectSql = "SELECT * FROM PROJECT";		// FIXME userid 조건
 	
 	// 지원자
 	String insertVolunteerSql = "INSERT INTO VOLUNTEER VALUES(1, ?,'N')";
@@ -60,23 +63,33 @@ public interface MatchingDao {
 	// 지원자 전체조회
 	String selectAllVolunteerSql = "SELECT * FROM VOLUNTEER WHERE PROJECTM_SEQ=?";
 	
+	// 프로젝트 전체 목록 보기
+	String getAllMyProjectSql = "SELECT * FROM MATCHING_PROJECT WHERE PM_ID=? ORDER BY PROJECTM_SEQ DESC";
+	
+	// 목록 전체 보기
+	String getAllMyPersonalSql = "SELECT * FROM matching_personal WHERE USER_ID=?  ORDER BY personal_seq DESC";
+	
 	public int matchingWrite(MatchingProVo matchingProVo);
 
 	public int matchingDelete(String matching_seq);
 
 	public int matchingModifyProc(MatchingProVo matchingProVo);
 
-	public List<MatchingProVo> matchingProAll(String pm_id);
-
+	public List<MatchingProVo> matchingProAll(MatchingProVo matchingProVo);
+	
 	public MatchingProVo matchingRead(String matching_seq);
 
-	public boolean insertProject(ProjectVo vo);
+	public int insertProject(ProjectVo vo);
 	
 	public boolean insertVolunteer(VolunteerVo vo);
 
 	public List<VolunteerVo> selectAllVolunteer(int projectM_seq);
 
 	public List<ProjectVo> selectAllProject();
+	
+	public List<MatchingProVo> AllMyProject(String pm_id);
+	
+	public List<MatchingPerVo> AllMyPersonal(String u_id);
 	
 
 }

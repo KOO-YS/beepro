@@ -210,7 +210,7 @@
 								        </c:out></c:otherwise>
 								</c:choose>					    				    
 					    </p>
-					    <a href="#" class="card-link">자세히보기</a>					    
+					    <a href="matching?command=matchingView&projectM_seq=${list.projectM_seq }" class="card-link">자세히보기</a>					    
 					  </div>
 					</div>
 				</div>
@@ -264,7 +264,7 @@
 								        </c:out></c:otherwise>
 								</c:choose>					    				    
 					    </p>
-					    <a href="#" class="card-link">자세히보기</a>					    
+					    <a href="personMatching?command=selectOnePer&personal_seq=${list.personal_seq}" class="card-link">자세히보기</a>					    
 					  </div>
 					</div>
 				</div>

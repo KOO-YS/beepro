@@ -25,7 +25,7 @@ button { background-color:#4b61cf;
           <!-- Divider -->
           <hr class="sidebar-divider">
           <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/todo?command=dashboard">
+            <a class="nav-link" href="${pageContext.request.contextPath}/project?command=dashboard">
               <i class="fas fa-fw fa-cog"></i>
               <span>업무진행상황</span>
             </a>
