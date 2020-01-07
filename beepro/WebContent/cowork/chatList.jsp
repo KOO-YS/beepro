@@ -331,14 +331,56 @@ table.table .avatar {
 %>
 
 
-<%
-	List<MessageVo> list = (List<MessageVo>) request.getAttribute("list");
+<script type="text/javascript">
+   function chatBoxFunction(){
+	  var u_id = '<%=u_id%>';
+      $.ajax({
+         type : "POST",
+         url : "${pageContext.request.contextPath}/chat?command=chatBox",
+         data : {
+            u_id : encodeURIComponent(u_id)
+         },
+         success : function(data){
+        	 
+            if(data == ""){return; }
+            
+            $('#boxTable').html('');
+            var parsed = JSON.parse(data);
+            var result = parsed.result;
+		    for(var i=0; i<result.length; i++){
+            	if(result[i][0].value == u_id){
+            		result[i][0].value = result[i][1].value;
+            	}else{
+            		result[i][1].value = result[i][0].value;
+            	}
+	            addBox(result[i][0].value, result[i][1].value, result[i][2].value, result[i][3].value, result[i][4].value);
+            }
+         }
+         
+      });
+   }
+   function addBox(lastId, toId, chatContent, chatTime, unread){
 
-	UserDaoImpl dao = new UserDaoImpl();
+	   $("#boxTable").append(
+	'<tr onclick=chatFunction("'+toId+'")>'+
+	'<td>'+lastId+'님과 채팅</td>'+
+		'<td>'+chatContent+
+			'<div class="pull-right"><small>'+chatTime+'</small></div>'+
+		'</td><td><span class="badge badge-danger badge-counter">'+unread+'</span></td></tr>');
+	   
+	   
+   }
+   function getInfiniteBox(){
+	   setInterval(function(){
+		   chatBoxFunction();
+	   },3000);
+   }
+   function chatFunction(get_id){
+		window.open('${pageContext.request.contextPath}/chat?command=chatting&get_id='+get_id, '실시간 채팅', 'top=100, left=500, width=500px, height=550px, status=no, menubar=no, toolbar=no, resizable=no');
 
-%>
-
-
+   }
+   
+</script>
 
 </head>
 <body>
@@ -367,45 +409,11 @@ table.table .avatar {
 							</div>
 							<hr>
 						</div>
-						
+
 						<div class="table-wrapper">
 
-							<table class="table table-striped table-hover">
-								
-									<%
-										String send = null;
-										String get = null;
-										int result;
-
-										for (MessageVo vo : list) {
-											
-											send = vo.getSend_id();
-											get = vo.getGet_id();
-											if (send.equals(u_id)) {
-												send = get;
-											} else {
-												get = send;
-											}
-											result = dao.getUnreadChat(send, u_id);
-									%>
-									<tr onclick="window.open('${pageContext.request.contextPath}/chat?command=chatting&get_id=<%=get %>', '실시간 채팅', 'top=100, left=500, width=550px, height=580px, status=no, menubar=no, toolbar=no, resizable=no');">
-									<td><%=send%>님과 채팅</td>
-										<td><%=vo.getContent()%>
-											<div class="pull-right"><small><%=vo.getRegdate()%></small></div>
-										</td>
-										<td>
-										<%if(result == 0) { %>
-											<span class="badge badge-danger badge-counter" id="unread"></span>
-										<% }else{ %>
-											<span class="badge badge-danger badge-counter" id="unread"><%=result %></span>
-										<% } %>
-										</td>
-									</tr>
-
-									<%
-										}
-									%>
-							
+							<table class="table table-striped table-hover" id="boxTable">
+								<!-- 채팅목록 추가 부분 -->
 							</table>
 						</div>
 					</div>
@@ -415,5 +423,19 @@ table.table .avatar {
 			<jsp:include page="common/footer.html"></jsp:include>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+		getUnread();
+		getInfiniteUnread();
+		chatBoxFunction();
+		getInfiniteBox();
+	});
+</script>
+
+
+
+
 </body>
 </html>
+

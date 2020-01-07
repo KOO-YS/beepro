@@ -22,8 +22,6 @@ public class ProjectService {
 		ProjectDaoImple dao = new ProjectDaoImple();
 		HttpSession session = request.getSession();
 		
-		
-
 		String title = request.getParameter("title");
 		String u_id = (String)session.getAttribute("u_id");
 		String issue_level = request.getParameter("issue_level");
@@ -93,6 +91,8 @@ public class ProjectService {
 
 	// 업무 리스트 출력 (조건 : 아이디)
 	public List<TodoVo> selectAllTodo(int project_seq, String manager) {
+		
+		
 		return projectDao.selectAllTodo(project_seq, manager);
 	}
 	

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.semi.vo.HeartVo;
 import com.semi.vo.MessageVo;
 import com.semi.vo.MsgVo;
 import com.semi.vo.UserVo;
@@ -474,7 +475,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 	public int readChat(String send_id, String get_id) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
 		String sql = " UPDATE MESSAGE SET read_ck = 1 WHERE (send_id = ? AND get_id = ?) ";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -484,7 +485,6 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			close(rs);
 			close(pstmt);
 			close(con);
 		}
@@ -611,7 +611,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 
 			Connection conn = getConnection();
 			PreparedStatement pstmt = null;
-
+			int res = 0;
 			String sql = " INSERT INTO msg VALUES(msg_seq.NEXTVAL,?,?,?,SYSDATE,0) ";
 
 			try {
@@ -620,7 +620,11 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 				pstmt.setString(2, get_id);
 				pstmt.setString(3, content);
 
-				return pstmt.executeUpdate();
+				res= pstmt.executeUpdate();
+				
+				if (res > 0) {
+					commit(conn);
+				}
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -628,29 +632,89 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 				close(pstmt, conn);
 			}
 
-			return -1; // 데이터베이스 오류
+			return res; 
 		}
 
-		// 메세지 읽었다고 처리
+		//쪽지 읽었다고 처리
 		public int readMsg(String send_id, String get_id) {
 			Connection con = getConnection();
 			PreparedStatement pstmt = null;
+			int res =0;
 			String sql = " UPDATE msg SET read_ck = 1 WHERE (send_id = ? AND get_id = ?) ";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, get_id); // 받는사람과 보낸사람 교차해서 넣어줌
 				pstmt.setString(2, send_id);
 
-				return pstmt.executeUpdate();
+				res = pstmt.executeUpdate();
+				
+				if (res > 0) {
+					commit(con);
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
 				close(pstmt, con);
 			}
-			return -1; // 데이터베이스 오류
+			return res; 
 		}
 
+
+		//쪽지 삭제
+		public int deleteMsg(int msg_seq, String send_id, String get_id) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			int res = 0;
+			String sql = " DELETE FROM msg WHERE msg_seq=? AND send_id=? AND get_id=? ";
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, msg_seq);
+				pstmt.setString(2, send_id);
+				pstmt.setString(3, get_id);
+		
+				res = pstmt.executeUpdate();
+				
+				if (res > 0) {
+					commit(con);
+				} 
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(con);
+			}
+			
+			return res;
+		}
+		
+		//읽지 않은 쪽지 갯수
+		public int getUnreadAllMsg(String u_id) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = " SELECT COUNT(msg_seq) FROM msg WHERE get_id = ? AND read_ck = 0 ";
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, u_id);
+				rs = pstmt.executeQuery();
+				
+				if (rs.next()) {
+					return rs.getInt("COUNT(msg_seq)");
+				}
+				return 0; // 받은 쪽지 없음
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				close(rs);
+				close(pstmt);
+				close(con);
+			}
+			return -1; // 데이터베이스 오류
+		}
+		
+		
 		// 모든 쪽지 목록
 		public ArrayList<MsgVo> getAllMsg(String get_id) {
 
@@ -688,7 +752,83 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 
 			return list;
 		}
-	
+		
+		
+		
+		
+		
+		
+		/* 하트 DAO */
+
+		public int insertHeart(HeartVo vo) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			int res = 0;
+
+			try {
+				pstmt = con.prepareStatement(insertHeartSql);
+				pstmt.setString(1, vo.getH_send());
+				pstmt.setString(2, vo.getH_get());
+
+				res = pstmt.executeUpdate();
+
+				if (res > 0) {
+					commit(con);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(con);
+			}
+			return res;
+		}
+		
+		
+		public ArrayList<String> selectFollower(String get_id) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			ArrayList<String> list = new ArrayList<String>();
+			
+			try {
+				pstmt = con.prepareStatement(followerSql);
+				pstmt.setString(1, get_id);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					list.add(rs.getString(1)); 	
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return list;
+			
+		}
+		
+		public ArrayList<String> selectFollowing(String send_id) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			ArrayList<String> list = new ArrayList<String>();
+			
+			try {
+				pstmt = con.prepareStatement(followingSql);
+				pstmt.setString(1, send_id);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					list.add(rs.getString(1)); 	
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return list;
+			
+		}
+
 
 
 }

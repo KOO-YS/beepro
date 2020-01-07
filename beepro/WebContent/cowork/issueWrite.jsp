@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 <% response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -84,12 +83,12 @@ $(document).ready(function(){
 </style>
 </head>
 <body>
-<%
+<%-- <%
 	String u_id = null;
 	if (session.getAttribute("u_id") != null) {
 		u_id = (String)session.getAttribute("u_id");
 	}
-%>
+%> --%>
    <div id="wrapper">
       <!-- 상단 메뉴 바 -->
       <div id="headers"></div>
@@ -110,7 +109,7 @@ $(document).ready(function(){
                   <hr>
                   <form action="../issue" method="post">
                      <input type="hidden" name="command" value="issueform">
-                     <input type="hidden" name="projectSeq" value="1">
+                     <input type="hidden" name="projectSeq" value="${vo.projectSeq}">
                      <div class="row">
                        <div class="form-group col-lg-8">
                          <label for="title">이슈 제목<span style="color:red;"> *</span></label>
@@ -118,12 +117,7 @@ $(document).ready(function(){
                        </div>
                        <div class="form-group col-lg-4">
                          <label for="category">프로젝트 명<span style="color:red;"> *</span></label>
-                         <select name="p_name" class="form-control" id="p_name" disabled>
-                           <c:forEach var="project_list" items="${projectList}" varStatus="status">
-                            <option value="" selected>진행 중인 프로젝트를 선택해주세요.</option>
-                            <option value="${project_list.subject}">${project_list.subject}</option>
-                           </c:forEach>
-                         </select>
+                         <input type="text" name="projectName" value="${list.projectName}" readonly>
                        </div> 
                      </div>
                        <div class="form-group">
@@ -184,7 +178,7 @@ $(document).ready(function(){
                 <span>낮음</span>
             </label>
                      </div>
-                      <button class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
+                      <button type="submit" class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
                       <button class="btn btn-primary" style="float:right; background-color:white; color:rgb(75,97,207)"
                       onclick="location.href='../issue?command=issueAll'">취   소</button>
                   </form>

@@ -33,7 +33,8 @@ public class PagingVo {
 	}
 
 	public void setStartPage(int currentblock) {
-		this.startPage = (currentblock * 5) - 4;
+//		this.startPage = (currentblock * 5) - 4;
+		this.startPage = (currentblock * contentnum) - (contentnum-1);
 		// 한 페이지에 5개씩 보여지므로
 		// 현재 페이지 블록의 번호 * 블록당 페이지의 개수(5) - 4를 하면 시작 페이지 번호를 정할 수 있다
 	}

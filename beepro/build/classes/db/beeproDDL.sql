@@ -12,6 +12,9 @@ DROP TABLE matching_project;
 DROP TABLE issue;
 DROP TABLE skill;
 DROP TABLE project_member;
+DROP TABLE volunteer;
+DROP TABLE post;
+
 
 
 DROP SEQUENCE ISSUE_SEQ;
@@ -19,9 +22,16 @@ DROP SEQUENCE PROJECT_SEQ;
 DROP SEQUENCE TODO_SEQ;
 DROP SEQUENCE MESSAGE_SEQ;
 DROP SEQUENCE COMMENTS_SEQ;
+DROP SEQUENCE PROJECTM_SEQ;
 
 -- #####################################################################################################################################
 
+CREATE SEQUENCE PROJECTM_SEQ -- 프로젝트 매칭 글에 대한 시퀀스번호
+  START WITH 1
+  INCREMENT BY 1
+  MAXVALUE 10000
+  MINVALUE 1
+  NOCYCLE;
 
 CREATE SEQUENCE ISSUE_SEQ
   START WITH 1
@@ -86,12 +96,15 @@ CREATE TABLE message (
 	read_ck number
 );
 
+
 CREATE TABLE heart (
 	send_id	varchar2(100)	NOT NULL,
 	get_id	varchar2(100)	NOT NULL
 );
 
-CREATE TABLE project_member (
+
+
+CREATE TABLE project_member ( /* 프로젝트 구성원 = pm이 프로젝트 지원자들 중 수락한 회원들이 담기는 곳 */
 	project_seq	number	NOT NULL,
 	member_id	varchar2(100)	NOT NULL,
 	pm_ck	varchar2(6)	NOT NULL,
@@ -107,8 +120,8 @@ CREATE TABLE matching_personal (
 	content	varchar2(4000)	NOT NULL
 );
 
-CREATE TABLE matching_project (
-	project_seq	number	PRIMARY KEY,
+CREATE TABLE matching_project ( /* 프로젝트 매칭 공고글 */
+	projectM_seq	number	PRIMARY KEY,
 	pm_id	varchar2(100)	NOT NULL,
 	title	varchar2(300)	NOT NULL, 
 	content	varchar2(4000)	NOT NULL,
@@ -134,14 +147,20 @@ CREATE TABLE todo (
 	CONSTRAINT finish_ck_chk CHECK(finish_ck IN('Y','N'))
 );
 
-CREATE TABLE project (
-	project_seq	number	PRIMARY KEY,
-	startdate	date	NOT NULL,
-	enddate	date	NOT NULL,
-	finish_ck	varchar2(6)	NOT NULL,
-	project_name varchar2(4000),
+CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
+	project_seq	number	PRIMARY KEY, /* 프로젝트 시퀀스 번호 */
+	startdate	varchar2(600)	NOT NULL,
+	enddate	varchar2(600)	NOT NULL,
+	finish_ck	varchar2(6)	NOT NULL, /* 프로젝트 진행 여부 y:종료 n:진행중 */
+	project_name varchar2(4000), /* 프로젝트 명 */
+	project_content varchar2(4000), /* 프로젝트 개요 */
+	member_id	varchar2(100)	NOT NULL, /* 구성원들 */
+	pm_ck	varchar2(6)	NOT NULL, /* 피엠인지 아닌지 */
+	CONSTRAINT pm_ck_chk CHECK(pm_ck IN('Y','N')),
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
+
+select * from PROJECT;
 
 CREATE TABLE issue (
 	issue_seq	number	NOT NULL,
@@ -170,6 +189,27 @@ CREATE TABLE skill (
 	frontend	varchar2(1000)	
 );
 
+CREATE TABLE volunteer ( /* 지원자 테이블 */
+    projectM_seq number NOT NULL, /* 프로젝트 매칭 공고 글 시퀀스 번호 */
+	user_id varchar2(100) NOT NULL, /* 회원 id */
+	accept varchar2(6) NOT NULL, /* 수락 여부  */
+	CONSTRAINT accept_chk CHECK(accept IN('Y','N')),
+	CONSTRAINT FK_PROJECTM_SEQ_TO_VOL FOREIGN KEY (projectM_seq) REFERENCES matching_project (projectM_seq), 
+	CONSTRAINT FK_USER_ID_TO_VOL FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
+);
+
+------------------------------------- 관심 게시글 (post) 추가 !!  %제약조건도 추가해주셔야합니다. %----------------------------------
+CREATE TABLE post (
+	u_id  varchar2(50) NOT NULL,	-- 해당하는 사람의 관심 목록
+    type    varchar2(20) NOT NULL,	-- 사람매칭 or 플젝매칭 게시글인지 구분
+	post_no  number		NOT NULL	-- 게시글 번호
+);
+ALTER TABLE post ADD CONSTRAINT PK_POST PRIMARY KEY (
+	u_id,
+	type,
+    post_no
+);
+------------------------------------------------------------------------------------------------------------
 
 ALTER TABLE heart ADD CONSTRAINT PK_HEART PRIMARY KEY (send_id,get_id);
 

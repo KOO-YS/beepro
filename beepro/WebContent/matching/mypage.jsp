@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,17 +13,17 @@
   <title>NAME</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
   <!-- Custom styles for this template -->
-  <link href="css/agency.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
 
   <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -65,7 +66,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <img src="<%= request.getContextPath() %>/upload/${u_photo}"; 
+          <img src="<%= request.getContextPath() %>/upload/${u_photo}";
       	  onerror="this.src='img/bee.png'"
           style="width: 30%; border-radius: 50%; border:10px solid rgba(75,97,207);">
        	<br>
@@ -162,32 +163,118 @@
 		</div>
 	</div>	<!-- container end -->
 	<section>
-		<div class="container">
-			<h5>게시글</h5>
-			<div class="row">
-				<div class="col-lg-3">
+	<c:choose>	
+			<c:when test="${empty projectList}">	
+			<div class="container">
+			<hr style="margin:3em 0;">	
+			<h5>내가 쓴 project 글 목록</h5><br>
+			<div class="row">	
+			<div class="col-lg-3">
 					<div class="card">
 					  <div class="card-body">
-					    <h5 class="card-title">개발자 구합니다</h5>
-					    <h6 class="card-subtitle mb-2 text-muted">username</h6>
-					    <p class="card-text">기획, 디자이너, 프론트앤드, 백앤드 개발자 구합니다</p>
-					    <a href="#" class="card-link">자세히보기</a>
-					    
+					  <h5 class="card-title"> 등록된 글이 없습니다.	</h5>
+					    <a href="${pageContext.request.contextPath}/matching/matchingWriting.jsp" class="card-link">글 작성하기</a>					    
 					  </div>
 					</div>
 				</div>
-				<div class="col-lg-3">
-					<div class="card">
+				</div>
+				<hr style="margin:3em 0;">
+			</div>	
+			</c:when>	
+			
+			<c:otherwise>
+			<div class="container">
+			<hr style="margin:3em 0;">	
+			<h5>내가 쓴 project 목록</h5><br>
+			<div class="row">	
+			<c:forEach items="${projectList}" var="list" > 
+			<div class="col-lg-3">
+					<div class="card" style="height: 100%;">
 					  <div class="card-body">
-					    <h5 class="card-title">개발자 구합니다 2222</h5>
-					    <h6 class="card-subtitle mb-2 text-muted">username</h6>
-					    <p class="card-text">기획, 디자이너, 프론트앤드, 백앤드 개발자 구합니다 222</p>
-					    <a href="#" class="card-link">자세히보기</a>
-					    
+					    <h5 class="card-title"> 
+					   		 <c:choose>
+								        <c:when test="${fn:length(list.title) gt 12}">
+								        <c:out value="${fn:substring(list.title, 0, 11)}..."></c:out></c:when>
+								        <c:otherwise>
+								        <c:out value="${list.title}">
+								        </c:out></c:otherwise>
+							</c:choose>	
+					    </h5>
+					    <h6 class="card-subtitle mb-2 text-muted">시작일 : <c:out value="${list.startdate}"/></h6>
+					    <p class="card-text">
+								<c:choose>
+								        <c:when test="${fn:length(list.content) gt 29}">
+								        <c:out value="${fn:substring(list.content, 0, 28)}..."></c:out></c:when>
+								        <c:otherwise>
+								        <c:out value="${list.content}">
+								        </c:out></c:otherwise>
+								</c:choose>					    				    
+					    </p>
+					    <a href="#" class="card-link">자세히보기</a>					    
 					  </div>
 					</div>
 				</div>
-			</div>		<!-- 게시글 end -->
+				</c:forEach>
+				</div>
+				<hr style="margin:3em 0;">	
+			</div>	
+			</c:otherwise>					
+		</c:choose>	
+		
+		<c:choose>	
+			<c:when test="${empty personalList}">	
+			<div class="container">
+			<h5>내가 쓴 personal 목록</h5><br>
+			<div class="row">	
+			<div class="col-lg-3">
+					<div class="card">
+					  <div class="card-body">
+					  <h5 class="card-title"> 등록된 글이 없습니다.	</h5>
+					    <a href="${pageContext.request.contextPath}/matching/personalWriting.jsp" class="card-link">글 작성하기</a>					    
+					  </div>
+					</div>
+				</div>
+				</div>
+			</div>	
+			</c:when>	
+			<c:otherwise>
+			<div class="container">
+			<h5>내가 쓴 personal 목록</h5><br>
+			<div class="row">	
+			<c:forEach items="${personalList}" var="list" > 
+			<div class="col-lg-3">
+					<div class="card" style="height: 100%;">
+					  <div class="card-body">
+					    <h5 class="card-title"> 
+					   			<c:choose>
+								        <c:when test="${fn:length(list.title) gt 12}">
+								        <c:out value="${fn:substring(list.title, 0, 11)}..."></c:out></c:when>
+								        <c:otherwise>
+								        <c:out value="${list.title}">
+								        </c:out></c:otherwise>
+								</c:choose>	
+					    </h5>
+					    <h6 class="card-subtitle mb-2 text-muted">희망 분야 : <c:out value="${list.emp_category}"/></h6>
+					    <p class="card-text">
+								<c:choose>
+								        <c:when test="${fn:length(list.content) gt 29}">
+								        <c:out value="${fn:substring(list.content, 0, 28)}..."></c:out></c:when>
+								        <c:otherwise>
+								        <c:out value="${list.content}">
+								        </c:out></c:otherwise>
+								</c:choose>					    				    
+					    </p>
+					    <a href="#" class="card-link">자세히보기</a>					    
+					  </div>
+					</div>
+				</div>
+				</c:forEach>
+				</div>
+			</div>	
+			</c:otherwise>					
+		</c:choose>	
+		<!-- 게시글 end -->
+			<div class="container">
 			<hr style="margin:3em 0;">
 			 <h5>관심 유저목록</h5>
 			 <div class="row">
@@ -202,7 +289,7 @@
 					  <tbody>
 					    <tr>
 					      <th scope="row">1</th>
-					      <td>yans</td>
+					      <td><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
 					    </tr>
 					    <tr>
 					      <th scope="row">2</th>
@@ -241,6 +328,7 @@
 					</table>
 				 </div>
 			 </div> <!-- 관심목록 end -->	
+			 </div>
 			 <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -251,7 +339,6 @@
         </div>        
       </div>
     </div>    		 
-		</div>
 	</section>
 	
   <jsp:include page="common/footer.jsp"></jsp:include>
@@ -268,7 +355,6 @@
       </div>
 	<form action="../user?command=updatePwd" method="post">
       <div class="modal-body">
-      
         	  <div class="form-group">
 			    <label for="oriPwd">기존 패스워드</label>
 			    <input type="password" class="form-control" name ="oriPwd" id="oriPwd" required>
@@ -352,14 +438,14 @@
 </div>
 <!-- 회원탈퇴 모달 end--> 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for this template -->
-  <script src="js/agency.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 <script type="text/javascript">
 </script>
 </body>
