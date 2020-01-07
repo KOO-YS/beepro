@@ -312,7 +312,7 @@ public class MatchingService {
 		}
 	}
 	
-    // 모든 매칭 프로젝트 list 조회
+	//내가 쓴 프로젝트 리스트
 	public List<MatchingProVo> AllMyProject(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("내가 쓴 프로젝트 목록 조회");
 		HttpSession session = request.getSession();
@@ -343,7 +343,7 @@ public class MatchingService {
 //	}
 
 	
-	 //글 리스트 출력(personal 페이지)
+	 //내가 쓴 퍼스널 리스트
 	 public List<MatchingPerVo> AllMyPersonal(HttpServletRequest request, HttpServletResponse response) {
 	    System.out.println("내가 쓴 퍼스널 목록 조회");
 	    HttpSession session = request.getSession();
