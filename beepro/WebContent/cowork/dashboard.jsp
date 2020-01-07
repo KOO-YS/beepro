@@ -135,7 +135,7 @@
 						                      <ul>
 						                      	<li>
 							                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-							                      	할당된 이슈${projectSeq}
+							                      	할당된 이슈
 							                      </div>
 							                      <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
 						                      	</li>
@@ -379,7 +379,7 @@
 		</div>
 	</div>
 
- 		<!-- 워크스페이스 모달  -->
+ 	  <!-- 워크스페이스 모달  -->
       <div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
           <div class="modal-content">

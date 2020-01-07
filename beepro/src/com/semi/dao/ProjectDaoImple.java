@@ -65,7 +65,6 @@ public class ProjectDaoImple implements ProjectDao {
 		try {
 			pstmt = con.prepareStatement(selectAllIssueSql);
 			pstmt.setInt(1, projectSeq);
-			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -114,6 +113,7 @@ public class ProjectDaoImple implements ProjectDao {
 				res.setRegdate(rs.getDate(6));
 				res.setCategory(rs.getString(7));
 				res.setContent(rs.getString(8));
+				res.setResponsibility(rs.getString(9));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,8 +137,9 @@ public class ProjectDaoImple implements ProjectDao {
 			pstmt.setString(2, vo.getLevel());
 			pstmt.setString(3, vo.getCategory());
 			pstmt.setString(4, vo.getContent());
-			pstmt.setString(5, vo.getResponsibility());
-			pstmt.setInt(6, vo.getIssueSeq());
+			pstmt.setInt(5, vo.getIssueSeq());
+			
+			System.out.println(vo.toString());
 			
 			res = pstmt.executeUpdate();
 			
@@ -150,7 +151,6 @@ public class ProjectDaoImple implements ProjectDao {
 		} finally {
 			close(pstmt, con);
 		}
-		
 		return true;
 	}
 
@@ -176,6 +176,60 @@ public class ProjectDaoImple implements ProjectDao {
 			close(pstmt, con);
 		}
 		return true;
+	}
+	
+	// 프로젝트 이름 가져오는 부분
+	@Override
+	public String selectOneProjectName(int issue_seq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = null;
+
+		try {
+			pstmt = con.prepareStatement(selectOneProjectNameSql);
+			pstmt.setInt(1, issue_seq);
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res = rs.getString(1);
+			}
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+			System.out.println("5. db종료");
+		}
+		return res;
+	}
+	
+	// 프로젝트 이름 가져오는 부분
+	@Override
+	public String selectOneProjectName2(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = null;
+
+		try {
+			pstmt = con.prepareStatement(selectOneProjectNameSql2);
+			pstmt.setInt(1, projectSeq);
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res = rs.getString(1);
+			}
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+			System.out.println("5. db종료");
+		}
+		return res;
 	}
 
 	// 업무 생성
@@ -667,5 +721,8 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return true;
 	}
+    
+	
+
 
 }

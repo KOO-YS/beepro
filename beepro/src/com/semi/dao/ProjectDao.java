@@ -13,10 +13,12 @@ import util.Paging;
 public interface ProjectDao {
 	// 이슈부분
     String insertIssueSql = "INSERT INTO ISSUE VALUES(ISSUE_SEQ.NEXTVAL,?,?,?,?,SYSDATE,?,?,?)";
-    String updateIssueSql = "UPDATE ISSUE SET TITLE=?, ISSUE_LEVEL=?, ISSUE_CATEGORY=?, CONTENT=?, RESPONSIBILITY=? WHERE ISSUE_SEQ=?";
+    String updateIssueSql = "UPDATE ISSUE SET TITLE=?, ISSUE_LEVEL=?, ISSUE_CATEGORY=?, CONTENT=? WHERE ISSUE_SEQ=?";
     String deleteIssueSql = "DELETE FROM ISSUE WHERE ISSUE_SEQ=?";
     String selectAllIssueSql = "SELECT * FROM ISSUE WHERE PROJECT_SEQ=?"; 
     String selectOneIssueSql = "SELECT * FROM ISSUE WHERE ISSUE_SEQ=?";
+    String selectOneProjectNameSql = "SELECT DISTINCT PROJECT_NAME from PROJECT P join ISSUE I ON(P.PROJECT_SEQ = I.PROJECT_SEQ) WHERE I.ISSUE_SEQ=?";
+    String selectOneProjectNameSql2 = "SELECT DISTINCT PROJECT_NAME from PROJECT P join ISSUE I ON(P.PROJECT_SEQ = I.PROJECT_SEQ) WHERE P.PROJECT_SEQ=?";
     
     // 업무부분
     String insertTodoSql = "INSERT INTO TODO VALUES(TODO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
@@ -69,6 +71,10 @@ public interface ProjectDao {
     public boolean updateIssue(IssueVo vo);
     
     public boolean deleteIssue(int issueSeq);
+    
+    public String selectOneProjectName(int issue_seq);
+    
+    public String selectOneProjectName2(int projectSeq);
     
     public int insertTodo(TodoVo todo);
 
