@@ -320,14 +320,6 @@ public class MatchingService {
 			response.getWriter().write('1'); //빨강하트
 		}
 	}
-	
-	//내가 쓴 프로젝트 리스트
-	public List<MatchingProVo> AllMyProject(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("내가 쓴 프로젝트 목록 조회");
-		HttpSession session = request.getSession();
-		String u_id = (String)session.getAttribute("u_id");
-		return Dao.AllMyProject(u_id);
-	}
 
 //	public List<Integer> selectPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //		request.setCharacterEncoding("UTF-8");
@@ -350,14 +342,14 @@ public class MatchingService {
 //		}
 //		return 
 //	}
-    // 모든 매칭 프로젝트 list 조회
-	public List<MatchingProVo> selectAllPro(HttpServletRequest request, HttpServletResponse response) {
-		MatchingDaoImpl dao = new MatchingDaoImpl();
-		String u_id = request.getParameter("u_id");
-		return dao.matchingProAll(u_id);
+	
+	//내가 쓴 프로젝트 리스트
+	public List<MatchingProVo> AllMyProject(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("내가 쓴 프로젝트 목록 조회");
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return Dao.AllMyProject(u_id);
 	}
-
-
 	
 	 //내가 쓴 퍼스널 리스트
 	 public List<MatchingPerVo> AllMyPersonal(HttpServletRequest request, HttpServletResponse response) {
