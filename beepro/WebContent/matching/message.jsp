@@ -67,7 +67,7 @@
 		}
 	}
 	function showMsgFunction(no){
-		var modal = document.getElementById('detailMsg'+no);
+ 		var modal = document.getElementById('detailMsg'+no);
  	  	var cancle = document.getElementById("cancle"+no);
  	  	var close = document.getElementById("close"+no);
      	modal.style.display = "block";
@@ -81,12 +81,30 @@
         }	   
      	close.onclick = function() {
         	modal.style.display = "none";
-        }
+        } 
      	
-     	
-    
+        $.ajax({
+            type : "POST",
+            url : "${pageContext.request.contextPath}/msg?command=readMsg",
+            data : {
+               no : no
+            },
+            success : function(data){
+               if(data == 0){return; }
+               $('#msg'+no).css("background-color","rgba(246,246,246)").css("color","gray");
+            }
+         });
 	}
-	
+	function reSendFunction(get_id){
+		$('#sendMsgModal').css("display","block");
+		$('#inputTo').val(get_id);
+		$('#reset').click(function(){
+			$('#sendMsgModal').css("display","none");
+		});
+		$('#close').click(function(){
+			$('#sendMsgModal').css("display","none");
+		});
+	}
 	function getMsgFunction(){
 		
 	}
@@ -190,10 +208,10 @@
 				</div>
 			</div> -->
 			<div class="row">
-				<div class="col-3">
+				<div class="col-2">
 					<div class="chk-block"
 						style="margin-top: 50px; text-align: center;"
-						onclick="getMsgFunction();">
+						onclick="location.href='${pageContext.request.contextPath}/msg?command=getAllMsg&u_id=${u_id }'">
 						<h5>받은 쪽지함</h5>
 					</div>
 					<div class="chk-block"
@@ -206,7 +224,7 @@
 				<!-- 메인 내용이 들어갈 구역을 정의하는 div -->
 
 				<!-- 본격적으로 내용이 담기는 div -->
-				<div class="col-9">
+				<div class="col-10">
 					<!-- <div class="container-fluid">
 						<div class="container">
 							<div class="table-title">
@@ -221,8 +239,8 @@
 							</div> -->
 					<div class="table-wrapper" id="getBox">
 						<input class="btn btn-primary"
-							style="bacground-color: red; margin-bottom: 10px;" type="button"
-							value="삭제" data-toggle="modal" data-target="#modalCompose">
+							style="margin-bottom: 10px;" type="button"
+							value="삭제" onclick="location.href='${pageContext.request.contextPath}/msg?command=deleteMsg'" />
 						<form action="">
 							<table class="table table-hover" id="boxTable"
 								style="text-align: center; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
@@ -242,7 +260,17 @@
 								</thead>
 								<tbody style="background-color: white">
 									<c:forEach var="list" items="${list }">
-										<tr onclick="showMsgFunction(${list.msg_seq});">
+										<c:forEach var="readList" items="${readList}">
+											<c:if test="${ readList eq list.msg_seq}">
+												<script type="text/javascript">
+												$( document ).ready(function() {
+													$('#msg${list.msg_seq}').css("background-color","rgba(246,246,246)").css("color","gray");
+												});
+										</script>
+											</c:if>
+										</c:forEach>
+										<tr id="msg${list.msg_seq}"
+											onclick="showMsgFunction(${list.msg_seq});">
 											<td><input type="checkbox" name="chk"></td>
 											<td>${list.send_id }</td>
 											<td style="text-align: left;">${list.content }</td>
@@ -255,9 +283,10 @@
 												<div class="modal-content">
 													<div class="modal-header modal-header-info">
 														<h4 class="modal-title">
-															<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
+															<span class="glyphicon glyphicon-envelope"></span> 받은 쪽지
 														</h4>
-														<button type="button" class="close" id="close${list.msg_seq}" data-dismiss="modal"
+														<button type="button" class="close"
+															id="close${list.msg_seq}" data-dismiss="modal"
 															aria-hidden="true">×</button>
 													</div>
 													<div class="modal-body">
@@ -265,7 +294,7 @@
 															<label class="col-sm-12" for="inputTo"><span
 																class="glyphicon glyphicon-user"></span>보낸사람</label>
 															<div class="col-sm-10">
-																<input type="text" class="form-control" id="inputTo"
+																<input type="text" class="form-control" id="inputTo${list.msg_seq}"
 																	placeholder="comma separated list of recipients"
 																	readonly="readonly" name="get_id"
 																	value="${list.send_id }">
@@ -275,7 +304,7 @@
 															<label class="col-sm-12" for="inputBody"><span
 																class="glyphicon glyphicon-list"></span>쪽지 내용</label>
 															<div class="col-sm-12">
-																<textarea class="form-control" id="inputBody" rows="8"
+																<textarea class="form-control" id="inputBody${list.msg_seq}" rows="8"
 																	name="content" readonly="readonly"
 																	style="resize: none;">${list.content }</textarea>
 															</div>
@@ -283,10 +312,11 @@
 														<div class="modal-footer">
 															<input type="reset" class="btn btn-default pull-left"
 																id="cancle${list.msg_seq}" data-dismiss="modal"
-																style="border: 1px solid lightgray;" value="확인" /> <input
+																style="border: 1px solid lightgray;" value="확인" /> 
+															<input
 																type="button" class="btn btn-primary"
 																style="background-color: #fec503; border-color: #fec503;"
-																value="답장하기" />
+																value="답장하기" onclick="reSendFunction('${list.send_id }');"/>
 														</div>
 													</div>
 												</div>
@@ -336,29 +366,29 @@
 	<script src="js/agency.js"></script>
 
 	<!-- 쪽지 보내기 모달 -->
-	<div class="modal show" id="modalCompose">
+	<div class="modal show" id="sendMsgModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header modal-header-info">
 					<h4 class="modal-title">
 						<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
 					</h4>
-					<button type="button" class="close" data-dismiss="modal"
+					<button type="button" class="close" id="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
 
 				</div>
 				<div class="modal-body">
 
-					<form role="form" class="form-horizontal"
-						action="${pageContext.request.contextPath}/msg?command=sendMsg">
-						<input type="hidden" name="send_id" value="u_id(세션값)" />
+					<form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/msg">
+						<input type="hidden" name="command"  value="sendMsg"/>
+						<input type="hidden" name="send_id"  value="${u_id }"/>
 						<div class="form-group">
 							<label class="col-sm-12" for="inputTo"><span
 								class="glyphicon glyphicon-user"></span>받는사람</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputTo"
 									placeholder="comma separated list of recipients"
-									readonly="readonly" name="get_id" value="id"
+									readonly="readonly" name="get_id"
 									style="width: 430px">
 							</div>
 						</div>
@@ -371,7 +401,7 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<input type="reset" class="btn btn-default pull-left"
+							<input type="reset" id="reset" class="btn btn-default pull-left"
 								data-dismiss="modal" style="border: 1px solid lightgray;"
 								value="취소" />
 							<!-- <button type="button" class="btn btn-warning pull-left">Save

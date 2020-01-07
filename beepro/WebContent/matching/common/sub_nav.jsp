@@ -53,7 +53,7 @@
             <a class="nav-link js-scroll-trigger" onclick="alertLogin();">협업 cowork</a>
          </li>
 		<li class="nav-item" style="margin-top: 10px;">
-            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='login.jsp'">
+            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'">
               login
             </button>
           </li>
