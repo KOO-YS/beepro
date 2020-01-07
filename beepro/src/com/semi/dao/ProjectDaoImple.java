@@ -39,6 +39,7 @@ public class ProjectDaoImple implements ProjectDao {
 			pstmt.setString(4, vo.getLevel());
             pstmt.setString(5, vo.getCategory());
 			pstmt.setString(6, vo.getContent());
+			pstmt.setString(7, vo.getResponsibility());
 
 			res=pstmt.executeUpdate();
 			
@@ -124,7 +125,31 @@ public class ProjectDaoImple implements ProjectDao {
 	// 이슈 수정
 	@Override
 	public boolean updateIssue(IssueVo vo) {
-		return false;
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+		
+		try {
+			pstmt = con.prepareStatement(updateIssueSql);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getLevel());
+			pstmt.setString(3, vo.getCategory());
+			pstmt.setString(4, vo.getContent());
+			pstmt.setString(5, vo.getResponsibility());
+			pstmt.setInt(6, vo.getIssueSeq());
+			
+			res = pstmt.executeUpdate();
+			
+			if(res>0) {
+				commit(con);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+		
+		return true;
 	}
 
 	// 이슈 삭제
