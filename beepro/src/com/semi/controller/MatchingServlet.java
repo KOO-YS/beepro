@@ -76,7 +76,7 @@ public class MatchingServlet extends HttpServlet {
 			request.setAttribute("profile", profile);
 			dispatch("matching/profile.jsp", request, response);
 		}
-		else if (command.equals("matchingWrite")) {
+		else if (command.equals("matchingWrite")) { 
 			int success = matchingService.matchingWrite(request, response);
 
 			if (success > 0) {

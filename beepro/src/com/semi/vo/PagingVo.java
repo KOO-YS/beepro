@@ -47,7 +47,8 @@ public class PagingVo {
 		if (getlastblock == getcurrentblock) {
 			this.endPage = calcpage(getTotalcount(), getContentnum());
 		} else {
-			this.endPage = getStartPage() + 4;
+//			this.endPage = getStartPage() + 4;
+			this.endPage = getStartPage() + (contentnum-1);
 		}
 		// 기본 시작페이지 +4
 		// 조건 , 마지막 페이지 블록이면 마지막 페이지 번호

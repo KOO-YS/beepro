@@ -13,13 +13,13 @@
 <head>
 	<!-- 세션값 가져오기 -->
 	
-	<%
+<%-- 	<%
 	String u_id = null;
 	if (session.getAttribute("u_id") != null) {
 		u_id = (String) session.getAttribute("u_id");
 	}
 	%>   
-
+ --%>
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

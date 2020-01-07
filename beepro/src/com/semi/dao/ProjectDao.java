@@ -8,6 +8,8 @@ import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
 
+import util.Paging;
+
 public interface ProjectDao {
 	// 이슈부분
     String insertIssueSql = "INSERT INTO ISSUE VALUES(ISSUE_SEQ.NEXTVAL,PROJECT_SEQ.NEXTVAL,?,?,?,SYSDATE,?,?,?,?)";
@@ -25,8 +27,8 @@ public interface ProjectDao {
     String deleteTodoSql = "DELETE FROM TODO WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     String updateTodoPrioritySql = "UPDATE TODO SET PRIORITY=? WHERE TODO_SEQ=? AND PROJECT_SEQ=?";
     // 업무 pg
-    String getTodoCountSql = "SELECT COUNT(*) FROM TODO";
-    String getTodoPageSql = "SELECT * FROM (SELECT TODO.*,ROW_NUMBER() OVER(ORDER BY 1) AS PAGECNT FROM TODO WHERE MANAGER ='userIddddd' AND PROJECT_SEQ=1 ) WHERE PAGECNT BETWEEN 1 AND 3;";
+    String getTodoCountSql = "SELECT COUNT(*) FROM TODO WHERE MANAGER = ? AND PROJECT_SEQ = ?";
+    String getTodoPageSql = "SELECT * FROM (SELECT TODO.*,ROW_NUMBER() OVER(ORDER BY TODO.TODO_SEQ) AS PAGECNT FROM TODO WHERE MANAGER =? AND PROJECT_SEQ=? ) WHERE PAGECNT BETWEEN ? AND ?";
     // 프로젝트부분
     String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
     
@@ -70,7 +72,7 @@ public interface ProjectDao {
     
     public int insertTodo(TodoVo todo);
 
-	public List<TodoVo> selectAllTodo(int project_seq, String manager);
+	public List<TodoVo> selectAllTodo(int project_seq, String manager, Paging todoPage);
 
 	public TodoVo selectOneTodo(int todoSeq);
 	
@@ -105,6 +107,6 @@ public interface ProjectDao {
 
 	public void updateComment(int commentSeq, int issueSeq, String content);
 
-	public int getTodoCount();
+	public int getTodoCount(int projectSeq, String manager);
 }
 
