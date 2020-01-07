@@ -205,8 +205,6 @@ public class UserServlet extends HttpServlet {
 	 	String u_pwd = dao.getUserPwd(u_id);
 	 	String oriPwd = (String) request.getParameter("pwd_chk");
 		String pwd_chk = sha256.getSHA256(oriPwd);
-		System.out.println(u_pwd);
-		System.out.println(pwd_chk);
 	
  	if(!(pwd_chk.equals(u_pwd))) {
  		PrintWriter script = response.getWriter();
