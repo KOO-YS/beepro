@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+<%
+	response.setContentType("text/html; charset=UTF-8");
+%>
 <!DOCTYPE html>
 <html>
 
@@ -14,13 +21,17 @@
 <title>NAME</title>
 
 <!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/matching/css/msg.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
 <%-- <link href="${pageContext.request.contextPath}/matching/css/bootstrap.css" rel="stylesheet">
  --%>
 <!-- Custom fonts for this template -->
-<link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
-	type="text/css">
+<link
+	href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
 	rel="stylesheet" type="text/css">
 <link href='https://fonts.googleapis.com/css?family=Kaushan+Script'
@@ -33,7 +44,8 @@
 	rel='stylesheet' type='text/css'>
 
 <!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/matching/css/agency.css"
+	rel="stylesheet">
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -54,7 +66,32 @@
 			chks[i].checked = check;
 		}
 	}
+	function showMsgFunction(no){
+		var modal = document.getElementById('detailMsg'+no);
+ 	  	var cancle = document.getElementById("cancle"+no);
+ 	  	var close = document.getElementById("close"+no);
+     	modal.style.display = "block";
+    	window.onclick = function(event) {
+     	   if (event.target == $('#detailMsg'+no)) {
+    	        modal.style.display = "none";
+   	     }
+    	}
+     	cancle.onclick = function() {
+        	modal.style.display = "none";
+        }	   
+     	close.onclick = function() {
+        	modal.style.display = "none";
+        }
+     	
+     	
+    
+	}
+	
+	function getMsgFunction(){
+		
+	}
 </script>
+
 </head>
 
 <body id="page-top">
@@ -154,13 +191,15 @@
 			</div> -->
 			<div class="row">
 				<div class="col-3">
-					<div class="chk-block" style="margin-top: 50px">
+					<div class="chk-block"
+						style="margin-top: 50px; text-align: center;"
+						onclick="getMsgFunction();">
 						<h5>받은 쪽지함</h5>
-						<hr>
-						<input type="checkbox"> test<br> <input
-							type="checkbox"> test<br> <input type="checkbox">
-						test<br> <input type="checkbox"> test<br>
-						
+					</div>
+					<div class="chk-block"
+						style="margin-top: 20px; text-align: center;"
+						onclick="sendMsgFunction();">
+						<h5>보낸 쪽지함</h5>
 					</div>
 				</div>
 
@@ -180,85 +219,107 @@
 								</div>
 								<hr>
 							</div> -->
-							<div class="table-wrapper">
-							<input  class="btn btn-primary"  style="bacground-color:red;margin-bottom:10px;"
-								type="button" value="삭제"  data-toggle="modal" data-target="#modalCompose">
-								<form action="">
-									<table class="table table-hover" id="boxTable" style="text-align:center;">
-										<!-- 쪽지목록 추가 부분 -->
-										<col width="10">
-										<col width="60">
-										<col width="200">
-										<col width="50">
-										<thead>
-											<tr>
-												<th><input type="checkbox" name="all" onclick="allsel(this.checked);"/></th>
-												<th>보낸사람</th>
-												<th>내용</th>
-												<th>날짜</th>
+					<div class="table-wrapper" id="getBox">
+						<input class="btn btn-primary"
+							style="bacground-color: red; margin-bottom: 10px;" type="button"
+							value="삭제" data-toggle="modal" data-target="#modalCompose">
+						<form action="">
+							<table class="table table-hover" id="boxTable"
+								style="text-align: center; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+								<!-- 쪽지목록 추가 부분 -->
+								<col width="3">
+								<col width="40">
+								<col width="200">
+								<col width="80">
+								<thead>
+									<tr>
+										<th><input type="checkbox" name="all"
+											onclick="allsel(this.checked);" /></th>
+										<th>보낸사람</th>
+										<th>내용</th>
+										<th>날짜</th>
+									</tr>
+								</thead>
+								<tbody style="background-color: white">
+									<c:forEach var="list" items="${list }">
+										<tr onclick="showMsgFunction(${list.msg_seq});">
+											<td><input type="checkbox" name="chk"></td>
+											<td>${list.send_id }</td>
+											<td style="text-align: left;">${list.content }</td>
+											<td><small>${list.regdate }</small></td>
+										</tr>
 
-											</tr>
-										</thead>
-										<tbody style="background-color:white">
-											<tr onclick="location.href='../matching/messageDetail.jsp'">
-												<td><input type="checkbox" name="chk"></td>
-												<td>id</td>
-												<td>내용sssssssssssssssssssssssssssssssssss</td>
-												<td><small>2020-02-03</small></td>
-											</tr>
-												<tr>
+										<!-- 쪽지 디테일 모달 -->
+										<div class="modal show" id="detailMsg${list.msg_seq}">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header modal-header-info">
+														<h4 class="modal-title">
+															<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
+														</h4>
+														<button type="button" class="close" id="close${list.msg_seq}" data-dismiss="modal"
+															aria-hidden="true">×</button>
+													</div>
+													<div class="modal-body">
+														<div class="form-group">
+															<label class="col-sm-12" for="inputTo"><span
+																class="glyphicon glyphicon-user"></span>보낸사람</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" id="inputTo"
+																	placeholder="comma separated list of recipients"
+																	readonly="readonly" name="get_id"
+																	value="${list.send_id }">
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-12" for="inputBody"><span
+																class="glyphicon glyphicon-list"></span>쪽지 내용</label>
+															<div class="col-sm-12">
+																<textarea class="form-control" id="inputBody" rows="8"
+																	name="content" readonly="readonly"
+																	style="resize: none;">${list.content }</textarea>
+															</div>
+														</div>
+														<div class="modal-footer">
+															<input type="reset" class="btn btn-default pull-left"
+																id="cancle${list.msg_seq}" data-dismiss="modal"
+																style="border: 1px solid lightgray;" value="확인" /> <input
+																type="button" class="btn btn-primary"
+																style="background-color: #fec503; border-color: #fec503;"
+																value="답장하기" />
+														</div>
+													</div>
+												</div>
+												<!-- /.modal-content -->
+											</div>
+											<!-- /.modal-dialog -->
+										</div>
+										<!-- /.modal compose message -->
 
-												<td><input type="checkbox" name="chk"></td>
-												<td>id</td>
-												<td>내용sssssssssssssssssssssssssssssssssss</td>
-												<td><small>2020-02-03</small></td>
-											</tr>
-												<tr>
-
-												<td><input type="checkbox" name="chk"></td>
-												<td>id</td>
-												<td>내용sssssssssssssssssssssssssssssssssss</td>
-												<td><small>2020-02-03</small></td>
-											</tr>
-												<tr>
-
-												<td><input type="checkbox" name="chk"></td>
-												<td>id</td>
-												<td>내용sssssssssssssssssssssssssssssssssss</td>
-												<td><small>2020-02-03</small></td>
-											</tr>
-												<tr>
-
-												<td><input type="checkbox" name="chk"></td>
-												<td>id</td>
-												<td>내용sssssssssssssssssssssssssssssssssss</td>
-												<td><small>2020-02-03</small></td>
-											</tr>
-										</tbody>
-									</table>
-								
-								</form>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="row" style="display: block;">
-						<nav aria-label="Page navigation example">
-							<ul class="pagination justify-content-center">
-								<li class="page-item disabled"><a class="page-link"
-									href="#" tabindex="-1">Previous</a></li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#">Next</a>
-								</li>
-							</ul>
-						</nav>
+									</c:forEach>
+								</tbody>
+							</table>
+						</form>
 					</div>
 				</div>
 			</div>
+
+
+			<div class="row" style="display: block;">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item disabled"><a class="page-link" href="#"
+							tabindex="-1">Previous</a></li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
 		</div>
+
 
 	</section>
 
@@ -273,45 +334,52 @@
 
 	<!-- Custom scripts for this template -->
 	<script src="js/agency.js"></script>
-	
-	
-		<div class="modal show" id="modalCompose">
+
+	<!-- 쪽지 보내기 모달 -->
+	<div class="modal show" id="modalCompose">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header modal-header-info">
-				<h4 class="modal-title">
+					<h4 class="modal-title">
 						<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
 					</h4>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
-					
+
 				</div>
 				<div class="modal-body">
-				
-					<form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/msg?command=sendMsg">
-						<input type="hidden" name="send_id"  value="u_id(세션값)"/>
+
+					<form role="form" class="form-horizontal"
+						action="${pageContext.request.contextPath}/msg?command=sendMsg">
+						<input type="hidden" name="send_id" value="u_id(세션값)" />
 						<div class="form-group">
-							<label class="col-sm-12" for="inputTo"><span class="glyphicon glyphicon-user"></span>받는사람</label>
+							<label class="col-sm-12" for="inputTo"><span
+								class="glyphicon glyphicon-user"></span>받는사람</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputTo"
-									placeholder="comma separated list of recipients" readonly="readonly" name="get_id" value="id" style="width:430px" >
+									placeholder="comma separated list of recipients"
+									readonly="readonly" name="get_id" value="id"
+									style="width: 430px">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-12" for="inputBody"><span
 								class="glyphicon glyphicon-list"></span>쪽지 내용</label>
 							<div class="col-sm-12">
-								<textarea class="form-control" id="inputBody" rows="8" name="content" style="resize: none;"></textarea>
+								<textarea class="form-control" id="inputBody" rows="8"
+									name="content" style="resize: none;"></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<input type="reset" class="btn btn-default pull-left"
-								data-dismiss="modal"  style="border: 1px solid lightgray;" value="취소"/>
+								data-dismiss="modal" style="border: 1px solid lightgray;"
+								value="취소" />
 							<!-- <button type="button" class="btn btn-warning pull-left">Save
 								Draft</button> -->
-							<input type="submit" class="btn btn-primary" style="background-color:#fec503;border-color: #fec503;"
+							<input type="submit" class="btn btn-primary"
+								style="background-color: #fec503; border-color: #fec503;"
 								value="보내기" />
-						
+
 						</div>
 					</form>
 				</div>
@@ -321,8 +389,6 @@
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal compose message -->
-	
-	
 
 </body>
 </html>

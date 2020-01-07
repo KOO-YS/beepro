@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+<%
+	response.setContentType("text/html; charset=UTF-8");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +20,8 @@
   <title>NAME</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
   <link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -116,8 +123,8 @@ hr {
   		<div class="col-2">
   		</div>
   		<div class="col-8">
-  		  	<button class="btn btn-primary" style="margin-bottom: 40px;"> 팔로우 하기 </button>
-  	        <button class="btn btn-primary" style="margin-bottom: 40px;" onclick="sendMsg();"> 쪽지 보내기 </button>
+  		  	<button class="btn btn-primary" style="width:350px;margin: 40px 0 20px 20px;"> 팔로우 하기 </button>
+  	        <button class="btn btn-primary" style="width:350px;margin: 40px 0 20px 20px;" data-toggle="modal" data-target="#modalCompose"> 쪽지 보내기 </button>
 		  	<p class="bg-light" style="text-align:center;">
 				skills
 			</p>
@@ -170,6 +177,56 @@ hr {
 			</div>
     	</div>
     </section>
+    
+    <!-- 쪽지 보내기 모달 -->
+    		<div class="modal show" id="modalCompose">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header modal-header-info">
+				<h4 class="modal-title">
+						<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
+					</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					
+				</div>
+				<div class="modal-body">
+					<form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/msg">
+						<input type="hidden" name="command"  value="sendMsg"/>
+						<input type="hidden" name="send_id"  value="${u_id }"/>
+						<div class="form-group">
+							<label class="col-sm-12" for="inputTo"><span class="glyphicon glyphicon-user"></span>받는사람</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="inputTo"
+									placeholder="comma separated list of recipients" readonly="readonly" name="get_id" value="qqq" style="width:430px" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-12" for="inputBody"><span
+								class="glyphicon glyphicon-list"></span>쪽지 내용</label>
+							<div class="col-sm-12">
+								<textarea class="form-control" id="inputBody" rows="8" name="content" style="resize: none;"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="reset" class="btn btn-default pull-left"
+								data-dismiss="modal"  style="border: 1px solid lightgray;" value="취소"/>
+							<!-- <button type="button" class="btn btn-warning pull-left">Save
+								Draft</button> -->
+							<input type="submit" class="btn btn-primary" style="background-color:#fec503;border-color: #fec503;"
+								value="보내기" />
+						
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal compose message -->
+    
+    
   <jsp:include page="common/footer.jsp"></jsp:include>
 
   <!-- Bootstrap core JavaScript -->
@@ -181,9 +238,7 @@ hr {
 
   <!-- Custom scripts for this template -->
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
-
 </body>
-
 </html>
     
     

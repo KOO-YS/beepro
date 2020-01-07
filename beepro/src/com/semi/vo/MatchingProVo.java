@@ -15,7 +15,11 @@ public class MatchingProVo {
 	private String enddate; //끝나는 날짜
 	private String[] skillArr; //스킬 ARRAY
 	private boolean modifyYn = false;	//수정 가능 여부
-	
+	private String searchCat;	//검색 카테고리
+	private String searchKeyword; //검색 키워드
+	private int startIndex; //페이징 시작
+	private int cnrPerPage; //페이지사이즈
+
 	public MatchingProVo() {}
 	
 	public MatchingProVo(String pm_id, String skill, String title, String content, String need_person, String location,
@@ -131,5 +135,37 @@ public class MatchingProVo {
 
 	public void setModifyYn(boolean modifyYn) {
 		this.modifyYn = modifyYn;
+	}
+	
+	public String getSearchCat() {
+		return searchCat;
+	}
+
+	public void setSearchCat(String searchCat) {
+		this.searchCat = searchCat;
+	}
+
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
+	
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+
+	public int getCnrPerPage() {
+		return cnrPerPage;
+	}
+
+	public void setCnrPerPage(int cnrPerPage) {
+		this.cnrPerPage = cnrPerPage;
 	}
 }

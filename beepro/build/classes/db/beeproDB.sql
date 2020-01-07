@@ -162,7 +162,8 @@ CREATE TABLE todo (
 	CONSTRAINT finish_ck_chk CHECK(finish_ck IN('Y','N'))
 );
 select * from todo;
-SELECT CATEGORY, COUNT(*) FROM TODO GROUP BY CATEGORY;
+SELECT CATEGORY, COUNT(*) FROM TODO GROUP BY CATEGORY;\
+
 
 -- 이전에 PROJECT 테이블을 생성한 사람 -> 하단에 테이블 수정 쿼리(이름 추가) 따로 실행 필요 
 CREATE TABLE project (
@@ -283,4 +284,3 @@ ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (me
 
 COMMIT
 
-SELECT * FROM BEEPRO_USER

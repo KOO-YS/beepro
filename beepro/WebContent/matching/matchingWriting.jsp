@@ -127,32 +127,29 @@
                <i class="fa fa-sort"></i> 
                <select class="floatLabel" name="location">
                   <option value="" >지역을 선택하세요</option>
-                  <option value="seoul">서울</option>
-                  <option value="gangwon">강원</option>
-                  <option value="gyeonggi">경기</option>
-                  <option value="gwangju">광주</option>
-                  <option value="gyeongnam">경남</option>
-                  <option value="gyeongbuk">경북</option>
-                  <option value="daegu">대구</option>
-                  <option value="daejeon">대전</option>
-                  <option value="busan">부산</option>
-                  <option value="sejong">세종</option>
-                  <option value="ulsan">울산</option>
-                  <option value="incheon">인천</option>
-                  <option value="jeonbuk">전북</option>
-                  <option value="jeonnam">전남</option>
-                  <option value="chungbuk">충북</option>
-                  <option value="chungnam">충남</option>
-                  <option value="jeju">제주</option>
+                  <option value="서울">서울</option>
+                  <option value="강원">강원</option>
+                  <option value="경기">경기</option>
+                  <option value="광주">광주</option>
+                  <option value="경남">경남</option>
+                  <option value="경북">경북</option>
+                  <option value="대구">대구</option>
+                  <option value="대전">대전</option>
+                  <option value="부산">부산</option>
+                  <option value="세종">세종</option>
+                  <option value="울산">울산</option>
+                  <option value="인천">인천</option>
+                  <option value="전북">전북</option>
+                  <option value="전남">전남</option>
+                  <option value="충북">충북</option>
+                  <option value="충남">충남</option>
+                  <option value="제주">제주</option>
                </select>
             </div>
          </div>
          <div class="grid">
             <div class="col-1-3 col-1-3-sm">
-            <div class="controls">
-            	<input type="number" id="skill" class="floatLabel" name="need_person" placeholder="인원을 선택하세요">
-            </div>
-               <!-- <div class="controls">
+                <div class="controls">
                   <i class="fa fa-sort"></i> <select class="floatLabel" name="need_person">
                      <option value="">인원을 선택하세요</option>
                      <option value="1">1</option>
@@ -166,7 +163,7 @@
                      <option value="9">9</option>
                      <option value="10">10인 이상</option>
                   </select>
-                </div> -->
+                </div> 
                </div>
             </div>
             <br />

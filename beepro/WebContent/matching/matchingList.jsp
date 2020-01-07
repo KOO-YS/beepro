@@ -88,6 +88,7 @@
 
 </style>
 
+
 <script type="text/javascript">
 
 	function addPostFunction(post_no){
@@ -103,20 +104,17 @@
 			success : function(result) {
 				if (result > 0) {
 					alert("해당 게시글이 관심 게시글에  추가되었습니다.");
-					$('#heart').attr('class', 'heart press'); 
 				} else if(result == 0){
 					alert("로그인 후 이용해 주세요.");
-					$('#heart').attr('class', 'heart'); 
+					$('#heart').attr('class', 'heart');
 				} else {
 					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
-					
 				}
 			}
 		});
 	}
 
 </script>
-
 
 
 </head>
@@ -141,26 +139,28 @@
       <div class="container">
         <div class="row" id="keywordBtns">
         	<div class="col-5">
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
+	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
+	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
+	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
             </div>
-            <div class="col-7">
+            <div class="col-6">
               <!-- <div class="input-group-prepend"> -->
-			    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-			    <div class="dropdown-menu">
-			      <a class="dropdown-item" href="#">Action</a>
-			      <a class="dropdown-item" href="#">Another action</a>
-			      <a class="dropdown-item" href="#">Something else here</a>
-			      <div role="separator" class="dropdown-divider"></div>
-			      <a class="dropdown-item" href="#">Separated link</a>
-			    </div>
-			  
-				  <form class="form-inline md-form form-sm active-cyan-2 mt-2">
-					  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
-					    aria-label="Search">
-					  <i class="fas fa-search" aria-hidden="true"></i>
-					</form>
+              <!-- 프로젝트 매칭 검색 기능 -->
+              <form action="${pageContext.request.contextPath}/matching" method="post" name="searchForm">
+              	<input type="hidden" name="command" value="matchingAll" />
+              	<input type="hidden" name="searchCat" value="" />
+			  	<div>
+			  		<button style="float:left;" class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
+				    <div class="dropdown-menu">
+				      <a class="dropdown-item" href="#none" id="pm_id" data-cat="pm_id">작성자</a>
+				      <a class="dropdown-item" href="#none" id="skill" data-cat="skill">프로그램 능력</a>
+				      <a class="dropdown-item" href="#none" id="location" data-cat="location">지역</a>
+				    </div>
+				  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" name="searchKeyword"
+				    aria-label="Search" style="display: inline-block;">
+				  <i class="fas fa-search" aria-hidden="true" style="cursor: pointer;" id="searchIcon"></i>
+				 </div>
+				  </form>
 			  </div>
         </div>    
       </div>
@@ -186,6 +186,16 @@
             </div>
               <!-- 게시물 -->
                <c:forEach var="matchingVo" items="${matchingList}" varStatus="matching">
+                  <!-- 하트 색 유지 -->
+								<c:forEach var="postList" items="${postList}">
+									<c:if test="${ postList eq matchingVo.projectM_seq}">
+										<script type="text/javascript">
+										$( document ).ready(function() {
+											$('#heart${matchingVo.projectM_seq}').attr('class','heart press');
+										});
+										</script>
+									</c:if>
+								</c:forEach>
                   <div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
                        <div class="col-lg-12">
                            <div class="row">
@@ -194,8 +204,9 @@
                            </div>
                            <div class="col-lg-1 col-sm-1">
                                <!-- heart -->
-                               <i class="heart" id="heart" onclick="addPostFunction('${matchingVo.projectM_seq}');"></i>
-                           </div>
+							<i class="heart" id="heart${matchingVo.projectM_seq}"
+									onclick="addPostFunction('${matchingVo.projectM_seq}');"></i>
+						    </div>
                            <hr>
                            </div>
                            <div class="row">
