@@ -40,24 +40,29 @@
             <a class="nav-link js-scroll-trigger" href="#cowork">협업 cowork</a>
           </li>
 
-          <li class="nav-item" style="margin-top: 10px;">
+          
           <%
 		if(u_id == null) {
-		%> 
+		%> <li class="nav-item" style="margin-top: 10px;">
             <button type="button" class="btn btn-primary btn-sm" onclick="location.href='login.jsp'">
               login
             </button>
+             </li>
          <% } else { 
          %> 
-         	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='../matching?command=mypage'">
-              MyPage
-            </button>&nbsp;
+         	          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/matching?command=mypage">마이페이지</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/msg?command=getAllMsg&u_id=<%=u_id%>">쪽지</a>
+          </li>
+          <li class="nav-item" style="margin-top: 10px;">
           	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='../user?command=logout'">
              logout
             </button> 
-            
+             </li>
          <%	} %>
-          </li>
+         
 
 
          

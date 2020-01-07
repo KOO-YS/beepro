@@ -97,6 +97,11 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("매칭 전체 보기");
 			List<MatchingProVo> list = matchingService.matchingProAll(request);
 			request.setAttribute("matchingList", list);
+			
+			// 관심게시글 가져오기
+			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"project");
+			request.setAttribute("postList", postList);
+			
 			dispatch("matching/matchingList.jsp", request, response);
 
 			// 매칭 상세보기
@@ -128,12 +133,21 @@ public class MatchingServlet extends HttpServlet {
 				System.out.println("글 삭제 실패");
 			}
 
-			// 프로젝트 매칭 글 수정
+			// 프로젝트 매칭 글 detail  수정		-- real 
 		} else if (command.equals("matchingView")) {
 			System.out.println("매칭 글 수정 페이지");
-			MatchingProVo matchingProVo = matchingService.matchingRead(request);
-
+			int projectmSeq = Integer.parseInt(request.getParameter("projectM_seq"));
+			
+			MatchingProVo matchingProVo = matchingService.matchingRead(request);		// 게시글 디테일
+			List<VolunteerVo> volunteer = matchingService.getVolunteer(projectmSeq);	// 지원자 목록
+			int volunteerNum = matchingService.getVolunteerNum(projectmSeq);			// 지원자 수
+			boolean created = matchingService.isProjectCreated(projectmSeq);			// 프로젝트 생성 여부
+			
 			request.setAttribute("matchingVo", matchingProVo);
+			request.setAttribute("volunteer", volunteer);
+			request.setAttribute("volunteerNum", volunteerNum);
+			request.setAttribute("created", created);
+			
 			dispatch("matching/matchingRead.jsp", request, response);
 
 		} else if (command.equals("matchingModifyProc")) {
@@ -202,8 +216,6 @@ public class MatchingServlet extends HttpServlet {
 
 			
 			// 관심게시글 가져오기
-
-				
 			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
 			request.setAttribute("postList", postList);
 
@@ -265,16 +277,14 @@ public class MatchingServlet extends HttpServlet {
 
 		} else if (command.equals("insertVolunteer")) {
 			System.out.println("아이디:" + u_id);
-			System.out.println("지원하기");
 
 			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
 			System.out.println("프로젝트 공고 글 번호 : " + projectM_seq);
-
 			boolean success = matchingService.insertVolunteer(request, response);
 
 			if (success) {
 				System.out.println("지원성공");
-				response.sendRedirect("matching/mypage.jsp");
+				response.sendRedirect("matching/matching?command=matchingView&projectM_seq="+projectM_seq);
 			} else {
 				System.out.println("지원실패");
 			}

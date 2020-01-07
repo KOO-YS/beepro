@@ -189,12 +189,12 @@ public class UserService {
 					String u_photo = dao.getUserPhoto(u_id);	
 			 		session.setAttribute("u_photo", u_photo);
 					System.out.println("---DB에 프로필 변경완료---");
-					response.sendRedirect("matching/mypage.jsp");
+					response.sendRedirect("matching?command=mypage");
 				}
 		
 			}catch(Exception e) {
 				e.printStackTrace();
-				response.sendRedirect("matching/mypage.jsp");
+				response.sendRedirect("matching?command=mypage");
 			}
 	}
 

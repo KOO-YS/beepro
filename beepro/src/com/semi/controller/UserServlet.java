@@ -384,7 +384,7 @@ public class UserServlet extends HttpServlet {
 	 		PrintWriter script = response.getWriter();
 	 		script.println("<script>");		
 	 		script.println("alert('비밀번호가 성공적으로 변경되었습니다.');");
-	 		script.println("location.href='matching/mypage.jsp'");
+	 		script.println("location.href='matching?command=mypage'");
 	 		script.println("</script>");
 	 		script.close();
 

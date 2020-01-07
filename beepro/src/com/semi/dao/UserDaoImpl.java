@@ -717,7 +717,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			Connection conn = getConnection();
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-			String sql = "SELECT * FROM msg WHERE get_id=? ORDER BY regdate ";
+			String sql = "SELECT * FROM msg WHERE get_id=? ORDER BY regdate DESC ";
 
 			try {
 				pstmt = conn.prepareStatement(sql);
@@ -731,11 +731,17 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 					msg.setMsg_seq(rs.getInt("msg_seq"));
 					msg.setSend_id(rs.getString("send_id"));
 					msg.setGet_id(rs.getString("get_id"));
-					msg.setContent(rs.getString("content").replace(" ", "&nbsp;").replace("<", "&lt;").replace(">", "&gt;")
-							.replace("\n", "<br>"));
-					msg.setRegdate(rs.getString("regdate"));
+					msg.setContent(rs.getString("content"));
+					
+					int regdate= Integer.parseInt(rs.getString("regdate").substring(11,13));
+					String timeType = "오전";
+					if(regdate >= 12) {
+						timeType = "오후";
+						regdate -=12;
+					}
+					msg.setRegdate(rs.getString("regdate").substring(0,11) +" " + timeType + " " + regdate + ":"+rs.getString("regdate").substring(14,16)+"");
 					msg.setRead_ck(rs.getInt("read_ck"));
-
+					
 					list.add(msg);
 				}
 
