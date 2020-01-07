@@ -206,8 +206,6 @@ public class UserServlet extends HttpServlet {
 	 	String u_pwd = dao.getUserPwd(u_id);
 	 	String oriPwd = (String) request.getParameter("pwd_chk");
 		String pwd_chk = sha256.getSHA256(oriPwd);
-		System.out.println(u_pwd);
-		System.out.println(pwd_chk);
 	
  	if(!(pwd_chk.equals(u_pwd))) {
  		PrintWriter script = response.getWriter();
@@ -386,7 +384,7 @@ public class UserServlet extends HttpServlet {
 	 		PrintWriter script = response.getWriter();
 	 		script.println("<script>");		
 	 		script.println("alert('비밀번호가 성공적으로 변경되었습니다.');");
-	 		script.println("location.href='matching/mypage.jsp'");
+	 		script.println("location.href='matching?command=mypage'");
 	 		script.println("</script>");
 	 		script.close();
 

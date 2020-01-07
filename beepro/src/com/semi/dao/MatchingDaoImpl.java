@@ -18,6 +18,8 @@ import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
 import com.semi.vo.VolunteerVo;
 
+import oracle.net.aso.r;
+
 public class MatchingDaoImpl implements MatchingDao {
 	@Override
 	public UserVo getProfile(String userId) {
@@ -423,6 +425,37 @@ public class MatchingDaoImpl implements MatchingDao {
 
 		System.out.println(vo.toString());
 				res.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+	
+	// 하나의 프로젝트 조회
+	public ProjectVo selectOneProject(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ProjectVo res = new ProjectVo();
+		
+		try {
+			pstmt = con.prepareStatement(selectOneProjectSql);
+			pstmt.setInt(1, projectSeq);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res.setProjectSeq(rs.getInt(1));
+				res.setStartDate(rs.getString(2));
+				res.setEndDate(rs.getString(3));
+				res.setFinish_ck(rs.getString(4));
+				res.setProjectName(rs.getString(5));
+				res.setContent(rs.getString(6));
+				res.setMember(rs.getString(7));
+				res.setPm_ck(rs.getString(8));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

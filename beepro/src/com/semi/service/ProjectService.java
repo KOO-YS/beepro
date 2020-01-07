@@ -29,8 +29,9 @@ public class ProjectService {
 		String level = request.getParameter("level");
 		String category = request.getParameter("category");
 		String content = request.getParameter("content");
-		System.out.println("탕이트 : "+title);
-		IssueVo issue = new IssueVo(projectSeq, title, writer, level, category, content);
+		String responsibility = request.getParameter("responsibility");
+		
+		IssueVo issue = new IssueVo(projectSeq, title, writer, level, category, content, responsibility);
 
 		System.out.println(issue.toString());
 
@@ -50,7 +51,20 @@ public class ProjectService {
 	
 	// 이슈 수정
 	public boolean issueUpdate(HttpServletRequest request, HttpServletResponse response) {
-		return false;
+        int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+        int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+        
+		String title = request.getParameter("title");
+		String level = request.getParameter("level");
+		String category = request.getParameter("category");
+		String content = request.getParameter("content");
+		String responsibility = request.getParameter("responsibility");
+		
+		IssueVo issue = new IssueVo(issueSeq, projectSeq, title, level, category, content, responsibility);
+		
+		System.out.println(issue.toString());
+		
+		return projectDao.updateIssue(issue);
 	}
 
 	// 선택한 하나의 이슈 정보를 자세히
