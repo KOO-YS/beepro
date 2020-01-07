@@ -3,6 +3,8 @@
 <% response.setContentType("text/html; charset=UTF-8"); %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -498,18 +500,14 @@ table.table .avatar {
 							</table>
 							<div class="clearfix">
 								<div class="hint-text">
-									Showing <b>5</b> out of <b>25</b> entries
+									Showing <b>${page.pageSize}</b> out of <b>${page.totalCount}</b> entries
 								</div>
 								<ul class="pagination">
-									<li class="page-item disabled"><a href="#">Previous</a></li>
-									<li class="page-item active"><a href="#" class="page-link">1</a></li>
-									<li class="page-item"><a href="#" class="page-link">2</a></li>
-									<li class="page-item"><a href="#" class="page-link">3</a></li>
-									<li class="page-item"><a href="#" class="page-link">4</a></li>
-									<li class="page-item"><a href="#" class="page-link">5</a></li>
-									<li class="page-item"><a href="#" class="page-link">6</a></li>
-									<li class="page-item"><a href="#" class="page-link">7</a></li>
-									<li class="page-item"><a href="#" class="page-link">Next</a></li>
+									<li class="page-item"><a href="#">Previous</a></li>
+									<c:forEach var="i" begin="${page.startPageNo}" end="${page.endPageNo}" step="1">
+										<li class="page-item<c:if test="${i eq page.pageNo}"> active</c:if>"><a href="javascript:pageNum(${i});" class="page-link">${i}</a></li>
+									</c:forEach>
+										<li class="page-item"><a href="#" class="page-link">Next</a></li>
 								</ul>
 							</div>
 						</div>
@@ -521,6 +519,28 @@ table.table .avatar {
 		</div>
 	</div>
 <script type="text/javascript">
+/* page-item (페이징) */
+function pageNum(page){
+	alert("ddd");
+	var projectSeq = $("#projectSeq").val();
+	$.ajax({
+		url:'todo',
+		type:'POST',
+		data:{
+			'command':'todo-list',
+			'projectSeq':projectSeq,
+			'page':page			
+		},
+		error:function(request, status, error){
+			alert("중요도 변경이 실패되었습니다");
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		},
+		success:function(data, textStatus, jqXHR){
+			alert("중요도가 변경되었습니다");
+		}
+	});
+}
+
 /* 중요도 변경 */
 $("input[name^=priority]").click(function(){
 	var rate = this.getAttribute('id');	// id에 저장되어있는 1.todoSeq 2.check한 value -> 추출

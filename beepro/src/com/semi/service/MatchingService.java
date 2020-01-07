@@ -2,7 +2,6 @@ package com.semi.service;
 
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +12,9 @@ import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-import com.semi.vo.UserVo;
 import com.semi.vo.PostVo;
 import com.semi.vo.ProjectVo;
+import com.semi.vo.UserVo;
 import com.semi.vo.VolunteerVo;
 
 public class MatchingService {
@@ -64,13 +63,30 @@ public class MatchingService {
       
    }
    
+   //프로젝트 매칭 검색
    public List<MatchingProVo> matchingProAll(HttpServletRequest request){
       MatchingDao matchingDao = new MatchingDaoImpl();
-      HttpSession session = request.getSession();
-      String pm_id = (String)session.getAttribute("u_id");
+      MatchingProVo matVo = new MatchingProVo();
+      String searchKeyword = (String) request.getParameter("searchKeyword");  
+      String searchCat = (String) request.getParameter("searchCat");
+      
+      if(searchCat == null) {
+    	  searchCat = "";
+      }
+      if(searchKeyword == null) {
+    	  searchKeyword = "";
+      }
+      matVo.setSearchCat(searchCat);
+      matVo.setSearchKeyword(searchKeyword);
+      
+      return matchingDao.matchingProAll(matVo);
+
+//      HttpSession session = request.getSession();
+//      String pm_id = (String)session.getAttribute("u_id");
         
         
-      return matchingDao.matchingProAll(pm_id);
+		/* return matchingDao.matchingProAll(pm_id); */
+
    }
    
    public MatchingProVo matchingRead(HttpServletRequest request) {
@@ -190,7 +206,7 @@ public class MatchingService {
    }
 
    // 프로젝트 생성
-	public boolean insertProject(HttpServletRequest request, HttpServletResponse response) {
+	public int insertProject(HttpServletRequest request, HttpServletResponse response) {
 		
 		int projectSeq = Integer.parseInt(request.getParameter("projectM_seq"));
 		System.out.println("프로젝트 시퀀스:" + projectSeq);
@@ -212,7 +228,6 @@ public class MatchingService {
 	
     // 프로젝트 조회
 	public List<ProjectVo> selectAllProject(HttpServletRequest request, HttpServletResponse response) {
-		
 		MatchingDaoImpl dao = new MatchingDaoImpl();
 		return dao.selectAllProject();
 	}
@@ -233,7 +248,14 @@ public class MatchingService {
 	    
 		return dao.insertVolunteer(vo);
 	}
-   
+   // 모든 매칭 프로젝트 list 조회
+	//김지민 수정!
+	/*
+	 * public List<MatchingProVo> selectAllPro(HttpServletRequest request,
+	 * HttpServletResponse response) { MatchingDaoImpl dao = new MatchingDaoImpl();
+	 * String u_id = request.getParameter("u_id"); return dao.matchingProAll(u_id);
+	 * }
+	 */
    
    
    
@@ -277,7 +299,7 @@ public class MatchingService {
 		int post_no = Integer.parseInt(request.getParameter("post_no"));
 
 		System.out.println("u__id : " + u_id);
-		System.out.println("post_id : " + post_no);
+		System.out.println("post_no : " + post_no);
 		System.out.println("type : " + type);
 
 		PostVo postVo = new PostVo(u_id, type, post_no);
@@ -297,6 +319,29 @@ public class MatchingService {
 		String u_id = (String)session.getAttribute("u_id");
 		return Dao.AllMyProject(u_id);
 	}
+
+//	public List<Integer> selectPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		request.setCharacterEncoding("UTF-8");
+//		response.setContentType("text/html;charset=UTF-8");
+//
+//		String u_id = request.getParameter("u_id");
+//		String type = request.getParameter("type");
+//		
+//		System.out.println("u__id : " + u_id);
+//		System.out.println("type : " + type);
+//		
+//		MatchingDaoImpl dao = new MatchingDaoImpl();
+//		ArrayList<Integer> list = dao.selectPostNo(u_id, type);
+//		
+//		RequestDispatcher dispatch = request.getRequestDispatcher(url);
+//		dispatch.forward(request, response);
+//		
+//		if(dao.selectPostNo(u_id, type) != null) {
+//			
+//		}
+//		return 
+//	}
+
 	
 	 //글 리스트 출력(personal 페이지)
 	 public List<MatchingPerVo> AllMyPersonal(HttpServletRequest request, HttpServletResponse response) {

@@ -14,36 +14,27 @@ import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
+import util.Paging;
+
 public class ProjectService {
 	ProjectDao projectDao = new ProjectDaoImple();
 
 	// 이슈 생성 서비스
 	public boolean issueWrite(HttpServletRequest request, HttpServletResponse response) {
-		ProjectDaoImple dao = new ProjectDaoImple();
 		HttpSession session = request.getSession();
 		
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 		String title = request.getParameter("title");
-		String u_id = (String)session.getAttribute("u_id");
-		String issue_level = request.getParameter("issue_level");
-		String issue_category = request.getParameter("issue_category");
+		String writer = (String) session.getAttribute("u_id");
+		String level = request.getParameter("level");
+		String category = request.getParameter("category");
 		String content = request.getParameter("content");
+		System.out.println("탕이트 : "+title);
+		IssueVo issue = new IssueVo(projectSeq, title, writer, level, category, content);
 
-		
-		System.out.println("u_id 서비스에 들어왔음 : "+u_id);
-		
-		IssueVo vo = new IssueVo();
-		vo.setTitle(title);
-		vo.setWriter(u_id);
-		vo.setLevel(issue_level);
-		vo.setCategory(issue_category);
-		vo.setContent(content);
+		System.out.println(issue.toString());
 
-		boolean res = dao.insertIssue(vo);
-
-		if (res == true) {
-			System.out.println("데이터 입력 성공");
-		}
-		return res;
+		return projectDao.insertIssue(issue);
 	}
 
 	// 이슈 삭제 서비스
@@ -90,10 +81,23 @@ public class ProjectService {
 	}
 
 	// 업무 리스트 출력 (조건 : 아이디)
-	public List<TodoVo> selectAllTodo(int project_seq, String manager) {
+	public List<TodoVo> selectAllTodo(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String manager = (String)session.getAttribute("u_name");
+		int projectSeq = 1;
 		
+		// 토탈 게시글 수
+		int totalCount = projectDao.getTodoCount(projectSeq, manager);
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+		Paging todoPage = new Paging();
+		todoPage.setPageNo(page);
+		todoPage.setPageSize(5);
+		todoPage.setTotalCount(totalCount);
 		
-		return projectDao.selectAllTodo(project_seq, manager);
+		System.out.println(todoPage.toString());
+		List<TodoVo> todoList = projectDao.selectAllTodo(projectSeq, manager, todoPage);
+		request.setAttribute("page", todoPage);
+		return todoList;
 	}
 	
 	// 선택 업무 출력

@@ -41,6 +41,7 @@ $(document).ready(function(){
     $("#title").click(function(){
         $("#p_name").attr("disabled",false).attr("readonly",false);    	
     });
+    
 });
 </script>
 <title>beepro - 이슈 생성하기</title>
@@ -90,6 +91,7 @@ $(document).ready(function(){
 	}
 %> --%>
    <div id="wrapper">
+   <jsp:include page="common/side_bar.jsp"></jsp:include>
       <!-- 상단 메뉴 바 -->
       <div id="headers"></div>
 
@@ -100,24 +102,22 @@ $(document).ready(function(){
          <div id="content">
 
             <!-- 왼쪽 메뉴 바 -->
-            <div id="top_bar"></div>
+            <jsp:include page="common/top_bar.jsp"></jsp:include>
 
             <!-- 본격적으로 내용이 담기는 div -->
             <div class="container-fluid">
                <div class="container">
                   <h5><b>이슈 생성</b></h5>
                   <hr>
-                  <form action="../issue" method="post">
-                     <input type="hidden" name="command" value="issueform">
-                     <input type="hidden" name="projectSeq" value="${vo.projectSeq}">
+                  <form action="${pageContext.request.contextPath}/issue?command=issueform&projectSeq=${projectSeq}" method="post">
                      <div class="row">
                        <div class="form-group col-lg-8">
                          <label for="title">이슈 제목<span style="color:red;"> *</span></label>
                          <input type="text" class="form-control" id="title" name="title">
                        </div>
                        <div class="form-group col-lg-4">
-                         <label for="category">프로젝트 명<span style="color:red;"> *</span></label>
-                         <input type="text" name="projectName" value="${list.projectName}" readonly>
+                         <label for="category">프로젝트 명<span style="color:red;"> *</span></label><br>
+                         <input type="text" class="form-control" name="projectName" value="${projectSeq}" readonly>
                        </div> 
                      </div>
                        <div class="form-group">
@@ -126,54 +126,57 @@ $(document).ready(function(){
                        </div>
                      <div class="row">
                        <div class="form-group col-lg-6 form-checkbox form-checkbox-inline">
-                         <label for="content">이슈타입<span style="color:red;"> *</span></label><br>
+                         <label for="category">이슈타입<span style="color:red;"> *</span></label><br>
                         <label class="form-checkbox-label">
-                        <input name=bug class="form-checkbox-field" type="checkbox" />
-                        <i class="form-checkbox-button"></i>
+                        <input name="category" class="form-radio-field" type="radio" value="버그"/>
+                        <i class="form-radio-button"></i>
                         <span>버그</span>
                    </label>
                <label class="form-checkbox-label">
-                <input name=update class="form-checkbox-field" type="checkbox" />
-                <i class="form-checkbox-button"></i>
+                <input name="category" class="form-radio-field" type="radio" value="개선" />
+                <i class="form-radio-button"></i>
                 <span>개선</span>
             </label>
             <label class="form-checkbox-label">
-                <input name=want class="form-checkbox-field" type="checkbox" />
-                <i class="form-checkbox-button"></i>
+                <input name="category" class="form-radio-field" type="radio" value="요구사항" />
+                <i class="form-radio-button"></i>
                 <span>요구사항</span>
             </label>
             <label class="form-checkbox-label">
-                <input name=test class="form-checkbox-field" type="checkbox" />
-                <i class="form-checkbox-button"></i>
+                <input name="category" class="form-radio-field" type="radio" value="테스트케이스" />
+                <i class="form-radio-button"></i>
                 <span>테스트 케이스</span>
             </label>
            </div>
              <div class="form-group col-lg-6" style="margin-top:35px;">
                 <label for="content">담당자</label>
-                <select class="form-control" id="member" name="manager" disabled style="margin-top:15px;">
-                  <option value="" selected>프로젝트에 참여하는 사용자를 설정합니다.</option>
+                <select class="form-control" id="member" name="member" disabled style="margin-top:15px;">
+                     <option value="" selected>프로젝트에 참여하는 사용자를 설정합니다.</option>
+                  <c:forEach var="vo" items="${projectVo}">
+                     <option value="${vo.member}">${vo.member}</option>
+                  </c:forEach>
                 </select>
              </div>
            </div>
                      <div class="form-group col-lg-12" style=" margin-top:12px; ">
-                        <label for="content" style="margin-left:-265px;">중요도<span style="color:red;"> *</span></label>
+                        <label for="level" style="margin-left:-265px;">중요도<span style="color:red;"> *</span></label>
                          <label class="form-radio-label" style="float:left; margin-right:15px; margin-left:-15px;">
-                         <input name=pronoun class="form-radio-field" type="radio" required value="He" />
+                         <input name="level" class="form-radio-field" type="radio" required value="심각" />
                          <i class="form-radio-button"></i>
                         <span>심각</span>
                        </label>
             <label class="form-radio-label" style="float:left; margin-right:15px;">
-                <input name=pronoun class="form-radio-field" type="radio" required value="She" />
+                <input name="level" class="form-radio-field" type="radio" required value="높음" />
                 <i class="form-radio-button"></i>
                 <span>높음</span>
             </label>
             <label class="form-radio-label" style="float:left; margin-right:15px;">
-                <input name=pronoun class="form-radio-field" type="radio" required value="They" />
+                <input name="level" class="form-radio-field" type="radio" required value="보통" />
                 <i class="form-radio-button"></i>
                 <span>보통</span>
             </label>
             <label class="form-radio-label" style="float:left;">
-                <input name=pronoun class="form-radio-field" type="radio" required value="Ze" />
+                <input name="level" class="form-radio-field" type="radio" required value="낮음" />
                 <i class="form-radio-button"></i>
                 <span>낮음</span>
             </label>
@@ -186,7 +189,7 @@ $(document).ready(function(){
             </div>
          </div>
          <!-- 푸터 -->
-         <jsp:include page="common/footer.html"></jsp:include> 
+        <jsp:include page="common/footer.html"></jsp:include>
       </div>
    </div>
 </body>

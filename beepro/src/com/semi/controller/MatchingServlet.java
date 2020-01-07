@@ -1,6 +1,7 @@
 package com.semi.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -18,6 +19,8 @@ import com.semi.vo.MatchingProVo;
 import com.semi.vo.UserVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.VolunteerVo;
+
+//import common.Pagination;
 
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
@@ -52,6 +55,8 @@ public class MatchingServlet extends HttpServlet {
 
 	private void dual(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
+
+		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다
 		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다 : 구분값 설정 필요 (hidden값(예: command)
 		 * or url/(추가 url로 구분 문자열 예: userservlet/login의 login)) : 구분값을 통해 service 로 값 전달
 		 * 방식 예시
@@ -63,20 +68,19 @@ public class MatchingServlet extends HttpServlet {
 		MatchingService matchingService = new MatchingService();
 
 		MatchingDaoImpl dao = new MatchingDaoImpl();
-		
+
 		// 현재 로그인 중인 아이디로 세션 받아옴
 
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
-		
-		if(command.equals("profile")) {
+
+		if (command.equals("profile")) {
 			System.out.println("유저 프로필 정보 추출");
 			UserVo profile = matchingService.getProfile(request, response);
 			// matching?command=profile&userId=1 로 연결
 			request.setAttribute("profile", profile);
 			dispatch("matching/profile.jsp", request, response);
-		}
-		else if (command.equals("matchingWrite")) {
+		} else if (command.equals("matchingWrite")) {
 			int success = matchingService.matchingWrite(request, response);
 
 			if (success > 0) {
@@ -100,7 +104,6 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("매칭 상세보기");
 			MatchingProVo matchingProVo = matchingService.matchingRead(request);
 			System.out.println(matchingProVo.toString());
-
 
 			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
 			List<VolunteerVo> list = dao.selectAllVolunteer(projectM_seq);
@@ -191,11 +194,21 @@ public class MatchingServlet extends HttpServlet {
 			request.setAttribute("personList", list);
 			System.out.println("게시글 리스트 확인");
 
+
 			// 세션값 넘기기
 			request.setAttribute("u_id", u_id);
 			System.out.println("세션넘기기");
+
+
 			
+			// 관심게시글 가져오기
+
+				
+				ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
+				request.setAttribute("postList", postList);
+
 			
+
 			RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
 			dispatch.forward(request, response);
 
@@ -209,38 +222,44 @@ public class MatchingServlet extends HttpServlet {
 				request.setAttribute("detail", detail);
 				dispatch("/matching/personalRead.jsp", request, response);
 			}
-
+			/* 보미 작성하는 부분입니다. */
 			// 프로젝트 생성
 		} else if (command.equals("projectCreate")) {
 			System.out.println("프로젝트 생성");
-			System.out.println("pm아이디:"+u_id);
-			
-			boolean success = matchingService.insertProject(request, response);
+			System.out.println("pm아이디:" + u_id);
 
-			if (success) {
+			int projectSeq = matchingService.insertProject(request, response);
+
+			if (projectSeq > 0) {
 				System.out.println("프로젝트 생성 성공");
+				session.setAttribute("projectSeq", projectSeq);
 				response.sendRedirect("cowork/dashboard.jsp");
 			} else {
 				System.out.println("프로젝트 생성 실패");
 			}
-			
-		  // 프로젝트 조회
-		} else if(command.equals("selectAllProject")) {
-			System.out.println("프로젝트 전체 조회");
-            List<ProjectVo> vo = matchingService.selectAllProject(request,response);
-            List<ProjectVo> list = matchingService.selectAllProject(request,response);
-            request.setAttribute("list", list);
-            dispatch("cowork/common/dashboard.jsp",request,response);
-            
-         // 게시글 controller // 
-		}else if(command.equals("togglePost")) {
 
+			// 프로젝트 조회
+		} else if (command.equals("selectAllProject")) {
+			System.out.println("프로젝트 전체 조회");
+			List<ProjectVo> list = matchingService.selectAllProject(request, response);
+			session.setAttribute("projectVo", list);
+			dispatch("/cowork/common/dashboard.jsp", request, response);
+
+		} else if (command.equals("selectOneProject")) {
+			System.out.println("워크스페이스 이동");
+			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+			System.out.println("프로젝트 시퀀스 : " + projectSeq);
+			
+			dispatch("/cowork/dashboard.jsp&projectSeq="+projectSeq,request,response);
+
+			// 게시글 controller //
+		} else if (command.equals("togglePost")) {
 			System.out.println("관심 게시글 추가");
 			matchingService.togglePost(request, response);
 
-		}else if(command.equals("chkPost")) {
+		} else if (command.equals("chkPost")) {
 			matchingService.chkPost(request, response);
-			
+
 		} else if (command.equals("insertVolunteer")) {
 			System.out.println("아이디:" + u_id);
 			System.out.println("지원하기");
@@ -256,6 +275,7 @@ public class MatchingServlet extends HttpServlet {
 			} else {
 				System.out.println("지원실패");
 			}
+
 			//마이페이지로 매칭 게시글목록 전달
 		}else if(command.equals("mypage")) {
   	  		System.out.println("마이페이지");
@@ -270,5 +290,6 @@ public class MatchingServlet extends HttpServlet {
 	         
   	  		dispatch("matching/mypage.jsp", request, response);
 		}						
+
 	}
 }
