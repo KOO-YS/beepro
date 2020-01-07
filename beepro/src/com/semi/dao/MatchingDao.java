@@ -55,8 +55,13 @@ public interface MatchingDao {
 	String selectAllProjectSql = "SELECT * FROM PROJECT";		// FIXME userid 조건
 	
 	// 지원자
-	String insertVolunteerSql = "INSERT INTO VOLUNTEER VALUES(1, ?,'N')";
-	
+	String insertVolunteerSql = "INSERT INTO VOLUNTEER VALUES(?, ?,'N')";
+	// 개별 게시글 지원자 조회
+	String getVolunteerSql = "SELECT * FROM VOLUNTEER WHERE PROJECTM_SEQ = ? ";
+	// 개별 게시글 지원자 수
+	String getVolunteerNumSql = "SELECT COUNT(*) FROM VOLUNTEER WHERE PROJECTM_SEQ = ? ";
+	// 게시글 생성 여부
+	String isProjectCreatedSql = "SELECT COUNT(CASE WHEN PROJECT_SEQ = ? THEN 1 END) FROM PROJECT";
 	// 지원자 전체조회
 	String selectAllVolunteerSql = "SELECT * FROM VOLUNTEER WHERE PROJECTM_SEQ=?";
 	
@@ -70,6 +75,12 @@ public interface MatchingDao {
 
 	public MatchingProVo matchingRead(String matching_seq);
 
+	public List<VolunteerVo> getVolunteer(int projectmSeq);
+	
+	public int getVolunteerNum(int projectmSeq);
+	
+	public int isProjectCreated(int projectmSeq);
+	
 	public int insertProject(ProjectVo vo);
 	
 	public boolean insertVolunteer(VolunteerVo vo);

@@ -245,36 +245,67 @@
       	<div class="row">
       		<c:if test="${matchingVo.pm_id eq u_id}">
 			 <div class="col-lg-7 col-sm-7">
-			 <p class="info-text margin-b-10">현재 지원자 총 N 명</p>
+			 <p class="info-text margin-b-10">현재 지원자 총 ${volunteerNum} 명</p>
 			 	<table class="table table-sm table-hover">
 				  <thead>
 				    <tr>
 				      <th width="5%"><input type="checkbox" id="chkall"></th>
-				      <th width="40%">지원자</th>
-				      <th width="10%"></th>
+				      <th width="35%">지원자</th>
+				      <th width="15%"></th>
 				      <th width="10%"></th>
 				    </tr>
 				  </thead>
-				   <c:forEach var="list" items="${list}" varStatus="status">
-				     <tbody>
-	                 <tr>
-				      <td>
-				      	<input type="checkbox" value="${list.userId}" name="vol">
-				      </td>
-				      <td>${list.userId}</td>
-				      <td>
-				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp'">프로필</button>
-				      </td>
-				      <td>
-				      	<button class="btn btn-primary">쪽지</button>
-				      </td>
-				    </tr>
+				  <tbody>
+					 <c:forEach var="list" items="${volunteer}" varStatus="status">
+		                 <tr>
+					      <td>
+					      	<input type="checkbox" value="${list.userId}" name="volunteerId">
+					      </td>
+					      <td>${list.userId}</td>
+					      <td>
+					      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=profile&userId=${list.userId}'">프로필</button>
+					      </td>
+					      <td>
+					      	<button class="btn btn-primary">쪽지</button>
+					      </td>
+					    </tr>
+					 </c:forEach>
+					 <tr>
+					      <td>
+					      	<input type="checkbox" value="testee" name="volunteerId">
+					      </td>
+					      <td>testee</td>
+					      <td>
+					      	<button class="btn btn-primary" onclick="location.href='#'">프로필</button>
+					      </td>
+					      <td>
+					      	<button class="btn btn-primary">쪽지</button>
+					      </td>
+					    </tr>
+					    					 <tr>
+					      <td>
+					      	<input type="checkbox" value="22testee" name="volunteerId">
+					      </td>
+					      <td>22iddd</td>
+					      <td>
+					      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp'">프로필</button>
+					      </td>
+					      <td>
+					      	<button class="btn btn-primary">쪽지</button>
+					      </td>
+					    </tr>
 				  </tbody>
-				   </c:forEach>
 				</table>
 			 </div>
 			 <div class="col-lg-5 col-sm-5">
-			 	<button class="btn btn-primary" style="margin-top:11em;" onclick="createProject();">프로젝트 생성하기</button>
+			 <c:choose>
+			 	<c:when test="${created eq false}">
+				 	<button class="btn btn-primary" style="margin-top:11em;" onclick="createProject();">프로젝트 생성하기</button>
+			 	</c:when>
+			 	<c:otherwise>
+					<button class="btn btn-secondary" style="margin-top:11em;" onclick="return false;">이미 생성된 프로젝트입니다</button>		 	
+			 	</c:otherwise>
+			 </c:choose>
 			 </div>
 			</c:if>
 		 </div> <!-- 관심목록 end -->
@@ -310,7 +341,7 @@
 			  </div>
 			  <div class="oriPwd">
 			    <label for="member">프로젝트 팀원</label>
-			    <input type="text" class="form-control" name="member" id="member" required>
+			    <input type="text" class="form-control" name="member" id="member" readOnly required>
 			  </div>
       </div>
       <div class="modal-footer">
@@ -324,11 +355,39 @@
 <!-- 비밀번호 변경 모달 end--> 
       
 <script type="text/javascript">
+$(document).ready(function(){
+	/* 전체 선택 */
+	$("#chkall").click(function(){
+        if($("#chkall").prop("checked")){
+            $("input[name=volunteerId]").prop("checked",true);	// 전체 선택
+        }else{
+            $("input[name=volunteerId]").prop("checked",false);	// 전체 선택 해제
+        }
+    })
+})
+
 function createProject(){
 	if(confirm("프로젝트를 생성하시겠습니까?")){
-		$("#projectModal").modal();
+		if(validation()){		// 유효성 검사
+			var member = "";
+			$('input:checkbox[name="volunteerId"]:checked').each(function(){
+				member += $(this).val()+"/";
+			});
+			$("#member").val(member);
+			$("#projectModal").modal();
+		}
 	}
 }
+function validation() {
+	var success = true;
+	var memberChk = $('input:checkbox[name="volunteerId"]:checked').length;
+	if(memberChk<2){
+		alert("최소 두 명이상의 멤버를 선택해주세요");
+		success = false;
+	}
+	return success;
+}
+
 </script>
       <!-- Bootstrap core JavaScript -->
   <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
