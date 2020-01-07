@@ -240,13 +240,16 @@ public class MatchingServlet extends HttpServlet {
 			List<ProjectVo> list = matchingService.selectAllProject(request, response);
 			session.setAttribute("projectVo", list);
 			dispatch("/cowork/common/dashboard.jsp", request, response);
-
+           
+           // 프로젝트 하나 조회		
 		} else if (command.equals("selectOneProject")) {
 			System.out.println("워크스페이스 이동");
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
-			System.out.println("프로젝트 시퀀스 : " + projectSeq);
+			System.out.println("[servlet] 워크스페이스 : " + projectSeq);
 			
-			dispatch("/cowork/dashboard.jsp&projectSeq="+projectSeq,request,response);
+			ProjectVo vo = matchingService.selectOneProject(request,response);
+			session.setAttribute("projectSeq", projectSeq);			
+			dispatch("project?command=dashboard&projectSeq="+projectSeq,request,response);
 
 			// 게시글 controller //
 		} else if (command.equals("togglePost")) {

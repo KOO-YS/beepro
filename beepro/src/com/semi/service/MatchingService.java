@@ -215,7 +215,16 @@ public class MatchingService {
 		MatchingDaoImpl dao = new MatchingDaoImpl();
 		return dao.selectAllProject();
 	}
+	
+	// 프로젝트 일부 조회
+	public ProjectVo selectOneProject(HttpServletRequest request, HttpServletResponse response) {
+		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		System.out.println("[service] 선택한 워크 스페이스의 프로젝트 번호 :" + projectSeq);
+		MatchingDaoImpl dao = new MatchingDaoImpl();
+		return dao.selectOneProject(projectSeq);
+	}
    
+	// 지원자
    public boolean insertVolunteer(HttpServletRequest request, HttpServletResponse response) {
 	   int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
 	   System.out.println("service 프로젝트 공고 글 번호 :" + projectM_seq);
@@ -315,5 +324,5 @@ public class MatchingService {
 		String u_id = request.getParameter("u_id");
 		return dao.matchingProAll(u_id);
 	}
-	
+
 }

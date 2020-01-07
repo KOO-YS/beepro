@@ -12,12 +12,13 @@ public class IssueVo {
 	private Date regdate; // 이슈 작성 날짜
 	private String category; // 이슈 종류
 	private String content; // 이슈 내용
+	private String responsibility; // 이슈 담당자
 
 	public IssueVo() {
 	}
 
 	public IssueVo(int issueSeq, int projectSeq, String title, String writer, String level, Date regdate,
-			String category, String content) {
+			String category, String content, String responsibility) {
 		super();
 		this.issueSeq = issueSeq;
 		this.projectSeq = projectSeq;
@@ -27,9 +28,10 @@ public class IssueVo {
 		this.regdate = regdate;
 		this.category = category;
 		this.content = content;
+		this.responsibility = responsibility;
 	}
 
-	public IssueVo(int projectSeq, String title, String writer, String level, String category, String content) {
+	public IssueVo(int projectSeq, String title, String writer, String level, String category, String content, String responsibility) {
 		super();
 		this.projectSeq = projectSeq;
 		this.title = title;
@@ -37,6 +39,19 @@ public class IssueVo {
 		this.level = level;
 		this.category = category;
 		this.content = content;
+		this.responsibility = responsibility;
+	}
+
+	public IssueVo(int issueSeq, int projectSeq, String title, String level, String category, String content,
+			String responsibility) {
+		super();
+		this.issueSeq = issueSeq;
+		this.projectSeq = projectSeq;
+		this.title = title;
+		this.level = level;
+		this.category = category;
+		this.content = content;
+		this.responsibility = responsibility;
 	}
 
 	public int getIssueSeq() {
@@ -102,11 +117,20 @@ public class IssueVo {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public String getResponsibility() {
+		return responsibility;
+	}
+
+	public void setResponsibility(String responsibility) {
+		this.responsibility = responsibility;
+	}
 
 	@Override
 	public String toString() {
 		return "IssueVo [issueSeq=" + issueSeq + ", projectSeq=" + projectSeq + ", title=" + title + ", writer="
 				+ writer + ", level=" + level + ", regdate=" + regdate + ", category=" + category + ", content="
-				+ content + "]";
+				+ content + ", responsibility=" + responsibility + "]";
 	}
+
 }

@@ -131,7 +131,8 @@ $(document).ready(function() {
     vertical-align: baseline;
     color:white;
     font-weight:bold;
-    border-radius: 4px;}
+    border-radius: 4px;
+    }
     
 .badge2 { display: inline-block;
     padding: 0.20em 0.65em;
@@ -200,7 +201,7 @@ $(document).ready(function() {
 
 #regdate { font-size:11px;}
 
-#content { margin-top:20px;
+#content { 
            color:#334152;
          }
 
@@ -244,7 +245,7 @@ $(document).ready(function() {
 					      <h4 class="content-header">
 					       <div>
 					        <p class="tag">
-					          ${vo.issueSeq} &nbsp; / &nbsp; 프로젝트 명
+					          ${vo.issueSeq} &nbsp; / &nbsp; ${vo.projectSeq}
 					        </p>
 					        </div>
 					          ${vo.title }
@@ -278,9 +279,9 @@ $(document).ready(function() {
 					           <div class="col-md-4">
 					             <div class="form-group">
 					              <label class="issue-label">
-					                <span>이슈 타입</span>
+					                <span style="padding-left:13px;">이슈 타입</span>
 					              </label>
-					              <div>
+					              <div style="text-align:center;">
 					                <span class="badge1">
                      				  ${vo.category }
 					                </span>
@@ -291,9 +292,9 @@ $(document).ready(function() {
 					           <div class="col-md-4">
 					             <div class="form-group">
 					              <label class="issue-label">
-					                <span>중요도</span>
+					                <span style="padding-left:17px;">중요도</span>
 					              </label>
-					              <div>
+					              <div style="text-align:center;">
 					                <span class="badge2">
 					                   ${vo.level}
 					                </span>
@@ -304,9 +305,9 @@ $(document).ready(function() {
 					           <div class="col-md-4">
 					             <div class="form-group">
 					              <label class="issue-label">
-					                <span>등록일</span>
+					                <span style="padding-left:15px;">등록일</span>
 					              </label>
-					              <div>
+					              <div style="text-align:center;">
 					                <span class="badge3">
 					                  ${vo.regdate }
 					                </span>

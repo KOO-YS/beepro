@@ -35,7 +35,7 @@
 <script>
 $(document).ready(function(){
     $("#issue_content").click(function(){
-        $("#member").attr("disabled",false).attr("readonly",false);    	
+        $("#responsibility").attr("disabled",false).attr("readonly",false);    	
     });
     
     $("#title").click(function(){
@@ -150,7 +150,7 @@ $(document).ready(function(){
            </div>
              <div class="form-group col-lg-6" style="margin-top:35px;">
                 <label for="content">담당자</label>
-                <select class="form-control" id="member" name="member" disabled style="margin-top:15px;">
+                <select class="form-control" id="responsibility" name="responsibility" disabled style="margin-top:15px;">
                      <option value="" selected>프로젝트에 참여하는 사용자를 설정합니다.</option>
                   <c:forEach var="vo" items="${projectVo}">
                      <option value="${vo.member}">${vo.member}</option>

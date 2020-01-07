@@ -103,10 +103,7 @@
                <div class="container">
                   <h5><b>이슈 생성</b></h5>
                   <hr>
-                  <form action="../issue" method="post">
-                     <input type="hidden" name="command" value="issueUpdateform">
-                     <input type="hidden" name="projectSeq" value="1">
-                     <input type="hidden" name="issueSeq" value="${vo.issueSeq}">
+                  <form action="../issue?command=issueUpdateform&issueSeq=${vo.issueSeq}" method="post">
                      <div class="row">
                        <div class="form-group col-lg-8">
                          <label for="title">이슈 제목<span style="color:red;"> *</span></label>
@@ -153,7 +150,7 @@
              <div class="form-group col-lg-6" style="margin-top:35px;">
                 <label for="content">담당자</label>
                 <select class="form-control" id="member" name="manager" disabled style="margin-top:15px;">
-                  <option value="" selected>프로젝트에 참여하는 사용자를 설정합니다.</option>
+                  <option value="${vo.responsibility}" selected>${vo.responsibility}</option>
                 </select>
              </div>
            </div>
@@ -180,7 +177,7 @@
                 <span>낮음</span>
             </label>
                      </div>
-                      <button class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
+                      <button type="submit" class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
                       <button class="btn btn-primary" style="float:right; background-color:white; color:rgb(75,97,207)"
                       onclick="location.href='../issue?command=issueAll'">취   소</button>
                   </form>

@@ -287,7 +287,7 @@ a:hover {
                            내 정보
                 </a>
                 
-                <a class="dropdown-item" href="../matching?command=selectAllProject" data-toggle="modal" data-target="#workspaceModal">
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/matching?command=selectAllProject" data-toggle="modal" data-target="#workspaceModal">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                              워크스페이스 이동
                 </a>

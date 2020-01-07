@@ -114,6 +114,8 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("issueUpdate")) {
 			System.out.println("이슈 수정");
 			int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+			System.out.println("이슈 시퀀스:"+issueSeq);
+			
 			IssueVo vo = dao.selectOneIssue(issueSeq);
 
 			request.setAttribute("vo", vo);
@@ -135,6 +137,7 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("issueAll")) {
 			System.out.println("이슈 전체 보기");
+			
 			List<IssueVo> list = dao.selectAllIssue();
 			request.setAttribute("issueList", list);
 
@@ -146,10 +149,13 @@ public class ProjectServlet extends HttpServlet {
 			int seq = Integer.parseInt(request.getParameter("issue_seq"));
 			// 이슈 디테일
 			IssueVo vo = dao.selectOneIssue(seq);
+			
+			/* List<ProjectVo> project = mdao.selectOneProject(); */
 			// 댓글리스트
 			List<CommentVo> list = dao.selectAllComment(seq);
 			request.setAttribute("vo", vo);
 			request.setAttribute("list", list);
+			/* request.setAttribute("projectVo", project); */
 			dispatch("cowork/issueDetail.jsp", request, response);
 
 		} else if (command.equals("todo-list")) { // 1
@@ -220,7 +226,7 @@ public class ProjectServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			String userId = (String) session.getAttribute("u_name");
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
-			int projectSeq = 1;
+			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("userId :: " + userId + "\nprojectSeq :: " + projectSeq);
 			// issue Count
 			HashMap<String, Integer> count = projectService.getCounts(userId, projectSeq);

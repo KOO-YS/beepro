@@ -154,7 +154,7 @@ CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	finish_ck	varchar2(6)	NOT NULL, /* 프로젝트 진행 여부 y:종료 n:진행중 */
 	project_name varchar2(4000), /* 프로젝트 명 */
 	project_content varchar2(4000), /* 프로젝트 개요 */
-	member_id	varchar2(100)	NOT NULL, /* 구성원들 */
+	member_id	varchar2(1000)	NOT NULL, /* 구성원들 */
 	pm_ck	varchar2(6)	NOT NULL, /* 피엠인지 아닌지 */
 	CONSTRAINT pm_ck_chk CHECK(pm_ck IN('Y','N')),
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
@@ -170,7 +170,8 @@ CREATE TABLE issue (
 	issue_level	varchar2(50)	NOT NULL,
 	regdate	Date	NOT NULL,
 	issue_category	varchar2(150)	NOT NULL,
-	content	varchar2(4000)	NOT NULL
+	content	varchar2(4000)	NOT NULL,
+	responsibility varchar2(3000) NOT NULL -- 담당자
 );
 
 CREATE TABLE comments (
