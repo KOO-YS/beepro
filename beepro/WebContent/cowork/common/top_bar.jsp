@@ -143,14 +143,11 @@ a:hover {
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
    <!-- 이슈만들기 모달창 -->
-  <form action="../issue?command=issueWrite" method="post">
-   <input type="hidden" name="projectSeq" value="${vo.projectSeq}">
    <button type="submit" class="btn btn-primary" data-toggle="modal"
       data-target="#exampleModal" style="margin-left: 840px;"
-      onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite&projectSeq=${vo.projectSeq}'">
+      onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite'">
       <b>+&nbsp;&nbsp;이슈 생성하기</b>
    </button>
-  </form>
 
    <!-- 탑 메뉴 끝-->
 
@@ -290,7 +287,7 @@ a:hover {
                            내 정보
                 </a>
                 
-                <a class="dropdown-item" href="../matching?command=selectAllProject" data-toggle="modal" data-target="#logoutModal2">
+                <a class="dropdown-item" href="../matching?command=selectAllProject" data-toggle="modal" data-target="#workspaceModal">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                              워크스페이스 이동
                 </a>
@@ -323,7 +320,4 @@ a:hover {
         </div>
       </div>
     </div>
-    
- 
-    
       <!-- 탑 메뉴 끝 -->

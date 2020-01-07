@@ -29,6 +29,16 @@ public class IssueVo {
 		this.content = content;
 	}
 
+	public IssueVo(int projectSeq, String title, String writer, String level, String category, String content) {
+		super();
+		this.projectSeq = projectSeq;
+		this.title = title;
+		this.writer = writer;
+		this.level = level;
+		this.category = category;
+		this.content = content;
+	}
+
 	public int getIssueSeq() {
 		return issueSeq;
 	}
@@ -91,5 +101,12 @@ public class IssueVo {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Override
+	public String toString() {
+		return "IssueVo [issueSeq=" + issueSeq + ", projectSeq=" + projectSeq + ", title=" + title + ", writer="
+				+ writer + ", level=" + level + ", regdate=" + regdate + ", category=" + category + ", content="
+				+ content + "]";
 	}
 }
