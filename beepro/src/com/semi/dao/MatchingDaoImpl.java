@@ -539,4 +539,74 @@ public class MatchingDaoImpl implements MatchingDao {
 		}
 		return res;
 	}
+	
+	//내가 쓴 프로젝트 조회
+	@Override
+	public List<MatchingProVo> AllMyProject(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<MatchingProVo> res = new ArrayList<MatchingProVo>();
+		System.out.println(u_id);
+		
+		try {
+			pstmt = con.prepareStatement(getAllMyProjectSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				MatchingProVo matVo = new MatchingProVo();
+				matVo.setProjectM_seq(rs.getString(1));
+				matVo.setPm_id(rs.getString(2));
+				matVo.setTitle(rs.getString(3));
+				matVo.setContent(rs.getString(4));
+				matVo.setSkill(rs.getString(5));
+				matVo.setNeed_person(rs.getString(6));
+				matVo.setLocation(rs.getString(7));
+				matVo.setStartdate(rs.getString(8));
+				matVo.setEnddate(rs.getString(9));
+				
+				res.add(matVo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+	//내가 쓴 퍼스널 조회
+	@Override
+	public List<MatchingPerVo> AllMyPersonal(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
+		System.out.println(u_id);
+
+		try {
+			pstmt = con.prepareStatement(getAllMyPersonalSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				MatchingPerVo perVo = new MatchingPerVo();
+
+				perVo.setPersonal_seq(rs.getInt(1));
+				perVo.setUser_id(rs.getString(2));
+				perVo.setSkill(rs.getString(4));
+				perVo.setTitle(rs.getString(3));
+				perVo.setEmp_category(rs.getString(5));
+				perVo.setContent(rs.getString(6));
+				res.add(perVo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
 }

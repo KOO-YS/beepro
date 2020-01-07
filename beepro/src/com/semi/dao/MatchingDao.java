@@ -60,6 +60,12 @@ public interface MatchingDao {
 	// 지원자 전체조회
 	String selectAllVolunteerSql = "SELECT * FROM VOLUNTEER WHERE PROJECTM_SEQ=?";
 	
+	// 프로젝트 전체 목록 보기
+	String getAllMyProjectSql = "SELECT * FROM MATCHING_PROJECT WHERE PM_ID=? ORDER BY PROJECTM_SEQ DESC";
+	
+	// 목록 전체 보기
+	String getAllMyPersonalSql = "SELECT * FROM matching_personal WHERE USER_ID=?  ORDER BY personal_seq DESC";
+	
 	public int matchingWrite(MatchingProVo matchingProVo);
 
 	public int matchingDelete(String matching_seq);
@@ -77,6 +83,10 @@ public interface MatchingDao {
 	public List<VolunteerVo> selectAllVolunteer(int projectM_seq);
 
 	public List<ProjectVo> selectAllProject();
+	
+	public List<MatchingProVo> AllMyProject(String pm_id);
+	
+	public List<MatchingPerVo> AllMyPersonal(String u_id);
 	
 
 }
