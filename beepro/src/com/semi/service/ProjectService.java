@@ -14,8 +14,6 @@ import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
-import util.Paging;
-
 public class ProjectService {
 	ProjectDao projectDao = new ProjectDaoImple();
 
@@ -45,22 +43,20 @@ public class ProjectService {
 	}
 
 	// 이슈 전체 조회 서비스
-	public List<IssueVo> issueAll(HttpServletRequest request, HttpServletResponse response) {
-          return projectDao.selectAllIssue();
-	}
+//	public List<IssueVo> issueAll(HttpServletRequest request, HttpServletResponse response) {
+//          return projectDao.selectAllIssue();
+//	}
 	
 	// 이슈 수정
 	public boolean issueUpdate(HttpServletRequest request, HttpServletResponse response) {
         int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
-        int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
         
 		String title = request.getParameter("title");
 		String level = request.getParameter("level");
 		String category = request.getParameter("category");
 		String content = request.getParameter("content");
-		String responsibility = request.getParameter("responsibility");
 		
-		IssueVo issue = new IssueVo(issueSeq, projectSeq, title, level, category, content, responsibility);
+		IssueVo issue = new IssueVo(issueSeq, title, level, category, content);
 		
 		System.out.println(issue.toString());
 		
@@ -95,24 +91,9 @@ public class ProjectService {
 	}
 
 	// 업무 리스트 출력 (조건 : 아이디)
-	public List<TodoVo> selectAllTodo(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		String manager = (String)session.getAttribute("u_name");
-		int projectSeq = 1;
-		
-		// 토탈 게시글 수
-		int totalCount = projectDao.getTodoCount(projectSeq, manager);
-		int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
-		Paging todoPage = new Paging();
-		todoPage.setPageNo(page);
-		todoPage.setPageSize(5);
-		todoPage.setTotalCount(totalCount);
-		
-		System.out.println(todoPage.toString());
-		List<TodoVo> todoList = projectDao.selectAllTodo(projectSeq, manager, todoPage);
-		request.setAttribute("page", todoPage);
-		return todoList;
-	}
+//	public List<TodoVo> selectAllTodo(int project_seq, String manager) {
+//		return projectDao.selectAllTodo(project_seq, manager);
+//	}
 	
 	// 선택 업무 출력
 	public TodoVo selectOneTodo(HttpServletRequest request, HttpServletResponse response) {

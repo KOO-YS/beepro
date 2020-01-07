@@ -173,6 +173,70 @@ public class MatchingDaoImpl implements MatchingDao {
 		return matVo;
 	}
 
+	@Override
+	public List<VolunteerVo> getVolunteer(int projectmSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<VolunteerVo> volunteer = new ArrayList<VolunteerVo>();
+		try {
+			pstm = con.prepareStatement(getVolunteerSql);
+			pstm.setInt(1, projectmSeq);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				VolunteerVo vo = new VolunteerVo(rs.getInt(1), rs.getString(2), rs.getString(3));
+				System.out.println(vo.toString());
+				volunteer.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstm, con);
+		}
+		return volunteer;
+	}
+	@Override
+	public int getVolunteerNum(int projectmSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int num = 0;
+		try {
+			pstm = con.prepareStatement(getVolunteerNumSql);
+			pstm.setInt(1, projectmSeq);
+			
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				num = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstm, con);
+		}
+		return num;
+	}
+	@Override
+	public int isProjectCreated(int projectmSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int res = 0;
+		try {
+			pstm = con.prepareStatement(isProjectCreatedSql);
+			pstm.setInt(1, projectmSeq);
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				res = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
 	public int matchingModifyProc(MatchingProVo matchingProVo) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
@@ -586,7 +650,8 @@ public class MatchingDaoImpl implements MatchingDao {
 
 		try {
 			pstmt = con.prepareStatement(insertVolunteerSql);
-			pstmt.setString(1, vo.getUserId());
+			pstmt.setInt(1, vo.getProjectM_seq());
+			pstmt.setString(2, vo.getUserId());
 
 			res = pstmt.executeUpdate();
 

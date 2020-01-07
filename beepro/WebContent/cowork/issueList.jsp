@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
@@ -368,6 +367,16 @@ table.table .avatar {
 	border-radius: 6px;
 	font-size: 13px;
 }
+
+#project_name { padding:30px;
+                width:100%;
+                height:auto;
+                margin-top:15px;
+                border-radius:5px;
+                border:1px solid rgb(75,97,207);
+                font-size:18px;
+                cursor:pointer;
+               }
 </style>
 <title>이슈 관리</title>
 </head>
@@ -488,5 +497,49 @@ table.table .avatar {
 			<jsp:include page="common/footer.html"></jsp:include>
 		</div>
 	</div>
+	
+	 <!-- 워크스페이스 모달  -->
+      <div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body" style="font-size:14px;">
+          <div id="test100"></div>
+              <c:choose>
+	             <c:when test="${empty projectVo}">
+	                <div id="none">
+	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
+	                                        매칭을 통해 생성하십시오.<br>
+	                  <a class="btn btn-primary" href="../matching?command=matchingAll">매칭하러가기</a>  
+	                </div>
+	             </c:when>
+	      
+	             <c:otherwise>
+	                              이동하실 워크 스페이스를 선택하세요.
+	               <c:forEach var="vo" items="${projectVo}">
+	                <div id="project_name" onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+	                  <div id="title">
+	                     ${vo.projectName}
+	                 </div>
+	                  
+	                 <div id="content">
+	                  ${vo.member}
+	                 </div>
+	                 
+	                 <div id="period">
+	                  ${vo.startDate} - ${vo.endDate}
+	                 </div>
+	               </div>
+	               </c:forEach>
+	             </c:otherwise>
+	         </c:choose>       
+          </div>
+        </div>
+      </div>
 </body>
 </html>
