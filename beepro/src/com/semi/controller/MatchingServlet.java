@@ -204,8 +204,8 @@ public class MatchingServlet extends HttpServlet {
 			// 관심게시글 가져오기
 
 				
-				ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
-				request.setAttribute("postList", postList);
+			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
+			request.setAttribute("postList", postList);
 
 			
 

@@ -710,7 +710,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		}
 		
 		
-		// 모든 쪽지 목록
+		// 모든 받은 쪽지 목록
 		public ArrayList<MsgVo> getAllMsg(String get_id) {
 
 			ArrayList<MsgVo> list = null;
