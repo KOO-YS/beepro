@@ -44,18 +44,37 @@ public class MatchingDaoImpl implements MatchingDao{
          return res;
       }
       
-      
-      public List<MatchingProVo> matchingProAll(String pm_id){
+    //프로젝트 매칭 검색 기능  
+      public List<MatchingProVo> matchingProAll(MatchingProVo matchingProVo){
          Connection con = getConnection();
          PreparedStatement pstmt = null;
          ResultSet rs = null;
          List<MatchingProVo> res = new ArrayList<MatchingProVo>();
          
          try {
-            pstmt = con.prepareStatement(selectAllMatchingProSql);
-            //pstmt.setString(1, pm_id);
+        	String selectAllMatchingSql = selectAllMatchingProSql;
+    		String whereStr = "";
+    		System.out.println(matchingProVo.getSearchCat());
+    		System.out.println(matchingProVo.getSearchKeyword());
+    		
+    		switch(matchingProVo.getSearchCat()) {
+    			case "pm_id" : 
+    				whereStr = "WHERE PM_ID = '" + matchingProVo.getSearchKeyword() + "'";
+    				break;
+    			case "skill" : 
+     				whereStr = "WHERE SKILL LIKE '%" + matchingProVo.getSearchKeyword() + "%'";
+    				break;
+    			case "location" :
+    				whereStr = "WHERE LOCATION LIKE '%" + matchingProVo.getSearchKeyword() + "%'";
+    				break;
+    			default :
+    		}
+    		System.out.println(whereStr);
+    		selectAllMatchingSql= selectAllMatchingSql.replace("?", whereStr);
+    		
+    		System.out.println(selectAllMatchingSql);
+            pstmt = con.prepareStatement(selectAllMatchingSql);
             rs = pstmt.executeQuery();
-            
             while(rs.next()) {
                MatchingProVo matVo = new MatchingProVo();
                matVo.setProject_seq(rs.getString(1));
@@ -74,6 +93,7 @@ public class MatchingDaoImpl implements MatchingDao{
                }
                res.add(matVo);
             }
+            System.out.println(res.size());
             
          } catch (SQLException e) {
             e.printStackTrace();

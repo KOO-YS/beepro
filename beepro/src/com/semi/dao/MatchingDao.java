@@ -2,6 +2,8 @@ package com.semi.dao;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 
@@ -38,7 +40,7 @@ public interface MatchingDao {
 	// 프로젝트 글 삭제
 	String deletematchingSeq = "DELETE MATCHING_PROJECT WHERE PROJECT_SEQ = ?";
 	// 프로젝트 전체 목록 보기
-	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ORDER BY PROJECT_SEQ DESC";
+	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ? ORDER BY PROJECT_SEQ DESC";
 	// 프로젝트 상세페이지
 	String selectMatchingReadSql = "SELECT * FROM MATCHING_PROJECT WHERE PROJECT_SEQ = ?";
 
@@ -48,8 +50,8 @@ public interface MatchingDao {
 
 	public int matchingModifyProc(MatchingProVo matchingProVo);
 
-	public List<MatchingProVo> matchingProAll(String pm_id);
-
+	public List<MatchingProVo> matchingProAll(MatchingProVo matchingProVo);
+	
 	public MatchingProVo matchingRead(String matching_seq);
 
 }

@@ -144,23 +144,23 @@
                <c:if test="${matchingVo.modifyYn }"><i class="fa fa-sort"></i></c:if>
                <select class="floatLabel" name="location" <c:if test="${!matchingVo.modifyYn }">disabled="disabled"</c:if>>
                   <option value="" >지역을 선택하세요</option>
-                  <option value="seoul" <c:if test="${matchingVo.location eq 'seoul' }">selected</c:if>>서울</option>
-                  <option value="gangwon" <c:if test="${matchingVo.location eq 'gangwon' }">selected</c:if>>강원</option>
-                  <option value="gyeonggi" <c:if test="${matchingVo.location eq 'gyeonggi' }">selected</c:if>>경기</option>
-                  <option value="gwangju" <c:if test="${matchingVo.location eq 'gwangju' }">selected</c:if>>광주</option>
-                  <option value="gyeongnam" <c:if test="${matchingVo.location eq 'gyeongnam' }">selected</c:if>>경남</option>
-                  <option value="gyeongbuk" <c:if test="${matchingVo.location eq 'gyeongbuk' }">selected</c:if> >경북</option>
-                  <option value="daegu" <c:if test="${matchingVo.location eq 'daegu' }">selected</c:if>>대구</option>
-                  <option value="daejeon" <c:if test="${matchingVo.location eq 'daejeon' }">selected</c:if>>대전</option>
-                  <option value="busan" <c:if test="${matchingVo.location eq 'busan' }">selected</c:if>>부산</option>
-                  <option value="sejong" <c:if test="${matchingVo.location eq 'sejong' }">selected</c:if>>세종</option>
-                  <option value="ulsan" <c:if test="${matchingVo.location eq 'ulsan' }">selected</c:if>>울산</option>
-                  <option value="incheon" <c:if test="${matchingVo.location eq 'incheon' }">selected</c:if>>인천</option>
-                  <option value="jeonbuk" <c:if test="${matchingVo.location eq 'jeonbuk' }">selected</c:if>>전북</option>
-                  <option value="jeonnam" <c:if test="${matchingVo.location eq 'jeonnam' }">selected</c:if>>전남</option>
-                  <option value="chungbuk" <c:if test="${matchingVo.location eq 'chungbuk' }">selected</c:if>>충북</option>
-                  <option value="chungnam" <c:if test="${matchingVo.location eq 'chungnam' }">selected</c:if>>충남</option>
-                  <option value="jeju" <c:if test="${matchingVo.location eq 'jeju' }">selected</c:if>>제주</option>
+                  <option value="서울" <c:if test="${matchingVo.location eq '서울' }">selected</c:if>>서울</option>
+                  <option value="강원" <c:if test="${matchingVo.location eq '강원' }">selected</c:if>>강원</option>
+                  <option value="경기" <c:if test="${matchingVo.location eq '경기' }">selected</c:if>>경기</option>
+                  <option value="광주" <c:if test="${matchingVo.location eq '광주' }">selected</c:if>>광주</option>
+                  <option value="경남" <c:if test="${matchingVo.location eq '경남' }">selected</c:if>>경남</option>
+                  <option value="경북" <c:if test="${matchingVo.location eq '경북' }">selected</c:if> >경북</option>
+                  <option value="대구" <c:if test="${matchingVo.location eq '대구' }">selected</c:if>>대구</option>
+                  <option value="대전" <c:if test="${matchingVo.location eq '대전' }">selected</c:if>>대전</option>
+                  <option value="부산" <c:if test="${matchingVo.location eq '부산' }">selected</c:if>>부산</option>
+                  <option value="세종" <c:if test="${matchingVo.location eq '세종' }">selected</c:if>>세종</option>
+                  <option value="울산" <c:if test="${matchingVo.location eq '울산' }">selected</c:if>>울산</option>
+                  <option value="인천" <c:if test="${matchingVo.location eq '인천' }">selected</c:if>>인천</option>
+                  <option value="전북" <c:if test="${matchingVo.location eq '전북' }">selected</c:if>>전북</option>
+                  <option value="전남" <c:if test="${matchingVo.location eq '전남' }">selected</c:if>>전남</option>
+                  <option value="충북" <c:if test="${matchingVo.location eq '충북' }">selected</c:if>>충북</option>
+                  <option value="충남" <c:if test="${matchingVo.location eq '충남' }">selected</c:if>>충남</option>
+                  <option value="제주" <c:if test="${matchingVo.location eq '제주' }">selected</c:if>>제주</option>
                </select>
             </div>
          </div>

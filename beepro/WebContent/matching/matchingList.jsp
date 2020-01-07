@@ -86,6 +86,19 @@
 }
 
 </style>
+<script>
+$(function(){
+	$(document).ready(function(){
+		$(".dropdown-menu .dropdown-item").on("click", function(){
+			var data = $(this).data("cat");
+			$("[name=searchCat]").val(data);
+		});
+		$("#searchIcon").on("click", function(){
+			$("[name=searchForm]").submit();
+		});
+	});
+});
+</script>
 </head>
 <body id="page-top">
 
@@ -108,26 +121,28 @@
       <div class="container">
         <div class="row" id="keywordBtns">
         	<div class="col-5">
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
+	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
+	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
+	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
             </div>
-            <div class="col-7">
+            <div class="col-6">
               <!-- <div class="input-group-prepend"> -->
-			    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-			    <div class="dropdown-menu">
-			      <a class="dropdown-item" href="#">Action</a>
-			      <a class="dropdown-item" href="#">Another action</a>
-			      <a class="dropdown-item" href="#">Something else here</a>
-			      <div role="separator" class="dropdown-divider"></div>
-			      <a class="dropdown-item" href="#">Separated link</a>
-			    </div>
-			  
-				  <form class="form-inline md-form form-sm active-cyan-2 mt-2">
-					  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
-					    aria-label="Search">
-					  <i class="fas fa-search" aria-hidden="true"></i>
-					</form>
+              <!-- 프로젝트 매칭 검색 기능 -->
+              <form action="${pageContext.request.contextPath}/matching" method="post" name="searchForm">
+              	<input type="hidden" name="command" value="matchingAll" />
+              	<input type="hidden" name="searchCat" value="" />
+			  	<div>
+			  		<button style="float:left;" class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
+				    <div class="dropdown-menu">
+				      <a class="dropdown-item" href="#none" id="pm_id" data-cat="pm_id">작성자</a>
+				      <a class="dropdown-item" href="#none" id="skill" data-cat="skill">프로그램 능력</a>
+				      <a class="dropdown-item" href="#none" id="location" data-cat="location">지역</a>
+				    </div>
+				  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" name="searchKeyword"
+				    aria-label="Search" style="display: inline-block;">
+				  <i class="fas fa-search" aria-hidden="true" style="cursor: pointer;" id="searchIcon"></i>
+				 </div>
+				  </form>
 			  </div>
         </div>    
       </div>

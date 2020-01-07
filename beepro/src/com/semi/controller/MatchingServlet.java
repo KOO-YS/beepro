@@ -14,9 +14,10 @@ import javax.servlet.http.HttpSession;
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
-
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+
+//import common.Pagination;
 
 @WebServlet("/MatchingServlet")
 public class MatchingServlet extends HttpServlet {
@@ -111,7 +112,7 @@ public class MatchingServlet extends HttpServlet {
        
     
       } else if( command.equals("matchingModifyProc")) {
-         System.out.println("매칭 글 수정 수정");
+         System.out.println("매칭 글 수정");
          String project_seq = (String) request.getParameter("project_seq");
          int success = matchingService.matchingModifyProc(request);
           if(success > 0) {

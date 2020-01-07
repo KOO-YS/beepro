@@ -49,13 +49,23 @@ public class MatchingService {
       
    }
    
+   //프로젝트 매칭 검색
    public List<MatchingProVo> matchingProAll(HttpServletRequest request){
       MatchingDao matchingDao = new MatchingDaoImpl();
-      HttpSession session = request.getSession();
-        String pm_id = (String)session.getAttribute("u_id");
-        
-        
-      return matchingDao.matchingProAll(pm_id);
+      MatchingProVo matVo = new MatchingProVo();
+      String searchKeyword = (String) request.getParameter("searchKeyword");  
+      String searchCat = (String) request.getParameter("searchCat");
+      
+      if(searchCat == null) {
+    	  searchCat = "";
+      }
+      if(searchKeyword == null) {
+    	  searchKeyword = "";
+      }
+      matVo.setSearchCat(searchCat);
+      matVo.setSearchKeyword(searchKeyword);
+      
+      return matchingDao.matchingProAll(matVo);
    }
    
    public MatchingProVo matchingRead(HttpServletRequest request) {
