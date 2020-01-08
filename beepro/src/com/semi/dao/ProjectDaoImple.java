@@ -231,7 +231,32 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return res;
 	}
-
+	
+	// 프로젝트 구성원 조회하는 부분
+	// 프로젝트 멤버 문자열 뽑아오기
+	@Override
+	public String selectAllMember(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = null;
+		
+		try {
+			pstmt = con.prepareStatement(selectMemberSql);
+			pstmt.setInt(1, projectSeq);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
 	// 업무 생성
 	@Override
 	public int insertTodo(TodoVo todo) {
@@ -459,25 +484,6 @@ public class ProjectDaoImple implements ProjectDao {
 			e.printStackTrace();
 		}
 		return todoCount;
-	}
-
-	// 업무 개수 분류 // TODO 폐기
-	@Override
-	public HashMap<String, Integer> countCategory() {
-		Connection con = getConnection();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		HashMap<String, Integer> categoryMap = new HashMap<String, Integer>();
-		try {
-			pstm = con.prepareStatement(getByTodoTypeSql);
-			rs = pstm.executeQuery();
-			while (rs.next()) {
-				categoryMap.put(rs.getString(1), rs.getInt(2));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return categoryMap;
 	}
 
 	// 대시보드 통계 - Todo 종합
@@ -721,7 +727,7 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return true;
 	}
-    
+
 	
 
 

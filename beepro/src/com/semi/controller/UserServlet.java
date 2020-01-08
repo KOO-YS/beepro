@@ -3,6 +3,7 @@ package com.semi.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.dao.UserDaoImpl;
+import com.semi.service.MatchingService;
 import com.semi.service.UserService;
 import com.semi.vo.MessageVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
 
 import util.sha256;
@@ -256,7 +259,11 @@ public class UserServlet extends HttpServlet {
 
 	private void loginAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		MatchingService matchingService = new MatchingService();
+		
 		HttpSession session = request.getSession();
+		List<ProjectVo> list = matchingService.selectAllProject(request, response);
+		session.setAttribute("projectList", list);
 		
 		String u_id = null;
 	 	String u_pwd = null;	

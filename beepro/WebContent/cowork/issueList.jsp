@@ -469,7 +469,7 @@ table.table .avatar {
 											<td><div class="label_box">${issue.category}</div></td>
 											<td>${issue.regdate}</td>
 											<td><a
-												href="${pageContext.request.contextPath}/issue?command=issueDetail&issue_seq=${issue.issueSeq}"
+												href="${pageContext.request.contextPath}/issue?command=issueDetail&projectSeq=${projectSeq}&issue_seq=${issue.issueSeq}"
 												class="view" title="View Details" data-toggle="tooltip"><i
 													class="material-icons">&#xE5C8;</i></a></td>
 										</tr>

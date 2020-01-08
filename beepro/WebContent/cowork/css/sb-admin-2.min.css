@@ -5855,9 +5855,9 @@ margin-bottom
 
 .modal-dialog {
 	position: relative;
-	width: auto;
 	margin: .5rem;
-	pointer-events: none
+	pointer-events: none;
+	width:auto;
 }
 
 .modal.fade .modal-dialog {
@@ -5872,7 +5872,8 @@ margin-bottom
 }
 
 .modal.show .modal-dialog {
-	transform: none
+	transform: none;
+	width:auto;
 }
 
 .modal-dialog-scrollable {
@@ -5891,7 +5892,8 @@ margin-bottom
 }
 
 .modal-dialog-scrollable .modal-body {
-	overflow-y: auto
+	overflow-y: auto;
+	width:980px;
 }
 
 .modal-dialog-centered {
@@ -5924,7 +5926,7 @@ margin-bottom
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: auto;
 	pointer-events: auto;
 	background-color: #fff;
 	background-clip: padding-box;
@@ -6027,7 +6029,7 @@ margin-right
 
 @media ( min-width :576px) {
 	.modal-dialog {
-		max-width: 500px;
+		max-width: auto;
 		margin: 1.75rem auto
 	}
 	.modal-dialog-scrollable {
@@ -6043,7 +6045,7 @@ margin-right
 		height: calc(100vh - 3.5rem)
 	}
 	.modal-sm {
-		max-width: 300px
+		max-width: 980px;
 	}
 }
 

@@ -245,7 +245,7 @@ public class MatchingServlet extends HttpServlet {
 			if (projectSeq > 0) {
 				System.out.println("프로젝트 생성 성공");
 				session.setAttribute("projectSeq", projectSeq);
-				response.sendRedirect("cowork/dashboard.jsp");
+				dispatch("cowork/dashboard.jsp",request, response);
 			} else {
 				System.out.println("프로젝트 생성 실패");
 			}
@@ -284,7 +284,7 @@ public class MatchingServlet extends HttpServlet {
 
 			if (success) {
 				System.out.println("지원성공");
-				response.sendRedirect("matching/matching?command=matchingView&projectM_seq="+projectM_seq);
+				response.sendRedirect("matching?command=matchingView&projectM_seq="+projectM_seq);
 			} else {
 				System.out.println("지원실패");
 			}

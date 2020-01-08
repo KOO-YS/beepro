@@ -84,7 +84,6 @@ CREATE TABLE beepro_user (
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
-
 SELECT * FROM BEEPRO_USER;
 
 CREATE TABLE message (

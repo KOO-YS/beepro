@@ -68,19 +68,6 @@
       floatLabel(".floatLabel");
    })(jQuery);
    
-      
-   $(document).ready(function() {
-		// 최상단의 전체선택 클릭 시 
-		$("#chkall").click(function() {
-			// 클릭 되었다면
-			if ($("#chkall").prop("checked")) {
-				$("input[name=vol]").prop("checked", true);
-			} else {
-				// 클릭이 안되었다면
-				$("input[name=vol]").prop("checked", false);
-			}
-		});
-	});
    
    // 다중 체크박스 선택 값 가져와서 모달창에 뿌려주는 것
 /*    function createProject(){
@@ -93,33 +80,7 @@
 		} */
 		
 </script>
-<%-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-	    <div class="container">
-	      <a class="navbar-brand js-scroll-trigger" href="matching/index.jsp">BeePro	</a>
-	      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-	        Menu
-	        <i class="fas fa-bars"></i>
-	      </button>
-	      <div class="collapse navbar-collapse" id="">
-	        <ul class="navbar-nav text-uppercase ml-auto">
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="#matching" id="match-sub" >매칭 matching</a>
-	            <ul class="sub-nav">
-	              <li><a class="nav-link" href="${pageContext.request.contextPath}/matching?command=matchingAll">by project</a></li>
-	              <li><a class="nav-link" href="personal.jsp">by personal</a></li>
-	            </ul>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="#about">협업 cowork</a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="mypage.jsp">마이페이지</a>
-	          </li>
-	        </ul>
-	      </div>
-	    </div>
-</head>
-	  </nav> --%>
+
 <body id="page-top">
 	  <jsp:include page="common/sub_nav.jsp"></jsp:include>
    <div class="container" style="padding-top: 5em;">
@@ -227,12 +188,7 @@
                		<button type="button" class="col-2 btn btn-primary" style="float: right; margin-right:30px;" id="modifyBtn">수정</button>
                	</c:when>
                	<c:otherwise>
-               	    	<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">
-				 		<c:choose>
-					 		<c:when test="${matchingVo.projectM_seq eq list.projectM_seq}">이미 지원하셨습니다</c:when>
-					 		<c:otherwise>지원하기</c:otherwise> 
-					 	</c:choose>
-			 		   </a>
+					<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>
 				</c:otherwise> 
                </c:choose>
             </div>
@@ -243,7 +199,8 @@
       <div class="container" style="padding:50px 30px;">
       <hr>
       	<div class="row">
-      		<c:if test="${matchingVo.pm_id eq u_id}">
+      	<c:choose>
+      		<c:when test="${matchingVo.pm_id eq u_id}">
 			 <div class="col-lg-7 col-sm-7">
 			 <p class="info-text margin-b-10">현재 지원자 총 ${volunteerNum} 명</p>
 			 	<table class="table table-sm table-hover">
@@ -270,7 +227,7 @@
 					      </td>
 					    </tr>
 					 </c:forEach>
-					 <tr>
+					 <%-- <tr>	더미
 					      <td>
 					      	<input type="checkbox" value="testee" name="volunteerId">
 					      </td>
@@ -293,7 +250,7 @@
 					      <td>
 					      	<button class="btn btn-primary">쪽지</button>
 					      </td>
-					    </tr>
+					    </tr> --%>
 				  </tbody>
 				</table>
 			 </div>
@@ -307,7 +264,9 @@
 			 	</c:otherwise>
 			 </c:choose>
 			 </div>
-			</c:if>
+			</c:when>
+			
+		</c:choose>
 		 </div> <!-- 관심목록 end -->
       </div>
       <jsp:include page="common/footer.jsp"></jsp:include>
@@ -321,10 +280,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="${pageContext.request.contextPath}/matching?command=projectCreate" method="post">
-	  <input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}">
-	  <input type="hidden" name="u_id" value="${u_id}">
-      <div class="modal-body">
+	<form action="${pageContext.request.contextPath}/matching" method="post">
+		<input type="hidden" name="command" value="projectCreate">
+		<input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}">
+		<input type="hidden" name="u_id" value="${u_id}">
+	    <div class="modal-body">
         	  <div class="form-group">
 			    <label for="oriPwd">프로젝트 명</label>
 			    <input type="text" class="form-control" name="projectName" id="projectName" required>
@@ -352,7 +312,7 @@
     </div>
   </div>
 </div>
-<!-- 비밀번호 변경 모달 end--> 
+<!-- 모달 end--> 
       
 <script type="text/javascript">
 $(document).ready(function(){
@@ -366,18 +326,20 @@ $(document).ready(function(){
     })
 })
 
+/* 프로젝트 모달 오픈 */
 function createProject(){
 	if(confirm("프로젝트를 생성하시겠습니까?")){
 		if(validation()){		// 유효성 검사
 			var member = "";
 			$('input:checkbox[name="volunteerId"]:checked').each(function(){
-				member += $(this).val()+"/";
+				member += $(this).val()+",";
 			});
 			$("#member").val(member);
 			$("#projectModal").modal();
 		}
 	}
 }
+/* 유효성 검사 */
 function validation() {
 	var success = true;
 	var memberChk = $('input:checkbox[name="volunteerId"]:checked').length;

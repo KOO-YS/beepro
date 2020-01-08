@@ -113,7 +113,7 @@
                <div class="container">
                   <h5><b>이슈 수정</b></h5>
                   <hr>
-                  <form action="${pageContext.request.contextPath}/issue?command=issueUpdateform&issue_seq=${vo.issueSeq}" method="post">
+                  <form action="${pageContext.request.contextPath}/issue?command=issueUpdateform&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}" method="post">
                      <div class="row">
                        <div class="form-group col-lg-8">
                          <label for="title">이슈 제목<span style="color:red;"> *</span></label>

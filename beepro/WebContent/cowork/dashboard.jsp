@@ -141,25 +141,25 @@
 						                      	</li>
 						                      	<li>
 							                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-							                      	생성된 이슈XXX
+							                      	생성된 이슈
 							                      </div>
 							                      <div class="h5 mb-0 font-weight-bold text-gray-800">${count["weekIssueCnt"]}</div>
 						                      	</li>
 						                      	<li>
 							                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-							                      	등록 이슈XXX
+							                      	등록 이슈
 							                      </div>
 							                      <div class="h5 mb-0 font-weight-bold text-gray-800">${count["userIssueCnt"]}</div>
 						                      	</li>
 						                      	<li>
 							                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-							                      	잔여 업무XXX
+							                      	잔여 업무
 							                      </div>
 							                      <div class="h5 mb-0 font-weight-bold text-gray-800">${count["userTodoLeft"]}</div>
 						                      	</li>
 						                      	<li>
 							                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-							                      	총 업무XXX
+							                      	총 업무
 							                      </div>
 							                      <div class="h5 mb-0 font-weight-bold text-gray-800">${count["totalTodoCnt"]}</div>
 						                      	</li>
@@ -180,7 +180,7 @@
 					                    <!-- Project Card Example -->
 					                    <div class="card shadow mb-4">
 					                    <div class="card-header py-3">
-					                        <h6 class="m-0 font-weight-bold text-primary">업무 분류별 진행률XXX</h6>
+					                        <h6 class="m-0 font-weight-bold text-primary">업무 분류별 진행률</h6>
 					                    </div>
 					                    <div class="card-body">
 					                        <h4 class="small font-weight-bold">기획<span class="float-right">${todoType['planningRate']}%</span></h4>
@@ -208,7 +208,7 @@
 					                    <div class="card shadow mb-6">
 						                    <!-- Card Header - Dropdown -->
 						                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						                        <h6 class="m-0 font-weight-bold text-primary">분야별 업무XXX</h6>
+						                        <h6 class="m-0 font-weight-bold text-primary">분야별 업무</h6>
 						                    </div>
 						                    <!-- Card Body -->
 						                    <div class="card-body row">
@@ -239,43 +239,20 @@
 					                <div class="card-body">
 					                  <div class="row no-gutters align-items-center">
 					                    <div class="col mr-2">
-					                    	<div class="font-weight-bold text-danger text-uppercase mb-1">마감기한 임박 업무 XXX</div>
+					                    	<div class="font-weight-bold text-danger text-uppercase mb-1">마감기한 임박 업무</div>
 					                      <hr>
 						                   <div class="row">
+						                   <c:if test="${ empty  urgent}">
+							                   <div class="col-lg-8 mb-8">
+							                   		일주일 이하 마감기한을 가진 업무가 존재하지 않습니다
+							                   </div>
+						                   </c:if>
 						                   <c:forEach var="urgent" items="${urgent}">
 						                   <div class="col-lg-3 mb-3">
 							                  <a style="width:100%;" href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${urgent.todoSeq}" class="btn btn-danger btn-icon-split">
 							                    <span class="text">${urgent.title}</span>
 							                  </a>
 							                </div>
-							                   <%-- <div class="col-lg-6 mb-3">
-								                  <div class="card shadow">
-								                    <div class="card-body">
-									                      <a class="text-danger" href="${pageContext.request.contextPath}/todo?command=todo-detail&seq=${urgent.todoSeq}">${urgent.title}</a>
-								                    	<div class="row">
-								                    	<div class="col-lg-8 col-sm-6">
-									                      <div class="small">${urgent.category}</div>
-									                      
-									                    </div>
-									                    <div class="col-lg-4 col-sm-6">
-										                   	<div class="rate">
-										                   	<!-- onclick="return(false);" -->
-																<input class="rate_input" type="radio" name="priority${urgent.todoSeq}" value="1" id="rate${urgent.todoSeq}-1" <c:choose> <c:when test="${urgent.priority eq '1'}">checked</c:when> <c:otherwise>onclick="return(false);"</c:otherwise></c:choose>/>
-																<label class="rate_label" for="rate${urgent.todoSeq}-1"></label>
-																<input class="rate_input" type="radio" name="priority${urgent.todoSeq}" value="2" id="rate${urgent.todoSeq}-2" <c:choose> <c:when test="${urgent.priority eq '2'}">checked</c:when> <c:otherwise>onclick="return(false);"</c:otherwise></c:choose>/>
-																<label class="rate_label" for="rate${urgent.todoSeq}-2"></label>
-																<input class="rate_input" type="radio" name="priority${urgent.todoSeq}" value="3" id="rate${urgent.todoSeq}-3" <c:choose> <c:when test="${urgent.priority eq '3'}">checked</c:when> <c:otherwise>onclick="return(false);"</c:otherwise></c:choose>/>
-																<label class="rate_label" for="rate${urgent.todoSeq}-3"></label>
-																<input class="rate_input" type="radio" name="priority${urgent.todoSeq}" value="4" id="rate${urgent.todoSeq}-4" <c:choose> <c:when test="${urgent.priority eq '4'}">checked</c:when> <c:otherwise>onclick="return(false);"</c:otherwise></c:choose>/>
-																<label class="rate_label" for="rate${urgent.todoSeq}-4"></label>
-																<input class="rate_input" type="radio" name="priority${urgent.todoSeq}" value="5" id="rate${urgent.todoSeq}-5" <c:choose> <c:when test="${urgent.priority eq '5'}">checked</c:when> <c:otherwise>onclick="return(false);"</c:otherwise></c:choose>/>
-																<label class="rate_label" for="rate${urgent.todoSeq}-5"></label>
-															</div>
-								                    	</div>
-								                    	</div>
-								                    </div>
-								                  </div>
-								                </div> --%>
 						                   </c:forEach>
 						                   	</div>
 					                    </div>
@@ -294,7 +271,7 @@
 										<div class="card-body">
 											<div class="row no-gutters align-items-center">
 												<div class="col mr-2">
-													<div class="text-xs font-weight-bold text-info text-uppercase mb-1">업무 진행률XXX</div>
+													<div class="text-xs font-weight-bold text-info text-uppercase mb-1">업무 진행률</div>
 													<div class="row no-gutters align-items-center">
 														<div class="col-auto">
 															<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${count["totalTodoRate"]}%</div>
@@ -321,7 +298,7 @@
 						                  	<div class="row no-gutters align-items-center">
 							                    <div class="col mr-2">
 								                    <div class="row">
-								                        <div class="col-4 text-xs font-weight-bold text-warning text-uppercase mb-1">발생 이슈XXX</div>
+								                        <div class="col-4 text-xs font-weight-bold text-warning text-uppercase mb-1">발생 이슈</div>
 								                        <div class="h5 mb-0 font-weight-bold text-gray-800">${count["totalIssueCnt"]}</div>
 								                    </div>
 								                    <!-- <div class="row">
@@ -342,7 +319,7 @@
 					          
 							<div class="card shadow mb-4 col-11">
 						            <div class="card-header py-3">
-						              <h6 class="m-0 font-weight-bold text-primary">이번주에 발생한 이슈XXX</h6>
+						              <h6 class="m-0 font-weight-bold text-primary">이번주에 발생한 이슈</h6>
 						            </div>
 						            <div class="card-body">
 						              <div class="table-responsive">
@@ -357,6 +334,11 @@
 						                    </tr>
 						                  </thead>
 						                  <tbody>
+						                  <c:if test="${ empty  weekIssue}">
+							                 <tr>
+							                 	<td>이번주에 생긴 이슈가 존재하지 않습니다</td>
+							                 	</tr>
+						                   </c:if>
 						                  <c:forEach var="week" items="${weekIssue}">
 						                    <tr>
 						                      <td>${week.title}</td>
@@ -422,6 +404,7 @@
           </div>
         </div>
       </div>
+
 <script>
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {

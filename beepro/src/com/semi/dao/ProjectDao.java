@@ -34,6 +34,9 @@ public interface ProjectDao {
     // 프로젝트부분
     String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
     
+    // 프로젝트 구성원
+    String selectMemberSql = "SELECT MEMBER_ID FROM PROJECT WHERE PROJECT_SEQ=?";
+    
     // 업무 진행상황 부분
     String getByTodoTypeSql = "SELECT CATEGORY 분류,"
     		+ " TRUNC(COUNT(CASE WHEN FINISH_CK = 'Y' THEN 1 END)/COUNT(*)*100) 분류별진행률,"
@@ -42,7 +45,7 @@ public interface ProjectDao {
     		+ " WHERE PROJECT_SEQ=? GROUP BY CATEGORY";
     
     String getTodoInfoSql = "SELECT COUNT(*) 총업무수,"
-    		+ " COUNT(CASE WHEN FINISH_CK='Y' THEN 1 END)/COUNT(*)*100 총업무진행률,"
+    		+ " NVL( COUNT(CASE WHEN FINISH_CK='Y' THEN 1 END)/DECODE(COUNT(*),0,NULL, COUNT(*) ) *100 ,0) 총업무진행률,"		// 분모가 0가 되어 sql 에러가 뜨는것을 방지
     		+ " COUNT(CASE WHEN FINISH_CK='N' AND MANAGER=? THEN 1 END) 개인잔여업무"
     		+ " FROM TODO"
     		+ " WHERE PROJECT_SEQ=?";
@@ -76,6 +79,8 @@ public interface ProjectDao {
     
     public String selectOneProjectName2(int projectSeq);
     
+    public String selectAllMember(int projectSeq);
+    
     public int insertTodo(TodoVo todo);
 
 	public List<TodoVo> selectAllTodo(int project_seq, String manager, Paging todoPage);
@@ -91,8 +96,6 @@ public interface ProjectDao {
 	public int deleteTodo(int todoSeq, int projectSeq);
 
 	public void updateTodoPriority(int todoSeq, int projectSeq, int priority);
-
-	public HashMap<String, Integer> countCategory();
 
 	public HashMap<String, Integer> getTodoInfo(String userId, int projectSeq);
 
@@ -114,5 +117,6 @@ public interface ProjectDao {
 	public void updateComment(int commentSeq, int issueSeq, String content);
 
 	public int getTodoCount(int projectSeq, String manager);
+
 }
 

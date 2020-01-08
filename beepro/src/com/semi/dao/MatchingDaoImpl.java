@@ -186,7 +186,6 @@ public class MatchingDaoImpl implements MatchingDao {
 			
 			while(rs.next()) {
 				VolunteerVo vo = new VolunteerVo(rs.getInt(1), rs.getString(2), rs.getString(3));
-				System.out.println(vo.toString());
 				volunteer.add(vo);
 			}
 		} catch (SQLException e) {
@@ -463,7 +462,25 @@ public class MatchingDaoImpl implements MatchingDao {
 		}
 		return projectSeq;
 	}
-
+	
+	// 지원자 승인
+	@Override
+	public int acceptVolunteer(int projectSeq, String userId) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		int res = 0;
+		try {
+			pstm = con.prepareStatement(acceptVolunteerSql);
+			pstm.setInt(1, projectSeq);
+			pstm.setString(2, userId);
+			
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	// 프로젝트 조회
 	public List<ProjectVo> selectAllProject() {
 		Connection con = getConnection();
