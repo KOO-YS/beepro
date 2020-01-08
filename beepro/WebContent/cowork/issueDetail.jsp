@@ -199,7 +199,9 @@ $(document).ready(function() {
          font-weight:bold;
        }  
 
-#regdate { font-size:11px;}
+#regdate { font-size:11px;
+           margin-botton:16px;
+         }
 
 #content { 
            color:#334152;
@@ -231,7 +233,39 @@ $(document).ready(function() {
                 border:1px solid rgb(75,97,207);
                 font-size:18px;
                 cursor:pointer;
-               }     
+               }   
+               
+#link1 { width:50px;
+         height:30px;
+         line-height:30px;
+         text-align:center;
+         float:right;
+         margin-top:-70px;
+         margin-right:40px;
+         font-size:13px;
+         } 
+
+#link2 { width:50px;
+         height:30px;
+         line-height:30px;
+          text-align:center;
+          float:right;
+          margin-top:-70px;
+          margin-left:30px;
+          font-size:13px;
+         } 
+         
+#link1 > a { color:lightgray; }
+
+#link2 > a { color:lightgray; }
+
+#link1 > a:hover { color:rgb(75,97,207);
+                   font-weight:bold;
+                 }
+                 
+#link2 > a:hover { color:rgb(75,97,207);
+                   font-weight:bold;
+                 }
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -263,10 +297,10 @@ $(document).ready(function() {
 					      
 					      <!-- 이슈 수정, 삭제 버튼 -->
 					      <div class="show-ticket">
-   					         <a href="${pageContext.request.contextPath}/issue?command=issueUpdate&issue_seq=${vo.issueSeq}">
+   					         <a href="${pageContext.request.contextPath}/issue?command=issueUpdate&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}">
 					           <img src="<%=request.getContextPath()%>/cowork/images/modify.png" width="30" height="30" style="margin-right:15px;"/>
 					         </a>
-					         <a href="${pageContext.request.contextPath}/issue?command=issueDelete&issue_seq=${vo.issueSeq}">
+					         <a href="${pageContext.request.contextPath}/issue?command=issueDelete&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}">
 					           <img src="<%=request.getContextPath()%>/cowork/images/close.png" width="45" height="45" />
 					         </a>
 					      </div>
@@ -282,7 +316,7 @@ $(document).ready(function() {
 					               <div class="subheader2">
 					                ${u_name}&nbsp;&nbsp;${u_email} 
 					               </div>
-					            </div>
+    					        </div>
 					         </div>
 					         <h6 class="issue-subheader mt-20"></h6>
 					         
@@ -355,17 +389,19 @@ $(document).ready(function() {
 					                   </div>
 					                   
 					                   <div id="content">
-					                   ${list.content}
+					                   <span id="comment-content">${list.content}</span>
 					                   </div>
-					              
-					                   <button type="button" class="btn btn-primary" id="btn1"
-					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=updateComment'">
-					                                             수정
-					                   </button>
-					                   <button type="button" class="btn btn-primary" id="btn2"
-					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}'">
-					                                             삭제
-					                   </button>
+					  <div id="link1">            
+	                   <a href="javascript:void(0)" onclick="modify(${list.commentSeq})">
+	                                             수정
+	                   </a>
+	                 </div>  
+	                 
+	                 <div id="link2">
+	                 <a href="${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}">
+	                                             삭제
+	                   </a>
+	                 </div>
 					                 </div>
 					                </c:forEach>
 					              </c:otherwise>
@@ -435,5 +471,11 @@ $(document).ready(function() {
           </div>
         </div>
       </div>
+<script type="text/javascript">
+// 댓글 수정 ajax 함수
+function modify(commentSeq){ 
+	var comment = $("#comment-content").val();
+}
+</script>
 </body>
 </html>

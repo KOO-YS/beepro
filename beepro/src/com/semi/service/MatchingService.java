@@ -247,8 +247,7 @@ public class MatchingService {
 	
     // 프로젝트 조회
 	public List<ProjectVo> selectAllProject(HttpServletRequest request, HttpServletResponse response) {
-		MatchingDaoImpl dao = new MatchingDaoImpl();
-		return dao.selectAllProject();
+		return matchingDao.selectAllProject();
 	}
 	
 	// 프로젝트 일부 조회

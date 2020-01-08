@@ -371,7 +371,7 @@ function createProject(){
 		if(validation()){		// 유효성 검사
 			var member = "";
 			$('input:checkbox[name="volunteerId"]:checked').each(function(){
-				member += $(this).val()+"/";
+				member += $(this).val()+",";
 			});
 			$("#member").val(member);
 			$("#projectModal").modal();

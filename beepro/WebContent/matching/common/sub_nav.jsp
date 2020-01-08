@@ -58,8 +58,7 @@
             </button>
           </li>
           
-         <% } else { 
-         %> 
+         <% } else {  %> 
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/cowork/dashboard.jsp">협업 cowork</a>
           </li>

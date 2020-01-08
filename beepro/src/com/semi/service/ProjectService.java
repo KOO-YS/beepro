@@ -14,6 +14,8 @@ import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
+import java.util.ArrayList;
+
 public class ProjectService {
 	ProjectDao projectDao = new ProjectDaoImple();
 
@@ -216,4 +218,16 @@ public class ProjectService {
 		
 		projectDao.updateComment(commentSeq, issueSeq, content);
 	}
+    
+    // 프로젝트 멤버빼오기
+	public List<String> getMember(int projectSeq) {
+		String memStr = projectDao.selectAllMember(projectSeq);
+		String[] mem = memStr.split(",");
+		List<String> member = new ArrayList<String>();
+		for(int i=0; i<mem.length; i++) {
+			member.add(mem[i]);
+		}
+		return member;
+	}
+
 }

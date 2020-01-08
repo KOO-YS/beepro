@@ -422,6 +422,7 @@
           </div>
         </div>
       </div>
+
 <script>
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {

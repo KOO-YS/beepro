@@ -20,6 +20,7 @@ import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
 import com.semi.service.MatchingService;
 import com.semi.service.ProjectService;
+import com.semi.service.ProjectService2;
 import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
@@ -67,9 +68,16 @@ public class ProjectServlet extends HttpServlet {
 		System.out.println("[ " + command + " ]");
 		// 서비스와 연결
 		ProjectService projectService = new ProjectService();
+		ProjectService2 projectService2 = new ProjectService2();	//임시 서비스
 		ProjectDao dao = new ProjectDaoImple();
 		MatchingDao mdao = new MatchingDaoImpl();
 		MatchingService matchingService = new MatchingService();
+		
+		int pseq = Integer.parseInt(request.getParameter("projectSeq"));
+		
+		String p_member = dao.selectAllMember(pseq);
+		HttpSession session2 = request.getSession();
+		session2.setAttribute("pMember", p_member);
 
 		if (command.equals("issueWrite")) {
 			System.out.println("이슈 생성 폼으로 이동");
@@ -79,13 +87,12 @@ public class ProjectServlet extends HttpServlet {
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스:" + projectSeq);
-			
-            String p_name = dao.selectOneProjectName(projectSeq);
-            
-			List<ProjectVo> list = matchingService.selectAllProject(request, response);
-			
+
+			String p_name = dao.selectOneProjectName(projectSeq);
+
+			List<String> member = projectService.getMember(projectSeq);
 			request.setAttribute("pName", p_name);
-			session.setAttribute("projectVo", list);
+			request.setAttribute("member", member);
 			session.setAttribute("projectSeq", projectSeq);
 
 			dispatch("cowork/issueWrite.jsp", request, response);
@@ -95,7 +102,6 @@ public class ProjectServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			String u_id = (String) session.getAttribute("u_id");
 			System.out.println(u_id);
-			
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스 : " + projectSeq);
@@ -129,9 +135,9 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("이슈 시퀀스:" + issueSeq);
 
 			IssueVo vo = dao.selectOneIssue(issueSeq);
-			
+
 			String p_name = dao.selectOneProjectName(issueSeq);
-            
+
 			request.setAttribute("pName", p_name);
 			request.setAttribute("vo", vo);
 			dispatch("cowork/issueUpdate.jsp", request, response);
@@ -168,8 +174,8 @@ public class ProjectServlet extends HttpServlet {
 			int seq = Integer.parseInt(request.getParameter("issue_seq"));
 			// 이슈 디테일
 			IssueVo vo = dao.selectOneIssue(seq);
-			
-            String p_name = dao.selectOneProjectName(seq);
+
+			String p_name = dao.selectOneProjectName(seq);
 
 			// 댓글리스트
 			List<CommentVo> list = dao.selectAllComment(seq);
