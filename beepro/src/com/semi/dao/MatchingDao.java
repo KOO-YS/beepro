@@ -55,6 +55,8 @@ public interface MatchingDao {
     
 	// cowork 페이지에 뿌려질 프로젝트 생성하는 부분
 	String insertProjectSql = "INSERT INTO PROJECT VALUES(?,?,?,'N',?,?,?,'N')";
+	// insertProject시, volunteer에 승인처리
+	String acceptVolunteerSql = "UPDATE VOLUNTEER SET ACCEPT = 'Y' WHERE PROJECTM_SEQ = ? AND USER_ID = ?";
 	String selectAllProjectSql = "SELECT * FROM PROJECT";		// FIXME userid 조건
 	String selectOneProjectSql = "SELECT * FROM PROJECT WHERE PROJECT_SEQ=?";
 	
@@ -92,6 +94,8 @@ public interface MatchingDao {
 	public int isProjectCreated(int projectmSeq);
 	
 	public int insertProject(ProjectVo vo);
+	
+	public int acceptVolunteer(int projectSeq, String userId);
 	
 	public boolean insertVolunteer(VolunteerVo vo);
 
