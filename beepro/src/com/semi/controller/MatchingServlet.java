@@ -301,6 +301,14 @@ public class MatchingServlet extends HttpServlet {
   	  		List<MatchingProVo> list2 = matchingService.AllMyProject(request, response);
   	  		request.setAttribute("projectList", list2);
 	         
+  	  		//관심 퍼스널 담기
+  	  		List<MatchingPerVo> list3 = matchingService.allPersonalPost(request, response);
+  	  		request.setAttribute("postPerList", list3);
+  	  		
+  	  		//관심 프로젝트 담기
+  	  		List<MatchingProVo> list4 = matchingService.allProjectPost(request, response);
+  	  		request.setAttribute("postProList", list4);
+  	  		
   	  		dispatch("matching/mypage.jsp", request, response);
 		}						
 

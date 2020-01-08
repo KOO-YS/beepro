@@ -345,28 +345,29 @@ public class MatchingService {
 			response.getWriter().write('1'); //빨강하트
 		}
 	}
+	
+	//관심있는 프로젝트 게시글 리스트
+	public List<MatchingProVo> allProjectPost(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("관심있는 프로젝트 목록 조회");
+		
+		MatchingDaoImpl matchingDao = new MatchingDaoImpl();
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return matchingDao.allProjectPost(u_id);
+	}
+	
+	 //관심있는 퍼스널 게시글 리스트
+	 public List<MatchingPerVo> allPersonalPost(HttpServletRequest request, HttpServletResponse response) {
+	    System.out.println("관심있는 퍼스널 목록 조회");
+	    
+	    MatchingDaoImpl matchingDao = new MatchingDaoImpl();
+	    HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return matchingDao.allPersonalPost(u_id);
+	   }
+	
 
-//	public List<Integer> selectPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//		request.setCharacterEncoding("UTF-8");
-//		response.setContentType("text/html;charset=UTF-8");
-//
-//		String u_id = request.getParameter("u_id");
-//		String type = request.getParameter("type");
-//		
-//		System.out.println("u__id : " + u_id);
-//		System.out.println("type : " + type);
-//		
-//		MatchingDaoImpl dao = new MatchingDaoImpl();
-//		ArrayList<Integer> list = dao.selectPostNo(u_id, type);
-//		
-//		RequestDispatcher dispatch = request.getRequestDispatcher(url);
-//		dispatch.forward(request, response);
-//		
-//		if(dao.selectPostNo(u_id, type) != null) {
-//			
-//		}
-//		return 
-//	}
+	 
 	
 	//내가 쓴 프로젝트 리스트
 	public List<MatchingProVo> AllMyProject(HttpServletRequest request, HttpServletResponse response) {
