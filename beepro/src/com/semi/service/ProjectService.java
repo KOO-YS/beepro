@@ -14,6 +14,8 @@ import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
+import util.Paging;
+
 public class ProjectService {
 	ProjectDao projectDao = new ProjectDaoImple();
 
@@ -73,8 +75,13 @@ public class ProjectService {
 
 	// 업무 생성 서비스
 	public int insertTodo(HttpServletRequest request, HttpServletResponse response) {
-
-		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		HttpSession session = request.getSession();
+		
+		int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
+		if(session.getAttribute("projectSeq")==null) {
+			//projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
+			// FIXME 프로젝트 시퀀스 없을때 생성 못하게 막기! try catch 사용
+		}
 		String title = request.getParameter("title");
 		String manager = request.getParameter("manager");
 		String content = request.getParameter("content");
@@ -83,7 +90,7 @@ public class ProjectService {
 		String category = request.getParameter("category");
 		int priority = Integer.parseInt(request.getParameter("priority"));
 
-		TodoVo todo = new TodoVo(1, title, content, manager, startDate, endDate, category, priority);
+		TodoVo todo = new TodoVo(projectSeq, title, content, manager, startDate, endDate, category, priority);
 
 		System.out.println(todo.toString());
 
@@ -91,9 +98,25 @@ public class ProjectService {
 	}
 
 	// 업무 리스트 출력 (조건 : 아이디)
-//	public List<TodoVo> selectAllTodo(int project_seq, String manager) {
-//		return projectDao.selectAllTodo(project_seq, manager);
-//	}
+	public List<TodoVo> selectAllTodo(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String manager = (String)session.getAttribute("u_name");
+		int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
+		
+		int totalCount = projectDao.getTodoCount(projectSeq, manager); 		// 토탈 게시글 수 가져오기
+//		int totalCount = projectDao.getTodoCount(1, manager);	테스트용
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+		Paging todoPage = new Paging();		// 페이징
+		todoPage.setPageNo(page);
+		todoPage.setPageSize(5);
+		todoPage.setTotalCount(totalCount);
+		
+		System.out.println(todoPage.toString());
+		List<TodoVo> todoList = projectDao.selectAllTodo(projectSeq, manager, todoPage);
+//		List<TodoVo> todoList = projectDao.selectAllTodo(1, manager, todoPage);		테스트용
+		request.setAttribute("page", todoPage);
+		return todoList;
+	}
 	
 	// 선택 업무 출력
 	public TodoVo selectOneTodo(HttpServletRequest request, HttpServletResponse response) {

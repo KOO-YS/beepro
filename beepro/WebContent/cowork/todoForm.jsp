@@ -130,11 +130,11 @@ $( function() {
 						<hr>
 						<form action="../todo" method="post">
 							<input type="hidden" name="command" value="todoForm">
-							<input type="hidden" name="projectSeq" value="1">
+							<input type="hidden" name="projectSeq" value="${projectSeq}">
 							<div class="row">
 							  <div class="form-group col-lg-6">
 							    <label for="title">업무 명</label>
-							    <input type="text" class="form-control" id="title" name="title">
+							    <input type="text" class="form-control" id="title" name="title" required>
 							  </div>
 							  <div class="form-group col-lg-3">
 							    <label for="manager">담당자</label>
@@ -152,22 +152,22 @@ $( function() {
 							</div>
 							  <div class="form-group">
 							    <label for="content">업무내용</label>
-							    <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+							    <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
 							  </div>
 							<div class="row">
 							  <div class="form-group col-lg-4 ">
 							    <label for="star-rate">중요도</label><br>
 							    <!-- https://codepen.io/just_bonnie_n/pen/gObadwZ -->
 							    <div class="rate" id="star-rate">
-								    <input type="radio" id="star5" name="priority" value="5" />
+								    <input type="radio" id="star5" name="priority" value="5" required/>
 								    <label for="star5" title="text">5 stars</label>
-								    <input type="radio" id="star4" name="priority" value="4" />
+								    <input type="radio" id="star4" name="priority" value="4" required/>
 								    <label for="star4" title="text">4 stars</label>
-								    <input type="radio" id="star3" name="priority" value="3" />
+								    <input type="radio" id="star3" name="priority" value="3" required/>
 								    <label for="star3" title="text">3 stars</label>
-								    <input type="radio" id="star2" name="priority" value="2" />
+								    <input type="radio" id="star2" name="priority" value="2" required/>
 								    <label for="star2" title="text">2 stars</label>
-								    <input type="radio" id="star1" name="priority" value="1" />
+								    <input type="radio" id="star1" name="priority" value="1" required/>
 								    <label for="star1" title="text">1 star</label>
 								 </div>
 							  </div>
@@ -176,11 +176,11 @@ $( function() {
 							  	<!-- https://jqueryui.com/datepicker/#date-range -->
 								  	<div class="col-6">
 		                  				<label for="from">시작날짜</label>
-										<input type="text" class="form-control" id="from" name="from">
+										<input type="text" class="form-control" id="from" name="from" required>
 								  	</div>
 								  	<div class="col-6">
 										<label for="to">마감날짜</label>
-										<input type="text" class="form-control" id="to" name="to">
+										<input type="text" class="form-control" id="to" name="to" required>
 								  	</div>
 							  	</div>
 							  	

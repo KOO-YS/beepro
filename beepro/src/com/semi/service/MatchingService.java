@@ -236,13 +236,20 @@ public class MatchingService {
 		String content = request.getParameter("content");
 		String member = request.getParameter("member");
 		
+		String[] eachMember = member.split("/");
+		int success = 0;
+		// FIXME transaction 처리 요구 -> 모든 유저가 accept 가 된 후에 프로젝트 생성이 가능해야한다.
+		for(int i=0; i<eachMember.length; i++) {
+			try {
+				success += matchingDao.acceptVolunteer(projectSeq, eachMember[i]);	
+			} catch (Exception e) {
+				System.out.println(eachMember[i]+"가 승인처리 되지않았습니다.");
+			}
+		}
+//		if(success == eachMember.length) {	// 승인처리가 다 되었을 때 프로잭트 생성
 		ProjectVo vo = new ProjectVo(projectSeq, startDate, endDate, projectName, content, member);
-		
-		System.out.println(vo.toString());
-		
-		MatchingDaoImpl dao = new MatchingDaoImpl();
-		 
-	    return dao.insertProject(vo);
+//		}
+	    return matchingDao.insertProject(vo);
     }
 	
     // 프로젝트 조회
@@ -268,13 +275,13 @@ public class MatchingService {
 	   String u_id = (String)session.getAttribute("u_id");
 	   System.out.println("아이디:"+u_id);
 	   
-	    VolunteerVo vo = new VolunteerVo(projectM_seq, u_id);
+	   VolunteerVo vo = new VolunteerVo(projectM_seq, u_id);
 	    
-	    System.out.println(vo.toString());
+	   System.out.println(vo.toString());
 	    
-	    MatchingDaoImpl dao = new MatchingDaoImpl();
+	   MatchingDaoImpl dao = new MatchingDaoImpl();
 	    
-		return dao.insertVolunteer(vo);
+	   return dao.insertVolunteer(vo);
 	}
    // 모든 매칭 프로젝트 list 조회
 	//김지민 수정!

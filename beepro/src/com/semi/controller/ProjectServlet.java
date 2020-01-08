@@ -180,18 +180,12 @@ public class ProjectServlet extends HttpServlet {
 			dispatch("cowork/issueDetail.jsp", request, response);
 
 		} else if (command.equals("todo-list")) { // 1
-			System.out.println("업무 리스트 출력");
-
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
-//			List<TodoVo> todoList = projectService.selectAllTodo(request, response);	// sequence **
+			List<TodoVo> todoList = projectService.selectAllTodo(request, response);	// sequence **
 //			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
-
-		} else if (command.equals("todo-paging")) {
-			System.out.println("페이징");
-
+	
 		} else if (command.equals("todoForm")) { // 2
-			System.out.println("새 업무 생성");
 			int success = projectService.insertTodo(request, response);
 			if (success > 0) {
 				System.out.println("성공적으로 생성");
@@ -244,20 +238,16 @@ public class ProjectServlet extends HttpServlet {
 			projectService.updateTodoPriority(request, response);
 
 		} else if (command.equals("dashboard")) {
-			System.out.println("dashboard 출력");
 			HttpSession session = request.getSession();
 			String userId = (String) session.getAttribute("u_name");
-			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
-			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+			int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
 			System.out.println("userId :: " + userId + "\nprojectSeq :: " + projectSeq);
-			// issue Count
-			HashMap<String, Integer> count = projectService.getCounts(userId, projectSeq);
-			// deadline todo // TODO 개인 업무 or 팀 업무? -> 우선 개인 업무로 진행
-			List<TodoVo> urgentTodo = projectService.getUrgentTodo(userId, projectSeq);
-			// week issues
-			List<IssueVo> weekIssue = projectService.getWeekIssue(projectSeq);
-			// todo category Count & Rate
-			HashMap<String, Integer> todoType = projectService.getTodoType(projectSeq);
+			
+			HashMap<String, Integer> count = projectService.getCounts(userId, projectSeq);	// issue Count
+			// TODO 개인 업무 or 팀 업무? -> 우선 개인 업무로 진행
+			List<TodoVo> urgentTodo = projectService.getUrgentTodo(userId, projectSeq);		// deadline todo 
+			List<IssueVo> weekIssue = projectService.getWeekIssue(projectSeq);				// week issues
+			HashMap<String, Integer> todoType = projectService.getTodoType(projectSeq);		// todo category Count & Rate
 
 			request.setAttribute("count", count);
 			request.setAttribute("urgent", urgentTodo);
