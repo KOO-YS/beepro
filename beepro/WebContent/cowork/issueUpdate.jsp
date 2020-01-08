@@ -75,6 +75,16 @@
 .rate > label:hover ~ input:checked ~ label {
     color: #c59b08;
 }
+
+#project_name { padding:30px;
+                width:100%;
+                height:auto;
+                margin-top:15px;
+                border-radius:5px;
+                border:1px solid rgb(75,97,207);
+                font-size:18px;
+                cursor:pointer;
+               }
 </style>
 </head>
 <body>
@@ -101,12 +111,9 @@
             <!-- 본격적으로 내용이 담기는 div -->
             <div class="container-fluid">
                <div class="container">
-                  <h5><b>이슈 생성</b></h5>
+                  <h5><b>이슈 수정</b></h5>
                   <hr>
-                  <form action="../issue" method="post">
-                     <input type="hidden" name="command" value="issueUpdateform">
-                     <input type="hidden" name="projectSeq" value="1">
-                     <input type="hidden" name="issueSeq" value="${vo.issueSeq}">
+                  <form action="${pageContext.request.contextPath}/issue?command=issueUpdateform&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}" method="post">
                      <div class="row">
                        <div class="form-group col-lg-8">
                          <label for="title">이슈 제목<span style="color:red;"> *</span></label>
@@ -114,12 +121,7 @@
                        </div>
                        <div class="form-group col-lg-4">
                          <label for="category">프로젝트 명<span style="color:red;"> *</span></label>
-                         <select name="p_name" class="form-control" id="p_name" disabled>
-                           <c:forEach var="project_list" items="${projectList}" varStatus="status">
-                            <option value="" selected>진행 중인 프로젝트를 선택해주세요.</option>
-                            <option value="${project_list.subject}">${project_list.subject}</option>
-                           </c:forEach>
-                         </select>
+                         <input type="text" class="form-control" name="projectName" value="${pName}" readonly>
                        </div> 
                      </div>
                        <div class="form-group">
@@ -130,57 +132,55 @@
                        <div class="form-group col-lg-6 form-checkbox form-checkbox-inline">
                          <label for="content">이슈타입<span style="color:red;"> *</span></label><br>
                         <label class="form-checkbox-label">
-                        <input name=bug class="form-checkbox-field" type="checkbox" value="버그" <c:if test="${ vo.category eq '버그'}">checked="checked"</c:if>/>
-                        <i class="form-checkbox-button"></i>
+                        <input name="category" class="form-radio-field" type="radio" value="버그" <c:if test="${ vo.category eq '버그'}">checked="checked"</c:if>/>
+                        <i class="form-radio-button"></i>
                         <span>버그</span>
                    </label>
                <label class="form-checkbox-label">
-                <input name=update class="form-checkbox-field" type="checkbox" value="개선" <c:if test="${ vo.category eq '개선'}">checked="checked"</c:if>/>
-                <i class="form-checkbox-button"></i>
+                <input name="category" class="form-radio-field" type="radio" value="개선" <c:if test="${ vo.category eq '개선'}">checked="checked"</c:if>/>
+                <i class="form-radio-button"></i>
                 <span>개선</span>
             </label>
             <label class="form-checkbox-label">
-                <input name=want class="form-checkbox-field" type="checkbox" value="요구사항" <c:if test="${ vo.category eq '요구사항'}">checked="checked"</c:if>/>
-                <i class="form-checkbox-button"></i>
+                <input name="category" class="form-radio-field" type="radio" value="요구사항" <c:if test="${ vo.category eq '요구사항'}">checked="checked"</c:if>/>
+                <i class="form-radio-button"></i>
                 <span>요구사항</span>
             </label>
             <label class="form-checkbox-label">
-                <input name=test class="form-checkbox-field" type="checkbox" value="테스트케이스" <c:if test="${ vo.category eq '테스트케이스'}">checked="checked"</c:if>/>
-                <i class="form-checkbox-button"></i>
+                <input name="category" class="form-radio-field" type="radio" value="테스트케이스" <c:if test="${ vo.category eq '테스트케이스'}">checked="checked"</c:if>/>
+                <i class="form-radio-button"></i>
                 <span>테스트 케이스</span>
             </label>
            </div>
              <div class="form-group col-lg-6" style="margin-top:35px;">
                 <label for="content">담당자</label>
-                <select class="form-control" id="member" name="manager" disabled style="margin-top:15px;">
-                  <option value="" selected>프로젝트에 참여하는 사용자를 설정합니다.</option>
-                </select>
+                <input type="text" class="form-control" name="responsibility" value="${vo.responsibility}" readonly>
              </div>
            </div>
                      <div class="form-group col-lg-12" style=" margin-top:12px; ">
                         <label for="content" style="margin-left:-265px;">중요도<span style="color:red;"> *</span></label>
                          <label class="form-radio-label" style="float:left; margin-right:15px; margin-left:-15px;">
-                         <input name=pronoun class="form-radio-field" type="radio" id="level" required value="심각" <c:if test="${ vo.level eq '심각'}">checked="checked"</c:if>/>
+                         <input name="level" class="form-radio-field" type="radio" id="level" required value="심각" <c:if test="${ vo.level eq '심각'}">checked="checked"</c:if>/>
                          <i class="form-radio-button"></i>
                         <span>심각</span>
                        </label>
             <label class="form-radio-label" style="float:left; margin-right:15px;">
-                <input name=pronoun class="form-radio-field" type="radio" id="level" required value="높음" <c:if test="${ vo.level eq '높음'}">checked="checked"</c:if>/>
+                <input name="level" class="form-radio-field" type="radio" id="level" required value="높음" <c:if test="${ vo.level eq '높음'}">checked="checked"</c:if>/>
                 <i class="form-radio-button"></i>
                 <span>높음</span>
             </label>
             <label class="form-radio-label" style="float:left; margin-right:15px;">
-                <input name=pronoun class="form-radio-field" type="radio" id="level" required value="보통" <c:if test="${ vo.level eq '보통'}">checked="checked"</c:if>/>
+                <input name="level" class="form-radio-field" type="radio" id="level" required value="보통" <c:if test="${ vo.level eq '보통'}">checked="checked"</c:if>/>
                 <i class="form-radio-button"></i>
                 <span>보통</span>
             </label>
             <label class="form-radio-label" style="float:left;">
-                <input name=pronoun class="form-radio-field" type="radio" id="level" required value="낮음" <c:if test="${ vo.level eq '낮음'}">checked="checked"</c:if>/>
+                <input name="level" class="form-radio-field" type="radio" id="level" required value="낮음" <c:if test="${ vo.level eq '낮음'}">checked="checked"</c:if>/>
                 <i class="form-radio-button"></i>
                 <span>낮음</span>
             </label>
                      </div>
-                      <button class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
+                      <button type="submit" class="btn btn-primary" style="float:right;">작  성</button>&nbsp;&nbsp;
                       <button class="btn btn-primary" style="float:right; background-color:white; color:rgb(75,97,207)"
                       onclick="location.href='../issue?command=issueAll'">취   소</button>
                   </form>
@@ -191,5 +191,49 @@
          <jsp:include page="common/footer.html"></jsp:include>
       </div>
    </div>
+   
+   	 <!-- 워크스페이스 모달  -->
+      <div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body" style="font-size:14px;">
+          <div id="test100"></div>
+              <c:choose>
+	             <c:when test="${empty projectVo}">
+	                <div id="none">
+	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
+	                                        매칭을 통해 생성하십시오.<br>
+	                  <a class="btn btn-primary" href="../matching?command=matchingAll">매칭하러가기</a>  
+	                </div>
+	             </c:when>
+	      
+	             <c:otherwise>
+	                              이동하실 워크 스페이스를 선택하세요.
+	               <c:forEach var="vo" items="${projectVo}">
+	                <div id="project_name" onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+	                  <div id="title">
+	                     ${vo.projectName}
+	                 </div>
+	                  
+	                 <div id="content">
+	                  ${vo.member}
+	                 </div>
+	                 
+	                 <div id="period">
+	                  ${vo.startDate} - ${vo.endDate}
+	                 </div>
+	               </div>
+	               </c:forEach>
+	             </c:otherwise>
+	         </c:choose>       
+          </div>
+        </div>
+      </div>
 </body>
 </html>

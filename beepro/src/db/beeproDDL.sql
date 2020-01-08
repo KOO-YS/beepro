@@ -14,7 +14,7 @@ DROP TABLE skill;
 DROP TABLE project_member;
 DROP TABLE volunteer;
 DROP TABLE post;
-
+DROP TABLE msg;
 
 
 DROP SEQUENCE ISSUE_SEQ;
@@ -23,7 +23,7 @@ DROP SEQUENCE TODO_SEQ;
 DROP SEQUENCE MESSAGE_SEQ;
 DROP SEQUENCE COMMENTS_SEQ;
 DROP SEQUENCE PROJECTM_SEQ;
-
+DROP SEQUENCE MSG_SEQ;
 -- #####################################################################################################################################
 
 CREATE SEQUENCE PROJECTM_SEQ -- 프로젝트 매칭 글에 대한 시퀀스번호
@@ -83,7 +83,6 @@ CREATE TABLE beepro_user (
 	userProfile varchar2(1000),
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
-
 
 SELECT * FROM BEEPRO_USER;
 
@@ -154,7 +153,7 @@ CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	finish_ck	varchar2(6)	NOT NULL, /* 프로젝트 진행 여부 y:종료 n:진행중 */
 	project_name varchar2(4000), /* 프로젝트 명 */
 	project_content varchar2(4000), /* 프로젝트 개요 */
-	member_id	varchar2(100)	NOT NULL, /* 구성원들 */
+	member_id	varchar2(1000)	NOT NULL, /* 구성원들 */
 	pm_ck	varchar2(6)	NOT NULL, /* 피엠인지 아닌지 */
 	CONSTRAINT pm_ck_chk CHECK(pm_ck IN('Y','N')),
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
@@ -170,7 +169,8 @@ CREATE TABLE issue (
 	issue_level	varchar2(50)	NOT NULL,
 	regdate	Date	NOT NULL,
 	issue_category	varchar2(150)	NOT NULL,
-	content	varchar2(4000)	NOT NULL
+	content	varchar2(4000)	NOT NULL,
+	responsibility varchar2(3000) NOT NULL -- 담당자
 );
 
 CREATE TABLE comments (
@@ -197,6 +197,19 @@ CREATE TABLE volunteer ( /* 지원자 테이블 */
 	CONSTRAINT FK_PROJECTM_SEQ_TO_VOL FOREIGN KEY (projectM_seq) REFERENCES matching_project (projectM_seq), 
 	CONSTRAINT FK_USER_ID_TO_VOL FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
 );
+
+-- 쪽지 테이블 추가
+CREATE SEQUENCE meg_seq;
+
+CREATE TABLE msg(
+    msg_seg NUMBER(30) PRIMARY KEY,
+    send_id VARCHAR2(50) NOT NULL,
+    get_id VARCHAR2(50) NOT NULL,
+    content VARCHAR2(2000) NOT NULL,
+    regdate DATE NOT NULL,
+    read_ck NUMBER -- 0이면 안읽은 것 1이면 읽은 것
+);
+
 
 ------------------------------------- 관심 게시글 (post) 추가 !!  %제약조건도 추가해주셔야합니다. %----------------------------------
 CREATE TABLE post (

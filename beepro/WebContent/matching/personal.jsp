@@ -66,14 +66,14 @@
 			},
 			success : function(result) {
 				if (result > 0) {
-					alert("해당 게시글이 관심 게시글에  추가되었습니다.");
-					$('#heart').attr('class', 'heart press');
+					 alert("해당 게시글이 관심 게시글에  추가되었습니다.");
+			/* 		$('#heart').attr('class', 'heart press'); */
 				} else if (result == 0) {
 					alert("로그인 후 이용해 주세요.");
-					$('#heart').attr('class', 'heart');
+					location.reload();
 				} else {
 					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
-					$('#heart').attr('class', 'heart');
+					/* $('#heart').attr('class', 'heart'); */
 				}
 			}
 		});
@@ -135,6 +135,16 @@
 					</div>
 
 					<c:forEach var="personal" items="${personList}" varStatus="status">
+								<!-- 하트 색 유지 -->
+								<c:forEach var="postList" items="${postList}">
+									<c:if test="${ postList eq personal.personal_seq}">
+										<script type="text/javascript">
+										$( document ).ready(function() {
+											$('#heart${personal.personal_seq}').attr('class','heart press');
+										});
+										</script>
+									</c:if>
+								</c:forEach>
 						<div class="row post-card" style="margin-top: 50px">
 
 							<!-- 게시물 -->
@@ -154,29 +164,8 @@
 
 							<div class="col-lg-1 col-sm-1">
 								<!-- heart -->
-								<i class="heart" id="heart"
+								<i class="heart" id="heart${personal.personal_seq}"
 									onclick="addPostFunction('${personal.personal_seq}');"></i>
-
-								<c:forEach var="postList" items="${postList}">
-									<c:if test="${ postList eq personal.personal_seq}">
-										<script type="text/javascript">
-											$('#heart').attr('class',
-													'heart press');
-										</script>
-
-									</c:if>
-									<%-- <c:choose>
-										<c:when test="${ postList eq personal.personal_seq}">
-
-								<i class="heart press" id="heart" onclick="addPostFunction('${personal.personal_seq}');"></i>
-
-										</c:when>
-										<c:otherwise>
-
-								<i class="heart" id="heart" onclick="addPostFunction('${personal.personal_seq}');"></i>
-										</c:otherwise>
-									</c:choose> --%>
-								</c:forEach>
 							</div>
 
 							<!-- 게시물 -->
@@ -202,7 +191,6 @@
 	</section>
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
-
 	<!-- Bootstrap core JavaScript -->
 	<script
 		src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>

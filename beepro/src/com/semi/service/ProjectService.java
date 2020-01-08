@@ -14,6 +14,8 @@ import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
+import java.util.ArrayList;
+
 import util.Paging;
 
 public class ProjectService {
@@ -25,12 +27,13 @@ public class ProjectService {
 		
 		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 		String title = request.getParameter("title");
-		String writer = (String) session.getAttribute("u_id");
+		String writer = (String) session.getAttribute("u_name");
 		String level = request.getParameter("level");
 		String category = request.getParameter("category");
 		String content = request.getParameter("content");
-		System.out.println("탕이트 : "+title);
-		IssueVo issue = new IssueVo(projectSeq, title, writer, level, category, content);
+		String responsibility = request.getParameter("responsibility");
+		
+		IssueVo issue = new IssueVo(projectSeq, title, writer, level, category, content, responsibility);
 
 		System.out.println(issue.toString());
 
@@ -44,13 +47,24 @@ public class ProjectService {
 	}
 
 	// 이슈 전체 조회 서비스
-	public List<IssueVo> issueAll(HttpServletRequest request, HttpServletResponse response) {
-          return projectDao.selectAllIssue();
-	}
+//	public List<IssueVo> issueAll(HttpServletRequest request, HttpServletResponse response) {
+//          return projectDao.selectAllIssue();
+//	}
 	
 	// 이슈 수정
 	public boolean issueUpdate(HttpServletRequest request, HttpServletResponse response) {
-		return false;
+        int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
+        
+		String title = request.getParameter("title");
+		String level = request.getParameter("level");
+		String category = request.getParameter("category");
+		String content = request.getParameter("content");
+		
+		IssueVo issue = new IssueVo(issueSeq, title, level, category, content);
+		
+		System.out.println(issue.toString());
+		
+		return projectDao.updateIssue(issue);
 	}
 
 	// 선택한 하나의 이슈 정보를 자세히
@@ -63,8 +77,13 @@ public class ProjectService {
 
 	// 업무 생성 서비스
 	public int insertTodo(HttpServletRequest request, HttpServletResponse response) {
-
-		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+		HttpSession session = request.getSession();
+		
+		int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
+		if(session.getAttribute("projectSeq")==null) {
+			//projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
+			// FIXME 프로젝트 시퀀스 없을때 생성 못하게 막기! try catch 사용
+		}
 		String title = request.getParameter("title");
 		String manager = request.getParameter("manager");
 		String content = request.getParameter("content");
@@ -73,7 +92,7 @@ public class ProjectService {
 		String category = request.getParameter("category");
 		int priority = Integer.parseInt(request.getParameter("priority"));
 
-		TodoVo todo = new TodoVo(1, title, content, manager, startDate, endDate, category, priority);
+		TodoVo todo = new TodoVo(projectSeq, title, content, manager, startDate, endDate, category, priority);
 
 		System.out.println(todo.toString());
 
@@ -84,18 +103,19 @@ public class ProjectService {
 	public List<TodoVo> selectAllTodo(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		String manager = (String)session.getAttribute("u_name");
-		int projectSeq = 1;
+		int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
 		
-		// 토탈 게시글 수
-		int totalCount = projectDao.getTodoCount(projectSeq, manager);
+		int totalCount = projectDao.getTodoCount(projectSeq, manager); 		// 토탈 게시글 수 가져오기
+//		int totalCount = projectDao.getTodoCount(1, manager);	테스트용
 		int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
-		Paging todoPage = new Paging();
+		Paging todoPage = new Paging();		// 페이징
 		todoPage.setPageNo(page);
 		todoPage.setPageSize(5);
 		todoPage.setTotalCount(totalCount);
 		
 		System.out.println(todoPage.toString());
 		List<TodoVo> todoList = projectDao.selectAllTodo(projectSeq, manager, todoPage);
+//		List<TodoVo> todoList = projectDao.selectAllTodo(1, manager, todoPage);		테스트용
 		request.setAttribute("page", todoPage);
 		return todoList;
 	}
@@ -192,7 +212,7 @@ public class ProjectService {
 		System.out.println("시퀀스 : "+issueSeq);
 		
 		HttpSession session = request.getSession();
-		String writer = (String)session.getAttribute("u_id");
+		String writer = (String)session.getAttribute("u_name");
 		System.out.println("아이디 : " + writer);
 		String content = request.getParameter("content");
 		System.out.println("내용 : " +content);
@@ -221,4 +241,16 @@ public class ProjectService {
 		
 		projectDao.updateComment(commentSeq, issueSeq, content);
 	}
+    
+    // 프로젝트 멤버빼오기
+	public List<String> getMember(int projectSeq) {
+		String memStr = projectDao.selectAllMember(projectSeq);
+		String[] mem = memStr.split(",");
+		List<String> member = new ArrayList<String>();
+		for(int i=0; i<mem.length; i++) {
+			member.add(mem[i]);
+		}
+		return member;
+	}
+
 }

@@ -106,8 +106,8 @@ function sumbitFunction(){
 			$('#chatList').append(
 					'<li class="mar-btm">' +
 					'<div class="media-right">'+
-						'<img src="${pageContext.request.contextPath}/cowork/images/icon.png"'+
-							'class="img-circle img-sm" alt="Profile Picture">'+
+						'<img src="<%= request.getContextPath() %>/upload/${u_photo}"'+
+							'class="img-circle img-sm" alt="Profile Picture" alt="${pageContext.request.contextPath}/cowork/images/icon.png">'+
 					'</div>'+
 					'<div class="media-body pad-hor speech-right">'+
 						'<div class="speech">'+
@@ -127,8 +127,8 @@ function sumbitFunction(){
 			$('#chatList').append(
 					'<li class="mar-btm">'+
 					'<div class="media-left">'+
-						'<img src="${pageContext.request.contextPath}/cowork/images/icon.png"'+
-							'class="img-circle img-sm" alt="Profile Picture">'+
+						'<img src="<%= request.getContextPath() %>/upload/<%=getProfile%>"'+
+							'class="img-circle img-sm" alt="Profile Picture" alt="${pageContext.request.contextPath}/cowork/images/icon.png">'+ 
 					'</div>'+
 					'<div class="media-body pad-hor">'+
 						'<div class="speech">'+
@@ -156,7 +156,6 @@ function sumbitFunction(){
 </script>
 </head>
 <body>
-
 	<div class="container" style="padding-right: 0; padding-left: 0;">
 		<div class="col-md-12 col-lg-6">
 			<div class="panel">

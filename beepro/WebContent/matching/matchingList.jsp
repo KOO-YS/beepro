@@ -90,6 +90,7 @@
 
 </style>
 
+<<<<<<< HEAD
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 $(function() {
@@ -117,6 +118,9 @@ $(function() {
 	});
 </script>
  
+=======
+
+>>>>>>> 638984ea0fe6bf7945a5214c763edeb0aa83ed7b
 <script type="text/javascript">
 
 	$(function(){
@@ -144,10 +148,9 @@ $(function() {
 			success : function(result) {
 				if (result > 0) {
 					alert("해당 게시글이 관심 게시글에  추가되었습니다.");
-					$('#heart').attr('class', 'heart press'); 
 				} else if(result == 0){
 					alert("로그인 후 이용해 주세요.");
-					$('#heart').attr('class', 'heart'); 
+					location.reload();
 				} else {
 					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
 				}
@@ -209,6 +212,16 @@ $(function() {
               <!-- 게시물 -->
                <c:forEach var="matchingVo" items="${matchingList}" varStatus="matching" begin="${page.startRow}" end="${page.startRow + 9}">
                																			<!-- 페이징 : begin부터 +9까지 -->
+                  <!-- 하트 색 유지 -->
+								<c:forEach var="postList" items="${postList}">
+									<c:if test="${ postList eq matchingVo.projectM_seq}">
+										<script type="text/javascript">
+										$( document ).ready(function() {
+											$('#heart${matchingVo.projectM_seq}').attr('class','heart press');
+										});
+										</script>
+									</c:if>
+								</c:forEach>
                   <div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
                        <div class="col-lg-12">
                            <div class="row">
@@ -217,8 +230,9 @@ $(function() {
                            </div>
                            <div class="col-lg-1 col-sm-1">
                                <!-- heart -->
-                               <i class="heart" id="heart" onclick="addPostFunction('${matchingVo.projectM_seq}');"></i>
-                           </div>
+							<i class="heart" id="heart${matchingVo.projectM_seq}"
+									onclick="addPostFunction('${matchingVo.projectM_seq}');"></i>
+						    </div>
                            <hr>
                            </div>
                            <div class="row">

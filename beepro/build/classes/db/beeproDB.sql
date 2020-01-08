@@ -164,7 +164,8 @@ CREATE TABLE todo (
 	CONSTRAINT finish_ck_chk CHECK(finish_ck IN('Y','N'))
 );
 select * from todo;
-SELECT CATEGORY, COUNT(*) FROM TODO GROUP BY CATEGORY;
+SELECT CATEGORY, COUNT(*) FROM TODO GROUP BY CATEGORY;\
+
 
 -- 이전에 PROJECT 테이블을 생성한 사람 -> 하단에 테이블 수정 쿼리(이름 추가) 따로 실행 필요 
 CREATE TABLE project (
@@ -202,7 +203,6 @@ CREATE TABLE issue (
 	issue_category	varchar2(150)	NOT NULL,
 	content	varchar2(4000)	NOT NULL
 );
-SELECT * FROM MATCHING_PROJECT
 -- SELECT * FROM ISSUE;
 
 -- INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '해인 프로젝트', '전해인', '높음','15/11/30','버그', '이슈테스트2입니다.');

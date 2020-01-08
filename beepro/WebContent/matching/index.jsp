@@ -113,13 +113,14 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">cowork</h2>
+          <h2 class="section-heading text-u
+          ppercase">cowork</h2>
           <h3 class="section-subheading text-muted">협업 섹션</h3>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-12" style="text-align: center;">
-			<button class="btn btn-primary btn-xl" onclick="location.href='../cowork/dashboard.jsp'">cowork</button> <img src="img/cowork.jpg" alt="" style="width: 100%;">
+			<button class="btn btn-primary btn-xl" onclick="location.href='${pageContext.request.contextPath}/project?command=enterCowork'">cowork</button> <img src="img/cowork.jpg" alt="" style="width: 100%;">
         </div>
       </div>
     </div>

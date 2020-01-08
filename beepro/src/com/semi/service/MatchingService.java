@@ -88,25 +88,44 @@ public class MatchingService {
 
    }
    
-   public MatchingProVo matchingRead(HttpServletRequest request) {
-      MatchingDao matchingDao = new MatchingDaoImpl();
-      String matching_seq = (String) request.getParameter("projectM_seq");
-      int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
-       MatchingProVo matVo = matchingDao.matchingRead(matching_seq);
+	public MatchingProVo matchingRead(HttpServletRequest request) {
+		MatchingDao matchingDao = new MatchingDaoImpl();
+		String matching_seq = (String) request.getParameter("projectM_seq");
+		int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
+		MatchingProVo matVo = matchingDao.matchingRead(matching_seq);
       
-         HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
         String pm_id = (String)session.getAttribute("u_id");
         
         if(pm_id != null && !"".equals(pm_id)) {
-         if(matVo.getPm_id().equals(pm_id)) {
-            matVo.setModifyYn(true);
-         }
+        	if(matVo.getPm_id().equals(pm_id)) {
+        		matVo.setModifyYn(true);
+         	}
         }
-      return matVo;
-   }
-   public int matchingModifyProc(HttpServletRequest request) {
-      MatchingDao matchingDao = new MatchingDaoImpl();
-      HttpSession session = request.getSession();
+        return matVo;
+   	}
+	// 지원자 목록
+	public List<VolunteerVo> getVolunteer(int projectmSeq) {
+		List<VolunteerVo> volunteer = matchingDao.getVolunteer(projectmSeq);
+		return volunteer;
+	}
+	// 지원자 수
+	public int getVolunteerNum(int projectmSeq) {
+		int volunteerNum = matchingDao.getVolunteerNum(projectmSeq);
+		return volunteerNum;
+	}
+	// 프로젝트가 생성되어있는지?
+	public boolean isProjectCreated(int projectmSeq) {
+		int res = matchingDao.isProjectCreated(projectmSeq);
+		boolean created = false;	
+		if(res > 0) {
+			created = true;		// 이미 생성된 프로젝트 번호 
+		}
+		return created;
+	}
+	public int matchingModifyProc(HttpServletRequest request) {
+		MatchingDao matchingDao = new MatchingDaoImpl();
+		HttpSession session = request.getSession();
         String pm_id = (String)session.getAttribute("u_id");
       
       /*
@@ -216,19 +235,25 @@ public class MatchingService {
 		String content = request.getParameter("content");
 		String member = request.getParameter("member");
 		
+		String[] eachMember = member.split("/");
+		int success = 0;
+		// FIXME transaction 처리 요구 -> 모든 유저가 accept 가 된 후에 프로젝트 생성이 가능해야한다.
+		for(int i=0; i<eachMember.length; i++) {
+			try {
+				success += matchingDao.acceptVolunteer(projectSeq, eachMember[i]);	
+			} catch (Exception e) {
+				System.out.println(eachMember[i]+"가 승인처리 되지않았습니다.");
+			}
+		}
+//		if(success == eachMember.length) {	// 승인처리가 다 되었을 때 프로잭트 생성
 		ProjectVo vo = new ProjectVo(projectSeq, startDate, endDate, projectName, content, member);
-		
-		System.out.println(vo.toString());
-		
-		MatchingDaoImpl dao = new MatchingDaoImpl();
-		 
-	    return dao.insertProject(vo);
+//		}
+	    return matchingDao.insertProject(vo);
     }
 	
     // 프로젝트 조회
 	public List<ProjectVo> selectAllProject(HttpServletRequest request, HttpServletResponse response) {
-		MatchingDaoImpl dao = new MatchingDaoImpl();
-		return dao.selectAllProject();
+		return matchingDao.selectAllProject();
 	}
 	
 	// 프로젝트 일부 조회
@@ -238,7 +263,7 @@ public class MatchingService {
 		MatchingDaoImpl dao = new MatchingDaoImpl();
 		return dao.selectOneProject(projectSeq);
 	}
-   
+	
 	// 지원자
    public boolean insertVolunteer(HttpServletRequest request, HttpServletResponse response) {
 	   int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
@@ -248,13 +273,13 @@ public class MatchingService {
 	   String u_id = (String)session.getAttribute("u_id");
 	   System.out.println("아이디:"+u_id);
 	   
-	    VolunteerVo vo = new VolunteerVo(projectM_seq, u_id);
+	   VolunteerVo vo = new VolunteerVo(projectM_seq, u_id);
 	    
-	    System.out.println(vo.toString());
+	   System.out.println(vo.toString());
 	    
-	    MatchingDaoImpl dao = new MatchingDaoImpl();
+	   MatchingDaoImpl dao = new MatchingDaoImpl();
 	    
-		return dao.insertVolunteer(vo);
+	   return dao.insertVolunteer(vo);
 	}
   
    
@@ -311,13 +336,6 @@ public class MatchingService {
 		}
 	}
 	
-	//내가 쓴 프로젝트 리스트
-	public List<MatchingProVo> AllMyProject(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("내가 쓴 프로젝트 목록 조회");
-		HttpSession session = request.getSession();
-		String u_id = (String)session.getAttribute("u_id");
-		return Dao.AllMyProject(u_id);
-	}
 
 //	public List<Integer> selectPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //		request.setCharacterEncoding("UTF-8");
@@ -341,6 +359,39 @@ public class MatchingService {
 //		return 
 //	}
 
+
+
+	//관심있는 프로젝트 게시글 리스트
+	public List<MatchingProVo> allProjectPost(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("관심있는 프로젝트 목록 조회");
+		
+		MatchingDaoImpl matchingDao = new MatchingDaoImpl();
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return matchingDao.allProjectPost(u_id);
+	}
+	
+	 //관심있는 퍼스널 게시글 리스트
+	 public List<MatchingPerVo> allPersonalPost(HttpServletRequest request, HttpServletResponse response) {
+	    System.out.println("관심있는 퍼스널 목록 조회");
+	    
+	    MatchingDaoImpl matchingDao = new MatchingDaoImpl();
+	    HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return matchingDao.allPersonalPost(u_id);
+	   }
+	
+
+	 
+	
+	//내가 쓴 프로젝트 리스트
+	public List<MatchingProVo> AllMyProject(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("내가 쓴 프로젝트 목록 조회");
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return Dao.AllMyProject(u_id);
+	}
+	
 
 	
 	 //내가 쓴 퍼스널 리스트
