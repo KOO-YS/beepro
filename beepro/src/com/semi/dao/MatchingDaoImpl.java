@@ -173,6 +173,69 @@ public class MatchingDaoImpl implements MatchingDao {
 		return matVo;
 	}
 
+	@Override
+	public List<VolunteerVo> getVolunteer(int projectmSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<VolunteerVo> volunteer = new ArrayList<VolunteerVo>();
+		try {
+			pstm = con.prepareStatement(getVolunteerSql);
+			pstm.setInt(1, projectmSeq);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				VolunteerVo vo = new VolunteerVo(rs.getInt(1), rs.getString(2), rs.getString(3));
+				volunteer.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstm, con);
+		}
+		return volunteer;
+	}
+	@Override
+	public int getVolunteerNum(int projectmSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int num = 0;
+		try {
+			pstm = con.prepareStatement(getVolunteerNumSql);
+			pstm.setInt(1, projectmSeq);
+			
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				num = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstm, con);
+		}
+		return num;
+	}
+	@Override
+	public int isProjectCreated(int projectmSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int res = 0;
+		try {
+			pstm = con.prepareStatement(isProjectCreatedSql);
+			pstm.setInt(1, projectmSeq);
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				res = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
 	public int matchingModifyProc(MatchingProVo matchingProVo) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
@@ -399,7 +462,25 @@ public class MatchingDaoImpl implements MatchingDao {
 		}
 		return projectSeq;
 	}
-
+	
+	// 지원자 승인
+	@Override
+	public int acceptVolunteer(int projectSeq, String userId) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		int res = 0;
+		try {
+			pstm = con.prepareStatement(acceptVolunteerSql);
+			pstm.setInt(1, projectSeq);
+			pstm.setString(2, userId);
+			
+			res = pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	// 프로젝트 조회
 	public List<ProjectVo> selectAllProject() {
 		Connection con = getConnection();
@@ -577,6 +658,73 @@ public class MatchingDaoImpl implements MatchingDao {
 
 		return -1;
 	}
+	
+	// 관심 플젝 게시글
+	public List<MatchingProVo> allProjectPost(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT TITLE, CONTENT, ENDDATE FROM matching_project m JOIN POST p ON(m.projectm_seq=p.post_no)  WHERE TYPE='project' AND U_ID=? ";
+		List<MatchingProVo> res = new ArrayList<MatchingProVo>();
+		
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				MatchingProVo matVo = new MatchingProVo();
+				matVo.setTitle(rs.getString(1));
+				matVo.setContent(rs.getString(2));
+				matVo.setEnddate(rs.getString(3));
+				
+				res.add(matVo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+	
+	// 관심 사람 게시글
+	public List<MatchingPerVo> allPersonalPost(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT TITLE, user_id, emp_category  FROM matching_personal m JOIN POST p ON(m.personal_seq=p.post_no)  WHERE TYPE='personal' AND U_ID=? ";
+		List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
+		
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				MatchingPerVo perVo = new MatchingPerVo();
+				perVo.setUser_id(rs.getString(1));
+				perVo.setTitle(rs.getString(2));
+				perVo.setEmp_category(rs.getString(3));
+
+				res.add(perVo);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+	
+	
 
 	// 지원자 정보받기
 	public boolean insertVolunteer(VolunteerVo vo) {
@@ -586,7 +734,8 @@ public class MatchingDaoImpl implements MatchingDao {
 
 		try {
 			pstmt = con.prepareStatement(insertVolunteerSql);
-			pstmt.setString(1, vo.getUserId());
+			pstmt.setInt(1, vo.getProjectM_seq());
+			pstmt.setString(2, vo.getUserId());
 
 			res = pstmt.executeUpdate();
 

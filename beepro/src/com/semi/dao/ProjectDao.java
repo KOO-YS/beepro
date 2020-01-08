@@ -13,10 +13,12 @@ import util.Paging;
 public interface ProjectDao {
 	// 이슈부분
     String insertIssueSql = "INSERT INTO ISSUE VALUES(ISSUE_SEQ.NEXTVAL,?,?,?,?,SYSDATE,?,?,?)";
-    String updateIssueSql = "UPDATE ISSUE SET TITLE=?, ISSUE_LEVEL=?, ISSUE_CATEGORY=?, CONTENT=?, RESPONSIBILITY=? WHERE ISSUE_SEQ=?";
+    String updateIssueSql = "UPDATE ISSUE SET TITLE=?, ISSUE_LEVEL=?, ISSUE_CATEGORY=?, CONTENT=? WHERE ISSUE_SEQ=?";
     String deleteIssueSql = "DELETE FROM ISSUE WHERE ISSUE_SEQ=?";
-    String selectAllIssueSql = "SELECT * FROM ISSUE"; 
+    String selectAllIssueSql = "SELECT * FROM ISSUE WHERE PROJECT_SEQ=?"; 
     String selectOneIssueSql = "SELECT * FROM ISSUE WHERE ISSUE_SEQ=?";
+    String selectOneProjectNameSql = "SELECT DISTINCT PROJECT_NAME from PROJECT P join ISSUE I ON(P.PROJECT_SEQ = I.PROJECT_SEQ) WHERE I.ISSUE_SEQ=?";
+    String selectOneProjectNameSql2 = "SELECT DISTINCT PROJECT_NAME from PROJECT P join ISSUE I ON(P.PROJECT_SEQ = I.PROJECT_SEQ) WHERE P.PROJECT_SEQ=?";
     
     // 업무부분
     String insertTodoSql = "INSERT INTO TODO VALUES(TODO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
@@ -32,6 +34,9 @@ public interface ProjectDao {
     // 프로젝트부분
     String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
     
+    // 프로젝트 구성원
+    String selectMemberSql = "SELECT MEMBER_ID FROM PROJECT WHERE PROJECT_SEQ=?";
+    
     // 업무 진행상황 부분
     String getByTodoTypeSql = "SELECT CATEGORY 분류,"
     		+ " TRUNC(COUNT(CASE WHEN FINISH_CK = 'Y' THEN 1 END)/COUNT(*)*100) 분류별진행률,"
@@ -40,7 +45,7 @@ public interface ProjectDao {
     		+ " WHERE PROJECT_SEQ=? GROUP BY CATEGORY";
     
     String getTodoInfoSql = "SELECT COUNT(*) 총업무수,"
-    		+ " COUNT(CASE WHEN FINISH_CK='Y' THEN 1 END)/COUNT(*)*100 총업무진행률,"
+    		+ " NVL( COUNT(CASE WHEN FINISH_CK='Y' THEN 1 END)/DECODE(COUNT(*),0,NULL, COUNT(*) ) *100 ,0) 총업무진행률,"		// 분모가 0가 되어 sql 에러가 뜨는것을 방지
     		+ " COUNT(CASE WHEN FINISH_CK='N' AND MANAGER=? THEN 1 END) 개인잔여업무"
     		+ " FROM TODO"
     		+ " WHERE PROJECT_SEQ=?";
@@ -60,7 +65,7 @@ public interface ProjectDao {
     String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
     String updateCommentSql = "UPDATE COMMENTS SET CONTENT=? WHERE COMMENTS_SEQ=? AND ISSUE_SEQ=?";
     
-    public List<IssueVo> selectAllIssue();
+    public List<IssueVo> selectAllIssue(int projectSeq);
     
     public IssueVo selectOneIssue(int issue_seq);
     
@@ -69,6 +74,12 @@ public interface ProjectDao {
     public boolean updateIssue(IssueVo vo);
     
     public boolean deleteIssue(int issueSeq);
+    
+    public String selectOneProjectName(int issue_seq);
+    
+    public String selectOneProjectName2(int projectSeq);
+    
+    public String selectAllMember(int projectSeq);
     
     public int insertTodo(TodoVo todo);
 
@@ -85,8 +96,6 @@ public interface ProjectDao {
 	public int deleteTodo(int todoSeq, int projectSeq);
 
 	public void updateTodoPriority(int todoSeq, int projectSeq, int priority);
-
-	public HashMap<String, Integer> countCategory();
 
 	public HashMap<String, Integer> getTodoInfo(String userId, int projectSeq);
 
@@ -108,5 +117,6 @@ public interface ProjectDao {
 	public void updateComment(int commentSeq, int issueSeq, String content);
 
 	public int getTodoCount(int projectSeq, String manager);
+
 }
 

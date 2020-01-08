@@ -3,6 +3,7 @@ package com.semi.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,8 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import com.semi.dao.UserDao;
 import com.semi.dao.UserDaoImpl;
+import com.semi.service.MatchingService;
 import com.semi.service.UserService;
 import com.semi.vo.MessageVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
 
 import util.sha256;
@@ -126,14 +129,25 @@ public class UserServlet extends HttpServlet {
 			System.out.println("받은 쪽지 출력");
 			userService.getAllMsg(request, response);
 			
+		} else if(command.equals("sendAllMsg")) {
+			System.out.println("보낸 쪽지 출력");
+			userService.sendAllMsg(request, response);
+			
 		} else if(command.equals("sendMsg")) {
 			System.out.println("쪽지 보내기");
 			userService.sendMsg(request, response);
 			
 		} else if(command.equals("readMsg")) {
+			System.out.println("쪽지 읽음");
+			userService.readMsg(request, response);
 			
-		} else if(command.equals("msgList")) {
+		} else if(command.equals("deleteSendMsg")) {
+			System.out.println("보낸 쪽지 삭제");
+			userService.deleteSendMsg(request, response);
 			
+		} else if(command.equals("deleteGetMsg")) {
+			System.out.println("받은 쪽지 삭제");
+			userService.deleteGetMsg(request, response);
 		}
 	}
 
@@ -286,7 +300,11 @@ public class UserServlet extends HttpServlet {
 
 	private void loginAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		MatchingService matchingService = new MatchingService();
+		
 		HttpSession session = request.getSession();
+		List<ProjectVo> list = matchingService.selectAllProject(request, response);
+		session.setAttribute("projectList", list);
 		
 		String u_id = null;
 	 	String u_pwd = null;	

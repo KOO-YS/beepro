@@ -3,7 +3,6 @@ package com.semi.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -21,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.dao.UserDaoImpl;
@@ -429,7 +431,7 @@ public class UserService {
 	/* 쪽지 서비스 */
 
 	// 쪽지 보내기 서비스
-	public void sendMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void sendMsg(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 
@@ -444,7 +446,7 @@ public class UserService {
 		// 아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
 		if (send_id == null || send_id.equals("") || get_id == null || get_id.equals("") || content == null
 				|| content.equals("")) {
-			System.out.println("쪽지 보내기 실패");
+			response.getWriter().write("<script type='text/javascript'>alert('내용을 입력해 주세요'); history.back(); </script>");
 		} else {
 			// 보내는사람과 받는 사람이 있을 때 보낸다.
 			send_id = URLDecoder.decode(send_id, "UTF-8");
@@ -457,30 +459,45 @@ public class UserService {
 			} else {
 				System.out.println("쪽지 보내기 실패");
 			}
-			response.getWriter().write("<script type='text/javascript'>alert('쪽지 보내기 완료');history.back();</script>");	
+			dispatch("msg?command=getAllMsg&u_id="+send_id,request,response);
 		}
 
 	}
 	
-	// 쪽지 삭제 서비스
-	public void deleteMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	// 보낸 쪽지 삭제 서비스
+	public void deleteSendMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+		
+		String[] list = request.getParameterValues("list");
+		System.out.println(list[0]);
 
-		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
-		String send_id = request.getParameter("send_id");
-		String get_id = request.getParameter("get_id");
-
-		if (dao.deleteMsg(msg_seq,send_id,get_id)>0) {
-			System.out.println("쪽지 삭제 성공");
-			response.getWriter().write("성공");
+		if (dao.deletSendMsg(list)>0) {
+			System.out.println("보낸 쪽지 삭제 성공");
+			response.getWriter().write("1");
 		} else {
-			System.out.println("쪽지 삭제 실패");
-			response.getWriter().write("실패");
+			System.out.println("보낸 쪽지 삭제 실패");
+			response.getWriter().write("-1");
 		}
 
 	}
 	
+	// 받은 쪽지 삭제 서비스
+	public void deleteGetMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		String[] list = request.getParameterValues("list");
+		
+		if (dao.deletGetMsg(list)>0) {
+			System.out.println("받은 쪽지 삭제 성공");
+			response.getWriter().write("1");
+		} else {
+			System.out.println("보낸 쪽지 삭제 실패");
+			response.getWriter().write("-1");
+		}
+		
+	}
 	//읽지 않은 쪽지 갯수
 	public void ureadAllMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -495,7 +512,8 @@ public class UserService {
 			response.getWriter().write(new UserDaoImpl().getUnreadAllMsg(u_id) + "");
 		}
 	}
-
+	
+	//받은 쪽지 목록 불러오기
 	public void getAllMsg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
@@ -503,25 +521,63 @@ public class UserService {
 		
 		String u_id = request.getParameter("u_id");
 		if (u_id == null || u_id.equals("")) {
-			System.out.println("로그인 안하고 쪽지 보냄");
+			System.out.println("로그인 안하고 쪽지 페이지");
 		} else {
 			System.out.println("받은 쪽지함 출력");
 			
 			list = dao.getAllMsg(u_id);
 			request.setAttribute("list", list);
-			dispatch("/matching/message.jsp",request,response);
+			
+			ArrayList<Integer> readList =  dao.readChk(u_id);
+			request.setAttribute("readList", readList);
+			
+			dispatch("/matching/messageGetBox.jsp",request,response);
 		}
+	}
+	
+	//보낸 쪽지 목록
+	public void sendAllMsg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		 ArrayList<MsgVo> list = new  ArrayList<MsgVo>();
+		
+		String u_id = request.getParameter("u_id");
+		if (u_id == null || u_id.equals("")) {
+			System.out.println("로그인 안하고 쪽지 페이지");
+		} else {
+			System.out.println("보낸 쪽지함 출력");
+			
+			list = dao.sendAllMsg(u_id);
+			request.setAttribute("list", list);
+			
+			ArrayList<Integer> readList =  dao.sendMsgReadChk(u_id);
+			request.setAttribute("readList", readList);
+			
+			dispatch("/matching/messageSendBox.jsp",request,response);
+		}
+	}
+	
+	// 쪽지 읽음 처리
+	public void readMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		int no = Integer.parseInt(request.getParameter("no"));
+		
+		if (no == 0) {
+			System.out.println("메세지 번호 못받아옴");
+		} else {
+			System.out.println("메세지 읽음");
+			response.getWriter().write(dao.readMsg(no));
+		}
+		
 	}
 	
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatch = request.getRequestDispatcher(url);
 		dispatch.forward(request, response);
-
+		
 	}
 
-	
-
-	
-	
 }

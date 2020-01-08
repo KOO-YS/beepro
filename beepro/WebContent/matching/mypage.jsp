@@ -295,8 +295,9 @@
  					</colgroup>
 					  <thead>
 					    <tr>
-					      <th colspan="2" >followers</th>
-					      <th>쪽지</th>
+					      <th>제목</th>
+					      <th>내용</th>
+					      <th>시작일</th>
 					    </tr>
 					  </thead>
 					  <tbody>
@@ -320,25 +321,29 @@
 					</table>
 				 </div>
 <!-- 				<h5>관심 personal 게시글 목록</h5> -->
-				 <div class="col-lg-6 col-sm-5">
+				  <div class="col-lg-6 col-sm-5" style="height:170px; overflow:scroll; overflow-x:hidden">
 				 	<table class="table table-sm table-hover">
+					  <colgroup>
+  						<col width="30%"/>
+  						<col width="30%"/>
+    					<col width=""/>
+ 					</colgroup>
 					  <thead>
 					    <tr>
-					      <th scope="col"></th>
-					      <th scope="col">following</th>
+					      <th>제목</th>
+					      <th>작성자</th>
+					      <th>희망분야</th>
 					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <th scope="row">1</th>
-					      <td>pomi</td>
-					    </tr>
+					   </thead>
+					   <tbody>
 					    <tr>
 					      <th scope="row">2</th>
 					      <td>gymin</td>
+					      <td>ddddddd</td>
 					    </tr>
 					    <tr>
 					      <th scope="row">3</th>
+					      <td>edie</td>
 					      <td>edie</td>
 					    </tr>
 					  </tbody>
@@ -347,6 +352,7 @@
 			 </div> 
 			 </div>
 			 <!-- 관심 게시글 목록 end -->
+			 
 		<!-- 관심 사람 목록 start -->
 			<div class="container">
 			<hr style="margin:3em 0;">
@@ -386,7 +392,8 @@
 					</table>
 				 </div>
 				 
-				 <div class="col-lg-6 col-sm-5">
+				 <!-- 팔로잉 보류 -->
+<!-- 				 <div class="col-lg-6 col-sm-5">
 				 	<table class="table table-sm table-hover">
 					  <thead>
 					    <tr>
@@ -409,7 +416,7 @@
 					    </tr>
 					  </tbody>
 					</table>
-				 </div>
+				 </div> -->
 			 </div> 
 			 <hr style="margin:3em 0 0 0;">
 			 </div>

@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <% //로그인 상태일때 로그인 세션 유지하는 부분
+   String u_id = null;
+
+	if(session.getAttribute("u_id") != null) {
+		u_id = (String) session.getAttribute("u_id");
+	} 
+	
+%> 
       <!-- Bootstrap core CSS -->
   <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -12,6 +20,14 @@
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     
     <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet"> 
+    
+    <script type="text/javascript">
+    	function alertLogin(){
+    		alert("로그인 후 이용해 주세요.");
+    	}
+    </script>
+    
+    
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
@@ -29,6 +45,20 @@
               <li><a class="nav-link" href="${pageContext.request.contextPath}/personMatching?command=selectAllPer">by personal</a></li>
             </ul>
           </li>
+
+           <%
+		if(u_id == null) {
+		%> 
+		 <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" onclick="alertLogin();">협업 cowork</a>
+         </li>
+		<li class="nav-item" style="margin-top: 10px;">
+            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'">
+              login
+            </button>
+          </li>
+          
+         <% } else {  %> 
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/cowork/dashboard.jsp">협업 cowork</a>
           </li>
@@ -36,8 +66,16 @@
             <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/matching?command=mypage">마이페이지</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/matching/message.jsp">쪽지</a>
+            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/msg?command=getAllMsg&u_id=<%=u_id%>">쪽지</a>
           </li>
+          <li class="nav-item" style="margin-top: 10px;">
+          	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='${pageContext.request.contextPath}/user?command=logout'">
+             logout
+            </button> 
+             </li>
+         <%	} %>
+          
+         
         </ul>
       </div>
     </div>

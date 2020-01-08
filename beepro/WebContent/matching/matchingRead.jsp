@@ -68,19 +68,6 @@
       floatLabel(".floatLabel");
    })(jQuery);
    
-      
-   $(document).ready(function() {
-		// 최상단의 전체선택 클릭 시 
-		$("#chkall").click(function() {
-			// 클릭 되었다면
-			if ($("#chkall").prop("checked")) {
-				$("input[name=vol]").prop("checked", true);
-			} else {
-				// 클릭이 안되었다면
-				$("input[name=vol]").prop("checked", false);
-			}
-		});
-	});
    
    // 다중 체크박스 선택 값 가져와서 모달창에 뿌려주는 것
 /*    function createProject(){
@@ -93,33 +80,7 @@
 		} */
 		
 </script>
-<%-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-	    <div class="container">
-	      <a class="navbar-brand js-scroll-trigger" href="matching/index.jsp">BeePro	</a>
-	      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-	        Menu
-	        <i class="fas fa-bars"></i>
-	      </button>
-	      <div class="collapse navbar-collapse" id="">
-	        <ul class="navbar-nav text-uppercase ml-auto">
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="#matching" id="match-sub" >매칭 matching</a>
-	            <ul class="sub-nav">
-	              <li><a class="nav-link" href="${pageContext.request.contextPath}/matching?command=matchingAll">by project</a></li>
-	              <li><a class="nav-link" href="personal.jsp">by personal</a></li>
-	            </ul>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="#about">협업 cowork</a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="mypage.jsp">마이페이지</a>
-	          </li>
-	        </ul>
-	      </div>
-	    </div>
-</head>
-	  </nav> --%>
+
 <body id="page-top">
 	  <jsp:include page="common/sub_nav.jsp"></jsp:include>
    <div class="container" style="padding-top: 5em;">
@@ -227,12 +188,7 @@
                		<button type="button" class="col-2 btn btn-primary" style="float: right; margin-right:30px;" id="modifyBtn">수정</button>
                	</c:when>
                	<c:otherwise>
-               	    	<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">
-				 		<c:choose>
-					 		<c:when test="${matchingVo.projectM_seq eq list.projectM_seq}">이미 지원하셨습니다</c:when>
-					 		<c:otherwise>지원하기</c:otherwise> 
-					 	</c:choose>
-			 		   </a>
+					<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>
 				</c:otherwise> 
                </c:choose>
             </div>
@@ -243,40 +199,74 @@
       <div class="container" style="padding:50px 30px;">
       <hr>
       	<div class="row">
-      		<c:if test="${matchingVo.pm_id eq u_id}">
+      	<c:choose>
+      		<c:when test="${matchingVo.pm_id eq u_id}">
 			 <div class="col-lg-7 col-sm-7">
-			 <p class="info-text margin-b-10">현재 지원자 총 N 명</p>
+			 <p class="info-text margin-b-10">현재 지원자 총 ${volunteerNum} 명</p>
 			 	<table class="table table-sm table-hover">
 				  <thead>
 				    <tr>
 				      <th width="5%"><input type="checkbox" id="chkall"></th>
-				      <th width="40%">지원자</th>
-				      <th width="10%"></th>
+				      <th width="35%">지원자</th>
+				      <th width="15%"></th>
 				      <th width="10%"></th>
 				    </tr>
 				  </thead>
-				   <c:forEach var="list" items="${list}" varStatus="status">
-				     <tbody>
-	                 <tr>
-				      <td>
-				      	<input type="checkbox" value="${list.userId}" name="vol">
-				      </td>
-				      <td>${list.userId}</td>
-				      <td>
-				      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp'">프로필</button>
-				      </td>
-				      <td>
-				      	<button class="btn btn-primary">쪽지</button>
-				      </td>
-				    </tr>
+				  <tbody>
+					 <c:forEach var="list" items="${volunteer}" varStatus="status">
+		                 <tr>
+					      <td>
+					      	<input type="checkbox" value="${list.userId}" name="volunteerId">
+					      </td>
+					      <td>${list.userId}</td>
+					      <td>
+					      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=profile&userId=${list.userId}'">프로필</button>
+					      </td>
+					      <td>
+					      	<button class="btn btn-primary">쪽지</button>
+					      </td>
+					    </tr>
+					 </c:forEach>
+					 <%-- <tr>	더미
+					      <td>
+					      	<input type="checkbox" value="testee" name="volunteerId">
+					      </td>
+					      <td>testee</td>
+					      <td>
+					      	<button class="btn btn-primary" onclick="location.href='#'">프로필</button>
+					      </td>
+					      <td>
+					      	<button class="btn btn-primary">쪽지</button>
+					      </td>
+					    </tr>
+					    					 <tr>
+					      <td>
+					      	<input type="checkbox" value="22testee" name="volunteerId">
+					      </td>
+					      <td>22iddd</td>
+					      <td>
+					      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp'">프로필</button>
+					      </td>
+					      <td>
+					      	<button class="btn btn-primary">쪽지</button>
+					      </td>
+					    </tr> --%>
 				  </tbody>
-				   </c:forEach>
 				</table>
 			 </div>
 			 <div class="col-lg-5 col-sm-5">
-			 	<button class="btn btn-primary" style="margin-top:11em;" onclick="createProject();">프로젝트 생성하기</button>
+			 <c:choose>
+			 	<c:when test="${created eq false}">
+				 	<button class="btn btn-primary" style="margin-top:11em;" onclick="createProject();">프로젝트 생성하기</button>
+			 	</c:when>
+			 	<c:otherwise>
+					<button class="btn btn-secondary" style="margin-top:11em;" onclick="return false;">이미 생성된 프로젝트입니다</button>		 	
+			 	</c:otherwise>
+			 </c:choose>
 			 </div>
-			</c:if>
+			</c:when>
+			
+		</c:choose>
 		 </div> <!-- 관심목록 end -->
       </div>
       <jsp:include page="common/footer.jsp"></jsp:include>
@@ -290,10 +280,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="${pageContext.request.contextPath}/matching?command=projectCreate" method="post">
-	  <input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}">
-	  <input type="hidden" name="u_id" value="${u_id}">
-      <div class="modal-body">
+	<form action="${pageContext.request.contextPath}/matching" method="post">
+		<input type="hidden" name="command" value="projectCreate">
+		<input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}">
+		<input type="hidden" name="u_id" value="${u_id}">
+	    <div class="modal-body">
         	  <div class="form-group">
 			    <label for="oriPwd">프로젝트 명</label>
 			    <input type="text" class="form-control" name="projectName" id="projectName" required>
@@ -310,7 +301,7 @@
 			  </div>
 			  <div class="oriPwd">
 			    <label for="member">프로젝트 팀원</label>
-			    <input type="text" class="form-control" name="member" id="member" required>
+			    <input type="text" class="form-control" name="member" id="member" readOnly required>
 			  </div>
       </div>
       <div class="modal-footer">
@@ -321,14 +312,44 @@
     </div>
   </div>
 </div>
-<!-- 비밀번호 변경 모달 end--> 
+<!-- 모달 end--> 
       
 <script type="text/javascript">
+$(document).ready(function(){
+	/* 전체 선택 */
+	$("#chkall").click(function(){
+        if($("#chkall").prop("checked")){
+            $("input[name=volunteerId]").prop("checked",true);	// 전체 선택
+        }else{
+            $("input[name=volunteerId]").prop("checked",false);	// 전체 선택 해제
+        }
+    })
+})
+
+/* 프로젝트 모달 오픈 */
 function createProject(){
 	if(confirm("프로젝트를 생성하시겠습니까?")){
-		$("#projectModal").modal();
+		if(validation()){		// 유효성 검사
+			var member = "";
+			$('input:checkbox[name="volunteerId"]:checked').each(function(){
+				member += $(this).val()+",";
+			});
+			$("#member").val(member);
+			$("#projectModal").modal();
+		}
 	}
 }
+/* 유효성 검사 */
+function validation() {
+	var success = true;
+	var memberChk = $('input:checkbox[name="volunteerId"]:checked').length;
+	if(memberChk<2){
+		alert("최소 두 명이상의 멤버를 선택해주세요");
+		success = false;
+	}
+	return success;
+}
+
 </script>
       <!-- Bootstrap core JavaScript -->
   <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>

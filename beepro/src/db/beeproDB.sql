@@ -201,7 +201,6 @@ CREATE TABLE issue (
 	issue_category	varchar2(150)	NOT NULL,
 	content	varchar2(4000)	NOT NULL
 );
-
 -- SELECT * FROM ISSUE;
 
 -- INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '해인 프로젝트', '전해인', '높음','15/11/30','버그', '이슈테스트2입니다.');

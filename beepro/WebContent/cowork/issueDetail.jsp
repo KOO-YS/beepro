@@ -199,7 +199,9 @@ $(document).ready(function() {
          font-weight:bold;
        }  
 
-#regdate { font-size:11px;}
+#regdate { font-size:11px;
+           margin-botton:16px;
+         }
 
 #content { 
            color:#334152;
@@ -221,7 +223,49 @@ $(document).ready(function() {
                 cursor: pointer !important;
                 display: inline-block;
                 margin-right: 20px !important;
-             }         
+             }    
+             
+#project_name { padding:30px;
+                width:100%;
+                height:auto;
+                margin-top:15px;
+                border-radius:5px;
+                border:1px solid rgb(75,97,207);
+                font-size:18px;
+                cursor:pointer;
+               }   
+               
+#link1 { width:50px;
+         height:30px;
+         line-height:30px;
+         text-align:center;
+         float:right;
+         margin-top:-70px;
+         margin-right:40px;
+         font-size:13px;
+         } 
+
+#link2 { width:50px;
+         height:30px;
+         line-height:30px;
+          text-align:center;
+          float:right;
+          margin-top:-70px;
+          margin-left:30px;
+          font-size:13px;
+         } 
+         
+#link1 > a { color:lightgray; }
+
+#link2 > a { color:lightgray; }
+
+#link1 > a:hover { color:rgb(75,97,207);
+                   font-weight:bold;
+                 }
+                 
+#link2 > a:hover { color:rgb(75,97,207);
+                   font-weight:bold;
+                 }
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -245,17 +289,18 @@ $(document).ready(function() {
 					      <h4 class="content-header">
 					       <div>
 					        <p class="tag">
-					          ${vo.issueSeq} &nbsp; / &nbsp; ${vo.projectSeq}
+					          ${vo.issueSeq} &nbsp; / &nbsp; ${pName}
 					        </p>
 					        </div>
 					          ${vo.title }
 					      </h4>
 					      
+					      <!-- 이슈 수정, 삭제 버튼 -->
 					      <div class="show-ticket">
-   					         <a href="${pageContext.request.contextPath}/issue?command=issueUpdate&issue_seq=${vo.issueSeq}">
+   					         <a href="${pageContext.request.contextPath}/issue?command=issueUpdate&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}">
 					           <img src="<%=request.getContextPath()%>/cowork/images/modify.png" width="30" height="30" style="margin-right:15px;"/>
 					         </a>
-					         <a href="${pageContext.request.contextPath}/issue?command=issueDelete&issue_seq=${vo.issueSeq}">
+					         <a href="${pageContext.request.contextPath}/issue?command=issueDelete&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}">
 					           <img src="<%=request.getContextPath()%>/cowork/images/close.png" width="45" height="45" />
 					         </a>
 					      </div>
@@ -271,7 +316,7 @@ $(document).ready(function() {
 					               <div class="subheader2">
 					                ${u_name}&nbsp;&nbsp;${u_email} 
 					               </div>
-					            </div>
+    					        </div>
 					         </div>
 					         <h6 class="issue-subheader mt-20"></h6>
 					         
@@ -344,17 +389,19 @@ $(document).ready(function() {
 					                   </div>
 					                   
 					                   <div id="content">
-					                   ${list.content}
+					                   <span id="comment-content">${list.content}</span>
 					                   </div>
-					              
-					                   <button type="button" class="btn btn-primary" id="btn1"
-					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=updateComment'">
-					                                             수정
-					                   </button>
-					                   <button type="button" class="btn btn-primary" id="btn2"
-					                   onclick="location.href='${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}'">
-					                                             삭제
-					                   </button>
+					  <div id="link1">            
+	                   <a href="javascript:void(0)" onclick="modify(${list.commentSeq})">
+	                                             수정
+	                   </a>
+	                 </div>  
+	                 
+	                 <div id="link2">
+	                 <a href="${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}">
+	                                             삭제
+	                   </a>
+	                 </div>
 					                 </div>
 					                </c:forEach>
 					              </c:otherwise>
@@ -380,5 +427,55 @@ $(document).ready(function() {
 			<jsp:include page="common/footer.html"></jsp:include>
 		</div>
 	</div>
+	
+		 <!-- 워크스페이스 모달  -->
+      <div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body" style="font-size:14px;">
+          <div id="test100"></div>
+              <c:choose>
+	             <c:when test="${empty projectVo}">
+	                <div id="none">
+	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
+	                                        매칭을 통해 생성하십시오.<br>
+	                  <a class="btn btn-primary" href="../matching?command=matchingAll">매칭하러가기</a>  
+	                </div>
+	             </c:when>
+	      
+	             <c:otherwise>
+	                              이동하실 워크 스페이스를 선택하세요.
+	               <c:forEach var="vo" items="${projectVo}">
+	                <div id="project_name" onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+	                  <div id="title">
+	                     ${vo.projectName}
+	                 </div>
+	                  
+	                 <div id="content">
+	                  ${vo.member}
+	                 </div>
+	                 
+	                 <div id="period">
+	                  ${vo.startDate} - ${vo.endDate}
+	                 </div>
+	               </div>
+	               </c:forEach>
+	             </c:otherwise>
+	         </c:choose>       
+          </div>
+        </div>
+      </div>
+<script type="text/javascript">
+// 댓글 수정 ajax 함수
+function modify(commentSeq){ 
+	var comment = $("#comment-content").val();
+}
+</script>
 </body>
 </html>

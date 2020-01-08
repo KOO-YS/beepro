@@ -56,7 +56,7 @@ public class ProjectDaoImple implements ProjectDao {
 
 	// 전체 이슈 조회
 	@Override
-	public List<IssueVo> selectAllIssue() {
+	public List<IssueVo> selectAllIssue(int projectSeq) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -64,6 +64,7 @@ public class ProjectDaoImple implements ProjectDao {
 
 		try {
 			pstmt = con.prepareStatement(selectAllIssueSql);
+			pstmt.setInt(1, projectSeq);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -112,6 +113,7 @@ public class ProjectDaoImple implements ProjectDao {
 				res.setRegdate(rs.getDate(6));
 				res.setCategory(rs.getString(7));
 				res.setContent(rs.getString(8));
+				res.setResponsibility(rs.getString(9));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -135,8 +137,9 @@ public class ProjectDaoImple implements ProjectDao {
 			pstmt.setString(2, vo.getLevel());
 			pstmt.setString(3, vo.getCategory());
 			pstmt.setString(4, vo.getContent());
-			pstmt.setString(5, vo.getResponsibility());
-			pstmt.setInt(6, vo.getIssueSeq());
+			pstmt.setInt(5, vo.getIssueSeq());
+			
+			System.out.println(vo.toString());
 			
 			res = pstmt.executeUpdate();
 			
@@ -148,7 +151,6 @@ public class ProjectDaoImple implements ProjectDao {
 		} finally {
 			close(pstmt, con);
 		}
-		
 		return true;
 	}
 
@@ -175,7 +177,86 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return true;
 	}
+	
+	// 프로젝트 이름 가져오는 부분
+	@Override
+	public String selectOneProjectName(int issue_seq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = null;
 
+		try {
+			pstmt = con.prepareStatement(selectOneProjectNameSql);
+			pstmt.setInt(1, issue_seq);
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res = rs.getString(1);
+			}
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+			System.out.println("5. db종료");
+		}
+		return res;
+	}
+	
+	// 프로젝트 이름 가져오는 부분
+	@Override
+	public String selectOneProjectName2(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = null;
+
+		try {
+			pstmt = con.prepareStatement(selectOneProjectNameSql2);
+			pstmt.setInt(1, projectSeq);
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res = rs.getString(1);
+			}
+		    
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+			System.out.println("5. db종료");
+		}
+		return res;
+	}
+	
+	// 프로젝트 구성원 조회하는 부분
+	// 프로젝트 멤버 문자열 뽑아오기
+	@Override
+	public String selectAllMember(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = null;
+		
+		try {
+			pstmt = con.prepareStatement(selectMemberSql);
+			pstmt.setInt(1, projectSeq);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
 	// 업무 생성
 	@Override
 	public int insertTodo(TodoVo todo) {
@@ -403,25 +484,6 @@ public class ProjectDaoImple implements ProjectDao {
 			e.printStackTrace();
 		}
 		return todoCount;
-	}
-
-	// 업무 개수 분류 // TODO 폐기
-	@Override
-	public HashMap<String, Integer> countCategory() {
-		Connection con = getConnection();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		HashMap<String, Integer> categoryMap = new HashMap<String, Integer>();
-		try {
-			pstm = con.prepareStatement(getByTodoTypeSql);
-			rs = pstm.executeQuery();
-			while (rs.next()) {
-				categoryMap.put(rs.getString(1), rs.getInt(2));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return categoryMap;
 	}
 
 	// 대시보드 통계 - Todo 종합
@@ -665,5 +727,8 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return true;
 	}
+
+	
+
 
 }
