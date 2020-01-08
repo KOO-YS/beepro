@@ -94,8 +94,11 @@
 			</c:otherwise>
 		</c:choose> --%>
          <!--  General -->
-        <form action="/matching" method="post" name="modifyForm">
+         
+        <form action="matching" method="post" name="modifyForm">
 		<input type="hidden" name="command"  value="matchingModifyProc"/>	
+		<input type="hidden" name="projectM_seq"  value="${matchingVo.projectM_seq}"/>
+		
          <div class="form-group">
             <div class="controls">
                <input type="text" id="title" class="floatLabel" name="title" placeholder="프로젝트 제목을 입력하세요" value="${matchingVo.title }" <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>
@@ -145,6 +148,7 @@
                   <option value="충북" <c:if test="${matchingVo.location eq '충북' }">selected</c:if>>충북</option>
                   <option value="충남" <c:if test="${matchingVo.location eq '충남' }">selected</c:if>>충남</option>
                   <option value="제주" <c:if test="${matchingVo.location eq '제주' }">selected</c:if>>제주</option>
+                  <option value="온라인" <c:if test="${matchingVo.location eq '온라인' }">selected</c:if>>온라인</option>
                </select>
             </div>
          </div>
@@ -181,11 +185,15 @@
                   <p class="info-text margin-b-10">상세 내용</p>
                   <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요." <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>${matchingVo.content}</textarea>
                	</div>
+               	
                	<a href="${pageContext.request.contextPath}/matching?command=matchingAll" class="col-2 btn btn-primary" style="float:left;">목록</a>
+               	
                	<c:choose>
                	<c:when test="${matchingVo.pm_id eq u_id}">
+               	  <c:if test="${matchingVo.modifyYn }">
 	               	<button type="button" class="col-2 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
                		<button type="button" class="col-2 btn btn-primary" style="float: right; margin-right:30px;" id="modifyBtn">수정</button>
+               	 </c:if>
                	</c:when>
                	<c:otherwise>
 					<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>

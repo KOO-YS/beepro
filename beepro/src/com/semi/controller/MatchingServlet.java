@@ -16,8 +16,9 @@ import com.semi.dao.MatchingDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-import com.semi.vo.UserVo;
+import com.semi.vo.PageVo;
 import com.semi.vo.ProjectVo;
+import com.semi.vo.UserVo;
 import com.semi.vo.VolunteerVo;
 
 //import common.Pagination;
@@ -94,10 +95,44 @@ public class MatchingServlet extends HttpServlet {
 
 			// 매칭 전체보기
 		} else if (command.equals("matchingAll")) {
+			
 			System.out.println("매칭 전체 보기");
 			List<MatchingProVo> list = matchingService.matchingProAll(request);
 			request.setAttribute("matchingList", list);
 			
+			
+			   int listCount = list.size();
+		         System.out.println(listCount);
+		         request.setAttribute("listsize", listCount);
+		         
+		         String curpagenum = request.getParameter("curpagenum");
+		         System.out.println(curpagenum+"현재페이지");
+		         //페이징 시작
+		         int currentPage = 0;
+
+		         if (curpagenum == null || curpagenum == "0") {
+		            currentPage = 1;
+		         } else {
+		            currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+		         }
+
+		         PageVo page = new PageVo();
+
+		         page.setCurrentPage(currentPage);
+		         page.setListCount(listCount);
+		         page.setAllPage(listCount);
+		         page.setPreve(currentPage);
+		         page.setStartRow(currentPage);
+		         page.setStartPage(currentPage, page.getAllPage());
+		         page.setEndPage(currentPage, page.getAllPage());
+		         page.setNext(currentPage, page.getAllPage());
+
+		         request.setAttribute("page", page);
+
+		         request.setAttribute("list", list);
+		        //페이징 끝
+		         dispatch("matching/matchingList.jsp", request, response);
+		         
 			// 관심게시글 가져오기
 			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"project");
 			request.setAttribute("postList", postList);
@@ -151,8 +186,10 @@ public class MatchingServlet extends HttpServlet {
 			dispatch("matching/matchingRead.jsp", request, response);
 
 		} else if (command.equals("matchingModifyProc")) {
+			
 			System.out.println("매칭 글 수정 수정");
-			String project_seq = (String) request.getParameter("project_seq");
+			String project_seq = (String) request.getParameter("projectM_seq");
+			System.out.println(project_seq);
 
 			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
 
@@ -216,6 +253,8 @@ public class MatchingServlet extends HttpServlet {
 
 			
 			// 관심게시글 가져오기
+
+				
 			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
 			request.setAttribute("postList", postList);
 

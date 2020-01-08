@@ -23,6 +23,7 @@
 <script src="${pageContext.request.contextPath}/matching/js/plugins/tagEditor/jquery.caret.min.js"></script>
 <script src="${pageContext.request.contextPath}/matching/js/plugins/tagEditor/jquery.tag-editor.js"></script>
 <script type="text/javascript">
+
    (function($) {
       function floatLabel(inputType) {
          $(inputType).each(function() {
@@ -144,6 +145,7 @@
                   <option value="충북">충북</option>
                   <option value="충남">충남</option>
                   <option value="제주">제주</option>
+                  <option value="온라인">온라인</option>
                </select>
             </div>
          </div>

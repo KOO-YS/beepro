@@ -49,6 +49,8 @@ public interface MatchingDao {
 	String deletematchingSeq = "DELETE MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
 	// 프로젝트 전체 목록 보기
 	String selectAllMatchingProSql = "SELECT * FROM MATCHING_PROJECT ORDER BY PROJECTM_SEQ DESC";
+	//프로젝트 검색
+	String selectSearchSql = "SELECT * FROM MATCHING_PROJECT ? ORDER BY PROJECTM_SEQ DESC";
 
 	// 프로젝트 상세페이지
 	String selectMatchingReadSql = "SELECT * FROM MATCHING_PROJECT WHERE PROJECTM_SEQ = ?";
@@ -103,8 +105,10 @@ public interface MatchingDao {
 
 	public List<ProjectVo> selectAllProject();
 	
+
 	public ProjectVo selectOneProject(int projectSeq);
 	
+
 	public List<MatchingProVo> AllMyProject(String pm_id);
 	
 	public List<MatchingPerVo> AllMyPersonal(String u_id);

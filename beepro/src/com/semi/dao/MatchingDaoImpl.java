@@ -80,10 +80,8 @@ public class MatchingDaoImpl implements MatchingDao {
 		List<MatchingProVo> res = new ArrayList<MatchingProVo>();
 
 		try {
-			String selectAllMatchingSql = selectAllMatchingProSql;
+			String selectAllMatchingSql = selectSearchSql;
 			String whereStr = "";
-			System.out.println(matchingProVo.getSearchCat());
-			System.out.println(matchingProVo.getSearchKeyword());
 
 			switch (matchingProVo.getSearchCat()) {
 			case "pm_id":
@@ -97,10 +95,13 @@ public class MatchingDaoImpl implements MatchingDao {
 				break;
 			default:
 			}
+			
 			System.out.println(whereStr);
+			
 			selectAllMatchingSql = selectAllMatchingSql.replace("?", whereStr);
 
 			System.out.println(selectAllMatchingSql);
+			
 			pstmt = con.prepareStatement(selectAllMatchingSql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -127,7 +128,13 @@ public class MatchingDaoImpl implements MatchingDao {
 			e.printStackTrace();
 		} finally {
 			close(rs, pstmt, con);
-			System.out.println("DB 종료");
+			System.out.println("프로젝트 매칭 검색 DB 종료");
+		}
+		
+		for(MatchingProVo v : res) {
+			
+			System.out.println(v);
+			
 		}
 
 		return res;
@@ -280,7 +287,7 @@ public class MatchingDaoImpl implements MatchingDao {
 		return res;
 	}
 
-	// 김지민 매칭 부분
+	// 김지민 매칭 부분 끝
 
 	// 퍼스널 매칭 글쓰기
 
