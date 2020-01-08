@@ -45,22 +45,20 @@ public class ProjectService {
 	}
 
 	// 이슈 전체 조회 서비스
-	public List<IssueVo> issueAll(HttpServletRequest request, HttpServletResponse response) {
-          return projectDao.selectAllIssue();
-	}
+//	public List<IssueVo> issueAll(HttpServletRequest request, HttpServletResponse response) {
+//          return projectDao.selectAllIssue();
+//	}
 	
 	// 이슈 수정
 	public boolean issueUpdate(HttpServletRequest request, HttpServletResponse response) {
         int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
-        int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
         
 		String title = request.getParameter("title");
 		String level = request.getParameter("level");
 		String category = request.getParameter("category");
 		String content = request.getParameter("content");
-		String responsibility = request.getParameter("responsibility");
 		
-		IssueVo issue = new IssueVo(issueSeq, projectSeq, title, level, category, content, responsibility);
+		IssueVo issue = new IssueVo(issueSeq, title, level, category, content);
 		
 		System.out.println(issue.toString());
 		

@@ -103,6 +103,8 @@ public interface MatchingDao {
 
 	public List<ProjectVo> selectAllProject();
 	
+	public ProjectVo selectOneProject(int projectSeq);
+	
 	public List<MatchingProVo> AllMyProject(String pm_id);
 	
 	public List<MatchingPerVo> AllMyPersonal(String u_id);

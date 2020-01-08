@@ -126,6 +126,8 @@ public class UserServlet extends HttpServlet {
 			userService.sendMsg(request, response);
 			
 		} else if(command.equals("readMsg")) {
+			System.out.println("메세지 읽음");
+			userService.readMsg(request, response);
 			
 		} else if(command.equals("msgList")) {
 			

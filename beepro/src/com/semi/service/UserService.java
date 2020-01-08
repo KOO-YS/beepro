@@ -392,7 +392,7 @@ public class UserService {
 	/* 쪽지 서비스 */
 
 	// 쪽지 보내기 서비스
-	public void sendMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void sendMsg(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 
@@ -420,7 +420,8 @@ public class UserService {
 			} else {
 				System.out.println("쪽지 보내기 실패");
 			}
-			response.getWriter().write("<script type='text/javascript'>alert('쪽지 보내기 완료');history.back();</script>");	
+			response.getWriter().write("<script type='text/javascript'>alert('쪽지 보내기 완료');history.back();</script>");
+//			dispatch("/matching/message.jsp",request,response);
 		}
 
 	}
@@ -458,7 +459,8 @@ public class UserService {
 			response.getWriter().write(new UserDaoImpl().getUnreadAllMsg(u_id) + "");
 		}
 	}
-
+	
+	//쪽지 목록 불러오기
 	public void getAllMsg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
@@ -472,15 +474,34 @@ public class UserService {
 			
 			list = dao.getAllMsg(u_id);
 			request.setAttribute("list", list);
+			
+			ArrayList<Integer> readList =  dao.readChk(u_id);
+			request.setAttribute("readList", readList);
+			
 			dispatch("/matching/message.jsp",request,response);
 		}
+	}
+	
+	// 쪽지 읽음 처리
+	public void readMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		int no = Integer.parseInt(request.getParameter("no"));
+		
+		if (no == 0) {
+			System.out.println("메세지 번호 못받아옴");
+		} else {
+			System.out.println("메세지 읽음");
+			response.getWriter().write(dao.readMsg(no));
+		}
+		
 	}
 	
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatch = request.getRequestDispatcher(url);
 		dispatch.forward(request, response);
-
+		
 	}
-	
 }

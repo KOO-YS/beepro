@@ -54,6 +54,15 @@ public class IssueVo {
 		this.responsibility = responsibility;
 	}
 
+	public IssueVo(int issueSeq, String title, String level, String category, String content) {
+		super();
+		this.issueSeq = issueSeq;
+		this.title = title;
+		this.level = level;
+		this.category = category;
+		this.content = content;
+	}
+
 	public int getIssueSeq() {
 		return issueSeq;
 	}

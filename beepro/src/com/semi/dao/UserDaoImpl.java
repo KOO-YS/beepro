@@ -631,15 +631,14 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		}
 
 		//쪽지 읽었다고 처리
-		public int readMsg(String send_id, String get_id) {
+		public int readMsg(int no) {
 			Connection con = getConnection();
 			PreparedStatement pstmt = null;
 			int res =0;
-			String sql = " UPDATE msg SET read_ck = 1 WHERE (send_id = ? AND get_id = ?) ";
+			String sql = " UPDATE msg SET read_ck = 1 WHERE msg_seq=? ";
 			try {
 				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, get_id); // 받는사람과 보낸사람 교차해서 넣어줌
-				pstmt.setString(2, send_id);
+				pstmt.setInt(1, no); 
 
 				res = pstmt.executeUpdate();
 				
@@ -709,6 +708,35 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			return -1; // 데이터베이스 오류
 		}
 		
+		//읽은 쪽지 체크
+		public ArrayList<Integer> readChk(String u_id) {
+			Connection con = getConnection();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			
+			String sql = " SELECT * FROM msg WHERE get_id=? AND read_ck=1 ";
+			
+			try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, u_id);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					list.add(rs.getInt(1));
+				}
+				
+			}catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				close(rs);
+				close(pstmt);
+				close(con);
+			}
+			
+			return list;
+		}
 		
 		// 모든 받은 쪽지 목록
 		public ArrayList<MsgVo> getAllMsg(String get_id) {
