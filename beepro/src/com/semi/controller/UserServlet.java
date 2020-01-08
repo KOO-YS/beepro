@@ -121,16 +121,25 @@ public class UserServlet extends HttpServlet {
 			System.out.println("받은 쪽지 출력");
 			userService.getAllMsg(request, response);
 			
+		} else if(command.equals("sendAllMsg")) {
+			System.out.println("보낸 쪽지 출력");
+			userService.sendAllMsg(request, response);
+			
 		} else if(command.equals("sendMsg")) {
 			System.out.println("쪽지 보내기");
 			userService.sendMsg(request, response);
 			
 		} else if(command.equals("readMsg")) {
-			System.out.println("메세지 읽음");
+			System.out.println("쪽지 읽음");
 			userService.readMsg(request, response);
 			
-		} else if(command.equals("msgList")) {
+		} else if(command.equals("deleteSendMsg")) {
+			System.out.println("보낸 쪽지 삭제");
+			userService.deleteSendMsg(request, response);
 			
+		} else if(command.equals("deleteGetMsg")) {
+			System.out.println("받은 쪽지 삭제");
+			userService.deleteGetMsg(request, response);
 		}
 	}
 

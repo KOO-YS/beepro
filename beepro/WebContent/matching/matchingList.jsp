@@ -106,7 +106,7 @@
 					alert("해당 게시글이 관심 게시글에  추가되었습니다.");
 				} else if(result == 0){
 					alert("로그인 후 이용해 주세요.");
-					$('#heart').attr('class', 'heart');
+					location.reload();
 				} else {
 					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
 				}

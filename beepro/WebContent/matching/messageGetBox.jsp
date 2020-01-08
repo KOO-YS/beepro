@@ -95,6 +95,7 @@
             }
          });
 	}
+	
 	function reSendFunction(get_id){
 		$('#sendMsgModal').css("display","block");
 		$('#inputTo').val(get_id);
@@ -105,9 +106,48 @@
 			$('#sendMsgModal').css("display","none");
 		});
 	}
-	function getMsgFunction(){
-		
+	
+	function deleteMsgFunction(){
+		if($("input[name='chk']:checked").length == 0){
+			alert("삭제할 쪽지를 선택해 주세요.");
+		}else{
+			var delConfirm = confirm('선택한 쪽지를 삭제하시겠습니까?');
+			if (delConfirm) {
+				var list = [];
+				var data;
+				$("input[name='chk']:checked").each(function(i){  
+					list.push($(this).val());
+				});
+			
+				  $.ajaxSettings.traditional = true; 
+				  $.ajax({
+			            type : "POST",
+			            url : "${pageContext.request.contextPath}/msg?command=deleteGetMsg",
+			            data : {
+			            	list :list
+			            },
+			            success : function(res){
+			            	if(res>0){
+			            		location.reload();
+			            	}else{
+			            		alert("삭제 실패");
+			            	}
+			            }
+			         }); 
+			}
+		}
 	}
+		
+		function CheckForm(){
+			if($('#inputBody').val() ==""){ 
+				alert("보내실 쪽지 내용을 입력하세요.");
+				$('#inputBody').focus(); //id가 id인 태그에 커서깜빠거리는 포커스 주기
+				return false; //현재 submit이벤트를 중지하는 개념(즉, 전송을 막는다->페이지안넘김)
+			} else{ 
+
+				$('#sendForm').submit(); //form안에 있는 데이터를 action속성의 주소로 전송
+			}
+		}
 </script>
 
 </head>
@@ -210,13 +250,13 @@
 			<div class="row">
 				<div class="col-2">
 					<div class="chk-block"
-						style="margin-top: 50px; text-align: center;"
+						style="margin-top: 50px; text-align: center; background-color: #4e73df; color: white"
 						onclick="location.href='${pageContext.request.contextPath}/msg?command=getAllMsg&u_id=${u_id }'">
 						<h5>받은 쪽지함</h5>
 					</div>
 					<div class="chk-block"
-						style="margin-top: 20px; text-align: center;"
-						onclick="sendMsgFunction();">
+						style="margin-top: 20px; text-align: center; color: gray"
+						onclick="location.href='${pageContext.request.contextPath}/msg?command=sendAllMsg&u_id=${u_id }'">
 						<h5>보낸 쪽지함</h5>
 					</div>
 				</div>
@@ -238,9 +278,8 @@
 								<hr>
 							</div> -->
 					<div class="table-wrapper" id="getBox">
-						<input class="btn btn-primary"
-							style="margin-bottom: 10px;" type="button"
-							value="삭제" onclick="location.href='${pageContext.request.contextPath}/msg?command=deleteMsg'" />
+						<input class="btn btn-primary" style="margin-bottom: 10px;"
+							type="button" value="삭제" onclick="deleteMsgFunction();" />
 						<form action="">
 							<table class="table table-hover" id="boxTable"
 								style="text-align: center; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
@@ -269,11 +308,11 @@
 										</script>
 											</c:if>
 										</c:forEach>
-										<tr id="msg${list.msg_seq}"
-											onclick="showMsgFunction(${list.msg_seq});">
-											<td><input type="checkbox" name="chk"></td>
+										<tr id="msg${list.msg_seq}">
+											<td><input type="checkbox" name="chk"
+												value="${list.msg_seq }"></td>
 											<td>${list.send_id }</td>
-											<td style="text-align: left;">${list.content }</td>
+											<td style="text-align: left;" onclick="showMsgFunction(${list.msg_seq});">${list.content }</td>
 											<td><small>${list.regdate }</small></td>
 										</tr>
 
@@ -294,7 +333,8 @@
 															<label class="col-sm-12" for="inputTo"><span
 																class="glyphicon glyphicon-user"></span>보낸사람</label>
 															<div class="col-sm-10">
-																<input type="text" class="form-control" id="inputTo${list.msg_seq}"
+																<input type="text" class="form-control"
+																	id="inputTo${list.msg_seq}"
 																	placeholder="comma separated list of recipients"
 																	readonly="readonly" name="get_id"
 																	value="${list.send_id }">
@@ -304,9 +344,9 @@
 															<label class="col-sm-12" for="inputBody"><span
 																class="glyphicon glyphicon-list"></span>쪽지 내용</label>
 															<div class="col-sm-12">
-																<textarea class="form-control" id="inputBody${list.msg_seq}" rows="8"
-																	name="content" readonly="readonly"
-																	style="resize: none;">${list.content }</textarea>
+																<textarea class="form-control"
+																	id="inputBody${list.msg_seq}" rows="8" name="content"
+																	readonly="readonly" style="resize: none;">${list.content }</textarea>
 															</div>
 														</div>
 														<div class="modal-footer">
@@ -316,7 +356,8 @@
 															<input
 																type="button" class="btn btn-primary"
 																style="background-color: #fec503; border-color: #fec503;"
-																value="답장하기" onclick="reSendFunction('${list.send_id }');"/>
+																value="답장하기"
+																onclick="reSendFunction('${list.send_id }');" />
 														</div>
 													</div>
 												</div>
@@ -379,17 +420,17 @@
 				</div>
 				<div class="modal-body">
 
-					<form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/msg">
-						<input type="hidden" name="command"  value="sendMsg"/>
-						<input type="hidden" name="send_id"  value="${u_id }"/>
+					<form role="form" id="sendForm" class="form-horizontal"
+						action="${pageContext.request.contextPath}/msg">
+						<input type="hidden" name="command" value="sendMsg" /> <input
+							type="hidden" name="send_id" value="${u_id }" />
 						<div class="form-group">
 							<label class="col-sm-12" for="inputTo"><span
 								class="glyphicon glyphicon-user"></span>받는사람</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputTo"
 									placeholder="comma separated list of recipients"
-									readonly="readonly" name="get_id"
-									style="width: 430px">
+									readonly="readonly" name="get_id" style="width: 430px">
 							</div>
 						</div>
 						<div class="form-group">
@@ -404,12 +445,9 @@
 							<input type="reset" id="reset" class="btn btn-default pull-left"
 								data-dismiss="modal" style="border: 1px solid lightgray;"
 								value="취소" />
-							<!-- <button type="button" class="btn btn-warning pull-left">Save
-								Draft</button> -->
-							<input type="submit" class="btn btn-primary"
+							<input type="button" class="btn btn-primary"
 								style="background-color: #fec503; border-color: #fec503;"
-								value="보내기" />
-
+								value="보내기" onclick="CheckForm();" />
 						</div>
 					</form>
 				</div>
