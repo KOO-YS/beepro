@@ -39,7 +39,7 @@ public class UserService {
 	//임시 비밀번호 재설정
 	public void findPwd(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String host = "http://localhost:8787/beepro_2/matching/";		
+		String host = "http://localhost:8787/beepro/matching/";		
 		String from = "teambeepro@gmail.com";		
 		String u_id = request.getParameter("u_id");			
 		String to = request.getParameter("u_email");			
@@ -199,6 +199,43 @@ public class UserService {
 				response.sendRedirect("matching?command=mypage");
 			}
 	}
+	public String getUserPwd(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		return dao.getUserPwd(u_id);
+	}
+	
+	public int withdrawal(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		return dao.withdrawal(u_id);
+	}
+	
+	public int updatePwd(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		String newPwd = (String) request.getParameter("newPwd");
+		return dao.updatePwd(newPwd, u_id);
+	}
+	
+	public int CheckID(HttpServletRequest request, HttpServletResponse response) {
+		String u_id = request.getParameter("u_id");
+
+		return dao.CheckID(u_id);
+	}
+
+	public int naverRegister(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		
+		String u_id = (String) session.getAttribute("u_id");
+		String u_email = (String) session.getAttribute("u_email");
+		String u_name = (String) session.getAttribute("u_name");
+		
+		return dao.naverRegister(u_id, u_name,u_email);
+		
+	}
+
+
 
 	
 	/* 메세지 부분 서비스 */

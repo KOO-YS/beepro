@@ -118,6 +118,27 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 	}
 
 	@Override
+	public int naverRegister(String u_id, String u_name, String u_email) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;	
+		
+		try {
+			pstmt = con.prepareStatement(naverjoinSql);
+			pstmt.setString(1, u_id);
+			pstmt.setString(2, u_name);
+			pstmt.setString(3, u_email);			
+			System.out.println("[naver 회원가입 성공]");
+			return pstmt.executeUpdate();//회원가입 성공
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt, con);
+		}
+		return -1;//회원가입 실패		
+	}
+	
+	@Override
 	public int withdrawal(String u_id) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
@@ -955,5 +976,6 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		return list;
 
 	}
+
 
 }

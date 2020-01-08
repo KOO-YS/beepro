@@ -4,7 +4,7 @@ import com.semi.vo.UserVo;
 
 public interface UserDao {
 	String loginSql ="SELECT pwd from beepro_user WHERE user_id =?";
-	String joinSql ="INSERT into beepro_user values(?,?,?,?,?,null,'N','')";
+	String joinSql ="INSERT into beepro_user values(?,?,?,?,?,null,'N','','','')";
 	String getUserEmailSql = "SELECT email FROM beepro_user WHERE user_id = ?";
 	String getUserNameSql = "SELECT name FROM beepro_user WHERE user_id = ?";
 	String getEmailCkSql ="SELECT email_ck FROM beepro_user WHERE user_id = ?";
@@ -16,6 +16,7 @@ public interface UserDao {
 	String getUserPhotoSql = "SELECT userProfile from beepro_user WHERE user_id=?";
 	String getProfilePathSql = "SELECT userProfile FROM beepro_user WHERE user_id = ?";
 	String updatePwdSql = "UPDATE beepro_user SET pwd = ? WHERE user_id = ? ";
+	String naverjoinSql = "INSERT into beepro_user values(?,'pwd',?,?,'hash',null,'Y','','','Y')"; 	
 	
 	
 	String insertHeartSql = "INSERT INTO heart VALUES(?,?) ";
@@ -37,6 +38,7 @@ public interface UserDao {
 	public String getUserPhoto(String userID);
 	public String getProfilePath(String u_id);
 	public int updatePwd(String newPwd, String u_id);
+	public int naverRegister(String u_id, String u_name, String u_email);
 	
 	
 	

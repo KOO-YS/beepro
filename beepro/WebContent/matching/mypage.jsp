@@ -68,36 +68,34 @@
 </head>
 
 <body id="page-top">
-	<jsp:include page="common/sub_nav.jsp"></jsp:include>
+  <jsp:include page="common/sub_nav.jsp"></jsp:include>
 
-	<!-- Header -->
-	<header class="masthead" style="background-color: rgba(75, 97, 207);">
-		<div class="container">
-			<div class="intro-text"
-				style="padding-top: 150px; padding-bottom: 100px;">
-				<div class="intro-lead-in">by project</div>
-				<div class="intro-heading text-uppercase">MyPage</div>
-			</div>
-		</div>
-	</header>
-	<!-- profile -->
-	<div class="profile-bd">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<img src="<%= request.getContextPath() %>/upload/${u_photo}"
-						;
-      	  onerror="this.src='img/bee.png'"
-						style="width: 30%; border-radius: 50%; border: 10px solid rgba(75, 97, 207);">
-					<br>
-					<!-- <button class="btn btn-primary" onclick="window.open('profilePhoto.jsp','profilePhotoUpdate','width=330,height=80,location=no,status=no,scrollbars=no');" style="margin-top: 40px;">프로필사진 변경</button> -->
-					<button class="btn btn-primary" data-toggle="modal"
-						data-target="#test" style="margin-top: 40px;">프로필사진 변경</button>
+  <!-- Header -->
+  <header class="masthead" style="background-color: rgba(75,97,207);">
+    <div class="container">
+      <div class="intro-text" style="padding-top: 150px; padding-bottom: 100px;">
+        <div class="intro-lead-in">by project</div>
+        <div class="intro-heading text-uppercase">MyPage</div>
+      </div>
+    </div>
+  </header>
+  <!-- profile -->
+  <div class="profile-bd">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <img src="<%= request.getContextPath() %>/upload/${u_photo}";
+      	  onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"
+          style="width: 30%; border-radius: 50%; border:10px solid rgba(75,97,207);">
+       	<br>
+       	<!-- <button class="btn btn-primary" onclick="window.open('profilePhoto.jsp','profilePhotoUpdate','width=330,height=80,location=no,status=no,scrollbars=no');" style="margin-top: 40px;">프로필사진 변경</button> -->
+        <button class="btn btn-primary" data-toggle="modal" data-target="#test" style="margin-top: 40px;"> 프로필사진 변경</button>
+        
+        </div>        
+      </div>
+    </div>    
+  </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="container" style="padding: 40px 0;">
 		<div class="row">
 			<div class="col-12">
