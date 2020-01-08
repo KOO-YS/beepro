@@ -405,25 +405,6 @@ public class ProjectDaoImple implements ProjectDao {
 		return todoCount;
 	}
 
-	// 업무 개수 분류 // TODO 폐기
-	@Override
-	public HashMap<String, Integer> countCategory() {
-		Connection con = getConnection();
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		HashMap<String, Integer> categoryMap = new HashMap<String, Integer>();
-		try {
-			pstm = con.prepareStatement(getByTodoTypeSql);
-			rs = pstm.executeQuery();
-			while (rs.next()) {
-				categoryMap.put(rs.getString(1), rs.getInt(2));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return categoryMap;
-	}
-
 	// 대시보드 통계 - Todo 종합
 	@Override
 	public HashMap<String, Integer> getTodoInfo(String userId, int projectSeq) {

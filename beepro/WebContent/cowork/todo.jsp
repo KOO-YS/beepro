@@ -446,6 +446,13 @@ table.table .avatar {
 									</tr>
 								</thead>
 								<tbody>
+									<c:if test="${empty todoList }"> 
+										<tr><td colspan="5">
+											생성된 업무가 존재하지 않습니다 . 새 업무를 생성해주세요
+										</td></tr>
+									</c:if>
+									
+									
 									<c:forEach var="todo" items="${todoList}" >
 									<input type="hidden" id="projectSeq" value="${todo.projectSeq}">		
 									<tr <c:if test="${todo.finishCk eq 'Y'}"> style="background: paleturquoise;"</c:if>>										
@@ -504,8 +511,10 @@ table.table .avatar {
 								</div>
 								<ul class="pagination">
 									<li class="page-item"><a href="#">Previous</a></li>
-									<c:forEach var="i" begin="${page.startPageNo}" end="${page.endPageNo}" step="1">
-										<li class="page-item<c:if test="${i eq page.pageNo}"> active</c:if>"><a href="javascript:pageNum(${i});" class="page-link">${i}</a></li>
+									<c:forEach var="i" begin="${page.startPageNo}" end="${page.endPageNo}" step="1" varStatus="status">
+										<!-- 페이징 보류 -->
+										<%-- <li class="page-item<c:if test="${i eq page.pageNo}"> active</c:if>"><a href="javascript:pageNum(${i});" class="page-link">${i}</a></li> --%>
+										<li class="page-item<c:if test="${i eq page.pageNo}"> active</c:if>"><a href="todo?command=todo-list&page=${status.count}" class="page-link">${status.count}</a></li>
 									</c:forEach>
 										<li class="page-item"><a href="#" class="page-link">Next</a></li>
 								</ul>
@@ -519,7 +528,7 @@ table.table .avatar {
 		</div>
 	</div>
 <script type="text/javascript">
-/* page-item (페이징) */
+/* page-item (페이징) 보류 */
 function pageNum(page){
 	alert("ddd");
 	var projectSeq = $("#projectSeq").val();
@@ -532,11 +541,11 @@ function pageNum(page){
 			'page':page			
 		},
 		error:function(request, status, error){
-			alert("중요도 변경이 실패되었습니다");
+			alert("페이지 변경 실패");
 			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		},
 		success:function(data, textStatus, jqXHR){
-			alert("중요도가 변경되었습니다");
+			alert("페이지 변경 실패");
 		}
 	});
 }

@@ -284,7 +284,7 @@ public class MatchingServlet extends HttpServlet {
 
 			if (success) {
 				System.out.println("지원성공");
-				response.sendRedirect("matching/matching?command=matchingView&projectM_seq="+projectM_seq);
+				response.sendRedirect("matching?command=matchingView&projectM_seq="+projectM_seq);
 			} else {
 				System.out.println("지원실패");
 			}
