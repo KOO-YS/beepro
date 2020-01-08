@@ -159,7 +159,7 @@ CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
-select * from PROJECT;
+select * from issue;
 
 CREATE TABLE issue (
 	issue_seq	number	NOT NULL,
