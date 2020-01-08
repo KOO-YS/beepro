@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,21 +90,47 @@
 
 </style>
 
-$(function(){
-	$(document).ready(function(){
-		$(".dropdown-menu .dropdown-item").on("click", function(){
-			var data = $(this).data("cat");
-			$("[name=searchCat]").val(data);
-		});
-		$("#searchIcon").on("click", function(){
-			$("[name=searchForm]").submit();
-		});
-	});
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script>
+$(function() {
+  $("#pm_id").click( function() {
+    if( $("#sort").html() != '작성자' ) {
+      $("#sort").html('작성자');
+    }
+  });
 });
 
-
+$(function() {
+	  $("#skill").click( function() {
+	    if( $("#sort").html() != '프로그램 능력' ) {
+	      $("#sort").html('프로그램 능력');
+	    }
+	  });
+	});
+	
+$(function() {
+	  $("#location").click( function() {
+	    if( $("#sort").html() != '지역' ) {
+	      $("#sort").html('지역');
+	    }
+	  });
+	});
+</script>
+ 
 <script type="text/javascript">
 
+	$(function(){
+		$(document).ready(function(){
+			$(".dropdown-menu .dropdown-item").on("click", function(){
+				var data = $(this).data("cat");
+				$("[name=searchCat]").val(data);
+			});
+			$("#searchIcon").on("click", function(){
+				$("[name=searchForm]").submit();
+			});
+		});
+	});
+	
 	function addPostFunction(post_no){
 		var u_id = "${u_id}";
 		$.ajax({
@@ -122,23 +150,16 @@ $(function(){
 					$('#heart').attr('class', 'heart'); 
 				} else {
 					alert("해당 게시글이 관심 게시글에서 삭제되었습니다. ");
-					
 				}
 			}
 		});
 	}
 
 </script>
-
-
 </head>
 <body id="page-top">
-
   <jsp:include page="common/sub_nav.jsp"></jsp:include>
-  
   <!-- Header -->
-  
-  
   <header class="masthead" style="background-color: rgba(75,97,207);">
     <div class="container">
       <div class="intro-text" style="padding-top: 150px; padding-bottom: 100px;">
@@ -148,31 +169,26 @@ $(function(){
     </div>
   </header>
 
-  
-  <div class="keywords">
+   <div class="keywords">
       <div class="container">
         <div class="row" id="keywordBtns">
         	<div class="col-5">
-	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
-	            <button class="btn btn-outline-primary" style="margin-right: 30px;">#keyword</button>
             </div>
-            <div class="col-6">
+            <div class="col-12"  style="float:left; ">
               <!-- <div class="input-group-prepend"> -->
-              <!-- 프로젝트 매칭 검색 기능 -->
               <form action="${pageContext.request.contextPath}/matching" method="post" name="searchForm">
               	<input type="hidden" name="command" value="matchingAll" />
               	<input type="hidden" name="searchCat" value="" />
 			  	<div>
-			  		<button style="float:left;" class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
+			  		<button style="float:left;" class="btn btn-outline-primary dropdown-toggle" id="sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
 				    <div class="dropdown-menu">
 				      <a class="dropdown-item" href="#none" id="pm_id" data-cat="pm_id">작성자</a>
 				      <a class="dropdown-item" href="#none" id="skill" data-cat="skill">프로그램 능력</a>
 				      <a class="dropdown-item" href="#none" id="location" data-cat="location">지역</a>
 				    </div>
-				  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" name="searchKeyword"
-				    aria-label="Search" style="display: inline-block;">
-				  <i class="fas fa-search" aria-hidden="true" style="cursor: pointer;" id="searchIcon"></i>
+				  <input class="form-control form-control-sm mr-3 w-50" type="text" placeholder="Search" name="searchKeyword"
+				    aria-label="Search" style="display: inline-block; margin-left:1%; height:40px;">
+				  <button><i class="fas fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" id="searchIcon"></i></button>
 				 </div>
 				  </form>
 			  </div>
@@ -180,26 +196,19 @@ $(function(){
       </div>
   </div>
   
-  
-  
 <!-- project -->
   <section class="bg-light page-section">
     <div class="container">
         <div class="row" >
-          <div class="col-3">
-              <div class="chk-block" style="margin-top:50px">
-                  search
-                  <hr>
-					</div>
-          </div>
-          <div class="col-9">
+          <div class="col-12">
             <div class="row" style="float:right; ">
                <c:if test="${!empty sessionScope.u_id }">
-                  <button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">글쓰기</button>
+                  <button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">새 글 작성</button>
                </c:if>
             </div>
               <!-- 게시물 -->
-               <c:forEach var="matchingVo" items="${matchingList}" varStatus="matching">
+               <c:forEach var="matchingVo" items="${matchingList}" varStatus="matching" begin="${page.startRow}" end="${page.startRow + 9}">
+               																			<!-- 페이징 : begin부터 +9까지 -->
                   <div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
                        <div class="col-lg-12">
                            <div class="row">
@@ -213,7 +222,7 @@ $(function(){
                            <hr>
                            </div>
                            <div class="row">
-                               <div class="col-lg-5" >
+                               <div class="col-lg-6" >
                                                                      모집 인원  : ${matchingVo.need_person}명 <br>
                                                                      위치 : ${matchingVo.location}<br><br>
                                                                      프로그램 및 언어 능력 : ${matchingVo.skill}
@@ -227,23 +236,67 @@ $(function(){
                    </div>
             </c:forEach>
                 <!-- 게시물 end -->
-                <div class="row" style="display: block;">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">Next</a>
-                        </li>
-                      </ul>
-                    </nav>
-                </div>
           </div>
       </div>
+      
+      <!-- 페이징 : 여기에서부터 -->
+<script type="text/javascript">
+   function PageMove(page){
+          location.href = "personMatching?command=selectAllPer&curpagenum="+page;
+   }
+</script> 
+
+<c:if test="${listsize>=0 }">
+   <c:choose> 
+      <c:when test="${listsize == 0}">
+         <script>
+            $("#tableheader").hide();
+         </script>
+      </c:when>
+      
+      <c:otherwise>
+         <c:forEach var="vo" items="${list}" begin="${page.startRow}" end="${page.startRow+9}" ></c:forEach>
+   
+      </c:otherwise>
+   </c:choose>
+</c:if>
+
+<c:choose> 
+   <c:when test="${page.listCount >0 }">
+      <c:if test="${page.listCount ne '0'}">
+
+         <div class="row" style="display: block;">
+            <nav aria-label="Page navigation example">
+               <ul class="pagination justify-content-center">
+               <li class="active">
+                  <a class="page-link" href="javascript:PageMove(${page.startPage})">Pre</a>
+               </li>
+
+                  <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+                     <c:choose>
+                        <c:when test="${i eq page.currentPage }">
+                           <li class="active"><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                           <li><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                        </c:otherwise>
+                     </c:choose>
+                  </c:forEach>
+
+                  <c:if test="${page.next eq true }">
+                     <a class="page-link" href="javascript:PageMove(${page.currentPage+1 })">Next</a></li>
+                  </c:if>
+               </ul>
+            </nav>
+         </div> 
+
+      </c:if>
+   </c:when>
+</c:choose>
+
+<!-- 여기까지 복붙 : 페이징 완료 -->
+      
+      
       
     </div>
 </section>

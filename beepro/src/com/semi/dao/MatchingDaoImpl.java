@@ -18,6 +18,8 @@ import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
 import com.semi.vo.VolunteerVo;
 
+import oracle.net.aso.r;
+
 public class MatchingDaoImpl implements MatchingDao {
 	@Override
 	public UserVo getProfile(String userId) {
@@ -78,10 +80,8 @@ public class MatchingDaoImpl implements MatchingDao {
 		List<MatchingProVo> res = new ArrayList<MatchingProVo>();
 
 		try {
-			String selectAllMatchingSql = selectAllMatchingProSql;
+			String selectAllMatchingSql = selectSearchSql;
 			String whereStr = "";
-			System.out.println(matchingProVo.getSearchCat());
-			System.out.println(matchingProVo.getSearchKeyword());
 
 			switch (matchingProVo.getSearchCat()) {
 			case "pm_id":
@@ -95,10 +95,13 @@ public class MatchingDaoImpl implements MatchingDao {
 				break;
 			default:
 			}
+			
 			System.out.println(whereStr);
+			
 			selectAllMatchingSql = selectAllMatchingSql.replace("?", whereStr);
 
 			System.out.println(selectAllMatchingSql);
+			
 			pstmt = con.prepareStatement(selectAllMatchingSql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -125,7 +128,13 @@ public class MatchingDaoImpl implements MatchingDao {
 			e.printStackTrace();
 		} finally {
 			close(rs, pstmt, con);
-			System.out.println("DB 종료");
+			System.out.println("프로젝트 매칭 검색 DB 종료");
+		}
+		
+		for(MatchingProVo v : res) {
+			
+			System.out.println(v);
+			
 		}
 
 		return res;
@@ -215,7 +224,7 @@ public class MatchingDaoImpl implements MatchingDao {
 		return res;
 	}
 
-	// 김지민 매칭 부분
+	// 김지민 매칭 부분 끝
 
 	// 퍼스널 매칭 글쓰기
 
@@ -431,6 +440,37 @@ public class MatchingDaoImpl implements MatchingDao {
 		}
 		return res;
 	}
+	
+	// 하나의 프로젝트 조회
+	public ProjectVo selectOneProject(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ProjectVo res = new ProjectVo();
+		
+		try {
+			pstmt = con.prepareStatement(selectOneProjectSql);
+			pstmt.setInt(1, projectSeq);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res.setProjectSeq(rs.getInt(1));
+				res.setStartDate(rs.getString(2));
+				res.setEndDate(rs.getString(3));
+				res.setFinish_ck(rs.getString(4));
+				res.setProjectName(rs.getString(5));
+				res.setContent(rs.getString(6));
+				res.setMember(rs.getString(7));
+				res.setPm_ck(rs.getString(8));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
 
 	/* 관심 게시글 DAO */
 
@@ -586,6 +626,76 @@ public class MatchingDaoImpl implements MatchingDao {
 				System.out.println(vol.toString());
 
 				res.add(vol);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+	
+	//내가 쓴 프로젝트 조회
+	@Override
+	public List<MatchingProVo> AllMyProject(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<MatchingProVo> res = new ArrayList<MatchingProVo>();
+		System.out.println(u_id);
+		
+		try {
+			pstmt = con.prepareStatement(getAllMyProjectSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				MatchingProVo matVo = new MatchingProVo();
+				matVo.setProjectM_seq(rs.getString(1));
+				matVo.setPm_id(rs.getString(2));
+				matVo.setTitle(rs.getString(3));
+				matVo.setContent(rs.getString(4));
+				matVo.setSkill(rs.getString(5));
+				matVo.setNeed_person(rs.getString(6));
+				matVo.setLocation(rs.getString(7));
+				matVo.setStartdate(rs.getString(8));
+				matVo.setEnddate(rs.getString(9));
+				
+				res.add(matVo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+	//내가 쓴 퍼스널 조회
+	@Override
+	public List<MatchingPerVo> AllMyPersonal(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
+		System.out.println(u_id);
+
+		try {
+			pstmt = con.prepareStatement(getAllMyPersonalSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				MatchingPerVo perVo = new MatchingPerVo();
+
+				perVo.setPersonal_seq(rs.getInt(1));
+				perVo.setUser_id(rs.getString(2));
+				perVo.setSkill(rs.getString(4));
+				perVo.setTitle(rs.getString(3));
+				perVo.setEmp_category(rs.getString(5));
+				perVo.setContent(rs.getString(6));
+				res.add(perVo);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -110,6 +110,8 @@ CREATE TABLE matching_personal (
 
 -- SELECT * FROM MATCHING_PERSONAL;
 
+CREATE SEQUENCE projectM_seq;
+
 CREATE TABLE matching_project (
 	project_seq	number	PRIMARY KEY,
 	pm_id	varchar2(100)	NOT NULL,
@@ -124,7 +126,7 @@ CREATE TABLE matching_project (
 
 -- INSERT INTO MATCHING_PROJECT VALUES (PROJECT_SEQ.NEXTVAL, 'bmi6638@naver.com', '첫번째 프로젝트입니다.', '프로젝트 테스트입니다', '프론트앤드', '충청도');
 
--- SELECT * FROM MATCHING_PROJECT;
+ SELECT * FROM MATCHING_PROJECT;
 
 CREATE TABLE comments (
 	comments_seq	number,
@@ -200,7 +202,7 @@ CREATE TABLE issue (
 	issue_category	varchar2(150)	NOT NULL,
 	content	varchar2(4000)	NOT NULL
 );
-
+SELECT * FROM MATCHING_PROJECT
 -- SELECT * FROM ISSUE;
 
 -- INSERT INTO ISSUE VALUES (ISSUE_SEQ.NEXTVAL, '3', '해인 프로젝트', '전해인', '높음','15/11/30','버그', '이슈테스트2입니다.');

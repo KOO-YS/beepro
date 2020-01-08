@@ -34,6 +34,16 @@ public class MatchingProVo {
 		this.startdate = startdate;
 		this.enddate = enddate;
 	}
+	
+	
+
+	public String getProjectM_seq() {
+		return projectM_seq;
+	}
+
+	public void setProjectM_seq(String projectM_seq) {
+		this.projectM_seq = projectM_seq;
+	}
 
 	public String getPm_id() {
 		return pm_id;
@@ -113,11 +123,11 @@ public class MatchingProVo {
 		return sb.toString();
 	}
 
-	public String getProjectM_seq() {
+	public String getProject_seq() {
 		return projectM_seq;
 	}
 
-	public void setProjectM_seq(String projectM_seq) {
+	public void setProject_seq(String projectM_seq) {
 		this.projectM_seq = projectM_seq;
 	}
 
