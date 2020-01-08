@@ -67,7 +67,7 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <img src="<%= request.getContextPath() %>/upload/${u_photo}";
-      	  onerror="this.src='img/bee.png'"
+      	  onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"
           style="width: 30%; border-radius: 50%; border:10px solid rgba(75,97,207);">
        	<br>
        	<!-- <button class="btn btn-primary" onclick="window.open('profilePhoto.jsp','profilePhotoUpdate','width=330,height=80,location=no,status=no,scrollbars=no');" style="margin-top: 40px;">프로필사진 변경</button> -->
