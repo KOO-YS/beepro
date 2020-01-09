@@ -27,7 +27,7 @@ public class ProjectService {
 		
 		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 		String title = request.getParameter("title");
-		String writer = (String) session.getAttribute("u_id");
+		String writer = (String) session.getAttribute("u_name");
 		String level = request.getParameter("level");
 		String category = request.getParameter("category");
 		String content = request.getParameter("content");
@@ -212,7 +212,7 @@ public class ProjectService {
 		System.out.println("시퀀스 : "+issueSeq);
 		
 		HttpSession session = request.getSession();
-		String writer = (String)session.getAttribute("u_id");
+		String writer = (String)session.getAttribute("u_name");
 		System.out.println("아이디 : " + writer);
 		String content = request.getParameter("content");
 		System.out.println("내용 : " +content);

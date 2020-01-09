@@ -464,7 +464,7 @@ table.table .avatar {
 										<tr>
 											<td>${issue.issueSeq}</td>
 											<td>${issue.title}</td>
-											<td>${u_name}</td>
+											<td>${issue.writer}</td>
 											<td><div class="label_box">${issue.level}</div></td>
 											<td><div class="label_box">${issue.category}</div></td>
 											<td>${issue.regdate}</td>

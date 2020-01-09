@@ -728,6 +728,34 @@ public class ProjectDaoImple implements ProjectDao {
 		return true;
 	}
 
+	// 나에게 할당된 이슈조회
+	@Override
+	public int getIssueToMe(String userId) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+        int res = 0;
+		
+		try {
+			pstmt = con.prepareStatement(getIssueToMeSql);
+			pstmt.setString(1, userId);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				IssueVo vo = new IssueVo();
+				vo.setResponsibility(rs.getString(1));
+				
+				res = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+
 	
 
 

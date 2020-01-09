@@ -84,6 +84,8 @@ CREATE TABLE beepro_user (
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
+ALTER TABLE BEEPRO_USER ADD (naver_ck VARCHAR2(6)); 
+
 SELECT * FROM BEEPRO_USER;
 
 CREATE TABLE message (
@@ -159,7 +161,7 @@ CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
-select * from PROJECT;
+select * from issue;
 
 CREATE TABLE issue (
 	issue_seq	number	NOT NULL,
@@ -202,12 +204,16 @@ CREATE TABLE volunteer ( /* 지원자 테이블 */
 CREATE SEQUENCE meg_seq;
 
 CREATE TABLE msg(
-    msg_seg NUMBER(30) PRIMARY KEY,
+    msg_seq NUMBER(30) PRIMARY KEY,
     send_id VARCHAR2(50) NOT NULL,
     get_id VARCHAR2(50) NOT NULL,
     content VARCHAR2(2000) NOT NULL,
     regdate DATE NOT NULL,
-    read_ck NUMBER -- 0이면 안읽은 것 1이면 읽은 것
+    read_ck NUMBER, -- 0이면 안읽은 것 1이면 읽은 것
+    sdelete_ck varchar2(6)	NOT NULL,  -- 보낸 메세지함에서 지웠는지
+	gdelete_ck varchar2(6)	NOT NULL,  -- 받은 메세지함에서 지웠는지
+    CONSTRAINT sdelete_ck_chk CHECK(sdelete_ck IN('Y','N')),
+    CONSTRAINT gdelete_ck_chk CHECK(gdelete_ck IN('Y','N'))
 );
 
 

@@ -59,6 +59,8 @@ public interface ProjectDao {
     
     String getUrgentTodoSql = "SELECT * FROM TODO WHERE MANAGER=? AND PROJECT_SEQ=? AND ENDDATE BETWEEN TO_CHAR(SYSDATE,'YY/MM/DD') AND TO_CHAR(SYSDATE+7,'YY/MM/DD') AND ROWNUM<5";
 
+    String getIssueToMeSql = "SELECT COUNT(*) ISSUE_SEQ FROM ISSUE WHERE RESPONSIBILITY=?";
+    
     // 댓글 부분
     String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL,?,?,?,SYSDATE)";
     String selectAllCommentSql = "SELECT * FROM COMMENTS WHERE ISSUE_SEQ=?";
@@ -117,6 +119,8 @@ public interface ProjectDao {
 	public void updateComment(int commentSeq, int issueSeq, String content);
 
 	public int getTodoCount(int projectSeq, String manager);
+
+	public int getIssueToMe(String userId);
 
 }
 
