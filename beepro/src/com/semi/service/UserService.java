@@ -617,11 +617,7 @@ public class UserService {
 		
 	}
 
-	
-	
-	
-	
-	
+
 	
 	/* 관심 사람 서비스 (heart) */
 	

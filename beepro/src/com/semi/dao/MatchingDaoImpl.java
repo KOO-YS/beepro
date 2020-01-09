@@ -18,8 +18,6 @@ import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
 import com.semi.vo.VolunteerVo;
 
-import oracle.net.aso.r;
-
 public class MatchingDaoImpl implements MatchingDao {
 	@Override
 	public UserVo getProfile(String userId) {
@@ -876,6 +874,29 @@ public class MatchingDaoImpl implements MatchingDao {
 			close(rs, pstmt, con);
 		}
 		return skill;
+	}
+
+	@Override
+	public String getUserArea(String u_id) {	
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String area = "";
+		
+		try {
+			pstmt = con.prepareStatement(getUserArealSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				area = rs.getString(1); // area 반환
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return area;
 	}
 
 }

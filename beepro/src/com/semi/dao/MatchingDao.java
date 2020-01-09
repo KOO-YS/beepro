@@ -78,6 +78,8 @@ public interface MatchingDao {
 	String getAllMyPersonalSql = "SELECT * FROM matching_personal WHERE USER_ID=?  ORDER BY personal_seq DESC";	
 	//skill 가져오기
 	String getUserSkillSql = "SELECT SKILL FROM BEEPRO_USER WHERE USER_ID =?";
+	//지역정보 가져오기
+	String getUserArealSql = "SELECT location FROM BEEPRO_USER WHERE USER_ID =?";
 	
 	public int matchingWrite(MatchingProVo matchingProVo);
 
@@ -114,6 +116,8 @@ public interface MatchingDao {
 	public List<MatchingPerVo> AllMyPersonal(String u_id);
 
 	public String getUserSkill(String u_id);
+
+	public String getUserArea(String u_id);
 	
 
 }

@@ -143,12 +143,9 @@ function sendMsgFunction(get_id){
 					data-target="#updatePwd" style="margin-top: 40px;">비밀번호 변경</button>
 			</div>
 			<div class="col-12">
-<<<<<<< HEAD
+
 				<span> area </span>
 				<select class="pf_input" name="areaSelect" id = "area">
-=======
-				<span> area </span> <select class="pf_input">
->>>>>>> 85843bdc195d2408ea7278ce47a39a408528410f
 					<option>------ 선택하지 않음 ------</option>
 					<option value ="서울">서울</option>
 					<option value ="인천/경기">인천/경기</option>
@@ -167,7 +164,6 @@ function sendMsgFunction(get_id){
 				</script>
 				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
 				<div class="card">
-<<<<<<< HEAD
 				    <div class="card-body">			    
 				    <fieldset>
 				    	<legend>front-end</legend>
@@ -220,71 +216,6 @@ function sendMsgFunction(get_id){
 				</div>				
 				    <button type="submit" class="btn btn-primary">수정</button>
 				    </form>
-=======
-					<div class="card-body">
-						<fieldset>
-							<legend>front-end</legend>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox1" value="option1"> <label
-									class="form-check-label" for="inlineCheckbox1">HTML</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox2" value="option2"> <label
-									class="form-check-label" for="inlineCheckbox2">CSS</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox1" value="option1"> <label
-									class="form-check-label" for="inlineCheckbox1">JavaScript</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox2" value="option2"> <label
-									class="form-check-label" for="inlineCheckbox2">Augularjs</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox3" value="option3" disabled> <label
-									class="form-check-label" for="inlineCheckbox3">React</label>
-							</div>
-						</fieldset>
-						<hr>
-						<fieldset>
-							<legend>back-end</legend>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox1" value="option1"> <label
-									class="form-check-label" for="inlineCheckbox1">Java</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox2" value="option2"> <label
-									class="form-check-label" for="inlineCheckbox2">Python</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox1" value="option1"> <label
-									class="form-check-label" for="inlineCheckbox1">Nodejs</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox2" value="option2"> <label
-									class="form-check-label" for="inlineCheckbox2">Spring</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox3" value="option3" disabled> <label
-									class="form-check-label" for="inlineCheckbox3">C++
-									(disabled)</label>
-							</div>
-						</fieldset>
-					</div>
-					<button class="btn btn-primary">수정</button>
-				</div>
-
->>>>>>> 85843bdc195d2408ea7278ce47a39a408528410f
 			</div>
 		</div>
 	</div>
@@ -736,16 +667,22 @@ function sendMsgFunction(get_id){
     </div>
   </div>
 </div>
-<!-- 회원탈퇴 모달 end--> 
-<script type="text/javascript">
-  <c:forEach var="skill" items="${skillList}">
-	$("input[name=skill][value=${skill}]").prop("checked",true);
-  </c:forEach>
-  
-  /* 지역 변경 */
-  $("input[name^=areaSelect]").click(function(){
-  	var area = document.getElementsByName("areaSelect").value;	// id에 저장되어있는 값 area에 담기
 
+<!-- 회원탈퇴 모달 end--> 
+<!-- 지역/기술 선택관련  -->
+<script type="text/javascript">
+$("#area").val("${area}").prop("selected", true);
+
+
+<c:forEach var="skill" items="${skillList}">
+	$("input[name=skill][value=${skill}]").prop("checked",true);
+</c:forEach>
+
+  /* 지역 변경 */
+  $("#area").change(function(){
+  	var area = $("select[name=areaSelect]").val();
+
+	alert(area);
   	$.ajax({
   		url:'${pageContext.request.contextPath}/user?command=updateArea',
   		type:'POST',
@@ -756,15 +693,15 @@ function sendMsgFunction(get_id){
   			alert("지역선택 변경에 실패했습니다");
   			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
   		},
-  		success:function(data, textStatus, jqXHR){
-  			$("input[name=areaSelect][value="+area+"]").prop("selected",true);
+  		success:function(data, textStatus, jqXHR){ 			
   			alert("지역선택이 변경되었습니다");
   			
   		}
   	});
   });
-  
 </script>
+<!-- 지역/기술 선택관련  end-->
+
   <!-- Bootstrap core JavaScript -->
   <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
   <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -402,7 +402,8 @@ public class MatchingService {
 		String u_id = (String)session.getAttribute("u_id");
 		return Dao.AllMyPersonal(u_id);
 	   }
-	// 유저 스킬 
+	 
+	// 유저 스킬 가져오기
 	public List<String> getUserSkill(HttpServletRequest request, HttpServletResponse response) {
 		// TODO 1. dao 와 연결 Skill String (return)
 		HttpSession session = request.getSession();
@@ -417,6 +418,15 @@ public class MatchingService {
 			skillList.add(splitStr[i]);
 		}
 		return skillList;
+	}
+	//유저 지역값 가져오기
+	public String getUserArea(HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		String userArea = Dao.getUserArea(u_id);
+		
+		return userArea;
 	}
 	
 }

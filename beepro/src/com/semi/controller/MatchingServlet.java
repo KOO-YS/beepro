@@ -354,7 +354,11 @@ public class MatchingServlet extends HttpServlet {
 		}else if(command.equals("mypage")) {
   	  		System.out.println("마이페이지");
   	  		
-  	  		// user skill 리스트
+  	  		//지역 리스트 담기
+  	  		String area = matchingService.getUserArea(request, response);
+  	  		request.setAttribute("area", area);
+  	  		
+  	  		// user skill 리스트 담기
   	  		List<String> skill = matchingService.getUserSkill(request, response);
   	  		request.setAttribute("skillList", skill);
   	  		
