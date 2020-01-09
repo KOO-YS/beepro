@@ -4,7 +4,6 @@ import static common.JDBCTemplet.close;
 import static common.JDBCTemplet.commit;
 import static common.JDBCTemplet.getConnection;
 
-import java.beans.Transient;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,8 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;

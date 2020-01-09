@@ -16,29 +16,33 @@ public interface MatchingDao {
 	public UserVo getProfile(String userId);
 	// 유저 정보 조회
 	String getUserInfoSql = "SELECT USER_ID, NAME, EMAIL, LOCATION FROM BEEPRO_USER WHERE USER_ID=?";
+	
+	// ------------------------ 개인 매칭 ------------------------ 
+	
+			//글쓰기
+			String insertPerSql = "INSERT INTO matching_personal VALUES(personal_seq.nextval, ?, ?, ?, ?, ?)";
+			//수정
+			String updatePerSql = "UPDATE matching_personal SET emp_category=?, title=?, skill=?, content=? WHERE personal_seq=?";
+			//삭제
+			String deletePerSql = "DELETE FROM matching_personal WHERE personal_seq=?";
+			//목록 전체 보기
+			String selectAllPerSql = "SELECT * FROM matching_personal ORDER BY personal_seq DESC";
+			//글 상세보기
+			String selectOnePerSql = "SELECT * FROM matching_personal WHERE personal_seq=?";
+			//글 검색
+			String selectSearchPerSql = "SELECT * FROM matching_personal ? ORDER BY PROJECTM_SEQ DESC";
+			
+			
+			public int insertPer(MatchingPerVo perVo);
+			public int updatePer(MatchingPerVo perVo);
+			public int deletePer(int personal_seq);
+			public List<MatchingPerVo> selectAllPer();
+			public MatchingPerVo selectOnePer(int personal_seq);
+			public MatchingPerVo personalRead(String personal_seq);
+			
+			
+			
 	String getUserProjectSql = "SELECT * FROM PROJECT WHERE MEMBER_ID LIKE '%?/%'";		// FIXME 특수문자로 인해 ? 이 인식이 안되는걸로 추정 
-	// 개인 매칭
-	public int MatchingWrite(MatchingProVo MatchingProVo);
-	// 글쓰기
-	String insertPerSql = "INSERT INTO matching_personal VALUES(personal_seq.nextval, ?, ?, ?, ?, ?)";
-	// 수정
-	String updatePerSql = "UPDATE matching_personal SET title=?, skill=?, emp_category=?, content=? WHERE personal_seq";
-	// 삭제
-	String deletePerSql = "DELETE FROM matching_personal WHERE personal_seq=?";
-	// 목록 전체 보기
-	String selectAllPerSql = "SELECT * FROM matching_personal ORDER BY personal_seq DESC";
-	// 글 상세보기
-	String selectOnePerSql = "SELECT * FROM matching_personal WHERE personal_seq=?";
-
-	public int insertPer(MatchingPerVo perVo);
-
-	public int updatePer(MatchingPerVo perVo);
-
-	public int deletePer(int personal_seq);
-
-	public List<MatchingPerVo> selectAllPer();
-
-	public MatchingPerVo selectOnePer(int personal_seq);
 
 	// 프로젝트 매칭
 
