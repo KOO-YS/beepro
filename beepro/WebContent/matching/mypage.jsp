@@ -96,38 +96,46 @@
 			</div>
 			<div class="col-12">
 				<span> area </span>
-				<select class="pf_input">
+				<select class="pf_input" name="areaSelect" id = "area">
 					<option>------ 선택하지 않음 ------</option>
-					<option>서울</option>
-					<option>경기도</option>
-					<option>충청도</option>
+					<option value ="서울">서울</option>
+					<option value ="인천/경기">인천/경기</option>
+					<option value ="강원">강원</option>
+					<option value ="충청">충청</option>
+					<option value ="전라">전라</option>
+					<option value ="경상">경상</option>
+					<option value ="제주">제주</option>
 				</select>
 			</div>
 			
 			<div class="col-12">
-				<span>skills</span>
+				<span>Skills</span>
+				<script>
+				   
+				</script>
+				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
 				<div class="card">
-				    <div class="card-body">
+				    <div class="card-body">			    
 				    <fieldset>
 				    	<legend>front-end</legend>
 					    <div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="skill" value="HTML">
 						  <label class="form-check-label" for="inlineCheckbox1">HTML</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="skill" value="CSS">
 						  <label class="form-check-label" for="inlineCheckbox2">CSS</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="skill"  value="JavaScript">
 						  <label class="form-check-label" for="inlineCheckbox1">JavaScript</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="skill" value="Augularjs">
 						  <label class="form-check-label" for="inlineCheckbox2">Augularjs</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="skill" value="React">
 						  <label class="form-check-label" for="inlineCheckbox3">React</label>
 						</div>
 				    </fieldset>
@@ -135,30 +143,30 @@
 				    <fieldset>
 				    	<legend>back-end</legend>
 					    <div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="skill" value="Java">
 						  <label class="form-check-label" for="inlineCheckbox1">Java</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="skill" value="Python">
 						  <label class="form-check-label" for="inlineCheckbox2">Python</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="skill" value="Nodejs">
 						  <label class="form-check-label" for="inlineCheckbox1">Nodejs</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="skill" value="Spring">
 						  <label class="form-check-label" for="inlineCheckbox2">Spring</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
-						  <label class="form-check-label" for="inlineCheckbox3">C++ (disabled)</label>
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="skill" value="C++" >
+						  <label class="form-check-label" for="inlineCheckbox3">C++</label>
 						</div>
 				    </fieldset>
 				    </div>
-				    <button class="btn btn-primary">수정</button>
-				</div>
-				
+				</div>				
+				    <button type="submit" class="btn btn-primary">수정</button>
+				    </form>
 			</div>
 		</div>
 	</div>	<!-- container end -->
@@ -529,6 +537,34 @@
   </div>
 </div>
 <!-- 회원탈퇴 모달 end--> 
+<script type="text/javascript">
+  <c:forEach var="skill" items="${skillList}">
+	$("input[name=skill][value=${skill}]").prop("checked",true);
+  </c:forEach>
+  
+  /* 지역 변경 */
+  $("input[name^=areaSelect]").click(function(){
+  	var area = document.getElementsByName("areaSelect").value;	// id에 저장되어있는 값 area에 담기
+
+  	$.ajax({
+  		url:'${pageContext.request.contextPath}/user?command=updateArea',
+  		type:'POST',
+  		data: {
+  			'area':area,		
+  		},
+  		error:function(request, status, error){
+  			alert("지역선택 변경에 실패했습니다");
+  			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+  		},
+  		success:function(data, textStatus, jqXHR){
+  			$("input[name=areaSelect][value="+area+"]").prop("selected",true);
+  			alert("지역선택이 변경되었습니다");
+  			
+  		}
+  	});
+  });
+  
+</script>
   <!-- Bootstrap core JavaScript -->
   <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
   <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -538,8 +574,7 @@
 
   <!-- Custom scripts for this template -->
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
-<script type="text/javascript">
-</script>
+  
 </body>
 
 </html>

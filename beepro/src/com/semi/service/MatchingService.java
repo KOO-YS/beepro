@@ -2,6 +2,7 @@ package com.semi.service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -384,5 +385,21 @@ public class MatchingService {
 		String u_id = (String)session.getAttribute("u_id");
 		return Dao.AllMyPersonal(u_id);
 	   }
+	// 유저 스킬 
+	public List<String> getUserSkill(HttpServletRequest request, HttpServletResponse response) {
+		// TODO 1. dao 와 연결 Skill String (return)
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		String str = Dao.getUserSkill(u_id);
+		
+		// TODO split(,) List add
+		List<String> skillList =  new ArrayList<String>();
+		String[] splitStr = str.split(",");
+		
+		for(int i=0; i<splitStr.length; i++){
+			skillList.add(splitStr[i]);
+		}
+		return skillList;
+	}
 	
 }

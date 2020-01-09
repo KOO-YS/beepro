@@ -293,6 +293,10 @@ public class MatchingServlet extends HttpServlet {
 		}else if(command.equals("mypage")) {
   	  		System.out.println("마이페이지");
   	  		
+  	  		// user skill 리스트
+  	  		List<String> skill = matchingService.getUserSkill(request, response);
+  	  		request.setAttribute("skillList", skill);
+  	  		
   	  		//personal 목록담기
   	  		List<MatchingPerVo> list1 = matchingService.AllMyPersonal(request, response);
   	  		request.setAttribute("personalList", list1);

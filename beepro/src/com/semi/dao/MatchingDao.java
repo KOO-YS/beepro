@@ -69,13 +69,13 @@ public interface MatchingDao {
 	// 게시글 생성 여부
 	String isProjectCreatedSql = "SELECT COUNT(CASE WHEN PROJECT_SEQ = ? THEN 1 END) FROM PROJECT";
 	// 지원자 전체조회
-	String selectAllVolunteerSql = "SELECT * FROM VOLUNTEER WHERE PROJECTM_SEQ=?";
-	
+	String selectAllVolunteerSql = "SELECT * FROM VOLUNTEER WHERE PROJECTM_SEQ=?";	
 	// 프로젝트 전체 목록 보기
-	String getAllMyProjectSql = "SELECT * FROM MATCHING_PROJECT WHERE PM_ID=? ORDER BY PROJECTM_SEQ DESC";
-	
+	String getAllMyProjectSql = "SELECT * FROM MATCHING_PROJECT WHERE PM_ID=? ORDER BY PROJECTM_SEQ DESC";	
 	// 목록 전체 보기
-	String getAllMyPersonalSql = "SELECT * FROM matching_personal WHERE USER_ID=?  ORDER BY personal_seq DESC";
+	String getAllMyPersonalSql = "SELECT * FROM matching_personal WHERE USER_ID=?  ORDER BY personal_seq DESC";	
+	//skill 가져오기
+	String getUserSkillSql = "SELECT SKILL FROM BEEPRO_USER WHERE USER_ID =?";
 	
 	public int matchingWrite(MatchingProVo matchingProVo);
 
@@ -108,6 +108,8 @@ public interface MatchingDao {
 	public List<MatchingProVo> AllMyProject(String pm_id);
 	
 	public List<MatchingPerVo> AllMyPersonal(String u_id);
+
+	public String getUserSkill(String u_id);
 	
 
 }

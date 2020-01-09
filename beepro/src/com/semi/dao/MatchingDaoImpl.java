@@ -846,4 +846,26 @@ public class MatchingDaoImpl implements MatchingDao {
 		}
 		return res;
 	}
+
+	@Override
+	public String getUserSkill(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String skill = "";
+		try {
+			pstmt = con.prepareStatement(getUserSkillSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				skill = rs.getString(1); // skill 반환
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return skill;
+	}
 }
