@@ -90,7 +90,6 @@
 
 </style>
 
-<<<<<<< HEAD
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 $(function() {
@@ -118,9 +117,7 @@ $(function() {
 	});
 </script>
  
-=======
 
->>>>>>> 638984ea0fe6bf7945a5214c763edeb0aa83ed7b
 <script type="text/javascript">
 
 	$(function(){
@@ -157,6 +154,13 @@ $(function() {
 			}
 		});
 	}
+	
+	
+	  $(document).ready(function(){
+	      $("#searchIcon").click(function(){
+	    	 if($("#sort").val().length==0){alert("분류를 선택해주세요."); $("sort").focus(); return false;}
+	   });
+	   });
 
 </script>
 </head>
@@ -185,7 +189,7 @@ $(function() {
 			  	<div>
 			  		<button style="float:left;" class="btn btn-outline-primary dropdown-toggle" id="sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
 				    <div class="dropdown-menu">
-				      <a class="dropdown-item" href="#none" id="pm_id" data-cat="pm_id">작성자</a>
+				      <a class="dropdown-item" href="#none" id="pm_id" data-cat="pm_id">작성자 아이디</a>
 				      <a class="dropdown-item" href="#none" id="skill" data-cat="skill">프로그램 능력</a>
 				      <a class="dropdown-item" href="#none" id="location" data-cat="location">지역</a>
 				    </div>

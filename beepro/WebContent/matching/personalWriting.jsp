@@ -21,29 +21,38 @@
 <script src="js/plugins/tagEditor/jquery.caret.min.js"></script>
 <script src="js/plugins/tagEditor/jquery.tag-editor.js"></script>
 <script type="text/javascript">
-   (function($) {
-      function floatLabel(inputType) {
-         $(inputType).each(function() {
-            var $this = $(this);
-            // on focus add cladd active to label
-            $this.focus(function() {
-               $this.next().addClass("active");
-            });
-            //on blur check field and remove class if needed
-            $this.blur(function() {
-               if ($this.val() === '' || $this.val() === 'blank') {
-                  $this.next().removeClass();
-               }
-            });
-         });
-      }
+      (function($) {
+          function floatLabel(inputType) {
+             $(inputType).each(function() {
+                var $this = $(this);
+                // on focus add cladd active to label
+                $this.focus(function() {
+                   $this.next().addClass("active");
+                });
+                //on blur check field and remove class if needed
+                $this.blur(function() {
+                   if ($this.val() === '' || $this.val() === 'blank') {
+                      $this.next().removeClass();
+                   }
+                });
+             });
+          }
+          
+          $(document).ready(function(){
+             $('#skill').tagEditor({placeholder : '언어 및 프로그램 능력을 작성하세요'});
+          });
+          // just add a class of "floatLabel to the input field!"
+          floatLabel(".floatLabel");
+       })(jQuery);
       
       $(document).ready(function(){
-         $('#skill').tagEditor({placeholder : '언어 및 프로그램 능력을 작성하세요'});
-      });
-      // just add a class of "floatLabel to the input field!"
-      floatLabel(".floatLabel");
-   })(jQuery);
+          $("#submit").click(function(){
+         if($("#title").val().length==0){alert("프로젝트 제목을 입력하세요."); $("title").focus(); return false;}
+         if($("#skill").val().length==0){alert("프로그램 능력을 입력하세요."); $("skill").focus(); return false;}
+         if($("#emp_category").val().length==0){alert("희망 분야를 입력하세요."); $("emp_category").focus(); return false;}
+         if($("#content").val().length==0){alert("상세 내용을 입력하세요."); $("content").focus(); return false;}
+       });
+       });
 </script>
 </head>
 <body>
@@ -73,10 +82,11 @@
 	      </div>
 	    </div>
 	  </nav>
+	  
 	  <!-- 나중에 post로 바꾸기 -->
 	<form action="../personMatching" method="get">
 	<input type="hidden" name="command"  value="personalWrite"/>
-   <div class="container margin-t-100">
+   	<div class="container margin-t-100">
          <!--  General -->
          <div class="form-group">
             <h2 class="heading">새 글 작성</h2>
@@ -92,7 +102,7 @@
          <div class="grid">
             <div class="col-1-3 col-1-3-sm">
                <div class="controls">
-                  <i class="fa fa-sort"></i> <select class="floatLabel" name="emp_category">
+                  <i class="fa fa-sort"></i> <select class="floatLabel" id="emp_category" name="emp_category">
                      <option value="">지원하고자 하는 카테고리를 선택하세요.</option>
                      <option value="백엔드">백엔드</option>
                      <option value="프론트엔드">프론트엔드</option>
@@ -107,7 +117,7 @@
                   <p class="info-text margin-b-10">상세 내용</p>
                   <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요."></textarea>
                </div>
-               <input type="submit" class="col-1-4 btn btn-primary" style="float: right;"/>
+               <input type="submit" id="submit" class="col-1-4 btn btn-primary" style="float: right;"/>
             </div>
 
          </div>
