@@ -158,13 +158,10 @@ function sendMsgFunction(get_id){
 			</div>
 
 			<div class="col-12">
-				<span>Skills</span>
-				<script>
-				   
-				</script>
+				<span>Skills<br></span>
 				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
 				<div class="card">
-				    <div class="card-body">			    
+				    <div class="card-body">		    
 				    <fieldset>
 				    	<legend>front-end</legend>
 					    <div class="form-check form-check-inline">
@@ -214,13 +211,13 @@ function sendMsgFunction(get_id){
 				    </fieldset>
 				    </div>
 				</div>				
-				    <button type="submit" class="btn btn-primary">수정</button>
+				    <br><button type="submit" class="btn btn-primary">수정</button>
 				    </form>
 			</div>
 		</div>
 	</div>
 	<!-- container end -->
-	<section>
+	<section style="padding: 0;">
 		<c:choose>
 			<c:when test="${empty projectList}">
 				<div class="container">
@@ -572,7 +569,6 @@ function sendMsgFunction(get_id){
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	
 
-  <jsp:include page="common/footer.jsp"></jsp:include>
 
 <!-- 비밀번호 변경 모달 -->
 <div class="modal fade" id="updatePwd" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -682,7 +678,6 @@ $("#area").val("${area}").prop("selected", true);
   $("#area").change(function(){
   	var area = $("select[name=areaSelect]").val();
 
-	alert(area);
   	$.ajax({
   		url:'${pageContext.request.contextPath}/user?command=updateArea',
   		type:'POST',
@@ -690,11 +685,11 @@ $("#area").val("${area}").prop("selected", true);
   			'area':area,		
   		},
   		error:function(request, status, error){
-  			alert("지역선택 변경에 실패했습니다");
+  			alert("지역 변경에 실패했습니다");
   			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
   		},
   		success:function(data, textStatus, jqXHR){ 			
-  			alert("지역선택이 변경되었습니다");
+  			alert(area+"지역으로 변경되었습니다");
   			
   		}
   	});
