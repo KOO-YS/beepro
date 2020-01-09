@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 
 	main_nav : section 장점 info <li> 추가 & ** 일단은 가장 우측 메뉴 login.jsp로 이어짐 
 	sub_nav : 가장 우측 메뉴 profile.jsp 로 이어짐
@@ -82,7 +82,7 @@
           <% }
 		if(u_id == null) {
 		%> <li class="nav-item" style="margin-top: 10px;">
-            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='login.jsp'">
+            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'">
               login
             </button>
              </li>
@@ -94,7 +94,7 @@
             <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/msg?command=getAllMsg&u_id=<%=u_id%>">쪽지</a>
           </li>
           <li class="nav-item" style="margin-top: 10px;">
-          	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='../user?command=logout'">
+          	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='${pageContext.request.contextPath}/user?command=logout'">
              logout
             </button> 
              </li>

@@ -70,14 +70,19 @@ public class ProjectServlet extends HttpServlet {
 		ProjectDao dao = new ProjectDaoImple();
 		MatchingDao mdao = new MatchingDaoImpl();
 		MatchingService matchingService = new MatchingService();
-		
 
 		HttpSession session2 = request.getSession();
 		int pseq = (int)session2.getAttribute("projectSeq");
 		String p_member = dao.selectAllMember(pseq);
 		session2.setAttribute("pMember", p_member);
 		
-		if(command.equals("enterCowork")) {
+		if(command.equals("goToProject")) {
+			HttpSession session = request.getSession();
+			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+			session.setAttribute("projectSeq", projectSeq);
+			response.sendRedirect("cowork/index.jsp");
+		}
+		else if(command.equals("enterCowork")) {
 			dispatch("cowork/dashboard.jsp",request,response);
 			
 		} else if (command.equals("issueWrite")) {
@@ -193,7 +198,7 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("todo-list")) { // 1
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
 			List<TodoVo> todoList = projectService.selectAllTodo(request, response);	// sequence **
-//			request.setAttribute("todoList", todoList);
+			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
 	
 		} else if (command.equals("todoForm")) { // 2
@@ -204,7 +209,7 @@ public class ProjectServlet extends HttpServlet {
 			} else {
 				System.out.println("생성 오류 발생");
 			}
-
+			
 		} else if (command.equals("todo-detail")) { // 3
 			System.out.println("상세 보기 페이지");
 			TodoVo detail = projectService.selectOneTodo(request, response);
