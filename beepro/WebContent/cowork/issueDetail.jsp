@@ -394,7 +394,7 @@ $(document).ready(function() {
 					                  </div>
 					                   
 					                   <div id="regdate">
-					                   <fmt:formatDate value="${list.regdate}" pattern="yyyy/mm/dd HH:mm:ss" />
+					                   ${list.regdate}
 					                   </div>
 					                   
 					                   <div id="content">

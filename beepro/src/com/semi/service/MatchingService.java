@@ -2,6 +2,7 @@ package com.semi.service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,10 +28,14 @@ public class MatchingService {
 	 * @return DB INSERT 후 성공 여부에 따라 int 형으로 결과값을 받을 수 있음.
 	 */
 
-   MatchingDao matchingDao = new MatchingDaoImpl();
-   MatchingDao Dao = new MatchingDaoImpl();
+	MatchingDao matchingDao = new MatchingDaoImpl();
+	MatchingDao Dao = new MatchingDaoImpl();
    
-   
+	// 유저가 속한 프로젝트 리스트 출력
+	public List<ProjectVo> getUserProject(String userId) {
+		List<ProjectVo> project = matchingDao.getUserProject(userId);
+		return project;
+	}
    // 프로필 정보 추출
    public UserVo getProfile(HttpServletRequest request, HttpServletResponse response) {
 	   	String userId = request.getParameter("userId");
@@ -445,5 +450,34 @@ return Dao.selectAllPer();
 		String u_id = (String)session.getAttribute("u_id");
 		return Dao.AllMyPersonal(u_id);
 	   }
+	 
+	// 유저 스킬 가져오기
+	public List<String> getUserSkill(HttpServletRequest request, HttpServletResponse response) {
+		// TODO 1. dao 와 연결 Skill String (return)
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		String str = Dao.getUserSkill(u_id);
+		List<String> skillList =  new ArrayList<String>();
+		
+		try {
+			// TODO split(,) List add
+			String[] splitStr = str.split(",");
+			for(int i=0; i<splitStr.length; i++){
+				skillList.add(splitStr[i]);
+			}
+		} catch (Exception e) {
+			System.out.println("skill Not Found");
+		}
+		return skillList;
+	}
+	//유저 지역값 가져오기
+	public String getUserArea(HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		String userArea = Dao.getUserArea(u_id);
+		
+		return userArea;
+	}
 	
 }

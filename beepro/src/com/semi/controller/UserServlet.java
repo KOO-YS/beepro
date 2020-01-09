@@ -83,7 +83,16 @@ public class UserServlet extends HttpServlet {
 			
 		}else if(command.equals("updatePwd")) {
 			System.out.println("비밀번호 변경");
-			updatePwdAction(request, response);				
+			updatePwdAction(request, response);		
+			
+		}else if(command.equals("updateArea")) {
+			System.out.println("지역 변경");
+			userService.updateArea(request, response);			
+			
+		}else if(command.equals("updateSkill")) {
+			System.out.println("스킬 변경");
+			userService.updateSkill(request, response);	
+			
 			
 		}else if(command.equals("userprofile")) {
 			System.out.println("프로필사진 변경");
@@ -107,7 +116,7 @@ public class UserServlet extends HttpServlet {
 			userService.chatList(request, response);
 			
 		} else if (command.equals("chatUnread")) {
-			System.out.println("읽지 않은 메세지");
+//			System.out.println("읽지 않은 메세지");
 			userService.chatUnread(request, response);
 			
 		} else if (command.equals("chatBox")) {
@@ -149,10 +158,22 @@ public class UserServlet extends HttpServlet {
 			System.out.println("받은 쪽지 삭제");
 			userService.deleteGetMsg(request, response);
 			
+		} else if(command.equals("msgUnread")) {
+//			System.out.println("읽지 않은 쪽지");
+			userService.msgUnread(request, response);
+			
 		} else if(command.equals("follow")) {
 			System.out.println("팔로우 하기");
 			userService.follow(request, response);
-		}
+			
+		} else if(command.equals("followerCount")) {
+			System.out.println("팔로우한 갯수 반환");
+			userService.followerCount(request,response);
+			
+		}  else if(command.equals("followerCount")) {
+			System.out.println("팔로잉한 갯수 반환");
+			userService.followingCount(request,response);
+		} 
 	}
 
 	private void registerAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -226,11 +247,6 @@ public class UserServlet extends HttpServlet {
 		String u_id = (String) session.getAttribute("u_id");
 		String u_email = (String) session.getAttribute("u_email");
 		String u_name = (String) session.getAttribute("u_name");
-		
-		System.out.println("----서블릿으로 들어온 값----");
-		System.out.println(u_id);
-		System.out.println(u_name);
-		System.out.println(u_email);
 		
 		int CheckID = UserService.CheckID(request, response);
 		

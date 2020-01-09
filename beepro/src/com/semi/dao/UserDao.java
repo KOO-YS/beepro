@@ -16,8 +16,10 @@ public interface UserDao {
 	String getUserPhotoSql = "SELECT userProfile from beepro_user WHERE user_id=?";
 	String getProfilePathSql = "SELECT userProfile FROM beepro_user WHERE user_id = ?";
 	String updatePwdSql = "UPDATE beepro_user SET pwd = ? WHERE user_id = ? ";
-	String naverjoinSql = "INSERT into beepro_user values(?,'pwd',?,?,'hash',null,'Y','','','Y')"; 	
-	
+	String naverjoinSql = "INSERT into beepro_user values(?,'pwd',?,?,'hash',null,'Y','','','Y')"; 
+	String updateAreaSql = "UPDATE beepro_user SET location = ? WHERE user_id = ? ";
+	String updateSkillSql = "UPDATE beepro_user SET skill = ? WHERE user_id = ?";
+	String getUserSkillSql = "SELECT SKILL FROM BEEPRO_USER WHERE USER_ID =?";
 	
 	String insertHeartSql = "INSERT INTO heart VALUES(?,?) ";
 	String selectAllHeartSql = " SELECT * FROM heart ";
@@ -39,6 +41,8 @@ public interface UserDao {
 	public String getProfilePath(String u_id);
 	public int updatePwd(String newPwd, String u_id);
 	public int naverRegister(String u_id, String u_name, String u_email);
+	public int updateArea(String u_id, String area);
+	public int updateSkill(String u_id, String skill);
 	
 	
 	

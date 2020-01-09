@@ -18,9 +18,29 @@ import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
 import com.semi.vo.VolunteerVo;
 
-import oracle.net.aso.r;
-
 public class MatchingDaoImpl implements MatchingDao {
+	
+	@Override
+	public List<ProjectVo> getUserProject(String userId) {
+		Connection con = getConnection();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<ProjectVo> project = new ArrayList<ProjectVo>();
+		try {
+			pstm = con.prepareStatement("SELECT * FROM PROJECT WHERE MEMBER_ID LIKE '%"+userId+"/%'");
+//				pstm.setString(1, userId);
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				ProjectVo vo = new ProjectVo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
+				project.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstm, con);
+		}
+		return project;
+	}
 	
 	@Override
 	public UserVo getProfile(String userId) {
@@ -947,4 +967,50 @@ return null;
 		}
 		return res;
 	}
+
+	@Override
+	public String getUserSkill(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String skill = "";
+		try {
+			pstmt = con.prepareStatement(getUserSkillSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				skill = rs.getString(1); // skill 반환
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return skill;
+	}
+
+	@Override
+	public String getUserArea(String u_id) {	
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String area = "";
+		
+		try {
+			pstmt = con.prepareStatement(getUserArealSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				area = rs.getString(1); // area 반환
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return area;
+	}
+
 }

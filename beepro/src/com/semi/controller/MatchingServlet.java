@@ -13,12 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.dao.MatchingDaoImpl;
+import com.semi.dao.ProjectDao;
+import com.semi.dao.ProjectDaoImple;
 import com.semi.dao.UserDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.service.UserService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-
 import com.semi.vo.PageVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
@@ -72,17 +73,28 @@ public class MatchingServlet extends HttpServlet {
 		MatchingService matchingService = new MatchingService();
 
 		MatchingDaoImpl dao = new MatchingDaoImpl();
+		
+		ProjectDao pdao = new ProjectDaoImple();
 
 		// 현재 로그인 중인 아이디로 세션 받아옴
 
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
-
-		if (command.equals("profile")) {
+		
+		if(command.equals("main")) {
+			System.out.println(u_id);
+			if(u_id != null) {
+				List<ProjectVo> project = matchingService.getUserProject(u_id);
+				request.setAttribute("projectList", project);
+			}
+			dispatch("matching/index.jsp", request, response);
+		}
+		else if (command.equals("profile")) {
 			System.out.println("유저 프로필 정보 추출");
 			UserVo profile = matchingService.getProfile(request, response);
 			// matching?command=profile&userId=1 로 연결
 			
+			//팔로우 체크
 			String userId = request.getParameter("userId");
 			UserDaoImpl userDAO = new UserDaoImpl();
 			String chk=null;
@@ -91,8 +103,14 @@ public class MatchingServlet extends HttpServlet {
 			}else {
 				chk="unfollow";
 			}
-			request.setAttribute("chk", chk);
+			//팔로워 팔로잉 갯수
+			UserService userService = new UserService();
+			String followers = userService.followerCount(request, response);
+			String followings = userService.followingCount(request, response);
 			
+			request.setAttribute("followers", followers);
+			request.setAttribute("followings", followings);
+			request.setAttribute("chk", chk);
 			request.setAttribute("profile", profile);
 			dispatch("matching/profile.jsp", request, response);
 		} else if (command.equals("matchingWrite")) {
@@ -196,6 +214,7 @@ public class MatchingServlet extends HttpServlet {
 			request.setAttribute("volunteer", volunteer);
 			request.setAttribute("volunteerNum", volunteerNum);
 			request.setAttribute("created", created);
+			
 			
 			dispatch("matching/matchingRead.jsp", request, response);
 
@@ -340,13 +359,18 @@ public class MatchingServlet extends HttpServlet {
 		} else if (command.equals("projectCreate")) {
 			System.out.println("프로젝트 생성");
 			System.out.println("pm아이디:" + u_id);
-
+			
 			int projectSeq = matchingService.insertProject(request, response);
 
+			String p_name = pdao.selectOneProjectName2(projectSeq);
+			System.out.println("프로젝트 명 :"+p_name);
+			
 			if (projectSeq > 0) {
 				System.out.println("프로젝트 생성 성공");
 				session.setAttribute("projectSeq", projectSeq);
-				dispatch("cowork/dashboard.jsp",request, response);
+				session.setAttribute("pName", p_name);
+				
+				dispatch("cowork/index.jsp",request, response);
 			} else {
 				System.out.println("프로젝트 생성 실패");
 			}
@@ -393,6 +417,14 @@ public class MatchingServlet extends HttpServlet {
 			//마이페이지로 매칭 게시글목록 전달
 		}else if(command.equals("mypage")) {
   	  		System.out.println("마이페이지");
+  	  		
+  	  		//지역 리스트 담기
+  	  		String area = matchingService.getUserArea(request, response);
+  	  		request.setAttribute("area", area);
+  	  		
+  	  		// user skill 리스트 담기
+  	  		List<String> skill = matchingService.getUserSkill(request, response);
+  	  		request.setAttribute("skillList", skill);
   	  		
   	  		//personal 목록담기
   	  		List<MatchingPerVo> list1 = matchingService.AllMyPersonal(request, response);

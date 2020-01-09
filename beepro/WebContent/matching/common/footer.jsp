@@ -39,3 +39,11 @@
       </div>
     </div>
   </footer>
+  
+ 	<script type="text/javascript">
+	$(document).ready(function(){
+		getUnread();
+		getInfiniteUnread();
+
+	});
+	</script>

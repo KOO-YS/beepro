@@ -1,8 +1,6 @@
 // 협업 - 프로젝트 관련 정보
 package com.semi.vo;
 
-import java.sql.Date;
-
 public class ProjectVo {
 	private int projectSeq; // 프로젝트 시퀀스
 	private String startDate; // 프로젝트 시작 일

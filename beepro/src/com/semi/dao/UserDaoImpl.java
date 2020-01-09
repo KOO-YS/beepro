@@ -360,6 +360,53 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		return 2; // 비밀번호 변경 실패
 
 	}
+	//지역 정보 업데이트
+	@Override
+	public int updateArea(String u_id, String area) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		int res = 0;
+
+		try {
+			pstmt = con.prepareStatement(updateAreaSql);
+			pstmt.setString(1, area);
+			pstmt.setString(2, u_id);			
+
+			res = pstmt.executeUpdate(); // 지역정보 변경 성공
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+
+		return res; // 지역정보 변경 실패
+		
+	}
+	//기술 정보 업데이트
+	@Override
+	public int updateSkill(String u_id, String skill) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		System.out.println(u_id);
+		System.out.println(skill);
+		int res = 0;
+		try {
+			pstmt = con.prepareStatement(updateSkillSql);
+			pstmt.setString(1, skill);
+			pstmt.setString(2, u_id);
+			res = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+
+		return res; // 비밀번호 변경 실패
+		
+	}
+
 
 	/* 메세지 DAO */
 
@@ -887,7 +934,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = " SELECT COUNT(msg_seq) FROM msg WHERE get_id = ? AND read_ck = 0 AND gdelte_ck='Y'  ";
+		String sql = " SELECT COUNT(msg_seq) FROM msg WHERE get_id = ? AND read_ck = 0 AND gdelete_ck='Y'  ";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, u_id);

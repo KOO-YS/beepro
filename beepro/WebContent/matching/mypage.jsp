@@ -143,85 +143,81 @@ function sendMsgFunction(get_id){
 					data-target="#updatePwd" style="margin-top: 40px;">비밀번호 변경</button>
 			</div>
 			<div class="col-12">
-				<span> area </span> <select class="pf_input">
+
+				<span> area </span>
+				<select class="pf_input" name="areaSelect" id = "area">
 					<option>------ 선택하지 않음 ------</option>
-					<option>서울</option>
-					<option>경기도</option>
-					<option>충청도</option>
+					<option value ="서울">서울</option>
+					<option value ="인천/경기">인천/경기</option>
+					<option value ="강원">강원</option>
+					<option value ="충청">충청</option>
+					<option value ="전라">전라</option>
+					<option value ="경상">경상</option>
+					<option value ="제주">제주</option>
 				</select>
 			</div>
 
 			<div class="col-12">
-				<span>skills</span>
+				<span>Skills<br></span>
+				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
 				<div class="card">
-					<div class="card-body">
-						<fieldset>
-							<legend>front-end</legend>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox1" value="option1"> <label
-									class="form-check-label" for="inlineCheckbox1">HTML</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox2" value="option2"> <label
-									class="form-check-label" for="inlineCheckbox2">CSS</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox1" value="option1"> <label
-									class="form-check-label" for="inlineCheckbox1">JavaScript</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox2" value="option2"> <label
-									class="form-check-label" for="inlineCheckbox2">Augularjs</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox3" value="option3" disabled> <label
-									class="form-check-label" for="inlineCheckbox3">React</label>
-							</div>
-						</fieldset>
-						<hr>
-						<fieldset>
-							<legend>back-end</legend>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox1" value="option1"> <label
-									class="form-check-label" for="inlineCheckbox1">Java</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox2" value="option2"> <label
-									class="form-check-label" for="inlineCheckbox2">Python</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox1" value="option1"> <label
-									class="form-check-label" for="inlineCheckbox1">Nodejs</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox2" value="option2"> <label
-									class="form-check-label" for="inlineCheckbox2">Spring</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="checkbox"
-									id="inlineCheckbox3" value="option3" disabled> <label
-									class="form-check-label" for="inlineCheckbox3">C++
-									(disabled)</label>
-							</div>
-						</fieldset>
-					</div>
-					<button class="btn btn-primary">수정</button>
-				</div>
-
+				    <div class="card-body">		    
+				    <fieldset>
+				    	<legend>front-end</legend>
+					    <div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="skill" value="HTML">
+						  <label class="form-check-label" for="inlineCheckbox1">HTML</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="skill" value="CSS">
+						  <label class="form-check-label" for="inlineCheckbox2">CSS</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="skill"  value="JavaScript">
+						  <label class="form-check-label" for="inlineCheckbox1">JavaScript</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="skill" value="Augularjs">
+						  <label class="form-check-label" for="inlineCheckbox2">Augularjs</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="skill" value="React">
+						  <label class="form-check-label" for="inlineCheckbox3">React</label>
+						</div>
+				    </fieldset>
+				    <hr>
+				    <fieldset>
+				    	<legend>back-end</legend>
+					    <div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="skill" value="Java">
+						  <label class="form-check-label" for="inlineCheckbox1">Java</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="skill" value="Python">
+						  <label class="form-check-label" for="inlineCheckbox2">Python</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="skill" value="Nodejs">
+						  <label class="form-check-label" for="inlineCheckbox1">Nodejs</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="skill" value="Spring">
+						  <label class="form-check-label" for="inlineCheckbox2">Spring</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="skill" value="C++" >
+						  <label class="form-check-label" for="inlineCheckbox3">C++</label>
+						</div>
+				    </fieldset>
+				    </div>
+				</div>				
+				    <br><button type="submit" class="btn btn-primary">수정</button>
+				    </form>
 			</div>
 		</div>
 	</div>
 	<!-- container end -->
-	<section>
+	<section style="padding: 0;">
 		<c:choose>
 			<c:when test="${empty projectList}">
 				<div class="container">
@@ -572,6 +568,139 @@ function sendMsgFunction(get_id){
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	
+
+
+<!-- 비밀번호 변경 모달 -->
+<div class="modal fade" id="updatePwd" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updatePwdLabel">패스워드 변경</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	<form action="${pageContext.request.contextPath}/user?command=updatePwd" method="post">
+      <div class="modal-body">
+        	  <div class="form-group">
+			    <label for="oriPwd">기존 패스워드</label>
+			    <input type="password" class="form-control" name ="oriPwd" id="oriPwd" required>
+			  </div>
+			  <hr>
+			  <div class="form-group">
+			    <label for="newPwd">새 패스워드</label>
+			    <input type="password" class="form-control" name ="newPwd" id="newPwd" required>
+			  </div>
+			  <div class="form-group">
+			    <label for="newPwd_chk">새 패스워드 확인</label>
+
+			    <input type="password" class="form-control" name="newPwd_chk" id="newPwd_chk" required aria-describedby="pwdinfo">
+			    <small id="pwdinfo" class="form-text text-muted">위와 동일하게 입력해주시기 바랍니다</small>
+
+			  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary">변경</button>
+      </div>
+	</form>
+    </div>
+  </div>
+</div>
+<!-- 비밀번호 변경 모달 end--> 
+<!-- 프로필 사진 변경 모달-->
+<div class="modal fade" id="test" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updatePwdLabel">프로필사진 변경</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        	  <form method ="post" action="${pageContext.request.contextPath}/user?command=userprofile" enctype="multipart/form-data">
+			      <div class="modal-body">
+			      
+				<span class="btn-file">
+				<input type="file" id="userProfile" name="userProfile">
+				<input type="hidden" name="u_id" value="${u_id}">
+				</span>
+			
+		      </div>
+	      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary" >변경</button>
+      </div>
+	</form>
+    </div>
+  </div>
+</div>
+<!-- 프로필 사진 변경 모달 end-->
+<!-- 회원탈퇴 모달 -->
+<div class="modal fade" id="withdrawal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="withdrawalLabel">beepro 탈퇴하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	<form action="${pageContext.request.contextPath}/user?command=withdrawal" method="post">
+      <div class="modal-body">
+			  <div class="form-group">
+			    <label for="newPwd_chk">패스워드 확인</label>
+			    <input type="password" class="form-control" name="pwd_chk" id="pwd_chk" required aria-describedby="pwdinfo">
+			    <small id="pwdinfo" class="form-text text-muted">비밀번호를 입력하신 후 확인을 누르면 탈퇴처리가 됩니다.</small>
+
+			  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary">확인</button>
+      </div>
+	</form>
+    </div>
+  </div>
+</div>
+
+<!-- 회원탈퇴 모달 end--> 
+<!-- 지역/기술 선택관련  -->
+<script type="text/javascript">
+$("#area").val("${area}").prop("selected", true);
+
+
+<c:forEach var="skill" items="${skillList}">
+	$("input[name=skill][value=${skill}]").prop("checked",true);
+</c:forEach>
+
+  /* 지역 변경 */
+  $("#area").change(function(){
+  	var area = $("select[name=areaSelect]").val();
+
+  	$.ajax({
+  		url:'${pageContext.request.contextPath}/user?command=updateArea',
+  		type:'POST',
+  		data: {
+  			'area':area,		
+  		},
+  		error:function(request, status, error){
+  			alert("지역 변경에 실패했습니다");
+  			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+  		},
+  		success:function(data, textStatus, jqXHR){ 			
+  			alert(area+"지역으로 변경되었습니다");
+  			
+  		}
+  	});
+  });
+</script>
+<!-- 지역/기술 선택관련  end-->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 	<!-- 쪽지 보내기 모달 -->
 	<div class="modal" id="sendMsgModal">
 		<div class="modal-dialog">
@@ -585,6 +714,10 @@ function sendMsgFunction(get_id){
 
 				</div>
 				<div class="modal-body">
+
+
+  <!-- Custom scripts for this template -->
+  <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 
 					<form role="form" id="sendForm" class="form-horizontal"
 						action="${pageContext.request.contextPath}/msg">
@@ -625,119 +758,8 @@ function sendMsgFunction(get_id){
 	</div>
 	<!-- /.modal compose message -->
 	
-	<!-- 비밀번호 변경 모달 -->
-	<div class="modal fade" id="updatePwd" data-backdrop="static"
-		tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"
-		aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="updatePwdLabel">패스워드 변경</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<form
-					action="${pageContext.request.contextPath}/user?command=updatePwd"
-					method="post">
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="oriPwd">기존 패스워드</label> <input type="password"
-								class="form-control" name="oriPwd" id="oriPwd" required>
-						</div>
-						<hr>
-						<div class="form-group">
-							<label for="newPwd">새 패스워드</label> <input type="password"
-								class="form-control" name="newPwd" id="newPwd" required>
-						</div>
-						<div class="form-group">
-							<label for="newPwd_chk">새 패스워드 확인</label> <input type="password"
-								class="form-control" name="newPwd_chk" id="newPwd_chk" required
-								aria-describedby="pwdinfo"> <small id="pwdinfo"
-								class="form-text text-muted">위와 동일하게 입력해주시기 바랍니다</small>
 
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">취소</button>
-						<button type="submit" class="btn btn-primary">변경</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- 비밀번호 변경 모달 end-->
-	<!-- 프로필 사진 변경 모달-->
-	<div class="modal fade" id="test" data-backdrop="static" tabindex="-1"
-		role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="updatePwdLabel">프로필사진 변경</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<form method="post"
-					action="${pageContext.request.contextPath}/user?command=userprofile"
-					enctype="multipart/form-data">
-					<div class="modal-body">
 
-						<span class="btn-file"> <input type="file" id="userProfile"
-							name="userProfile"> <input type="hidden" name="u_id"
-							value="${u_id}">
-						</span>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">취소</button>
-						<button type="submit" class="btn btn-primary">변경</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- 프로필 사진 변경 모달 end-->
-	<!-- 회원탈퇴 모달 -->
-	<div class="modal fade" id="withdrawal" data-backdrop="static"
-		tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"
-		aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="withdrawalLabel">beepro 탈퇴하기</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<form
-					action="${pageContext.request.contextPath}/user?command=withdrawal"
-					method="post">
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="newPwd_chk">패스워드 확인</label> <input type="password"
-								class="form-control" name="pwd_chk" id="pwd_chk" required
-								aria-describedby="pwdinfo"> <small id="pwdinfo"
-								class="form-text text-muted">비밀번호를 입력하신 후 확인을 누르면 탈퇴처리가
-								됩니다.</small>
-
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">취소</button>
-						<button type="submit" class="btn btn-primary">확인</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- 회원탈퇴 모달 end-->
 	<!-- Bootstrap core JavaScript -->
 	<script
 		src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
@@ -753,6 +775,7 @@ function sendMsgFunction(get_id){
 	<script type="text/javascript">
 		
 	</script>
+
 </body>
 
 </html>

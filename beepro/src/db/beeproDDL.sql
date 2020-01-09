@@ -91,6 +91,7 @@ CREATE TABLE beepro_user (
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
+
 ALTER TABLE BEEPRO_USER ADD (naver_ck VARCHAR2(6)); 
 
 SELECT * FROM BEEPRO_USER;
@@ -168,7 +169,9 @@ CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
-select * from issue;
+select * from project;
+
+SELECT PROJECT_SEQ from PROJECT WHERE member_id='2,3,4,';
 
 CREATE TABLE issue (
 	issue_seq	number	NOT NULL,
@@ -190,6 +193,8 @@ CREATE TABLE comments (
 	content	varchar2(2000)	NOT NULL,
 	regdate	DATE	NOT NULL
 );
+
+select * from comments;
 
 CREATE TABLE skill (
 	personal_seq	number	NOT NULL,
@@ -236,6 +241,15 @@ ALTER TABLE post ADD CONSTRAINT PK_POST PRIMARY KEY (
 );
 ------------------------------------------------------------------------------------------------------------
 
+----------------------------------- 파일 업로드 테이블 추가 ------------------------
+CREATE TABLE files (
+  user_id varchar2(100) NOT NULL, -- 파일 업로드 한 사람 
+  regdate Date NOT NULL, -- 파일 업로드 한 시간
+  fileName varchar2(2000) NOT NULL, -- 파일 원래 이름
+  fileRealName varchar2(2000) NOT NULL, -- 파일 내가 올릴때 바꾸는 이름
+  	CONSTRAINT FK_USER_ID_TO_FILE FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
+);
+---------------------------------------------------------------------------
 ALTER TABLE heart ADD CONSTRAINT PK_HEART PRIMARY KEY (send_id,get_id);
 
 ALTER TABLE project_member ADD CONSTRAINT PK_PROJECT_MEMBER PRIMARY KEY (project_seq,member_id);

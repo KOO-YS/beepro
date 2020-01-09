@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 
 	main_nav : section 장점 info <li> 추가 & ** 일단은 가장 우측 메뉴 login.jsp로 이어짐 
 	sub_nav : 가장 우측 메뉴 profile.jsp 로 이어짐
@@ -25,7 +25,36 @@
     	project = (List)session.getAttribute("projectList");
     }
 %> 
-
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+   function getUnread(){
+      $.ajax({
+         type : "POST",
+         url : "${pageContext.request.contextPath}/msg?command=msgUnread",
+         data : {
+            u_id : encodeURIComponent('<%=u_id%>')
+         },
+         success : function(result){
+            
+            if(result >= 1){   //결과값이 1보다 크면 결과 출력
+               showUnread(result);
+            } else{
+               showUnread('');
+            }
+         }
+         
+      });
+   }
+   function getInfiniteUnread(){
+      setInterval(function(){
+         getUnread();
+      }, 4000);
+   }
+   function showUnread(result){
+      $('#unread').html(result);
+   }
+   
+</script>
 <style type="text/css">
 .arrow_box {
 	position: relative;
@@ -45,6 +74,7 @@
 	border-width: 30px;
 	margin-left: -30px;
 }
+
 </style>
 <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -82,7 +112,7 @@
           <% }
 		if(u_id == null) {
 		%> <li class="nav-item" style="margin-top: 10px;">
-            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='login.jsp'">
+            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'">
               login
             </button>
              </li>
@@ -91,10 +121,13 @@
             <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/matching?command=mypage">마이페이지</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/msg?command=getAllMsg&u_id=<%=u_id%>">쪽지</a>
+            <a class="nav-link js-scroll-trigger" href="${pageContext.request.contextPath}/msg?command=getAllMsg&u_id=<%=u_id%>">쪽지
+            <!-- Counter - Messages -->
+            <span class="badge badge-danger badge-counter" id="unread"></span>
+            </a>
           </li>
           <li class="nav-item" style="margin-top: 10px;">
-          	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='../user?command=logout'">
+          	<button type="button" class="btn btn-primary btn-sm" onclick="location.href='${pageContext.request.contextPath}/user?command=logout'">
              logout
             </button> 
              </li>
