@@ -84,8 +84,12 @@ CREATE TABLE beepro_user (
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
+------------- 유저 테이블 컬럼 추가 -----------------
 
+ALTER TABLE BEEPRO_USER ADD (skill VARCHAR2(4000));
 ALTER TABLE BEEPRO_USER ADD (naver_ck VARCHAR2(6)); 
+
+-----------------------------------------------
 
 SELECT * FROM BEEPRO_USER;
 

@@ -316,8 +316,9 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("[파일 업로드 페이지 진입]");
 			System.out.println("프로젝트 시퀀스 : " + pseq);
 			String u_id = (String) session2.getAttribute("u_id");
-			
 			System.out.println("아이디:" + u_id);
+			
+			dispatch("cowork/FileUpload.jsp",request, response);
 		}
 	}
 }
