@@ -13,11 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.dao.MatchingDaoImpl;
+import com.semi.dao.UserDaoImpl;
 import com.semi.service.MatchingService;
+import com.semi.service.UserService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-import com.semi.vo.UserVo;
+
+import com.semi.vo.PageVo;
 import com.semi.vo.ProjectVo;
+import com.semi.vo.UserVo;
 import com.semi.vo.VolunteerVo;
 
 //import common.Pagination;
@@ -86,6 +90,24 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("유저 프로필 정보 추출");
 			UserVo profile = matchingService.getProfile(request, response);
 			// matching?command=profile&userId=1 로 연결
+			
+			//팔로우 체크
+			String userId = request.getParameter("userId");
+			UserDaoImpl userDAO = new UserDaoImpl();
+			String chk=null;
+			if(userDAO.heartChk(u_id, userId)>0) {
+				chk="follow";
+			}else {
+				chk="unfollow";
+			}
+			//팔로워 팔로잉 갯수
+			UserService userService = new UserService();
+			String followers = userService.followerCount(request, response);
+			String followings = userService.followingCount(request, response);
+			
+			request.setAttribute("followers", followers);
+			request.setAttribute("followings", followings);
+			request.setAttribute("chk", chk);
 			request.setAttribute("profile", profile);
 			dispatch("matching/profile.jsp", request, response);
 		} else if (command.equals("matchingWrite")) {
@@ -102,10 +124,44 @@ public class MatchingServlet extends HttpServlet {
 
 			// 매칭 전체보기
 		} else if (command.equals("matchingAll")) {
+			
 			System.out.println("매칭 전체 보기");
 			List<MatchingProVo> list = matchingService.matchingProAll(request);
 			request.setAttribute("matchingList", list);
 			
+			
+			   int listCount = list.size();
+		         System.out.println(listCount);
+		         request.setAttribute("listsize", listCount);
+		         
+		         String curpagenum = request.getParameter("curpagenum");
+		         System.out.println(curpagenum+"현재페이지");
+		         
+		         //페이징 시작
+		         int currentPage = 0;
+
+		         if (curpagenum == null || curpagenum == "0") {
+		            currentPage = 1;
+		         } else {
+		            currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+		         }
+
+		         PageVo page = new PageVo();
+
+		         page.setCurrentPage(currentPage);
+		         page.setListCount(listCount);
+		         page.setAllPage(listCount);
+		         page.setPreve(currentPage);
+		         page.setStartRow(currentPage);
+		         page.setStartPage(currentPage, page.getAllPage());
+		         page.setEndPage(currentPage, page.getAllPage());
+		         page.setNext(currentPage, page.getAllPage());
+
+		         request.setAttribute("page", page);
+
+		         
+		        //페이징 끝
+		         
 			// 관심게시글 가져오기
 			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"project");
 			request.setAttribute("postList", postList);
@@ -156,11 +212,14 @@ public class MatchingServlet extends HttpServlet {
 			request.setAttribute("volunteerNum", volunteerNum);
 			request.setAttribute("created", created);
 			
+			
 			dispatch("matching/matchingRead.jsp", request, response);
 
 		} else if (command.equals("matchingModifyProc")) {
+			
 			System.out.println("매칭 글 수정 수정");
-			String project_seq = (String) request.getParameter("project_seq");
+			String project_seq = (String) request.getParameter("projectM_seq");
+			System.out.println(project_seq);
 
 			int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
 
@@ -224,6 +283,8 @@ public class MatchingServlet extends HttpServlet {
 
 			
 			// 관심게시글 가져오기
+
+				
 			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
 			request.setAttribute("postList", postList);
 
@@ -253,7 +314,7 @@ public class MatchingServlet extends HttpServlet {
 			if (projectSeq > 0) {
 				System.out.println("프로젝트 생성 성공");
 				session.setAttribute("projectSeq", projectSeq);
-				response.sendRedirect("cowork/dashboard.jsp");
+				dispatch("cowork/dashboard.jsp",request, response);
 			} else {
 				System.out.println("프로젝트 생성 실패");
 			}
@@ -301,6 +362,14 @@ public class MatchingServlet extends HttpServlet {
 		}else if(command.equals("mypage")) {
   	  		System.out.println("마이페이지");
   	  		
+  	  		//지역 리스트 담기
+  	  		String area = matchingService.getUserArea(request, response);
+  	  		request.setAttribute("area", area);
+  	  		
+  	  		// user skill 리스트 담기
+  	  		List<String> skill = matchingService.getUserSkill(request, response);
+  	  		request.setAttribute("skillList", skill);
+  	  		
   	  		//personal 목록담기
   	  		List<MatchingPerVo> list1 = matchingService.AllMyPersonal(request, response);
   	  		request.setAttribute("personalList", list1);
@@ -309,6 +378,19 @@ public class MatchingServlet extends HttpServlet {
   	  		List<MatchingProVo> list2 = matchingService.AllMyProject(request, response);
   	  		request.setAttribute("projectList", list2);
 	         
+  	  		//관심 퍼스널 담기
+  	  		List<MatchingPerVo> list3 = matchingService.allPersonalPost(request, response);
+  	  		request.setAttribute("postPerList", list3);
+  	  		
+  	  		//관심 프로젝트 담기
+  	  		List<MatchingProVo> list4 = matchingService.allProjectPost(request, response);
+  	  		request.setAttribute("postProList", list4);
+  	  		
+  	  		//팔로일 담기
+  	  		UserService userService = new UserService(); 
+  	  		List<String> list5 = userService.getAllFollowing(request, response);
+  	  		request.setAttribute("followingList", list5);		
+  	  		
   	  		dispatch("matching/mypage.jsp", request, response);
 		}						
 

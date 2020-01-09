@@ -11,6 +11,13 @@ public class HeartVo {
 	}
 	
 	
+	public HeartVo(String h_send, String h_get) {
+		super();
+		this.h_send = h_send;
+		this.h_get = h_get;
+	}
+
+
 	public String getH_send() {
 		return h_send;
 	}

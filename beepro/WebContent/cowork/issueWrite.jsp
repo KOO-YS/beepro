@@ -162,8 +162,8 @@ $(document).ready(function(){
                 <label for="content">담당자</label>
                 <select class="form-control" id="responsibility" name="responsibility" disabled style="margin-top:15px;">
                      <option value="" selected>프로젝트에 참여하는 사용자를 설정합니다.</option>
-                  <c:forEach var="vo" items="${projectVo}">
-                     <option value="${vo.member}">${vo.member}</option>
+                  <c:forEach var="mem" items="${member}">
+                     <option value="${mem}">${mem}</option>
                   </c:forEach>
                 </select>
              </div>

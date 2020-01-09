@@ -101,10 +101,8 @@ public class MatchingDaoImpl implements MatchingDao {
 		List<MatchingProVo> res = new ArrayList<MatchingProVo>();
 
 		try {
-			String selectAllMatchingSql = selectAllMatchingProSql;
+			String selectAllMatchingSql = selectSearchSql;
 			String whereStr = "";
-			System.out.println(matchingProVo.getSearchCat());
-			System.out.println(matchingProVo.getSearchKeyword());
 
 			switch (matchingProVo.getSearchCat()) {
 			case "pm_id":
@@ -118,10 +116,13 @@ public class MatchingDaoImpl implements MatchingDao {
 				break;
 			default:
 			}
+			
 			System.out.println(whereStr);
+			
 			selectAllMatchingSql = selectAllMatchingSql.replace("?", whereStr);
 
 			System.out.println(selectAllMatchingSql);
+			
 			pstmt = con.prepareStatement(selectAllMatchingSql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -148,7 +149,13 @@ public class MatchingDaoImpl implements MatchingDao {
 			e.printStackTrace();
 		} finally {
 			close(rs, pstmt, con);
-			System.out.println("DB 종료");
+			System.out.println("프로젝트 매칭 검색 DB 종료");
+		}
+		
+		for(MatchingProVo v : res) {
+			
+			System.out.println(v);
+			
 		}
 
 		return res;
@@ -301,7 +308,7 @@ public class MatchingDaoImpl implements MatchingDao {
 		return res;
 	}
 
-	// 김지민 매칭 부분
+	// 김지민 매칭 부분 끝
 
 	// 퍼스널 매칭 글쓰기
 
@@ -679,6 +686,75 @@ public class MatchingDaoImpl implements MatchingDao {
 
 		return -1;
 	}
+	
+	// 관심 플젝 게시글
+	public List<MatchingProVo> allProjectPost(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT m.projectm_seq, TITLE, CONTENT, startdate FROM matching_project m JOIN POST p ON(m.projectm_seq=p.post_no)  WHERE TYPE='project' AND U_ID=? ";
+		List<MatchingProVo> res = new ArrayList<MatchingProVo>();
+		
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				MatchingProVo matVo = new MatchingProVo();
+				matVo.setProjectM_seq(rs.getString(1));
+				matVo.setTitle(rs.getString(2));
+				matVo.setContent(rs.getString(3));
+				matVo.setStartdate(rs.getString(4));
+				
+				res.add(matVo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+	
+	// 관심 사람 게시글
+	public List<MatchingPerVo> allPersonalPost(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT m.personal_seq, TITLE, user_id, emp_category  FROM matching_personal m JOIN POST p ON(m.personal_seq=p.post_no)  WHERE TYPE='personal' AND U_ID=? ";
+		List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
+		
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				MatchingPerVo perVo = new MatchingPerVo();
+				perVo.setPersonal_seq(rs.getInt(1));
+				perVo.setTitle(rs.getString(2));
+				perVo.setUser_id(rs.getString(3));
+				perVo.setEmp_category(rs.getString(4));
+
+				res.add(perVo);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+	
+	
 
 	// 지원자 정보받기
 	public boolean insertVolunteer(VolunteerVo vo) {
@@ -800,4 +876,50 @@ public class MatchingDaoImpl implements MatchingDao {
 		}
 		return res;
 	}
+
+	@Override
+	public String getUserSkill(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String skill = "";
+		try {
+			pstmt = con.prepareStatement(getUserSkillSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				skill = rs.getString(1); // skill 반환
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return skill;
+	}
+
+	@Override
+	public String getUserArea(String u_id) {	
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String area = "";
+		
+		try {
+			pstmt = con.prepareStatement(getUserArealSql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				area = rs.getString(1); // area 반환
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return area;
+	}
+
 }

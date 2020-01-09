@@ -2,6 +2,7 @@ package com.semi.service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,6 +72,7 @@ public class MatchingService {
    public List<MatchingProVo> matchingProAll(HttpServletRequest request){
       MatchingDao matchingDao = new MatchingDaoImpl();
       MatchingProVo matVo = new MatchingProVo();
+      
       String searchKeyword = (String) request.getParameter("searchKeyword");  
       String searchCat = (String) request.getParameter("searchCat");
       
@@ -80,16 +82,14 @@ public class MatchingService {
       if(searchKeyword == null) {
     	  searchKeyword = "";
       }
+      
       matVo.setSearchCat(searchCat);
       matVo.setSearchKeyword(searchKeyword);
       
       return matchingDao.matchingProAll(matVo);
-
-//      HttpSession session = request.getSession();
-//      String pm_id = (String)session.getAttribute("u_id");
         
         
-		/* return matchingDao.matchingProAll(pm_id); */
+	// return matchingDao.matchingProAll(pm_id);
 
    }
    
@@ -258,8 +258,7 @@ public class MatchingService {
 	
     // 프로젝트 조회
 	public List<ProjectVo> selectAllProject(HttpServletRequest request, HttpServletResponse response) {
-		MatchingDaoImpl dao = new MatchingDaoImpl();
-		return dao.selectAllProject();
+		return matchingDao.selectAllProject();
 	}
 	
 	// 프로젝트 일부 조회
@@ -269,7 +268,7 @@ public class MatchingService {
 		MatchingDaoImpl dao = new MatchingDaoImpl();
 		return dao.selectOneProject(projectSeq);
 	}
-   
+	
 	// 지원자
    public boolean insertVolunteer(HttpServletRequest request, HttpServletResponse response) {
 	   int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
@@ -287,16 +286,7 @@ public class MatchingService {
 	    
 	   return dao.insertVolunteer(vo);
 	}
-   // 모든 매칭 프로젝트 list 조회
-	//김지민 수정!
-	/*
-	 * public List<MatchingProVo> selectAllPro(HttpServletRequest request,
-	 * HttpServletResponse response) { MatchingDaoImpl dao = new MatchingDaoImpl();
-	 * String u_id = request.getParameter("u_id"); return dao.matchingProAll(u_id);
-	 * }
-	 */
-   
-   
+  
    
    /* 관심 게시글 서비스 */
    
@@ -350,6 +340,7 @@ public class MatchingService {
 			response.getWriter().write('1'); //빨강하트
 		}
 	}
+	
 
 //	public List<Integer> selectPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //		request.setCharacterEncoding("UTF-8");
@@ -372,6 +363,31 @@ public class MatchingService {
 //		}
 //		return 
 //	}
+
+
+
+	//관심있는 프로젝트 게시글 리스트
+	public List<MatchingProVo> allProjectPost(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("관심있는 프로젝트 목록 조회");
+		
+		MatchingDaoImpl matchingDao = new MatchingDaoImpl();
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return matchingDao.allProjectPost(u_id);
+	}
+	
+	 //관심있는 퍼스널 게시글 리스트
+	 public List<MatchingPerVo> allPersonalPost(HttpServletRequest request, HttpServletResponse response) {
+	    System.out.println("관심있는 퍼스널 목록 조회");
+	    
+	    MatchingDaoImpl matchingDao = new MatchingDaoImpl();
+	    HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		return matchingDao.allPersonalPost(u_id);
+	   }
+	
+
+	 
 	
 	//내가 쓴 프로젝트 리스트
 	public List<MatchingProVo> AllMyProject(HttpServletRequest request, HttpServletResponse response) {
@@ -381,6 +397,8 @@ public class MatchingService {
 		return Dao.AllMyProject(u_id);
 	}
 	
+
+	
 	 //내가 쓴 퍼스널 리스트
 	 public List<MatchingPerVo> AllMyPersonal(HttpServletRequest request, HttpServletResponse response) {
 	    System.out.println("내가 쓴 퍼스널 목록 조회");
@@ -388,5 +406,31 @@ public class MatchingService {
 		String u_id = (String)session.getAttribute("u_id");
 		return Dao.AllMyPersonal(u_id);
 	   }
+	 
+	// 유저 스킬 가져오기
+	public List<String> getUserSkill(HttpServletRequest request, HttpServletResponse response) {
+		// TODO 1. dao 와 연결 Skill String (return)
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		String str = Dao.getUserSkill(u_id);
+		
+		// TODO split(,) List add
+		List<String> skillList =  new ArrayList<String>();
+		String[] splitStr = str.split(",");
+		
+		for(int i=0; i<splitStr.length; i++){
+			skillList.add(splitStr[i]);
+		}
+		return skillList;
+	}
+	//유저 지역값 가져오기
+	public String getUserArea(HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
+		String userArea = Dao.getUserArea(u_id);
+		
+		return userArea;
+	}
 	
 }

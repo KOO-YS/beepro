@@ -34,6 +34,9 @@ public interface ProjectDao {
     // 프로젝트부분
     String selectAllProjectSql = "SELECT * FROM ISSUE ORDER BY PROJECT_SEQ DESC";
     
+    // 프로젝트 구성원
+    String selectMemberSql = "SELECT MEMBER_ID FROM PROJECT WHERE PROJECT_SEQ=?";
+    
     // 업무 진행상황 부분
     String getByTodoTypeSql = "SELECT CATEGORY 분류,"
     		+ " TRUNC(COUNT(CASE WHEN FINISH_CK = 'Y' THEN 1 END)/COUNT(*)*100) 분류별진행률,"
@@ -56,6 +59,8 @@ public interface ProjectDao {
     
     String getUrgentTodoSql = "SELECT * FROM TODO WHERE MANAGER=? AND PROJECT_SEQ=? AND ENDDATE BETWEEN TO_CHAR(SYSDATE,'YY/MM/DD') AND TO_CHAR(SYSDATE+7,'YY/MM/DD') AND ROWNUM<5";
 
+    String getIssueToMeSql = "SELECT COUNT(*) ISSUE_SEQ FROM ISSUE WHERE RESPONSIBILITY=?";
+    
     // 댓글 부분
     String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL,?,?,?,SYSDATE)";
     String selectAllCommentSql = "SELECT * FROM COMMENTS WHERE ISSUE_SEQ=?";
@@ -75,6 +80,8 @@ public interface ProjectDao {
     public String selectOneProjectName(int issue_seq);
     
     public String selectOneProjectName2(int projectSeq);
+    
+    public String selectAllMember(int projectSeq);
     
     public int insertTodo(TodoVo todo);
 
@@ -112,5 +119,8 @@ public interface ProjectDao {
 	public void updateComment(int commentSeq, int issueSeq, String content);
 
 	public int getTodoCount(int projectSeq, String manager);
+
+	public int getIssueToMe(String userId);
+
 }
 

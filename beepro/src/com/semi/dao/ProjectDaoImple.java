@@ -231,7 +231,32 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return res;
 	}
-
+	
+	// 프로젝트 구성원 조회하는 부분
+	// 프로젝트 멤버 문자열 뽑아오기
+	@Override
+	public String selectAllMember(int projectSeq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = null;
+		
+		try {
+			pstmt = con.prepareStatement(selectMemberSql);
+			pstmt.setInt(1, projectSeq);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				res = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
 	// 업무 생성
 	@Override
 	public int insertTodo(TodoVo todo) {
@@ -702,7 +727,35 @@ public class ProjectDaoImple implements ProjectDao {
 		}
 		return true;
 	}
-    
+
+	// 나에게 할당된 이슈조회
+	@Override
+	public int getIssueToMe(String userId) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+        int res = 0;
+		
+		try {
+			pstmt = con.prepareStatement(getIssueToMeSql);
+			pstmt.setString(1, userId);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				IssueVo vo = new IssueVo();
+				vo.setResponsibility(rs.getString(1));
+				
+				res = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+		}
+		return res;
+	}
+
 	
 
 

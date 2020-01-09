@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.dao.UserDaoImpl;
+import com.semi.vo.HeartVo;
 import com.semi.vo.MessageVo;
 import com.semi.vo.MsgVo;
 
@@ -37,7 +38,7 @@ public class UserService {
 	//임시 비밀번호 재설정
 	public void findPwd(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String host = "http://localhost:8787/beepro_2/matching/";		
+		String host = "http://localhost:8787/beepro/matching/";		
 		String from = "teambeepro@gmail.com";		
 		String u_id = request.getParameter("u_id");			
 		String to = request.getParameter("u_email");			
@@ -197,6 +198,81 @@ public class UserService {
 				response.sendRedirect("matching?command=mypage");
 			}
 	}
+	public String getUserPwd(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		return dao.getUserPwd(u_id);
+	}
+	
+	public int withdrawal(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		return dao.withdrawal(u_id);
+	}
+	
+	public int updatePwd(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		String newPwd = (String) request.getParameter("newPwd");
+		return dao.updatePwd(newPwd, u_id);
+	}
+	
+	public void updateArea(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		String area = (String) request.getParameter("area");
+		System.out.println(area);
+		
+		int res =dao.updateArea(u_id, area);
+		if(res==1) {
+			System.out.println("[지역변경 성공]");
+		}else {
+			System.out.println("[지역변경 실패]");
+		}
+		
+	}
+	
+	public int CheckID(HttpServletRequest request, HttpServletResponse response) {
+		String u_id = request.getParameter("u_id");
+
+		return dao.CheckID(u_id);
+	}
+
+	public int naverRegister(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		
+		String u_id = (String) session.getAttribute("u_id");
+		String u_email = (String) session.getAttribute("u_email");
+		String u_name = (String) session.getAttribute("u_name");
+		
+		return dao.naverRegister(u_id, u_name,u_email);
+		
+	}
+	public void updateSkill(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		String[] skillArr = request.getParameterValues("skill");
+		String skill ="";
+		
+		for(String val : skillArr) {
+				skill += val+",";
+		}
+		System.out.println("skill arr:"+skill);
+		
+		int result = dao.updateSkill(u_id,skill);		
+		if (result == 1) {
+			request.setAttribute("skill", skill);	
+			System.out.println("[skill update 성공]");
+			dispatch("matching?command=mypage",request,response);
+			
+		 	}else {	 		
+		 		System.out.println("[skill update 실패]");
+		 	}
+		
+	}
+
+
+
 
 	
 	/* 메세지 부분 서비스 */
@@ -399,7 +475,9 @@ public class UserService {
 		String send_id = request.getParameter("send_id");
 		String get_id = request.getParameter("get_id");
 		String content = request.getParameter("content");
-
+		
+		String history = request.getParameter("backMsgBox");
+		
 		System.out.println("send_id : " + send_id);
 		System.out.println("get_id : " + get_id);
 		System.out.println("content : " + content);
@@ -407,7 +485,7 @@ public class UserService {
 		// 아이디 값이(보낸사람과 받는사람) 널값이거나 비어있으면 0이라는 문자를 클라이언트에게 보낸다.
 		if (send_id == null || send_id.equals("") || get_id == null || get_id.equals("") || content == null
 				|| content.equals("")) {
-			System.out.println("쪽지 보내기 실패");
+			response.getWriter().write("<script type='text/javascript'>alert('내용을 입력해 주세요'); history.back(); </script>");
 		} else {
 			// 보내는사람과 받는 사람이 있을 때 보낸다.
 			send_id = URLDecoder.decode(send_id, "UTF-8");
@@ -420,31 +498,50 @@ public class UserService {
 			} else {
 				System.out.println("쪽지 보내기 실패");
 			}
-			response.getWriter().write("<script type='text/javascript'>alert('쪽지 보내기 완료');history.back();</script>");
-//			dispatch("/matching/message.jsp",request,response);
+
+			if(history.equals("backMsgBox")) {
+				dispatch("msg?command=getAllMsg&u_id="+send_id,request,response);
+			}else {
+				response.getWriter().write("<script type='text/javascript'>alert('쪽지보내기 성공'); history.back(); </script>");
+			}
 		}
 
 	}
 	
-	// 쪽지 삭제 서비스
-	public void deleteMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	// 보낸 쪽지 삭제 서비스
+	public void deleteSendMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+		
+		String[] list = request.getParameterValues("list");
+		System.out.println(list[0]);
 
-		int msg_seq = Integer.parseInt(request.getParameter("msg_seq"));
-		String send_id = request.getParameter("send_id");
-		String get_id = request.getParameter("get_id");
-
-		if (dao.deleteMsg(msg_seq,send_id,get_id)>0) {
-			System.out.println("쪽지 삭제 성공");
-			response.getWriter().write("성공");
+		if (dao.deletSendMsg(list)>0) {
+			System.out.println("보낸 쪽지 삭제 성공");
+			response.getWriter().write("1");
 		} else {
-			System.out.println("쪽지 삭제 실패");
-			response.getWriter().write("실패");
+			System.out.println("보낸 쪽지 삭제 실패");
+			response.getWriter().write("-1");
 		}
 
 	}
 	
+	// 받은 쪽지 삭제 서비스
+	public void deleteGetMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		String[] list = request.getParameterValues("list");
+		
+		if (dao.deletGetMsg(list)>0) {
+			System.out.println("받은 쪽지 삭제 성공");
+			response.getWriter().write("1");
+		} else {
+			System.out.println("보낸 쪽지 삭제 실패");
+			response.getWriter().write("-1");
+		}
+		
+	}
 	//읽지 않은 쪽지 갯수
 	public void ureadAllMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -460,7 +557,7 @@ public class UserService {
 		}
 	}
 	
-	//쪽지 목록 불러오기
+	//받은 쪽지 목록 불러오기
 	public void getAllMsg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
@@ -468,7 +565,7 @@ public class UserService {
 		
 		String u_id = request.getParameter("u_id");
 		if (u_id == null || u_id.equals("")) {
-			System.out.println("로그인 안하고 쪽지 보냄");
+			System.out.println("로그인 안하고 쪽지 페이지");
 		} else {
 			System.out.println("받은 쪽지함 출력");
 			
@@ -478,7 +575,29 @@ public class UserService {
 			ArrayList<Integer> readList =  dao.readChk(u_id);
 			request.setAttribute("readList", readList);
 			
-			dispatch("/matching/message.jsp",request,response);
+			dispatch("/matching/messageGetBox.jsp",request,response);
+		}
+	}
+	
+	//보낸 쪽지 목록
+	public void sendAllMsg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		 ArrayList<MsgVo> list = new  ArrayList<MsgVo>();
+		
+		String u_id = request.getParameter("u_id");
+		if (u_id == null || u_id.equals("")) {
+			System.out.println("로그인 안하고 쪽지 페이지");
+		} else {
+			System.out.println("보낸 쪽지함 출력");
+			
+			list = dao.sendAllMsg(u_id);
+			request.setAttribute("list", list);
+			
+			ArrayList<Integer> readList =  dao.sendMsgReadChk(u_id);
+			request.setAttribute("readList", readList);
+			
+			dispatch("/matching/messageSendBox.jsp",request,response);
 		}
 	}
 	
@@ -497,6 +616,71 @@ public class UserService {
 		}
 		
 	}
+
+
+	
+	/* 관심 사람 서비스 (heart) */
+	
+	
+	public void follow(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		HttpSession session = request.getSession();
+		
+	    String send_id = (String)session.getAttribute("u_id");
+	    String get_id = request.getParameter("get_id");
+	    
+	    HeartVo vo = new HeartVo(send_id, get_id);
+	   
+	    
+	    if(dao.heartChk(send_id, get_id) > 0) {
+	    	System.out.println("팔로우 완료");
+	    	if(dao.insertHeart(vo) > 0) {
+	    		response.getWriter().write("1");
+	    	}
+	    } else {
+	    	System.out.println("언팔로우");
+	    	if(dao.deleteHeart(vo) > 0) {
+	    		response.getWriter().write("-1");
+	    	}
+	    }
+	}
+	
+	public ArrayList<String> getAllFollowing(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		HttpSession session = request.getSession();
+	    String u_id = (String)session.getAttribute("u_id");
+		
+	    UserDaoImpl userDAO = new UserDaoImpl();
+		
+		ArrayList<String> list = new ArrayList<String>();
+		list = userDAO.selectFollowing(u_id);
+		
+		return list;
+	}
+	
+	public String followerCount(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+	    UserDaoImpl userDAO = new UserDaoImpl();
+		String userId = request.getParameter("userId");
+		
+		String followers =  userDAO.followerCount(userId)+"";
+		return followers;
+	}
+	
+	public String followingCount(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+	    UserDaoImpl userDAO = new UserDaoImpl();
+		String userId = request.getParameter("userId");
+		
+		String follwing = userDAO.followingCount(userId)+"";
+		return follwing;
+	}
+	
+
 	
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -504,4 +688,6 @@ public class UserService {
 		dispatch.forward(request, response);
 		
 	}
+
+
 }

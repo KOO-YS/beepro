@@ -71,37 +71,47 @@ public class ProjectServlet extends HttpServlet {
 		MatchingDao mdao = new MatchingDaoImpl();
 		MatchingService matchingService = new MatchingService();
 
+		HttpSession session2 = request.getSession();
+		int pseq = (int)session2.getAttribute("projectSeq");
+		String p_member = dao.selectAllMember(pseq);
+		session2.setAttribute("pMember", p_member);
+		
 		if(command.equals("goToProject")) {
 			HttpSession session = request.getSession();
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			session.setAttribute("projectSeq", projectSeq);
 			response.sendRedirect("cowork/index.jsp");
 		}
-		else if (command.equals("issueWrite")) {
+		else if(command.equals("enterCowork")) {
+			dispatch("cowork/dashboard.jsp",request,response);
+			
+		} else if (command.equals("issueWrite")) {
 			System.out.println("이슈 생성 폼으로 이동");
 			HttpSession session = request.getSession();
 			String u_id = (String) session.getAttribute("u_id");
+			String u_name = (String) session.getAttribute("u_name");
+			
 			System.out.println("아이디:" + u_id);
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스:" + projectSeq);
-			
-            String p_name = dao.selectOneProjectName(projectSeq);
-            
-			List<ProjectVo> list = matchingService.selectAllProject(request, response);
-			
-			request.setAttribute("pName", p_name);
-			session.setAttribute("projectVo", list);
-			session.setAttribute("projectSeq", projectSeq);
 
+			String p_name = dao.selectOneProjectName2(projectSeq);
+            System.out.println(p_name);
+            
+			List<String> member = projectService.getMember(projectSeq);
+			request.setAttribute("pName", p_name);
+			request.setAttribute("member", member);
+			session.setAttribute("projectSeq", projectSeq);
 			dispatch("cowork/issueWrite.jsp", request, response);
 
 		} else if (command.equals("issueform")) {
 			System.out.println("이슈 생성");
 			HttpSession session = request.getSession();
 			String u_id = (String) session.getAttribute("u_id");
-			System.out.println(u_id);
+			String u_name = (String) session.getAttribute("u_name");
 			
+			System.out.println(u_id);
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스 : " + projectSeq);
@@ -135,9 +145,9 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("이슈 시퀀스:" + issueSeq);
 
 			IssueVo vo = dao.selectOneIssue(issueSeq);
-			
+
 			String p_name = dao.selectOneProjectName(issueSeq);
-            
+
 			request.setAttribute("pName", p_name);
 			request.setAttribute("vo", vo);
 			dispatch("cowork/issueUpdate.jsp", request, response);
@@ -174,8 +184,8 @@ public class ProjectServlet extends HttpServlet {
 			int seq = Integer.parseInt(request.getParameter("issue_seq"));
 			// 이슈 디테일
 			IssueVo vo = dao.selectOneIssue(seq);
-			
-            String p_name = dao.selectOneProjectName(seq);
+
+			String p_name = dao.selectOneProjectName(seq);
 
 			// 댓글리스트
 			List<CommentVo> list = dao.selectAllComment(seq);
@@ -245,16 +255,24 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("dashboard")) {
 			HttpSession session = request.getSession();
-			String userId = (String) session.getAttribute("u_name");
-			int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
-			System.out.println("userId :: " + userId + "\nprojectSeq :: " + projectSeq);
 			
-			HashMap<String, Integer> count = projectService.getCounts(userId, projectSeq);	// issue Count
+			// 기존 userId 변수명 => userName 으로 변경했습니다.
+			String userName = (String) session.getAttribute("u_name");
+			String userId = (String) session.getAttribute("u_id");
+			
+			int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
+			System.out.println("userId :: " + userName + "\nprojectSeq :: " + projectSeq);
+			
+			HashMap<String, Integer> count = projectService.getCounts(userName, projectSeq);	// issue Count
 			// TODO 개인 업무 or 팀 업무? -> 우선 개인 업무로 진행
-			List<TodoVo> urgentTodo = projectService.getUrgentTodo(userId, projectSeq);		// deadline todo 
+			List<TodoVo> urgentTodo = projectService.getUrgentTodo(userName, projectSeq);		// deadline todo 
 			List<IssueVo> weekIssue = projectService.getWeekIssue(projectSeq);				// week issues
 			HashMap<String, Integer> todoType = projectService.getTodoType(projectSeq);		// todo category Count & Rate
+			
+			// 나에게 할당된 이슈 조회
+			int issueCount = dao.getIssueToMe(userId);
 
+			request.setAttribute("issueToMe", issueCount);
 			request.setAttribute("count", count);
 			request.setAttribute("urgent", urgentTodo);
 			request.setAttribute("weekIssue", weekIssue);
@@ -295,8 +313,9 @@ public class ProjectServlet extends HttpServlet {
 				System.out.println("댓글 삭제 실패");
 			}
 
-		} else if (command.equals("updateComment")) {
-			System.out.println("댓글 수정");
+		} else if (command.equals("FileUpload")) {
+			System.out.println("파일 업로드 페이지 진입");
+			System.out.println("프로젝트 시퀀스 : " + pseq);
 		}
 	}
 }

@@ -14,6 +14,8 @@ import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
+import java.util.ArrayList;
+
 import util.Paging;
 
 public class ProjectService {
@@ -25,7 +27,7 @@ public class ProjectService {
 		
 		int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 		String title = request.getParameter("title");
-		String writer = (String) session.getAttribute("u_id");
+		String writer = (String) session.getAttribute("u_name");
 		String level = request.getParameter("level");
 		String category = request.getParameter("category");
 		String content = request.getParameter("content");
@@ -214,7 +216,7 @@ public class ProjectService {
 		System.out.println("시퀀스 : "+issueSeq);
 		
 		HttpSession session = request.getSession();
-		String writer = (String)session.getAttribute("u_id");
+		String writer = (String)session.getAttribute("u_name");
 		System.out.println("아이디 : " + writer);
 		String content = request.getParameter("content");
 		System.out.println("내용 : " +content);
@@ -243,4 +245,16 @@ public class ProjectService {
 		
 		projectDao.updateComment(commentSeq, issueSeq, content);
 	}
+    
+    // 프로젝트 멤버빼오기
+	public List<String> getMember(int projectSeq) {
+		String memStr = projectDao.selectAllMember(projectSeq);
+		String[] mem = memStr.split(",");
+		List<String> member = new ArrayList<String>();
+		for(int i=0; i<mem.length; i++) {
+			member.add(mem[i]);
+		}
+		return member;
+	}
+
 }

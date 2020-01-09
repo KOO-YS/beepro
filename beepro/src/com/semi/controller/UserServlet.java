@@ -3,6 +3,7 @@ package com.semi.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,9 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.semi.dao.UserDao;
 import com.semi.dao.UserDaoImpl;
+import com.semi.service.MatchingService;
 import com.semi.service.UserService;
 import com.semi.vo.MessageVo;
+import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
 
 import util.sha256;
@@ -68,6 +72,10 @@ public class UserServlet extends HttpServlet {
 		}else if(command.equals("register")) {
 			System.out.println("회원가입");
 			registerAction(request, response);
+		
+		}else if(command.equals("naverLogin")) {
+			System.out.println("네이버로그인");
+			naverLoginAction(request, response);	
 			
 		}else if(command.equals("withdrawal")) {
 			System.out.println("회원탈퇴");
@@ -75,7 +83,16 @@ public class UserServlet extends HttpServlet {
 			
 		}else if(command.equals("updatePwd")) {
 			System.out.println("비밀번호 변경");
-			updatePwdAction(request, response);				
+			updatePwdAction(request, response);		
+			
+		}else if(command.equals("updateArea")) {
+			System.out.println("지역 변경");
+			userService.updateArea(request, response);			
+			
+		}else if(command.equals("updateSkill")) {
+			System.out.println("스킬 변경");
+			userService.updateSkill(request, response);	
+			
 			
 		}else if(command.equals("userprofile")) {
 			System.out.println("프로필사진 변경");
@@ -121,17 +138,38 @@ public class UserServlet extends HttpServlet {
 			System.out.println("받은 쪽지 출력");
 			userService.getAllMsg(request, response);
 			
+		} else if(command.equals("sendAllMsg")) {
+			System.out.println("보낸 쪽지 출력");
+			userService.sendAllMsg(request, response);
+			
 		} else if(command.equals("sendMsg")) {
 			System.out.println("쪽지 보내기");
 			userService.sendMsg(request, response);
 			
 		} else if(command.equals("readMsg")) {
-			System.out.println("메세지 읽음");
+			System.out.println("쪽지 읽음");
 			userService.readMsg(request, response);
 			
-		} else if(command.equals("msgList")) {
+		} else if(command.equals("deleteSendMsg")) {
+			System.out.println("보낸 쪽지 삭제");
+			userService.deleteSendMsg(request, response);
 			
-		}
+		} else if(command.equals("deleteGetMsg")) {
+			System.out.println("받은 쪽지 삭제");
+			userService.deleteGetMsg(request, response);
+			
+		} else if(command.equals("follow")) {
+			System.out.println("팔로우 하기");
+			userService.follow(request, response);
+			
+		} else if(command.equals("followerCount")) {
+			System.out.println("팔로우한 갯수 반환");
+			userService.followerCount(request,response);
+			
+		}  else if(command.equals("followerCount")) {
+			System.out.println("팔로잉한 갯수 반환");
+			userService.followingCount(request,response);
+		} 
 	}
 
 	private void registerAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -174,7 +212,7 @@ public class UserServlet extends HttpServlet {
 
 		} else{
 			
-			UserDaoImpl dao = new UserDaoImpl();		
+			UserDao dao = new UserDaoImpl();		
 			int result = dao.join(new UserVo(u_id, u_name, u_pwd1, u_email, sha256.getSHA256(u_email), "N",""));
 
 			if (result == -1) {
@@ -199,13 +237,44 @@ public class UserServlet extends HttpServlet {
 			}
 		}		
 	}
-	
+	private void naverLoginAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		UserService UserService = new UserService();
+		String u_id = (String) session.getAttribute("u_id");
+		String u_email = (String) session.getAttribute("u_email");
+		String u_name = (String) session.getAttribute("u_name");
+		
+		int CheckID = UserService.CheckID(request, response);
+		
+		if(CheckID==1) { //가입된 회원	
+			UserDaoImpl dao = new UserDaoImpl();
+	 		String u_photo = dao.getUserPhoto(u_id);	
+	 		session.setAttribute("u_photo", u_photo);
+
+	 		PrintWriter script = response.getWriter();	 		
+	 		script.println("<script>");		
+	 		script.println("location.href='matching/index.jsp'");
+	 		script.println("</script>");
+	 		script.close();
+			
+		}else {//회원정보 없음
+			UserService.naverRegister(request, response);
+			
+			PrintWriter script = response.getWriter();
+			script.println("<script>");		
+	 		script.println("location.href='matching/index.jsp'");
+	 		script.println("</script>");
+	 		script.close();
+		}
+		
+	}
 	private void withdrawalAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		UserDaoImpl dao = new UserDaoImpl();
+		//UserDao dao = new UserDaoImpl();
+		UserService UserService = new UserService();
 		HttpSession session = request.getSession();
 		
 		String u_id = (String) session.getAttribute("u_id");
-	 	String u_pwd = dao.getUserPwd(u_id);
+	 	String u_pwd = UserService.getUserPwd(request, response);
 	 	String oriPwd = (String) request.getParameter("pwd_chk");
 		String pwd_chk = sha256.getSHA256(oriPwd);
 	
@@ -221,7 +290,7 @@ public class UserServlet extends HttpServlet {
  		return;
  	} 	 	
  	
- 	int result = dao.withdrawal(u_id);
+ 	int result = UserService.withdrawal(request, response);
 
  	if (result == 1) {
 
@@ -247,7 +316,11 @@ public class UserServlet extends HttpServlet {
 
 	private void loginAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		MatchingService matchingService = new MatchingService();
+		
 		HttpSession session = request.getSession();
+		List<ProjectVo> list = matchingService.selectAllProject(request, response);
+		session.setAttribute("projectList", list);
 		
 		String u_id = null;
 	 	String u_pwd = null;	
@@ -263,7 +336,7 @@ public class UserServlet extends HttpServlet {
 	 		u_pwd = (String) request.getParameter("u_pwd");
 	 	}
 
-	 	UserDaoImpl dao = new UserDaoImpl();
+	 	UserDao dao = new UserDaoImpl();
 	 	int result = dao.login(u_id, u_pwd);
 
 	 	if (result == 1) {
@@ -338,18 +411,17 @@ public class UserServlet extends HttpServlet {
 	
 	private void updatePwdAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
-		UserDaoImpl dao = new UserDaoImpl();
+		UserService UserService = new UserService();
 
 	 	String u_id = null;
 	 	String u_pwd = null;
 	 	String oriPwd = null;
 	 	String shaOriPwd = null;
-	 	String newPwd = null;
 
 		if(session.getAttribute("u_id") != null) {
 			
 			u_id = (String) session.getAttribute("u_id");	
-			u_pwd = dao.getUserPwd(u_id);
+			u_pwd = UserService.getUserPwd(request, response);
 			oriPwd = (String) request.getParameter("oriPwd");
 			shaOriPwd = sha256.getSHA256(oriPwd);
 		}
@@ -358,7 +430,7 @@ public class UserServlet extends HttpServlet {
 	 		PrintWriter script = response.getWriter();
 
 	 		script.println("<script>");
-	 		script.println("alert('현재 비밀번호가 틀립니다');");
+	 		script.println("alert('현재 비밀번호를 잘못 입력하셨습니다');");
 	 		script.println("history.back();");
 	 		script.println("</script>");
 	 		script.close();
@@ -377,9 +449,9 @@ public class UserServlet extends HttpServlet {
 	 		return;
 	 	}
 	 	
-	 	newPwd = (String) request.getParameter("newPwd");
+	 	String newPwd = (String) request.getParameter("newPwd");
 	 	
-	 	int result = dao.updatePwd(newPwd, u_id);
+	 	int result = UserService.updatePwd(request, response);
 
 	 	if (result == 1) {
 
