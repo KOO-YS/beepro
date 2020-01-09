@@ -191,7 +191,7 @@ CREATE TABLE skill (
 
 CREATE TABLE volunteer ( /* 지원자 테이블 */
     projectM_seq number NOT NULL, /* 프로젝트 매칭 공고 글 시퀀스 번호 */
-	user_id varchar2(100) NOT NULL, /* 회원 id */
+	user_id varchar2(100) PRIMARY KEY, /* 회원 id */
 	accept varchar2(6) NOT NULL, /* 수락 여부  */
 	CONSTRAINT accept_chk CHECK(accept IN('Y','N')),
 	CONSTRAINT FK_PROJECTM_SEQ_TO_VOL FOREIGN KEY (projectM_seq) REFERENCES matching_project (projectM_seq), 

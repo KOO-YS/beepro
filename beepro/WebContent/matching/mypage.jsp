@@ -17,6 +17,7 @@
 <link
 	href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">	
 
 <!-- Custom fonts for this template -->
 <link
@@ -65,6 +66,33 @@
 	margin-right: 1.75rem;
 }
 </style>
+
+<script type="text/javascript">
+
+function CheckForm(){
+	if($('#inputBody').val() ==""){ 
+		alert("보내실 쪽지 내용을 입력하세요.");
+		$('#inputBody').focus(); //id가 id인 태그에 커서깜빠거리는 포커스 주기
+		return false; //현재 submit이벤트를 중지하는 개념(즉, 전송을 막는다->페이지안넘김)
+	} else{ 
+
+		$('#sendForm').submit(); //form안에 있는 데이터를 action속성의 주소로 전송
+	}
+}
+
+function sendMsgFunction(get_id){
+	$('#sendMsgModal').css("display","block");
+	$('#inputTo').val(get_id);
+	$('#reset').click(function(){
+		$('#sendMsgModal').css("display","none");
+	});
+	$('#close').click(function(){
+		$('#sendMsgModal').css("display","none");
+	});
+}
+
+</script>
+
 </head>
 
 <body id="page-top">
@@ -84,7 +112,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <img src="<%= request.getContextPath() %>/upload/${u_photo}";
+          <img src="<%= request.getContextPath() %>/upload/${u_photo}"
       	  onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"
           style="width: 30%; border-radius: 50%; border:10px solid rgba(75,97,207);">
        	<br>
@@ -371,7 +399,7 @@
 
 								<c:otherwise>
 									<c:forEach items="${postProList}" var="list">
-										<tr>
+										<tr onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingView&projectM_seq=${list.projectM_seq }'">
 											<c:choose>
 												<c:when test="${fn:length(list.title) gt 12}">
 													<td><c:out
@@ -423,12 +451,12 @@
 							<c:choose>
 								<c:when test="${empty postPerList}">
 									<tr>
-										<td colspan="3">등록된 글이 없습니다.</td>
+										<td colspan="3">관심있는 게시글이 없습니다.</td>
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<tr>
 										<c:forEach items="${postPerList}" var="list">
+										<tr onclick="location.href='${pageContext.request.contextPath}/personMatching?command=selectOnePer&personal_seq=${list.personal_seq }'">
 											<c:choose>
 												<c:when test="${fn:length(list.title) gt 12}">
 													<td><c:out
@@ -440,8 +468,8 @@
 											</c:choose>
 											<td><c:out value="${list.user_id}"></c:out></td>
 											<td><c:out value="${list.emp_category}"></c:out></td>
+										</tr>
 										</c:forEach>
-									</tr>
 								</c:otherwise>
 							</c:choose>
 						</tbody>
@@ -467,36 +495,30 @@
 						</colgroup>
 						<thead>
 							<tr>
-								<th colspan="2">followers</th>
+								<th colspan="2">following</th>
 								<th>쪽지</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td style="text-align: left;"><a
-									href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-								<td><a href="#"><img style="width: 30px; height: 30px"
-										alt="쪽지보내기"
-										src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-							</tr>
-							<tr>
-								<th scope="row">2</th>
-								<td style="text-align: left;"><a
-									href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-								<td><a href="#"><img style="width: 30px; height: 30px"
-										alt="쪽지보내기"
-										src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-							</tr>
-							<tr>
-								<th scope="row">3</th>
-								<td style="text-align: left;"><a
-									href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-								<td><a href="#"><img style="width: 30px; height: 30px"
-										alt="쪽지보내기"
-										src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-							</tr>
-
+							<c:choose>
+								<c:when test="${empty followingList}">
+									<tr>
+										<td colspan="3">팔로우한 사람이 없습니다.</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+										<c:forEach items="${followingList}" var="following" varStatus="status">
+										<tr>
+											<th scope="row">${status.count}</th>
+											<td style="text-align: left;">
+												<a href="${pageContext.request.contextPath}/matching?command=profile&userId=${following}">${following }</a>
+											</td>
+											<td><a href="javascript:void(0);" onclick="sendMsgFunction('${following}');"><img style="width: 30px; height: 30px" alt="쪽지보내기"
+												src="${pageContext.request.contextPath}/matching/img/direct.png"></a>
+											</td>
+										</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</tbody>
 					</table>
 				</div>
@@ -512,9 +534,13 @@
 					  </thead>
 					  <tbody>
 					    <tr>
-					      <th scope="row">1</th>
-					      <td>pomi</td>
-					    </tr>
+								<th scope="row">3</th>
+								<td style="text-align: left;"><a
+									href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+								<td><a onclick="sendMsgFunction('${profile.u_name}');"><img style="width: 30px; height: 30px"
+										alt="쪽지보내기"
+										src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
+							</tr>
 					    <tr>
 					      <th scope="row">2</th>
 					      <td>gymin</td>
@@ -545,7 +571,60 @@
 	</section>
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
+	
+	<!-- 쪽지 보내기 모달 -->
+	<div class="modal" id="sendMsgModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header modal-header-info">
+					<h4 class="modal-title">
+						<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
+					</h4>
+					<button type="button" class="close" id="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
 
+				</div>
+				<div class="modal-body">
+
+					<form role="form" id="sendForm" class="form-horizontal"
+						action="${pageContext.request.contextPath}/msg">
+						<input type="hidden" name="command" value="sendMsg" /> 
+						<input type="hidden" name="send_id" value="${u_id }" />
+						<input type="hidden" name="backMsgBox" value="no" />	<!-- 어디 모달에서 보내는지 구별하기 위해 -->
+						<div class="form-group">
+							<label class="col-sm-12" for="inputTo"><span
+								class="glyphicon glyphicon-user"></span>받는사람</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="inputTo"
+									placeholder="comma separated list of recipients"
+									readonly="readonly" name="get_id" style="width: 430px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-12" for="inputBody"><span
+								class="glyphicon glyphicon-list"></span>쪽지 내용</label>
+							<div class="col-sm-12">
+								<textarea class="form-control" id="inputBody" rows="8"
+									name="content" style="resize: none;"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="reset" id="reset" class="btn btn-default pull-left"
+								data-dismiss="modal" style="border: 1px solid lightgray;"
+								value="취소" />
+							<input type="button" class="btn btn-primary"
+								style="background-color: #fec503; border-color: #fec503;"
+								value="보내기" onclick="CheckForm();" />
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal compose message -->
+	
 	<!-- 비밀번호 변경 모달 -->
 	<div class="modal fade" id="updatePwd" data-backdrop="static"
 		tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"
