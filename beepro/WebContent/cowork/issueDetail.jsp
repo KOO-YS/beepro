@@ -314,7 +314,16 @@ $(document).ready(function() {
 					                 <span>작성자</span>
 					               </label>
 					               <div class="subheader2">
-					                ${u_name}&nbsp;&nbsp;${u_email} 
+					                ${vo.writer}&nbsp;&nbsp;${u_email} 
+					               </div>
+    					        </div>
+    					        
+    					        <div class="form-group">
+					               <label class="issue-label-2">
+					                 <span>담당자</span>
+					               </label>
+					               <div class="subheader2">
+					                ${vo.responsibility}&nbsp;&nbsp;${u_email} 
 					               </div>
     					        </div>
 					         </div>
@@ -391,11 +400,6 @@ $(document).ready(function() {
 					                   <div id="content">
 					                   <span id="comment-content">${list.content}</span>
 					                   </div>
-					  <div id="link1">            
-	                   <a href="javascript:void(0)" onclick="modify(${list.commentSeq})">
-	                                             수정
-	                   </a>
-	                 </div>  
 	                 
 	                 <div id="link2">
 	                 <a href="${pageContext.request.contextPath}/comment?command=deleteComment&commentSeq=${list.commentSeq}&issueSeq=${vo.issueSeq}">
@@ -408,7 +412,7 @@ $(document).ready(function() {
 					           </c:choose>
 					       </div>
 					       
-					             <form action="comment" method="post">
+					             <form action="${pageContext.request.contextPath}/comment" method="post">
 					             <input type="hidden" name="command" value="commentWrite">
 					             <input type="hidden" name="u_id" value="${u_id}"> <!-- 댓글 쓰는사람 아이디 갖고오는거  -->
 					             <input type="hidden" name="issueSeq" value="${vo.issueSeq}">

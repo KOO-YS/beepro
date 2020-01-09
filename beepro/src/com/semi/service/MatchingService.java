@@ -68,6 +68,7 @@ public class MatchingService {
    public List<MatchingProVo> matchingProAll(HttpServletRequest request){
       MatchingDao matchingDao = new MatchingDaoImpl();
       MatchingProVo matVo = new MatchingProVo();
+      
       String searchKeyword = (String) request.getParameter("searchKeyword");  
       String searchCat = (String) request.getParameter("searchCat");
       
@@ -77,16 +78,14 @@ public class MatchingService {
       if(searchKeyword == null) {
     	  searchKeyword = "";
       }
+      
       matVo.setSearchCat(searchCat);
       matVo.setSearchKeyword(searchKeyword);
       
       return matchingDao.matchingProAll(matVo);
-
-//      HttpSession session = request.getSession();
-//      String pm_id = (String)session.getAttribute("u_id");
         
         
-		/* return matchingDao.matchingProAll(pm_id); */
+	// return matchingDao.matchingProAll(pm_id);
 
    }
    
@@ -265,7 +264,7 @@ public class MatchingService {
 		MatchingDaoImpl dao = new MatchingDaoImpl();
 		return dao.selectOneProject(projectSeq);
 	}
-   
+	
 	// 지원자
    public boolean insertVolunteer(HttpServletRequest request, HttpServletResponse response) {
 	   int projectM_seq = Integer.parseInt(request.getParameter("projectM_seq"));
@@ -283,16 +282,7 @@ public class MatchingService {
 	    
 	   return dao.insertVolunteer(vo);
 	}
-   // 모든 매칭 프로젝트 list 조회
-	//김지민 수정!
-	/*
-	 * public List<MatchingProVo> selectAllPro(HttpServletRequest request,
-	 * HttpServletResponse response) { MatchingDaoImpl dao = new MatchingDaoImpl();
-	 * String u_id = request.getParameter("u_id"); return dao.matchingProAll(u_id);
-	 * }
-	 */
-   
-   
+  
    
    /* 관심 게시글 서비스 */
    
@@ -347,6 +337,31 @@ public class MatchingService {
 		}
 	}
 	
+
+//	public List<Integer> selectPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		request.setCharacterEncoding("UTF-8");
+//		response.setContentType("text/html;charset=UTF-8");
+//
+//		String u_id = request.getParameter("u_id");
+//		String type = request.getParameter("type");
+//		
+//		System.out.println("u__id : " + u_id);
+//		System.out.println("type : " + type);
+//		
+//		MatchingDaoImpl dao = new MatchingDaoImpl();
+//		ArrayList<Integer> list = dao.selectPostNo(u_id, type);
+//		
+//		RequestDispatcher dispatch = request.getRequestDispatcher(url);
+//		dispatch.forward(request, response);
+//		
+//		if(dao.selectPostNo(u_id, type) != null) {
+//			
+//		}
+//		return 
+//	}
+
+
+
 	//관심있는 프로젝트 게시글 리스트
 	public List<MatchingProVo> allProjectPost(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("관심있는 프로젝트 목록 조회");
@@ -377,6 +392,8 @@ public class MatchingService {
 		String u_id = (String)session.getAttribute("u_id");
 		return Dao.AllMyProject(u_id);
 	}
+	
+
 	
 	 //내가 쓴 퍼스널 리스트
 	 public List<MatchingPerVo> AllMyPersonal(HttpServletRequest request, HttpServletResponse response) {

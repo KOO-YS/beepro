@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>BEEPRO - 글 작성</title>
+  <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
@@ -78,6 +79,29 @@
 		  });
 			 $(".modal-body .form-group #group").val(str);
 		} */
+
+		function CheckForm(){
+			if($('#inputBody').val() ==""){ 
+				alert("보내실 쪽지 내용을 입력하세요.");
+				$('#inputBody').focus(); //id가 id인 태그에 커서깜빠거리는 포커스 주기
+				return false; //현재 submit이벤트를 중지하는 개념(즉, 전송을 막는다->페이지안넘김)
+			} else{ 
+
+				$('#sendForm').submit(); //form안에 있는 데이터를 action속성의 주소로 전송
+			}
+		}
+
+		function sendMsgFunction(get_id){
+			$('#sendMsgModal').css("display","block");
+			$('#inputTo').val(get_id);
+			$('#reset').click(function(){
+				$('#sendMsgModal').css("display","none");
+			});
+			$('#close').click(function(){
+				$('#sendMsgModal').css("display","none");
+			});
+		}	
+		
 		
 </script>
 
@@ -94,8 +118,11 @@
 			</c:otherwise>
 		</c:choose> --%>
          <!--  General -->
-        <form action="/matching" method="post" name="modifyForm">
+         
+        <form action="matching" method="post" name="modifyForm">
 		<input type="hidden" name="command"  value="matchingModifyProc"/>	
+		<input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}"/>
+		
          <div class="form-group">
             <div class="controls">
                <input type="text" id="title" class="floatLabel" name="title" placeholder="프로젝트 제목을 입력하세요" value="${matchingVo.title }" <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>
@@ -145,6 +172,7 @@
                   <option value="충북" <c:if test="${matchingVo.location eq '충북' }">selected</c:if>>충북</option>
                   <option value="충남" <c:if test="${matchingVo.location eq '충남' }">selected</c:if>>충남</option>
                   <option value="제주" <c:if test="${matchingVo.location eq '제주' }">selected</c:if>>제주</option>
+                  <option value="온라인" <c:if test="${matchingVo.location eq '온라인' }">selected</c:if>>온라인</option>
                </select>
             </div>
          </div>
@@ -181,14 +209,18 @@
                   <p class="info-text margin-b-10">상세 내용</p>
                   <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요." <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>${matchingVo.content}</textarea>
                	</div>
+               	
                	<a href="${pageContext.request.contextPath}/matching?command=matchingAll" class="col-2 btn btn-primary" style="float:left;">목록</a>
+               	
                	<c:choose>
                	<c:when test="${matchingVo.pm_id eq u_id}">
+               	  <c:if test="${matchingVo.modifyYn }">
 	               	<button type="button" class="col-2 btn btn-primary" style="float: right;" id="deleteBtn">삭제</button>
                		<button type="button" class="col-2 btn btn-primary" style="float: right; margin-right:30px;" id="modifyBtn">수정</button>
+               	 </c:if>
                	</c:when>
                	<c:otherwise>
-					<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>
+               	    <a id="volunteerBtn" href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>
 				</c:otherwise> 
                </c:choose>
             </div>
@@ -213,6 +245,7 @@
 				    </tr>
 				  </thead>
 				  <tbody>
+
 					 <c:forEach var="list" items="${volunteer}" varStatus="status">
 		                 <tr>
 					      <td>
@@ -223,34 +256,11 @@
 					      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=profile&userId=${list.userId}'">프로필</button>
 					      </td>
 					      <td>
-					      	<button class="btn btn-primary">쪽지</button>
+					      	<button class="btn btn-primary" onclick="sendMsgFunction('${list.userId}');">쪽지</button>
 					      </td>
 					    </tr>
 					 </c:forEach>
-					 <%-- <tr>	더미
-					      <td>
-					      	<input type="checkbox" value="testee" name="volunteerId">
-					      </td>
-					      <td>testee</td>
-					      <td>
-					      	<button class="btn btn-primary" onclick="location.href='#'">프로필</button>
-					      </td>
-					      <td>
-					      	<button class="btn btn-primary">쪽지</button>
-					      </td>
-					    </tr>
-					    					 <tr>
-					      <td>
-					      	<input type="checkbox" value="22testee" name="volunteerId">
-					      </td>
-					      <td>22iddd</td>
-					      <td>
-					      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp'">프로필</button>
-					      </td>
-					      <td>
-					      	<button class="btn btn-primary">쪽지</button>
-					      </td>
-					    </tr> --%>
+					 
 				  </tbody>
 				</table>
 			 </div>
@@ -313,7 +323,73 @@
   </div>
 </div>
 <!-- 모달 end--> 
+
+
+<!-- 유저의 지원 여부 -->
+<c:forEach var="test" items="${volunteer}" varStatus="status">
+	<c:if test="${test.userId eq u_id }">
+		 <script>
+			 $("#volunteerBtn").html('이미 지원한 프로젝트입니다'); 
+			 $("#volunteerBtn").attr('class','btn btn-secondary');
+		 </script>
+	 </c:if>
+</c:forEach>
+
+<!-- 쪽지 보내기 모달 -->
+	<div class="modal" id="sendMsgModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header modal-header-info">
+					<h4 class="modal-title">
+						<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
+					</h4>
+					<button type="button" class="close" id="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+
+				</div>
+				<div class="modal-body">
+
+					<form role="form" id="sendForm" class="form-horizontal"
+						action="${pageContext.request.contextPath}/msg">
+						<input type="hidden" name="command" value="sendMsg" /> 
+						<input type="hidden" name="send_id" value="${u_id }" />
+						<input type="hidden" name="backMsgBox" value="no" />	<!-- 어디 모달에서 보내는지 구별하기 위해 -->
+						<div class="form-group">
+							<label class="col-sm-12" for="inputTo"><span
+								class="glyphicon glyphicon-user"></span>받는사람</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="inputTo"
+									placeholder="comma separated list of recipients"
+									readonly="readonly" name="get_id" style="width: 430px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-12" for="inputBody"><span
+								class="glyphicon glyphicon-list"></span>쪽지 내용</label>
+							<div class="col-sm-12">
+								<textarea class="form-control" id="inputBody" rows="8"
+									name="content" style="resize: none;"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="reset" id="reset" class="btn btn-default pull-left"
+								data-dismiss="modal" style="border: 1px solid lightgray;"
+								value="취소" />
+							<input type="button" class="btn btn-primary"
+								style="background-color: #fec503; border-color: #fec503;"
+								value="보내기" onclick="CheckForm();" />
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal compose message -->
+	<!-- 쪽지 모달 end -->
       
+
 <script type="text/javascript">
 $(document).ready(function(){
 	/* 전체 선택 */

@@ -3,6 +3,7 @@ package com.semi.service;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -20,12 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.dao.UserDaoImpl;
+import com.semi.vo.HeartVo;
 import com.semi.vo.MessageVo;
 import com.semi.vo.MsgVo;
 
@@ -476,7 +475,9 @@ public class UserService {
 		String send_id = request.getParameter("send_id");
 		String get_id = request.getParameter("get_id");
 		String content = request.getParameter("content");
-
+		
+		String history = request.getParameter("backMsgBox");
+		
 		System.out.println("send_id : " + send_id);
 		System.out.println("get_id : " + get_id);
 		System.out.println("content : " + content);
@@ -497,7 +498,12 @@ public class UserService {
 			} else {
 				System.out.println("쪽지 보내기 실패");
 			}
-			dispatch("msg?command=getAllMsg&u_id="+send_id,request,response);
+
+			if(history.equals("backMsgBox")) {
+				dispatch("msg?command=getAllMsg&u_id="+send_id,request,response);
+			}else {
+				response.getWriter().write("<script type='text/javascript'>alert('쪽지보내기 성공'); history.back(); </script>");
+			}
 		}
 
 	}
@@ -610,6 +616,75 @@ public class UserService {
 		}
 		
 	}
+
+	
+	
+	
+	
+	
+	
+	/* 관심 사람 서비스 (heart) */
+	
+	
+	public void follow(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		HttpSession session = request.getSession();
+		
+	    String send_id = (String)session.getAttribute("u_id");
+	    String get_id = request.getParameter("get_id");
+	    
+	    HeartVo vo = new HeartVo(send_id, get_id);
+	   
+	    
+	    if(dao.heartChk(send_id, get_id) > 0) {
+	    	System.out.println("팔로우 완료");
+	    	if(dao.insertHeart(vo) > 0) {
+	    		response.getWriter().write("1");
+	    	}
+	    } else {
+	    	System.out.println("언팔로우");
+	    	if(dao.deleteHeart(vo) > 0) {
+	    		response.getWriter().write("-1");
+	    	}
+	    }
+	}
+	
+	public ArrayList<String> getAllFollowing(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		HttpSession session = request.getSession();
+	    String u_id = (String)session.getAttribute("u_id");
+		
+	    UserDaoImpl userDAO = new UserDaoImpl();
+		
+		ArrayList<String> list = new ArrayList<String>();
+		list = userDAO.selectFollowing(u_id);
+		
+		return list;
+	}
+	
+	public String followerCount(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+	    UserDaoImpl userDAO = new UserDaoImpl();
+		String userId = request.getParameter("userId");
+		
+		String followers =  userDAO.followerCount(userId)+"";
+		return followers;
+	}
+	
+	public String followingCount(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+	    UserDaoImpl userDAO = new UserDaoImpl();
+		String userId = request.getParameter("userId");
+		
+		String follwing = userDAO.followingCount(userId)+"";
+		return follwing;
+	}
+	
+
 	
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

@@ -422,8 +422,9 @@
 
 					<form role="form" id="sendForm" class="form-horizontal"
 						action="${pageContext.request.contextPath}/msg">
-						<input type="hidden" name="command" value="sendMsg" /> <input
-							type="hidden" name="send_id" value="${u_id }" />
+						<input type="hidden" name="command" value="sendMsg" /> 
+						<input type="hidden" name="send_id" value="${u_id }" />
+						<input type="hidden" name="backMsgBox" value="backMsgBox" />
 						<div class="form-group">
 							<label class="col-sm-12" for="inputTo"><span
 								class="glyphicon glyphicon-user"></span>받는사람</label>

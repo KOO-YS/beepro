@@ -1,52 +1,98 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
 
-  <title>NAME</title>
+<title>NAME</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap core CSS -->
+<link
+	href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">	
 
-  <!-- Custom fonts for this template -->
-  <link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+<!-- Custom fonts for this template -->
+<link
+	href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+	rel="stylesheet" type="text/css">
+<link href='https://fonts.googleapis.com/css?family=Kaushan+Script'
+	rel='stylesheet' type='text/css'>
+<link
+	href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic'
+	rel='stylesheet' type='text/css'>
+<link
+	href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700'
+	rel='stylesheet' type='text/css'>
 
-  <!-- Custom styles for this template -->
-  <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="${pageContext.request.contextPath}/matching/css/agency.css"
+	rel="stylesheet">
 
-  <!-- jquery -->
-  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
-  <!-- heart button https://codepen.io/kieranfivestars/pen/PwzjgN-->
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<!-- heart button https://codepen.io/kieranfivestars/pen/PwzjgN-->
+<link
+	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700'
+	rel='stylesheet' type='text/css'>
+<link
+	href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+	rel="stylesheet">
 <style>
-.profile-bd{
-  background: linear-gradient(to bottom, rgba(75,97,207) 50%, white 0%); 
+.profile-bd {
+	background: linear-gradient(to bottom, rgba(75, 97, 207) 50%, white 0%);
 }
+
 .pf_input {
-  background-color: #eee;
-  border: none;
-  padding: 12px 15px;
-  margin: 8px 0;
-  width: 100%;
-  /* text-align: center; */
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+	/* text-align: center; */
 }
+
 .form-check-inline {
-    margin-right: 1.75rem;
+	margin-right: 1.75rem;
 }
 </style>
+
+<script type="text/javascript">
+
+function CheckForm(){
+	if($('#inputBody').val() ==""){ 
+		alert("보내실 쪽지 내용을 입력하세요.");
+		$('#inputBody').focus(); //id가 id인 태그에 커서깜빠거리는 포커스 주기
+		return false; //현재 submit이벤트를 중지하는 개념(즉, 전송을 막는다->페이지안넘김)
+	} else{ 
+
+		$('#sendForm').submit(); //form안에 있는 데이터를 action속성의 주소로 전송
+	}
+}
+
+function sendMsgFunction(get_id){
+	$('#sendMsgModal').css("display","block");
+	$('#inputTo').val(get_id);
+	$('#reset').click(function(){
+		$('#sendMsgModal').css("display","none");
+	});
+	$('#close').click(function(){
+		$('#sendMsgModal').css("display","none");
+	});
+}
+
+</script>
+
 </head>
 
 <body id="page-top">
@@ -66,7 +112,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <img src="<%= request.getContextPath() %>/upload/${u_photo}";
+          <img src="<%= request.getContextPath() %>/upload/${u_photo}"
       	  onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"
           style="width: 30%; border-radius: 50%; border:10px solid rgba(75,97,207);">
        	<br>
@@ -77,26 +123,32 @@
       </div>
     </div>    
   </div>
+
 	<div class="container" style="padding: 40px 0;">
 		<div class="row">
 			<div class="col-12">
-				<span> name </span>
-				<input type="email" value="${u_name}" class="pf_input" readonly/>
+				<span> name </span> <input type="email" value="${u_name}"
+					class="pf_input" readonly />
 			</div>
 			<div class="col-12">
-				<span> email</span>
-				<input type="email" value="${u_email}" class="pf_input"	readonly/>
+				<span> email</span> <input type="email" value="${u_email}"
+					class="pf_input" readonly />
 			</div>
 			<div class="col-8">
-				<span> password </span>
-				<input type="password" value="own pwd"  class="pf_input"/>
+				<span> password </span> <input type="password" value="own pwd"
+					class="pf_input" />
 			</div>
 			<div class="col-4">
-				<button class="btn btn-primary" data-toggle="modal" data-target="#updatePwd" style="margin-top: 40px;"> 비밀번호 변경</button>
+				<button class="btn btn-primary" data-toggle="modal"
+					data-target="#updatePwd" style="margin-top: 40px;">비밀번호 변경</button>
 			</div>
 			<div class="col-12">
+<<<<<<< HEAD
 				<span> area </span>
 				<select class="pf_input" name="areaSelect" id = "area">
+=======
+				<span> area </span> <select class="pf_input">
+>>>>>>> 85843bdc195d2408ea7278ce47a39a408528410f
 					<option>------ 선택하지 않음 ------</option>
 					<option value ="서울">서울</option>
 					<option value ="인천/경기">인천/경기</option>
@@ -107,7 +159,7 @@
 					<option value ="제주">제주</option>
 				</select>
 			</div>
-			
+
 			<div class="col-12">
 				<span>Skills</span>
 				<script>
@@ -115,6 +167,7 @@
 				</script>
 				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
 				<div class="card">
+<<<<<<< HEAD
 				    <div class="card-body">			    
 				    <fieldset>
 				    	<legend>front-end</legend>
@@ -167,241 +220,379 @@
 				</div>				
 				    <button type="submit" class="btn btn-primary">수정</button>
 				    </form>
+=======
+					<div class="card-body">
+						<fieldset>
+							<legend>front-end</legend>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox1" value="option1"> <label
+									class="form-check-label" for="inlineCheckbox1">HTML</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox2" value="option2"> <label
+									class="form-check-label" for="inlineCheckbox2">CSS</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox1" value="option1"> <label
+									class="form-check-label" for="inlineCheckbox1">JavaScript</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox2" value="option2"> <label
+									class="form-check-label" for="inlineCheckbox2">Augularjs</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox3" value="option3" disabled> <label
+									class="form-check-label" for="inlineCheckbox3">React</label>
+							</div>
+						</fieldset>
+						<hr>
+						<fieldset>
+							<legend>back-end</legend>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox1" value="option1"> <label
+									class="form-check-label" for="inlineCheckbox1">Java</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox2" value="option2"> <label
+									class="form-check-label" for="inlineCheckbox2">Python</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox1" value="option1"> <label
+									class="form-check-label" for="inlineCheckbox1">Nodejs</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox2" value="option2"> <label
+									class="form-check-label" for="inlineCheckbox2">Spring</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox"
+									id="inlineCheckbox3" value="option3" disabled> <label
+									class="form-check-label" for="inlineCheckbox3">C++
+									(disabled)</label>
+							</div>
+						</fieldset>
+					</div>
+					<button class="btn btn-primary">수정</button>
+				</div>
+
+>>>>>>> 85843bdc195d2408ea7278ce47a39a408528410f
 			</div>
 		</div>
-	</div>	<!-- container end -->
+	</div>
+	<!-- container end -->
 	<section>
-	<c:choose>	
-			<c:when test="${empty projectList}">	
-			<div class="container">
-			<hr style="margin:3em 0;">	
-			<h5>내가 쓴 project 글 목록</h5><br>
-			<div class="row">	
-			<div class="col-lg-3">
-					<div class="card">
-					  <div class="card-body">
-					  <h5 class="card-title"> 등록된 글이 없습니다.	</h5>
-					    <a href="${pageContext.request.contextPath}/matching/matchingWriting.jsp" class="card-link">글 작성하기</a>					    
-					  </div>
+		<c:choose>
+			<c:when test="${empty projectList}">
+				<div class="container">
+					<hr style="margin: 3em 0;">
+					<h5>내가 쓴 project 글 목록</h5>
+					<br>
+					<div class="row">
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">등록된 글이 없습니다.</h5>
+									<a
+										href="${pageContext.request.contextPath}/matching/matchingWriting.jsp"
+										class="card-link">글 작성하기</a>
+								</div>
+							</div>
+						</div>
 					</div>
+					<hr style="margin: 3em 0;">
 				</div>
-				</div>
-				<hr style="margin:3em 0;">
-			</div>	
-			</c:when>	
-			
+			</c:when>
+
 			<c:otherwise>
-			<div class="container">
-			<hr style="margin:3em 0;">	
-			<h5>내가 쓴 project 목록</h5><br>
-			<div class="row">	
-			<c:forEach items="${projectList}" var="list" > 
-			<div class="col-lg-3">
-					<div class="card" style="height: 100%;">
-					  <div class="card-body">
-					    <h5 class="card-title"> 
-					   		 <c:choose>
-								        <c:when test="${fn:length(list.title) gt 12}">
-								        <c:out value="${fn:substring(list.title, 0, 11)}..."></c:out></c:when>
-								        <c:otherwise>
-								        <c:out value="${list.title}">
-								        </c:out></c:otherwise>
-							</c:choose>	
-					    </h5>
-					    <h6 class="card-subtitle mb-2 text-muted">시작일 : <c:out value="${list.startdate}"/></h6>
-					    <p class="card-text">
-								<c:choose>
-								        <c:when test="${fn:length(list.content) gt 29}">
-								        <c:out value="${fn:substring(list.content, 0, 28)}..."></c:out></c:when>
-								        <c:otherwise>
-								        <c:out value="${list.content}">
-								        </c:out></c:otherwise>
-								</c:choose>					    				    
-					    </p>
-					    <a href="matching?command=matchingView&projectM_seq=${list.projectM_seq }" class="card-link">자세히보기</a>					    
-					  </div>
+				<div class="container">
+					<hr style="margin: 3em 0;">
+					<h5>내가 쓴 project 목록</h5>
+					<br>
+					<div class="row">
+						<c:forEach items="${projectList}" var="list">
+							<div class="col-lg-3">
+								<div class="card" style="height: 100%;">
+									<div class="card-body">
+										<h5 class="card-title">
+											<c:choose>
+												<c:when test="${fn:length(list.title) gt 12}">
+													<c:out value="${fn:substring(list.title, 0, 11)}..."></c:out>
+												</c:when>
+												<c:otherwise>
+													<c:out value="${list.title}">
+													</c:out>
+												</c:otherwise>
+											</c:choose>
+										</h5>
+										<h6 class="card-subtitle mb-2 text-muted">
+											시작일 :
+											<c:out value="${list.startdate}" />
+										</h6>
+										<p class="card-text">
+											<c:choose>
+												<c:when test="${fn:length(list.content) gt 29}">
+													<c:out value="${fn:substring(list.content, 0, 28)}..."></c:out>
+												</c:when>
+												<c:otherwise>
+													<c:out value="${list.content}">
+													</c:out>
+												</c:otherwise>
+											</c:choose>
+										</p>
+										<a
+											href="matching?command=matchingView&projectM_seq=${list.projectM_seq }"
+											class="card-link">자세히보기</a>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+					<hr style="margin: 3em 0;">
+				</div>
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
+			<c:when test="${empty personalList}">
+				<div class="container">
+					<h5>내가 쓴 personal 목록</h5>
+					<br>
+					<div class="row">
+						<div class="col-lg-3">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">등록된 글이 없습니다.</h5>
+									<a
+										href="${pageContext.request.contextPath}/matching/personalWriting.jsp"
+										class="card-link">글 작성하기</a>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				</c:forEach>
-				</div>
-				<hr style="margin:3em 0;">	
-			</div>	
-			</c:otherwise>					
-		</c:choose>	
-		
-		<c:choose>	
-			<c:when test="${empty personalList}">	
-			<div class="container">
-			<h5>내가 쓴 personal 목록</h5><br>
-			<div class="row">	
-			<div class="col-lg-3">
-					<div class="card">
-					  <div class="card-body">
-					  <h5 class="card-title"> 등록된 글이 없습니다.	</h5>
-					    <a href="${pageContext.request.contextPath}/matching/personalWriting.jsp" class="card-link">글 작성하기</a>					    
-					  </div>
-					</div>
-				</div>
-				</div>
-			</div>	
-			</c:when>	
+			</c:when>
 			<c:otherwise>
-			<div class="container">
-			<h5>내가 쓴 personal 목록</h5><br>
-			<div class="row">	
-			<c:forEach items="${personalList}" var="list" > 
-			<div class="col-lg-3">
-					<div class="card" style="height: 100%;">
-					  <div class="card-body">
-					    <h5 class="card-title"> 
-					   			<c:choose>
-								        <c:when test="${fn:length(list.title) gt 12}">
-								        <c:out value="${fn:substring(list.title, 0, 11)}..."></c:out></c:when>
-								        <c:otherwise>
-								        <c:out value="${list.title}">
-								        </c:out></c:otherwise>
-								</c:choose>	
-					    </h5>
-					    <h6 class="card-subtitle mb-2 text-muted">희망 분야 : <c:out value="${list.emp_category}"/></h6>
-					    <p class="card-text">
-								<c:choose>
-								        <c:when test="${fn:length(list.content) gt 29}">
-								        <c:out value="${fn:substring(list.content, 0, 28)}..."></c:out></c:when>
-								        <c:otherwise>
-								        <c:out value="${list.content}">
-								        </c:out></c:otherwise>
-								</c:choose>					    				    
-					    </p>
-					    <a href="personMatching?command=selectOnePer&personal_seq=${list.personal_seq}" class="card-link">자세히보기</a>					    
-					  </div>
+				<div class="container">
+					<h5>내가 쓴 personal 목록</h5>
+					<br>
+					<div class="row">
+						<c:forEach items="${personalList}" var="list">
+							<div class="col-lg-3">
+								<div class="card" style="height: 100%;">
+									<div class="card-body">
+										<h5 class="card-title">
+											<c:choose>
+												<c:when test="${fn:length(list.title) gt 12}">
+													<c:out value="${fn:substring(list.title, 0, 11)}..."></c:out>
+												</c:when>
+												<c:otherwise>
+													<c:out value="${list.title}">
+													</c:out>
+												</c:otherwise>
+											</c:choose>
+										</h5>
+										<h6 class="card-subtitle mb-2 text-muted">
+											희망 분야 :
+											<c:out value="${list.emp_category}" />
+										</h6>
+										<p class="card-text">
+											<c:choose>
+												<c:when test="${fn:length(list.content) gt 29}">
+													<c:out value="${fn:substring(list.content, 0, 28)}..."></c:out>
+												</c:when>
+												<c:otherwise>
+													<c:out value="${list.content}">
+													</c:out>
+												</c:otherwise>
+											</c:choose>
+										</p>
+										<a
+											href="personMatching?command=selectOnePer&personal_seq=${list.personal_seq}"
+											class="card-link">자세히보기</a>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
 					</div>
 				</div>
-				</c:forEach>
-				</div>
-			</div>	
-			</c:otherwise>					
-		</c:choose>	
+			</c:otherwise>
+		</c:choose>
 		<!-- 게시글 end -->
 		<!-- 관심 게시글 목록 start -->
-			<div class="container">
-			<hr style="margin:3em 0;">
-			 <div class="row">
-			 	 <div class="col-lg-6 col-sm-5">
-			 	 <h5>관심 project 게시글 목록</h5>
-			 	 </div>
-			 	 <div class="col-lg-6 col-sm-5">
-			 	  <h5>관심 personal 게시글 목록</h5>
-			 	 </div>
-			 </div>
-			 <div class="row">
-				 <div class="col-lg-6 col-sm-5" style="height:170px; overflow:scroll; overflow-x:hidden">
-				 	<table class="table table-sm table-hover" style="text-align:center;">
-				 	 <colgroup>
-  						<col width="15%"/>
-  						<col width=""/>
-    					<col width="20%"/>
- 					</colgroup>
-					  <thead>
-					    <tr>
-					      <th>제목</th>
-					      <th>내용</th>
-					      <th>시작일</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <th scope="row">1</th>
-					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-					    </tr>
-					    <tr>
-					      <th scope="row">2</th>
-					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-					    </tr>
-					    <tr>
-					      <th scope="row">3</th>
-					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-					    </tr>
-		
-					  </tbody>
+		<div class="container">
+			<hr style="margin: 3em 0;">
+			<div class="row">
+				<div class="col-lg-6 col-sm-5">
+					<h5>관심 project 게시글 목록</h5>
+				</div>
+				<div class="col-lg-6 col-sm-5">
+					<h5>관심 personal 게시글 목록</h5>
+				</div>
+			</div>
+			<!-- 관심 프로젝트 -->
+			<div class="row">
+				<div class="col-lg-6 col-sm-5"
+					style="height: 170px; overflow: scroll; overflow-x: hidden">
+					<table class="table table-sm table-hover"
+						style="text-align: center;">
+						<colgroup>
+							<col width="15%" />
+							<col width="" />
+							<col width="20%" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>제목</th>
+								<th>내용</th>
+								<th>시작일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${empty projectList}">
+
+									<tr>
+										<td colspan="3">관심있는 게시글이 없습니다.</td>
+									</tr>
+								</c:when>
+
+								<c:otherwise>
+									<c:forEach items="${postProList}" var="list">
+										<tr onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingView&projectM_seq=${list.projectM_seq }'">
+											<c:choose>
+												<c:when test="${fn:length(list.title) gt 12}">
+													<td><c:out
+															value="${fn:substring(list.title, 0, 11)}..."></c:out>
+												</c:when>
+												<c:otherwise>
+													<td><c:out value="${list.title}"></c:out></td>
+												</c:otherwise>
+											</c:choose>
+											<c:choose>
+												<c:when test="${fn:length(list.content) gt 29}">
+													<td><c:out
+															value="${fn:substring(list.content, 0, 28)}..."></c:out></td>
+												</c:when>
+												<c:otherwise>
+													<td><c:out value="${list.content}"></c:out></td>
+												</c:otherwise>
+											</c:choose>
+											<td><c:out value="${list.startdate}"></c:out></td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
 					</table>
-				 </div>
-<!-- 				<h5>관심 personal 게시글 목록</h5> -->
-				  <div class="col-lg-6 col-sm-5" style="height:170px; overflow:scroll; overflow-x:hidden">
-				 	<table class="table table-sm table-hover">
-					  <colgroup>
-  						<col width="30%"/>
-  						<col width="30%"/>
-    					<col width=""/>
- 					</colgroup>
-					  <thead>
-					    <tr>
-					      <th>제목</th>
-					      <th>작성자</th>
-					      <th>희망분야</th>
-					    </tr>
-					   </thead>
-					   <tbody>
-					    <tr>
-					      <th scope="row">2</th>
-					      <td>gymin</td>
-					      <td>ddddddd</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">3</th>
-					      <td>edie</td>
-					      <td>edie</td>
-					    </tr>
-					  </tbody>
+				</div>
+
+				<!-- 관심 퍼스널 게시글 -->
+
+				<!-- <h5>관심 personal 게시글 목록</h5> -->
+				<div class="col-lg-6 col-sm-5"
+					style="height: 170px; overflow: scroll; overflow-x: hidden">
+					<table class="table table-sm table-hover"
+						style="text-align: center;">
+						<colgroup>
+							<col width="30%" />
+							<col width="30%" />
+							<col width="" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>희망분야</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<c:choose>
+								<c:when test="${empty postPerList}">
+									<tr>
+										<td colspan="3">관심있는 게시글이 없습니다.</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+										<c:forEach items="${postPerList}" var="list">
+										<tr onclick="location.href='${pageContext.request.contextPath}/personMatching?command=selectOnePer&personal_seq=${list.personal_seq }'">
+											<c:choose>
+												<c:when test="${fn:length(list.title) gt 12}">
+													<td><c:out
+															value="${fn:substring(list.title, 0, 11)}..."></c:out></td>
+												</c:when>
+												<c:otherwise>
+													<td><c:out value="${list.title}"></c:out></td>
+												</c:otherwise>
+											</c:choose>
+											<td><c:out value="${list.user_id}"></c:out></td>
+											<td><c:out value="${list.emp_category}"></c:out></td>
+										</tr>
+										</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
 					</table>
-				 </div>
-			 </div> 
-			 </div>
-			 <!-- 관심 게시글 목록 end -->
-			 
+				</div>
+			</div>
+		</div>
+
+
 		<!-- 관심 사람 목록 start -->
-			<div class="container">
-			<hr style="margin:3em 0;">
-			 <h5>관심 유저목록</h5>
-			 <div class="row">
-				 <div class="col-lg-6 col-sm-5" style="height:170px; overflow:scroll; overflow-x:hidden">
-				 	<table class="table table-sm table-hover" style="text-align:center;">
-				 	 <colgroup>
-  						<col width="15%"/>
-  						<col width=""/>
-    					<col width="20%"/>
- 					</colgroup>
-					  <thead>
-					    <tr>
-					      <th colspan="2" >followers</th>
-					      <th>쪽지</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <th scope="row">1</th>
-					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-					    </tr>
-					    <tr>
-					      <th scope="row">2</th>
-					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-					    </tr>
-					    <tr>
-					      <th scope="row">3</th>
-					      <td style="text-align:left;"><a href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
-					      <td><a href="#"><img style="width:30px;height:30px" alt="쪽지보내기" src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
-					    </tr>
-		
-					  </tbody>
+		<div class="container">
+			<hr style="margin: 3em 0;">
+			<h5>관심 유저목록</h5>
+			<div class="row">
+				<div class="col-lg-6 col-sm-5"
+					style="height: 170px; overflow: scroll; overflow-x: hidden">
+					<table class="table table-sm table-hover"
+						style="text-align: center;">
+						<colgroup>
+							<col width="15%" />
+							<col width="" />
+							<col width="20%" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th colspan="2">following</th>
+								<th>쪽지</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:choose>
+								<c:when test="${empty followingList}">
+									<tr>
+										<td colspan="3">팔로우한 사람이 없습니다.</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+										<c:forEach items="${followingList}" var="following" varStatus="status">
+										<tr>
+											<th scope="row">${status.count}</th>
+											<td style="text-align: left;">
+												<a href="${pageContext.request.contextPath}/matching?command=profile&userId=${following}">${following }</a>
+											</td>
+											<td><a href="javascript:void(0);" onclick="sendMsgFunction('${following}');"><img style="width: 30px; height: 30px" alt="쪽지보내기"
+												src="${pageContext.request.contextPath}/matching/img/direct.png"></a>
+											</td>
+										</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</tbody>
 					</table>
-				 </div>
-				 
-				 <!-- 팔로잉 보류 -->
-<!-- 				 <div class="col-lg-6 col-sm-5">
+				</div>
+
+				<!-- 팔로잉 보류 -->
+				<!-- 				 <div class="col-lg-6 col-sm-5">
 				 	<table class="table table-sm table-hover">
 					  <thead>
 					    <tr>
@@ -411,9 +602,13 @@
 					  </thead>
 					  <tbody>
 					    <tr>
-					      <th scope="row">1</th>
-					      <td>pomi</td>
-					    </tr>
+								<th scope="row">3</th>
+								<td style="text-align: left;"><a
+									href="matching?command=profile&userId=<%-- ${} --%>">yans</a></td>
+								<td><a onclick="sendMsgFunction('${profile.u_name}');"><img style="width: 30px; height: 30px"
+										alt="쪽지보내기"
+										src="${pageContext.request.contextPath}/matching/img/direct.png"></a></td>
+							</tr>
 					    <tr>
 					      <th scope="row">2</th>
 					      <td>gymin</td>
@@ -425,22 +620,27 @@
 					  </tbody>
 					</table>
 				 </div> -->
-			 </div> 
-			 <hr style="margin:3em 0 0 0;">
-			 </div>
-			 <!-- 관심 사람 목록 end -->
-			 <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-         
-       	<br>
-         <button class="btn btn-primary" data-toggle="modal" data-target="#withdrawal" style="margin-top: 40px; background:#ff4040;"> 회원 탈퇴</button>
-        
-        </div>        
-      </div>
-    </div>    		 
+			</div>
+			<hr style="margin: 3em 0 0 0;">
+		</div>
+		<!-- 관심 사람 목록 end -->
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+
+					<br>
+					<button class="btn btn-primary" data-toggle="modal"
+						data-target="#withdrawal"
+						style="margin-top: 40px; background: #ff4040;">회원 탈퇴</button>
+
+				</div>
+			</div>
+		</div>
 	</section>
+
+	<jsp:include page="common/footer.jsp"></jsp:include>
 	
+
   <jsp:include page="common/footer.jsp"></jsp:include>
 
 <!-- 비밀번호 변경 모달 -->
@@ -569,12 +769,81 @@
   <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
   <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Plugin JavaScript -->
-  <script src="${pageContext.request.contextPath}/matching/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- 쪽지 보내기 모달 -->
+	<div class="modal" id="sendMsgModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header modal-header-info">
+					<h4 class="modal-title">
+						<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
+					</h4>
+					<button type="button" class="close" id="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+
+				</div>
+				<div class="modal-body">
+
 
   <!-- Custom scripts for this template -->
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
-  
+
+					<form role="form" id="sendForm" class="form-horizontal"
+						action="${pageContext.request.contextPath}/msg">
+						<input type="hidden" name="command" value="sendMsg" /> 
+						<input type="hidden" name="send_id" value="${u_id }" />
+						<input type="hidden" name="backMsgBox" value="no" />	<!-- 어디 모달에서 보내는지 구별하기 위해 -->
+						<div class="form-group">
+							<label class="col-sm-12" for="inputTo"><span
+								class="glyphicon glyphicon-user"></span>받는사람</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="inputTo"
+									placeholder="comma separated list of recipients"
+									readonly="readonly" name="get_id" style="width: 430px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-12" for="inputBody"><span
+								class="glyphicon glyphicon-list"></span>쪽지 내용</label>
+							<div class="col-sm-12">
+								<textarea class="form-control" id="inputBody" rows="8"
+									name="content" style="resize: none;"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="reset" id="reset" class="btn btn-default pull-left"
+								data-dismiss="modal" style="border: 1px solid lightgray;"
+								value="취소" />
+							<input type="button" class="btn btn-primary"
+								style="background-color: #fec503; border-color: #fec503;"
+								value="보내기" onclick="CheckForm();" />
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal compose message -->
+	
+
+
+	<!-- Bootstrap core JavaScript -->
+	<script
+		src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script
+		src="${pageContext.request.contextPath}/matching/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for this template -->
+	<script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+
 </body>
 
 </html>
