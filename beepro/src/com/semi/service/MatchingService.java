@@ -413,13 +413,16 @@ public class MatchingService {
 		HttpSession session = request.getSession();
 		String u_id = (String)session.getAttribute("u_id");
 		String str = Dao.getUserSkill(u_id);
-		
-		// TODO split(,) List add
 		List<String> skillList =  new ArrayList<String>();
-		String[] splitStr = str.split(",");
 		
-		for(int i=0; i<splitStr.length; i++){
-			skillList.add(splitStr[i]);
+		try {
+			// TODO split(,) List add
+			String[] splitStr = str.split(",");
+			for(int i=0; i<splitStr.length; i++){
+				skillList.add(splitStr[i]);
+			}
+		} catch (Exception e) {
+			System.out.println("skill Not Found");
 		}
 		return skillList;
 	}

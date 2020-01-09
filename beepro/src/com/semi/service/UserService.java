@@ -221,8 +221,7 @@ public class UserService {
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
 		String area = (String) request.getParameter("area");
-		System.out.println(area);
-		
+
 		int res =dao.updateArea(u_id, area);
 		if(res==1) {
 			System.out.println("[지역변경 성공]");
