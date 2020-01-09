@@ -127,7 +127,7 @@ $(document).ready(function(){
                        </div>
                        <div class="form-group col-lg-4">
                          <label for="category">프로젝트 명<span style="color:red;"> *</span></label><br>
-                         <input type="text" class="form-control" name="projectName" value="${pName}" readonly>
+                         <input type="text" class="form-control" name="p_name" value="${pName}" readonly>
                        </div> 
                      </div>
                        <div class="form-group">

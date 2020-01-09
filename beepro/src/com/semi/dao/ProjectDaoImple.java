@@ -4,7 +4,6 @@ import static common.JDBCTemplet.close;
 import static common.JDBCTemplet.commit;
 import static common.JDBCTemplet.getConnection;
 
-import java.beans.Transient;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,8 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
@@ -666,7 +663,7 @@ public class ProjectDaoImple implements ProjectDao {
 				vo.setIssueSeq(rs.getInt(2));
 				vo.setWriter(rs.getString(3));
 				vo.setContent(rs.getString(4));
-				vo.setRegdate(rs.getDate(5));
+				vo.setRegdate(rs.getString(5));
 
 				res.add(vo);
 			}
@@ -676,32 +673,8 @@ public class ProjectDaoImple implements ProjectDao {
 			close(rs, pstmt, con);
 			System.out.println("db종료");
 		}
+		System.out.println(res.toString());
 		return res;
-	}
-
-	// 댓글 수정
-	@Override
-	public void updateComment(int commentSeq, int issueSeq, String content) {
-		Connection con = getConnection();
-		PreparedStatement pstmt = null;
-		int res = 0;
-
-		try {
-			pstmt = con.prepareStatement(updateCommentSql);
-			pstmt.setString(1, content);
-			pstmt.setInt(2, issueSeq);
-			pstmt.setInt(3, commentSeq);
-
-			res = pstmt.executeUpdate();
-
-			if (res > 0) {
-				commit(con);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstmt, con);
-		}
 	}
 
 	// 댓글 삭제

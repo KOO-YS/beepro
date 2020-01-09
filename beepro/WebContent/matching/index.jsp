@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -13,24 +13,23 @@
   <title>NAME</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
   <!-- Custom styles for this template -->
-  <link href="css/agency.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
 </head>
 <body id="page-top">
-
   <jsp:include page="common/main_nav.jsp"></jsp:include>
   
   <!-- Header -->
-  <header class="masthead" style="background-image:url('img/main_keyimage.jpg')">
+  <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main_keyimage.jpg')">
     <div class="container">
       <div class="intro-text">
         <div class="intro-lead-in">matching & cowork</div>
@@ -113,31 +112,71 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-u
-          ppercase">cowork</h2>
+          <h2 class="section-heading text-uppercase">cowork</h2>
           <h3 class="section-subheading text-muted">협업 섹션</h3>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-12" style="text-align: center;">
-			<button class="btn btn-primary btn-xl" onclick="location.href='${pageContext.request.contextPath}/cowork/index.jsp'">cowork</button> <img src="img/cowork.jpg" alt="" style="width: 100%;">
+        	<button class="btn btn-primary btn-xl" onclick="selectProject();">cowork</button>
+			<img src="${pageContext.request.contextPath}/matching/img/cowork.jpg" alt="" style="width: 100%;">
+
         </div>
       </div>
     </div>
   </section>
   
 	<jsp:include page="common/footer.jsp"></jsp:include>
-	
+
+<!-- 프로젝트 생성 -->
+<div class="modal fade" id="selectProject" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="selectProjectLabel">프로젝트를 선택해주세요</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	<form action="${pageContext.request.contextPath}/project" method="post">
+      <div class="modal-body">
+      
+        	  <div class="form-group" style="text-align:center;">
+			    <c:forEach var="project" items="${projectList}">
+			    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'">
+					  ${project.projectName}
+					</button>
+			    </c:forEach>
+			  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary">변경</button>
+      </div>
+	</form>
+    </div>
+  </div>
+</div>
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/vendor/jquery-easing/jquery.easing.min.js"></script>
   
   <!-- Custom scripts for this template -->
-  <script src="js/agency.js"></script>
+  <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 
+<script type="text/javascript">
+	function selectProject(){
+		var userId = "${u_id}";
+		if(userId == ""){
+			alert("로그인 후 이용 가능합니다");
+			return false;
+		}
+		$("#selectProject").modal();
+	}
+</script>
 </body>
 </html>
     

@@ -83,7 +83,16 @@ public class UserServlet extends HttpServlet {
 			
 		}else if(command.equals("updatePwd")) {
 			System.out.println("비밀번호 변경");
-			updatePwdAction(request, response);				
+			updatePwdAction(request, response);		
+			
+		}else if(command.equals("updateArea")) {
+			System.out.println("지역 변경");
+			userService.updateArea(request, response);			
+			
+		}else if(command.equals("updateSkill")) {
+			System.out.println("스킬 변경");
+			userService.updateSkill(request, response);	
+			
 			
 		}else if(command.equals("userprofile")) {
 			System.out.println("프로필사진 변경");
@@ -238,11 +247,6 @@ public class UserServlet extends HttpServlet {
 		String u_id = (String) session.getAttribute("u_id");
 		String u_email = (String) session.getAttribute("u_email");
 		String u_name = (String) session.getAttribute("u_name");
-		
-		System.out.println("----서블릿으로 들어온 값----");
-		System.out.println(u_id);
-		System.out.println(u_name);
-		System.out.println(u_email);
 		
 		int CheckID = UserService.CheckID(request, response);
 		
