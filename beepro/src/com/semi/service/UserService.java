@@ -217,6 +217,21 @@ public class UserService {
 		return dao.updatePwd(newPwd, u_id);
 	}
 	
+	public void updateArea(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		String area = (String) request.getParameter("area");
+		System.out.println(area);
+		
+		int res =dao.updateArea(u_id, area);
+		if(res==1) {
+			System.out.println("[지역변경 성공]");
+		}else {
+			System.out.println("[지역변경 실패]");
+		}
+		
+	}
+	
 	public int CheckID(HttpServletRequest request, HttpServletResponse response) {
 		String u_id = request.getParameter("u_id");
 
@@ -233,6 +248,29 @@ public class UserService {
 		return dao.naverRegister(u_id, u_name,u_email);
 		
 	}
+	public void updateSkill(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String u_id = (String) session.getAttribute("u_id");
+		String[] skillArr = request.getParameterValues("skill");
+		String skill ="";
+		
+		for(String val : skillArr) {
+				skill += val+",";
+		}
+		System.out.println("skill arr:"+skill);
+		
+		int result = dao.updateSkill(u_id,skill);		
+		if (result == 1) {
+			request.setAttribute("skill", skill);	
+			System.out.println("[skill update 성공]");
+			dispatch("matching?command=mypage",request,response);
+			
+		 	}else {	 		
+		 		System.out.println("[skill update 실패]");
+		 	}
+		
+	}
+
 
 
 
@@ -579,11 +617,7 @@ public class UserService {
 		
 	}
 
-	
-	
-	
-	
-	
+
 	
 	/* 관심 사람 서비스 (heart) */
 	
@@ -654,7 +688,6 @@ public class UserService {
 		dispatch.forward(request, response);
 		
 	}
-
 
 
 }

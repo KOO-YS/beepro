@@ -104,9 +104,13 @@ public class ProjectService {
 		HttpSession session = request.getSession();
 		String manager = (String)session.getAttribute("u_name");
 		int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
-		
+//		try {
+//			projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
+//		} catch (Exception e) {
+//
+//		}
 		int totalCount = projectDao.getTodoCount(projectSeq, manager); 		// 토탈 게시글 수 가져오기
-//		int totalCount = projectDao.getTodoCount(1, manager);	테스트용
+//		int totalCount = projectDao.getTodoCount(1, manager);	// 테스트용
 		int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
 		Paging todoPage = new Paging();		// 페이징
 		todoPage.setPageNo(page);
@@ -115,7 +119,7 @@ public class ProjectService {
 		
 		System.out.println(todoPage.toString());
 		List<TodoVo> todoList = projectDao.selectAllTodo(projectSeq, manager, todoPage);
-//		List<TodoVo> todoList = projectDao.selectAllTodo(1, manager, todoPage);		테스트용
+//		List<TodoVo> todoList = projectDao.selectAllTodo(1, manager, todoPage);		// 테스트용
 		request.setAttribute("page", todoPage);
 		return todoList;
 	}

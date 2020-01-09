@@ -80,8 +80,16 @@ public class MatchingServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
-
-		if (command.equals("profile")) {
+		
+		if(command.equals("main")) {
+			System.out.println(u_id);
+			if(u_id != null) {
+				List<ProjectVo> project = matchingService.getUserProject(u_id);
+				request.setAttribute("projectList", project);
+			}
+			dispatch("matching/index.jsp", request, response);
+		}
+		else if (command.equals("profile")) {
 			System.out.println("유저 프로필 정보 추출");
 			UserVo profile = matchingService.getProfile(request, response);
 			// matching?command=profile&userId=1 로 연결
@@ -361,6 +369,14 @@ public class MatchingServlet extends HttpServlet {
 			//마이페이지로 매칭 게시글목록 전달
 		}else if(command.equals("mypage")) {
   	  		System.out.println("마이페이지");
+  	  		
+  	  		//지역 리스트 담기
+  	  		String area = matchingService.getUserArea(request, response);
+  	  		request.setAttribute("area", area);
+  	  		
+  	  		// user skill 리스트 담기
+  	  		List<String> skill = matchingService.getUserSkill(request, response);
+  	  		request.setAttribute("skillList", skill);
   	  		
   	  		//personal 목록담기
   	  		List<MatchingPerVo> list1 = matchingService.AllMyPersonal(request, response);
