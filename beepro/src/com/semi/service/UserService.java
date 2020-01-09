@@ -578,7 +578,19 @@ public class UserService {
 		}
 		
 	}
+	
+	public void msgUnread(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		String u_id = request.getParameter("u_id");
 
+		if (u_id == null || u_id.equals("")) {
+			response.getWriter().write("0");
+		} else {
+			u_id = URLDecoder.decode(u_id, "UTF-8");
+			response.getWriter().write(new UserDaoImpl().getUnreadAllMsg(u_id) + "");
+		}
+	}
 	
 	
 	
@@ -654,6 +666,7 @@ public class UserService {
 		dispatch.forward(request, response);
 		
 	}
+
 
 
 

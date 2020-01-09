@@ -424,14 +424,14 @@ table.table .avatar {
 		</div>
 	</div>
 
-	<script type="text/javascript">
+<!-- 	<script type="text/javascript">
 	$(document).ready(function(){
 		getUnread();
 		getInfiniteUnread();
 		chatBoxFunction();
 		getInfiniteBox();
 	});
-</script>
+</script> -->
 
 
 

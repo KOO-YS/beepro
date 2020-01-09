@@ -120,7 +120,7 @@
       </div>
       <div class="row">
         <div class="col-lg-12" style="text-align: center;">
-			<button class="btn btn-primary btn-xl" onclick="location.href='${pageContext.request.contextPath}/project?command=enterCowork'">cowork</button> <img src="img/cowork.jpg" alt="" style="width: 100%;">
+			<button class="btn btn-primary btn-xl" onclick="location.href='${pageContext.request.contextPath}/cowork/index.jsp'">cowork</button> <img src="img/cowork.jpg" alt="" style="width: 100%;">
         </div>
       </div>
     </div>
