@@ -2,8 +2,6 @@ package com.semi.dao;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 import com.semi.vo.UserVo;
@@ -12,11 +10,13 @@ import com.semi.vo.VolunteerVo;
 
 public interface MatchingDao {
 
+	// 유저가 속한 프로젝트 리스트 
+	public List<ProjectVo> getUserProject(String userId);
 	// 유저 프로필 보기
 	public UserVo getProfile(String userId);
 	// 유저 정보 조회
 	String getUserInfoSql = "SELECT USER_ID, NAME, EMAIL, LOCATION FROM BEEPRO_USER WHERE USER_ID=?";
-	
+	String getUserProjectSql = "SELECT * FROM PROJECT WHERE MEMBER_ID LIKE '%?/%'";		// FIXME 특수문자로 인해 ? 이 인식이 안되는걸로 추정 
 	// 개인 매칭
 	public int MatchingWrite(MatchingProVo MatchingProVo);
 	// 글쓰기
