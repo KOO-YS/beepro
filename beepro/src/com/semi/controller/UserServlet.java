@@ -152,7 +152,15 @@ public class UserServlet extends HttpServlet {
 		} else if(command.equals("follow")) {
 			System.out.println("팔로우 하기");
 			userService.follow(request, response);
-		}
+			
+		} else if(command.equals("followerCount")) {
+			System.out.println("팔로우한 갯수 반환");
+			userService.followerCount(request,response);
+			
+		}  else if(command.equals("followerCount")) {
+			System.out.println("팔로잉한 갯수 반환");
+			userService.followingCount(request,response);
+		} 
 	}
 
 	private void registerAction(HttpServletRequest request, HttpServletResponse response) throws IOException {

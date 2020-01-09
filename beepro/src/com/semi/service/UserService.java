@@ -626,6 +626,27 @@ public class UserService {
 		return list;
 	}
 	
+	public String followerCount(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+	    UserDaoImpl userDAO = new UserDaoImpl();
+		String userId = request.getParameter("userId");
+		
+		String followers =  userDAO.followerCount(userId)+"";
+		return followers;
+	}
+	
+	public String followingCount(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+	    UserDaoImpl userDAO = new UserDaoImpl();
+		String userId = request.getParameter("userId");
+		
+		String follwing = userDAO.followingCount(userId)+"";
+		return follwing;
+	}
+	
+
 	
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -633,6 +654,7 @@ public class UserService {
 		dispatch.forward(request, response);
 		
 	}
+
 
 
 }

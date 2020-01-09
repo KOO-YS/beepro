@@ -83,6 +83,7 @@ public class MatchingServlet extends HttpServlet {
 			UserVo profile = matchingService.getProfile(request, response);
 			// matching?command=profile&userId=1 로 연결
 			
+			//팔로우 체크
 			String userId = request.getParameter("userId");
 			UserDaoImpl userDAO = new UserDaoImpl();
 			String chk=null;
@@ -91,8 +92,14 @@ public class MatchingServlet extends HttpServlet {
 			}else {
 				chk="unfollow";
 			}
-			request.setAttribute("chk", chk);
+			//팔로워 팔로잉 갯수
+			UserService userService = new UserService();
+			String followers = userService.followerCount(request, response);
+			String followings = userService.followingCount(request, response);
 			
+			request.setAttribute("followers", followers);
+			request.setAttribute("followings", followings);
+			request.setAttribute("chk", chk);
 			request.setAttribute("profile", profile);
 			dispatch("matching/profile.jsp", request, response);
 		} else if (command.equals("matchingWrite")) {

@@ -153,18 +153,16 @@ function followFunction(post_no){
   				<span> followers</span>
 				<h3>
 					<a href="#">
-						<i class="fa-heart" style="font-family: fontawesome;content:'\f004';font-style: normal;"></i> 
-					</a>
-					1
+					<i class="fa-heart" style="font-family: fontawesome;content:'\f004';font-style: normal;"></i>
+					</a> ${followers }						
 				</h3>
   			</li>
   			<li>
 				<span> following</span>
 				<h3>
 					<a href="#">
-						<i class="fa-heart" style="font-family: fontawesome;content:'\f004';font-style: normal;"></i> 
-					</a>
-					1
+					<i class="fa-heart" style="font-family: fontawesome;content:'\f004';font-style: normal;"></i>
+					</a> ${followings }	 
 				</h3>
   			</li>
   		</ul>
