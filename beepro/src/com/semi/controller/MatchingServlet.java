@@ -107,6 +107,7 @@ public class MatchingServlet extends HttpServlet {
 		         
 		         String curpagenum = request.getParameter("curpagenum");
 		         System.out.println(curpagenum+"현재페이지");
+		         
 		         //페이징 시작
 		         int currentPage = 0;
 
@@ -129,9 +130,8 @@ public class MatchingServlet extends HttpServlet {
 
 		         request.setAttribute("page", page);
 
-		         request.setAttribute("list", list);
+		         
 		        //페이징 끝
-		         dispatch("matching/matchingList.jsp", request, response);
 		         
 			// 관심게시글 가져오기
 			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"project");

@@ -202,14 +202,17 @@ CREATE TABLE volunteer ( /* 지원자 테이블 */
 CREATE SEQUENCE meg_seq;
 
 CREATE TABLE msg(
-    msg_seg NUMBER(30) PRIMARY KEY,
+    msg_seq NUMBER(30) PRIMARY KEY,
     send_id VARCHAR2(50) NOT NULL,
     get_id VARCHAR2(50) NOT NULL,
     content VARCHAR2(2000) NOT NULL,
     regdate DATE NOT NULL,
-    read_ck NUMBER -- 0이면 안읽은 것 1이면 읽은 것
+    read_ck NUMBER, -- 0이면 안읽은 것 1이면 읽은 것
+    sdelete_ck varchar2(6)	NOT NULL,  -- 보낸 메세지함에서 지웠는지
+	gdelete_ck varchar2(6)	NOT NULL,  -- 받은 메세지함에서 지웠는지
+    CONSTRAINT sdelete_ck_chk CHECK(sdelete_ck IN('Y','N')),
+    CONSTRAINT gdelete_ck_chk CHECK(gdelete_ck IN('Y','N'))
 );
-
 
 ------------------------------------- 관심 게시글 (post) 추가 !!  %제약조건도 추가해주셔야합니다. %----------------------------------
 CREATE TABLE post (
@@ -275,3 +278,5 @@ ALTER TABLE skill ADD CONSTRAINT FK_match_per_TO_skill_1 FOREIGN KEY (personal_s
 ALTER TABLE project_member ADD CONSTRAINT FK_project_TO_project_mem FOREIGN KEY (project_seq) REFERENCES project (project_seq);
 
 ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (member_id) REFERENCES beepro_user (user_id);
+
+<!--ALTER TABLE BEEPRO_USER ADD (naver_ck VARCHAR2(6));-->

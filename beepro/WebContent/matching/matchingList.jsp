@@ -252,11 +252,12 @@ $(function() {
                 <!-- 게시물 end -->
           </div>
       </div>
-      
       <!-- 페이징 : 여기에서부터 -->
+               
+                 
 <script type="text/javascript">
    function PageMove(page){
-          location.href = "personMatching?command=selectAllPer&curpagenum="+page;
+          location.href = "matching?command=matchingAll&curpagenum="+page;
    }
 </script> 
 
@@ -308,7 +309,7 @@ $(function() {
    </c:when>
 </c:choose>
 
-<!-- 여기까지 복붙 : 페이징 완료 -->
+<!-- 여기까지 페이징 완료 -->
       
       
       
