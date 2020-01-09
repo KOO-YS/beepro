@@ -13,12 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.dao.MatchingDaoImpl;
+import com.semi.dao.ProjectDao;
+import com.semi.dao.ProjectDaoImple;
 import com.semi.dao.UserDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.service.UserService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-
 import com.semi.vo.PageVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
@@ -72,6 +73,8 @@ public class MatchingServlet extends HttpServlet {
 		MatchingService matchingService = new MatchingService();
 
 		MatchingDaoImpl dao = new MatchingDaoImpl();
+		
+		ProjectDao pdao = new ProjectDaoImple();
 
 		// 현재 로그인 중인 아이디로 세션 받아옴
 
@@ -300,13 +303,18 @@ public class MatchingServlet extends HttpServlet {
 		} else if (command.equals("projectCreate")) {
 			System.out.println("프로젝트 생성");
 			System.out.println("pm아이디:" + u_id);
-
+			
 			int projectSeq = matchingService.insertProject(request, response);
 
+			String p_name = pdao.selectOneProjectName2(projectSeq);
+			System.out.println("프로젝트 명 :"+p_name);
+			
 			if (projectSeq > 0) {
 				System.out.println("프로젝트 생성 성공");
 				session.setAttribute("projectSeq", projectSeq);
-				dispatch("cowork/dashboard.jsp",request, response);
+				session.setAttribute("pName", p_name);
+				
+				dispatch("cowork/index.jsp",request, response);
 			} else {
 				System.out.println("프로젝트 생성 실패");
 			}

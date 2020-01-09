@@ -15,10 +15,10 @@ public interface ProjectDao {
     String insertIssueSql = "INSERT INTO ISSUE VALUES(ISSUE_SEQ.NEXTVAL,?,?,?,?,SYSDATE,?,?,?)";
     String updateIssueSql = "UPDATE ISSUE SET TITLE=?, ISSUE_LEVEL=?, ISSUE_CATEGORY=?, CONTENT=? WHERE ISSUE_SEQ=?";
     String deleteIssueSql = "DELETE FROM ISSUE WHERE ISSUE_SEQ=?";
-    String selectAllIssueSql = "SELECT * FROM ISSUE WHERE PROJECT_SEQ=?"; 
+    String selectAllIssueSql = "SELECT * FROM ISSUE WHERE PROJECT_SEQ=? ORDER BY ISSUE_SEQ DESC"; 
     String selectOneIssueSql = "SELECT * FROM ISSUE WHERE ISSUE_SEQ=?";
     String selectOneProjectNameSql = "SELECT DISTINCT PROJECT_NAME from PROJECT P join ISSUE I ON(P.PROJECT_SEQ = I.PROJECT_SEQ) WHERE I.ISSUE_SEQ=?";
-    String selectOneProjectNameSql2 = "SELECT DISTINCT PROJECT_NAME from PROJECT P join ISSUE I ON(P.PROJECT_SEQ = I.PROJECT_SEQ) WHERE P.PROJECT_SEQ=?";
+    String selectOneProjectNameSql2 = "SELECT PROJECT_NAME FROM PROJECT WHERE PROJECT_SEQ=?";
     
     // 업무부분
     String insertTodoSql = "INSERT INTO TODO VALUES(TODO_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'N')";
@@ -65,7 +65,6 @@ public interface ProjectDao {
     String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL,?,?,?,SYSDATE)";
     String selectAllCommentSql = "SELECT * FROM COMMENTS WHERE ISSUE_SEQ=?";
     String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
-    String updateCommentSql = "UPDATE COMMENTS SET CONTENT=? WHERE COMMENTS_SEQ=? AND ISSUE_SEQ=?";
     
     public List<IssueVo> selectAllIssue(int projectSeq);
     
@@ -115,8 +114,6 @@ public interface ProjectDao {
 	public List<CommentVo> selectAllComment(int seq);
 	
 	public boolean deleteComment(int comments_seq);
-
-	public void updateComment(int commentSeq, int issueSeq, String content);
 
 	public int getTodoCount(int projectSeq, String manager);
 

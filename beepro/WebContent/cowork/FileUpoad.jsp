@@ -9,8 +9,8 @@
 <title>BeePro - 파일드라이브</title>
 </head>
 <body>
-<form action="uploadRes.jsp" method="post" enctype="multipart/form-data">
-
+<form action="uploadAction.jsp" method="post" enctype="multipart/form-data">
+작성자 : <input type="text" name="u_id" value="${u_id }">
 </form>
 </body>
 </html>

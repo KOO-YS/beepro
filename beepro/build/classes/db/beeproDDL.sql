@@ -187,6 +187,8 @@ CREATE TABLE comments (
 	regdate	DATE	NOT NULL
 );
 
+select * from comments;
+
 CREATE TABLE skill (
 	personal_seq	number	NOT NULL,
 	user_id     varchar2(100)	NOT NULL,
@@ -232,6 +234,15 @@ ALTER TABLE post ADD CONSTRAINT PK_POST PRIMARY KEY (
 );
 ------------------------------------------------------------------------------------------------------------
 
+----------------------------------- 파일 업로드 테이블 추가 ------------------------
+CREATE TABLE files (
+  user_id varchar2(100) NOT NULL, -- 파일 업로드 한 사람 
+  regdate Date NOT NULL, -- 파일 업로드 한 시간
+  fileName varchar2(2000) NOT NULL, -- 파일 원래 이름
+  fileRealName varchar2(2000) NOT NULL, -- 파일 내가 올릴때 바꾸는 이름
+  	CONSTRAINT FK_USER_ID_TO_FILE FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
+);
+---------------------------------------------------------------------------
 ALTER TABLE heart ADD CONSTRAINT PK_HEART PRIMARY KEY (send_id,get_id);
 
 ALTER TABLE project_member ADD CONSTRAINT PK_PROJECT_MEMBER PRIMARY KEY (project_seq,member_id);
