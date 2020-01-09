@@ -216,7 +216,6 @@ CREATE TABLE msg(
     CONSTRAINT gdelete_ck_chk CHECK(gdelete_ck IN('Y','N'))
 );
 
-
 ------------------------------------- 관심 게시글 (post) 추가 !!  %제약조건도 추가해주셔야합니다. %----------------------------------
 CREATE TABLE post (
 	u_id  varchar2(50) NOT NULL,	-- 해당하는 사람의 관심 목록
@@ -281,3 +280,5 @@ ALTER TABLE skill ADD CONSTRAINT FK_match_per_TO_skill_1 FOREIGN KEY (personal_s
 ALTER TABLE project_member ADD CONSTRAINT FK_project_TO_project_mem FOREIGN KEY (project_seq) REFERENCES project (project_seq);
 
 ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (member_id) REFERENCES beepro_user (user_id);
+
+<!--ALTER TABLE BEEPRO_USER ADD (naver_ck VARCHAR2(6));-->
