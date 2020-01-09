@@ -27,10 +27,14 @@ public class MatchingService {
 	 * @return DB INSERT 후 성공 여부에 따라 int 형으로 결과값을 받을 수 있음.
 	 */
 
-   MatchingDao matchingDao = new MatchingDaoImpl();
-   MatchingDao Dao = new MatchingDaoImpl();
+	MatchingDao matchingDao = new MatchingDaoImpl();
+	MatchingDao Dao = new MatchingDaoImpl();
    
-   
+	// 유저가 속한 프로젝트 리스트 출력
+	public List<ProjectVo> getUserProject(String userId) {
+		List<ProjectVo> project = matchingDao.getUserProject(userId);
+		return project;
+	}
    // 프로필 정보 추출
    public UserVo getProfile(HttpServletRequest request, HttpServletResponse response) {
 	   	String userId = request.getParameter("userId");

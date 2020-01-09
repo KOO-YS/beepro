@@ -73,8 +73,16 @@ public class MatchingServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		String u_id = (String) session.getAttribute("u_id");
-
-		if (command.equals("profile")) {
+		
+		if(command.equals("main")) {
+			System.out.println(u_id);
+			if(u_id != null) {
+				List<ProjectVo> project = matchingService.getUserProject(u_id);
+				request.setAttribute("projectList", project);
+			}
+			dispatch("matching/index.jsp", request, response);
+		}
+		else if (command.equals("profile")) {
 			System.out.println("유저 프로필 정보 추출");
 			UserVo profile = matchingService.getProfile(request, response);
 			// matching?command=profile&userId=1 로 연결
