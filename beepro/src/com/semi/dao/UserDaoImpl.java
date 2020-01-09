@@ -1,5 +1,8 @@
 package com.semi.dao;
 
+import static common.JDBCTemplet.close;
+import static common.JDBCTemplet.getConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +12,7 @@ import java.util.ArrayList;
 import com.semi.vo.HeartVo;
 import com.semi.vo.MessageVo;
 import com.semi.vo.MsgVo;
+import com.semi.vo.PostVo;
 import com.semi.vo.UserVo;
 
 import common.JDBCTemplet;
@@ -908,7 +912,34 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 	
 
 	/* 하트 DAO */
+	
+	public int heartChk(String send_id, String get_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT * FROM heart WHERE send_id=? AND get_id=? ";
 
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, send_id);
+			pstmt.setString(2, get_id);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				return -1; // 컬럼이 존재하면 음수 리턴
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
+		}
+
+		return 1; // 컬럼이 존재하지 않으면 양수 리턴
+	}
+	
 	public int insertHeart(HeartVo vo) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
@@ -932,29 +963,33 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		}
 		return res;
 	}
-
-	public ArrayList<String> selectFollower(String get_id) {
+	
+	public int deleteHeart(HeartVo vo) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		ArrayList<String> list = new ArrayList<String>();
-
+		int res = 0;
+		String sql = " DELETE FROM heart WHERE send_id=? AND get_id=? ";
+		
 		try {
-			pstmt = con.prepareStatement(followerSql);
-			pstmt.setString(1, get_id);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				list.add(rs.getString(1));
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getH_send());
+			pstmt.setString(2, vo.getH_get());
+			
+			res = pstmt.executeUpdate();
+			if (res > 0) {
+				commit(con);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(con);
 		}
-
-		return list;
-
+		return res;
 	}
-
+	
+	//내가 팔로우한 사람 목록
 	public ArrayList<String> selectFollowing(String send_id) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
@@ -976,6 +1011,79 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		return list;
 
 	}
+	
+	//팔로우 목록 (보류)
+	public ArrayList<String> selectFollower(String get_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<String> list = new ArrayList<String>();
 
+		try {
+			pstmt = con.prepareStatement(followerSql);
+			pstmt.setString(1, get_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				list.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	//나를 팔로우한 갯수
+	public int followerCount(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT COUNT(*) FROM heart WHERE get_id = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("COUNT(*)");
+			}
+			return 0; // 받은 메시지 없음
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+			close(con);
+		}
+		return -1; // 데이터베이스 오류
+
+	}
+	
+	//나를 팔로잉한 갯수
+	public int followingCount(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " SELECT COUNT(*) FROM heart WHERE send_id = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, u_id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("COUNT(*)");
+			}
+			return 0; // 받은 메시지 없음
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+			close(con);
+		}
+		return -1; // 데이터베이스 오류
+
+	}
+	
 
 }

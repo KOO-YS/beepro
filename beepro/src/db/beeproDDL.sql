@@ -196,7 +196,7 @@ CREATE TABLE skill (
 
 CREATE TABLE volunteer ( /* 지원자 테이블 */
     projectM_seq number NOT NULL, /* 프로젝트 매칭 공고 글 시퀀스 번호 */
-	user_id varchar2(100) NOT NULL, /* 회원 id */
+	user_id varchar2(100) PRIMARY KEY, /* 회원 id */
 	accept varchar2(6) NOT NULL, /* 수락 여부  */
 	CONSTRAINT accept_chk CHECK(accept IN('Y','N')),
 	CONSTRAINT FK_PROJECTM_SEQ_TO_VOL FOREIGN KEY (projectM_seq) REFERENCES matching_project (projectM_seq), 
@@ -218,7 +218,6 @@ CREATE TABLE msg(
     CONSTRAINT sdelete_ck_chk CHECK(sdelete_ck IN('Y','N')),
     CONSTRAINT gdelete_ck_chk CHECK(gdelete_ck IN('Y','N'))
 );
-
 
 ------------------------------------- 관심 게시글 (post) 추가 !!  %제약조건도 추가해주셔야합니다. %----------------------------------
 CREATE TABLE post (
@@ -284,3 +283,5 @@ ALTER TABLE skill ADD CONSTRAINT FK_match_per_TO_skill_1 FOREIGN KEY (personal_s
 ALTER TABLE project_member ADD CONSTRAINT FK_project_TO_project_mem FOREIGN KEY (project_seq) REFERENCES project (project_seq);
 
 ALTER TABLE project_member ADD CONSTRAINT FK_user_TO_project_mem FOREIGN KEY (member_id) REFERENCES beepro_user (user_id);
+
+<!--ALTER TABLE BEEPRO_USER ADD (naver_ck VARCHAR2(6));-->
