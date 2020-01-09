@@ -129,6 +129,15 @@
 		<servlet-name>post</servlet-name>
 		<url-pattern>/post</url-pattern>
 	</servlet-mapping>
-
+	
+	<!-- 관심사람 맵핑(heart) -->
+	<servlet>
+		<servlet-name>heart</servlet-name>
+		<servlet-class>com.semi.controller.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>heart</servlet-name>
+		<url-pattern>/heart</url-pattern>
+	</servlet-mapping>
 	
 </web-app>

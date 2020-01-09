@@ -671,7 +671,7 @@ public class MatchingDaoImpl implements MatchingDao {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = " SELECT TITLE, CONTENT, ENDDATE FROM matching_project m JOIN POST p ON(m.projectm_seq=p.post_no)  WHERE TYPE='project' AND U_ID=? ";
+		String sql = " SELECT m.projectm_seq, TITLE, CONTENT, startdate FROM matching_project m JOIN POST p ON(m.projectm_seq=p.post_no)  WHERE TYPE='project' AND U_ID=? ";
 		List<MatchingProVo> res = new ArrayList<MatchingProVo>();
 		
 		
@@ -683,9 +683,10 @@ public class MatchingDaoImpl implements MatchingDao {
 			while(rs.next()) {
 				
 				MatchingProVo matVo = new MatchingProVo();
-				matVo.setTitle(rs.getString(1));
-				matVo.setContent(rs.getString(2));
-				matVo.setEnddate(rs.getString(3));
+				matVo.setProjectM_seq(rs.getString(1));
+				matVo.setTitle(rs.getString(2));
+				matVo.setContent(rs.getString(3));
+				matVo.setStartdate(rs.getString(4));
 				
 				res.add(matVo);
 			}
@@ -703,7 +704,7 @@ public class MatchingDaoImpl implements MatchingDao {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = " SELECT TITLE, user_id, emp_category  FROM matching_personal m JOIN POST p ON(m.personal_seq=p.post_no)  WHERE TYPE='personal' AND U_ID=? ";
+		String sql = " SELECT m.personal_seq, TITLE, user_id, emp_category  FROM matching_personal m JOIN POST p ON(m.personal_seq=p.post_no)  WHERE TYPE='personal' AND U_ID=? ";
 		List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
 		
 		
@@ -715,9 +716,10 @@ public class MatchingDaoImpl implements MatchingDao {
 			while(rs.next()) {
 				
 				MatchingPerVo perVo = new MatchingPerVo();
-				perVo.setUser_id(rs.getString(1));
+				perVo.setPersonal_seq(rs.getInt(1));
 				perVo.setTitle(rs.getString(2));
-				perVo.setEmp_category(rs.getString(3));
+				perVo.setUser_id(rs.getString(3));
+				perVo.setEmp_category(rs.getString(4));
 
 				res.add(perVo);
 

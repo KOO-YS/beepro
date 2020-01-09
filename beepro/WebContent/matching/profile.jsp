@@ -32,7 +32,7 @@
 
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
-
+  <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
   <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
@@ -65,7 +65,58 @@ a:hover {
 hr {
 	margin: 3em 0;
 }
+#follo:hover{
+	background-color : white;
+	color: red;
+	border : 1px solid red;
+}
 </style>
+<script type="text/javascript">
+
+function CheckForm(){
+	if($('#inputBody').val() ==""){ 
+		alert("보내실 쪽지 내용을 입력하세요.");
+		$('#inputBody').focus(); //id가 id인 태그에 커서깜빠거리는 포커스 주기
+		return false; //현재 submit이벤트를 중지하는 개념(즉, 전송을 막는다->페이지안넘김)
+	} else{ 
+
+		$('#sendForm').submit(); //form안에 있는 데이터를 action속성의 주소로 전송
+	}
+}
+
+function sendMsgFunction(get_id){
+	$('#sendMsgModal').css("display","block");
+	$('#inputTo').val(get_id);
+	$('#reset').click(function(){
+		$('#sendMsgModal').css("display","none");
+	});
+	$('#close').click(function(){
+		$('#sendMsgModal').css("display","none");
+	});
+}
+
+
+function followFunction(post_no){
+	var u_id = "${u_id}";
+	$.ajax({
+		type : "POST",
+		url : "${pageContext.request.contextPath}/heart?command=follow",
+		data : {
+			get_id : "${profile.u_name}"
+		}, 
+		success : function(result) {
+			if (result > 0) {
+				alert("팔로우 했습니다.");
+				location.reload();
+			} else {
+				alert("팔로우 취소 했습니다.")
+				location.reload();
+			}
+		}
+	});
+}
+
+</script>
 </head>
 
 <body id="page-top">
@@ -123,8 +174,16 @@ hr {
   		<div class="col-2">
   		</div>
   		<div class="col-8">
-  		  	<button class="btn btn-primary" style="width:350px;margin: 40px 0 20px 20px;"> 팔로우 하기 </button>
-  	        <button class="btn btn-primary" style="width:350px;margin: 40px 0 20px 20px;" data-toggle="modal" data-target="#modalCompose"> 쪽지 보내기 </button>
+  		<c:choose>
+  			<c:when test="${chk eq 'follow' }">
+	  		  	<button class="btn btn-primary" style="width:350px;margin: 40px 0 20px 20px;" onclick="followFunction();"> 팔로우 하기 </button>
+  			</c:when>
+  			<c:otherwise>
+	  		  	<button id="follo" class="btn btn-primary" style="width:350px;margin: 40px 0 20px 20px;background-color:red;" onclick="followFunction();"> 팔로우 취소 </button>
+  			</c:otherwise>
+  		</c:choose>
+  		
+  	        <button class="btn btn-primary" style="width:350px; margin: 40px 0 20px 20px;" onclick="sendMsgFunction('${profile.u_name}');"> 쪽지 보내기 </button>
 		  	<p class="bg-light" style="text-align:center;">
 				skills
 			</p>
@@ -176,46 +235,50 @@ hr {
 			  <div class="progress-bar bg-success" role="progressbar" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="123"></div>
 			</div>
     	</div>
-    </section>
-    
-    <!-- 쪽지 보내기 모달 -->
-    		<div class="modal show" id="modalCompose">
+    	
+	<!-- 쪽지 보내기 모달 -->
+	<div class="modal" id="sendMsgModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header modal-header-info">
-				<h4 class="modal-title">
+					<h4 class="modal-title">
 						<span class="glyphicon glyphicon-envelope"></span> 쪽지보내기
 					</h4>
-					<button type="button" class="close" data-dismiss="modal"
+					<button type="button" class="close" id="close" data-dismiss="modal"
 						aria-hidden="true">×</button>
-					
+
 				</div>
 				<div class="modal-body">
-					<form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/msg">
-						<input type="hidden" name="command"  value="sendMsg"/>
-						<input type="hidden" name="send_id"  value="${u_id }"/>
+
+					<form role="form" id="sendForm" class="form-horizontal"
+						action="${pageContext.request.contextPath}/msg">
+						<input type="hidden" name="command" value="sendMsg" /> 
+						<input type="hidden" name="send_id" value="${u_id }" />
+						<input type="hidden" name="backMsgBox" value="no" />	<!-- 어디 모달에서 보내는지 구별하기 위해 -->
 						<div class="form-group">
-							<label class="col-sm-12" for="inputTo"><span class="glyphicon glyphicon-user"></span>받는사람</label>
+							<label class="col-sm-12" for="inputTo"><span
+								class="glyphicon glyphicon-user"></span>받는사람</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputTo"
-									placeholder="comma separated list of recipients" readonly="readonly" name="get_id" value="qqq" style="width:430px" >
+									placeholder="comma separated list of recipients"
+									readonly="readonly" name="get_id" style="width: 430px">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-12" for="inputBody"><span
 								class="glyphicon glyphicon-list"></span>쪽지 내용</label>
 							<div class="col-sm-12">
-								<textarea class="form-control" id="inputBody" rows="8" name="content" style="resize: none;"></textarea>
+								<textarea class="form-control" id="inputBody" rows="8"
+									name="content" style="resize: none;"></textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<input type="reset" class="btn btn-default pull-left"
-								data-dismiss="modal"  style="border: 1px solid lightgray;" value="취소"/>
-							<!-- <button type="button" class="btn btn-warning pull-left">Save
-								Draft</button> -->
-							<input type="submit" class="btn btn-primary" style="background-color:#fec503;border-color: #fec503;"
-								value="보내기" />
-						
+							<input type="reset" id="reset" class="btn btn-default pull-left"
+								data-dismiss="modal" style="border: 1px solid lightgray;"
+								value="취소" />
+							<input type="button" class="btn btn-primary"
+								style="background-color: #fec503; border-color: #fec503;"
+								value="보내기" onclick="CheckForm();" />
 						</div>
 					</form>
 				</div>
@@ -225,6 +288,8 @@ hr {
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal compose message -->
+    </section>
+    
     
     
   <jsp:include page="common/footer.jsp"></jsp:include>

@@ -148,6 +148,10 @@ public class UserServlet extends HttpServlet {
 		} else if(command.equals("deleteGetMsg")) {
 			System.out.println("받은 쪽지 삭제");
 			userService.deleteGetMsg(request, response);
+			
+		} else if(command.equals("follow")) {
+			System.out.println("팔로우 하기");
+			userService.follow(request, response);
 		}
 	}
 

@@ -13,9 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.dao.MatchingDaoImpl;
+import com.semi.dao.UserDaoImpl;
 import com.semi.service.MatchingService;
+import com.semi.service.UserService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
+
 import com.semi.vo.PageVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
@@ -79,6 +82,17 @@ public class MatchingServlet extends HttpServlet {
 			System.out.println("유저 프로필 정보 추출");
 			UserVo profile = matchingService.getProfile(request, response);
 			// matching?command=profile&userId=1 로 연결
+			
+			String userId = request.getParameter("userId");
+			UserDaoImpl userDAO = new UserDaoImpl();
+			String chk=null;
+			if(userDAO.heartChk(u_id, userId)>0) {
+				chk="follow";
+			}else {
+				chk="unfollow";
+			}
+			request.setAttribute("chk", chk);
+			
 			request.setAttribute("profile", profile);
 			dispatch("matching/profile.jsp", request, response);
 		} else if (command.equals("matchingWrite")) {
@@ -347,6 +361,11 @@ public class MatchingServlet extends HttpServlet {
   	  		//관심 프로젝트 담기
   	  		List<MatchingProVo> list4 = matchingService.allProjectPost(request, response);
   	  		request.setAttribute("postProList", list4);
+  	  		
+  	  		//팔로일 담기
+  	  		UserService userService = new UserService(); 
+  	  		List<String> list5 = userService.getAllFollowing(request, response);
+  	  		request.setAttribute("followingList", list5);		
   	  		
   	  		dispatch("matching/mypage.jsp", request, response);
 		}						
