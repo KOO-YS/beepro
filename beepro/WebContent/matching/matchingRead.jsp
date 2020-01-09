@@ -97,7 +97,7 @@
          
         <form action="matching" method="post" name="modifyForm">
 		<input type="hidden" name="command"  value="matchingModifyProc"/>	
-		<input type="hidden" name="projectM_seq"  value="${matchingVo.projectM_seq}"/>
+		<input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}"/>
 		
          <div class="form-group">
             <div class="controls">
@@ -196,7 +196,7 @@
                	 </c:if>
                	</c:when>
                	<c:otherwise>
-					<a href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>
+               	    <a id="volunteerBtn" href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>
 				</c:otherwise> 
                </c:choose>
             </div>
@@ -221,6 +221,7 @@
 				    </tr>
 				  </thead>
 				  <tbody>
+
 					 <c:forEach var="list" items="${volunteer}" varStatus="status">
 		                 <tr>
 					      <td>
@@ -235,30 +236,7 @@
 					      </td>
 					    </tr>
 					 </c:forEach>
-					 <%-- <tr>	더미
-					      <td>
-					      	<input type="checkbox" value="testee" name="volunteerId">
-					      </td>
-					      <td>testee</td>
-					      <td>
-					      	<button class="btn btn-primary" onclick="location.href='#'">프로필</button>
-					      </td>
-					      <td>
-					      	<button class="btn btn-primary">쪽지</button>
-					      </td>
-					    </tr>
-					    					 <tr>
-					      <td>
-					      	<input type="checkbox" value="22testee" name="volunteerId">
-					      </td>
-					      <td>22iddd</td>
-					      <td>
-					      	<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching/profile.jsp'">프로필</button>
-					      </td>
-					      <td>
-					      	<button class="btn btn-primary">쪽지</button>
-					      </td>
-					    </tr> --%>
+					 
 				  </tbody>
 				</table>
 			 </div>
@@ -321,7 +299,16 @@
   </div>
 </div>
 <!-- 모달 end--> 
-      
+
+<!-- 유저의 지원 여부 -->
+<c:forEach var="test" items="${volunteer}" varStatus="status">
+	<c:if test="${test.userId eq u_id }">
+		 <script>
+			 $("#volunteerBtn").html('이미 지원한 프로젝트입니다'); 
+			 $("#volunteerBtn").attr('class','btn btn-secondary');
+		 </script>
+	 </c:if>
+</c:forEach>
 <script type="text/javascript">
 $(document).ready(function(){
 	/* 전체 선택 */

@@ -183,6 +183,7 @@ public class MatchingServlet extends HttpServlet {
 			request.setAttribute("volunteerNum", volunteerNum);
 			request.setAttribute("created", created);
 			
+			
 			dispatch("matching/matchingRead.jsp", request, response);
 
 		} else if (command.equals("matchingModifyProc")) {

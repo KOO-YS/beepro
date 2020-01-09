@@ -89,8 +89,6 @@
 }
 
 </style>
-
-<<<<<<< HEAD
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 $(function() {
@@ -117,10 +115,6 @@ $(function() {
 	  });
 	});
 </script>
- 
-=======
-
->>>>>>> 638984ea0fe6bf7945a5214c763edeb0aa83ed7b
 <script type="text/javascript">
 
 	$(function(){

@@ -84,6 +84,7 @@ CREATE TABLE beepro_user (
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
+
 ALTER TABLE BEEPRO_USER ADD (naver_ck VARCHAR2(6)); 
 
 SELECT * FROM BEEPRO_USER;
@@ -161,7 +162,9 @@ CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
-select * from issue;
+select * from project;
+
+SELECT PROJECT_SEQ from PROJECT WHERE member_id='2,3,4,';
 
 CREATE TABLE issue (
 	issue_seq	number	NOT NULL,

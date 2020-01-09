@@ -308,6 +308,9 @@ public class ProjectServlet extends HttpServlet {
 				System.out.println("댓글 삭제 실패");
 			}
 
-		} 
+		} else if (command.equals("FileUpload")) {
+			System.out.println("파일 업로드 페이지 진입");
+			System.out.println("프로젝트 시퀀스 : " + pseq);
+		}
 	}
 }
