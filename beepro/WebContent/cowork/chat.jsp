@@ -29,7 +29,7 @@
 		get_id = (String) request.getParameter("get_id");
 	}  
 	
-  	String getProfile = new UserDaoImpl().getProfilePath(get_id);
+  	String getProfile = new UserDaoImpl().getUserPhoto(get_id);
 %>
 
 
@@ -105,8 +105,10 @@ function sumbitFunction(){
 			$('#chatList').append(
 					'<li class="mar-btm">' +
 					'<div class="media-right">'+
-						'<img src="<%= request.getContextPath() %>/upload/${u_photo}"'+
-							'class="img-circle img-sm" alt="${pageContext.request.contextPath}/cowork/images/icon.png">'+
+						'<img class="img-circle img-sm"'+
+						'src="<%= request.getContextPath() %>/upload/${u_photo}"'+
+						'onerror=\"this.src=\'<%= request.getContextPath() %>/matching/img/bee.png\'\"\''+
+							' alt="사진">'+
 					'</div>'+
 					'<div class="media-body pad-hor speech-right">'+
 						'<div class="speech">'+
@@ -126,8 +128,10 @@ function sumbitFunction(){
 			$('#chatList').append(
 					'<li class="mar-btm">'+
 					'<div class="media-left">'+
-						'<img src="<%= request.getContextPath() %><%=getProfile%>"'+
-							'class="img-circle img-sm" alt="사진">'+ 
+						'<img class="img-circle img-sm" '+
+					' src="<%= request.getContextPath() %>/upload/<%=getProfile%>"'+			
+						'onerror=\"this.src=\'<%= request.getContextPath() %>/matching/img/bee.png\'\"\''+
+							'alt="사진">'+ 
 					'</div>'+
 					'<div class="media-body pad-hor">'+
 						'<div class="speech">'+
