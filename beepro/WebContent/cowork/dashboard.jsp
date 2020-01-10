@@ -125,6 +125,10 @@
 	font-size: 18px;
 	cursor: pointer;
 }
+
+#add:hover { color:rgb(46,89,217);
+             text-decoration:underline;
+           }
 </style>
 <title>협업 페이지</title>
 </head>
@@ -426,12 +430,15 @@
 						<c:when test="${empty projectVo}">
 							<div id="none">
 								이동할 워크스페이스가 존재하지 않습니다.<br> 매칭을 통해 생성하십시오.<br> <a
-									class="btn btn-primary" href="../matching?command=matchingAll">매칭하러가기</a>
+									class="btn btn-primary" href="${pageContext.request.contextPath}/matching?command=matchingAll">매칭하러가기</a>
 							</div>
 						</c:when>
 
 						<c:otherwise>
-	                              이동하실 워크 스페이스를 선택하세요.
+	                                          이동하실 워크 스페이스를 선택하세요.
+	                   <span style="font-size:13px; float:right;">
+	                      <a href="${pageContext.request.contextPath}/matching?command=matchingAll" id="add">+ 추가하기</a>
+	                   </span>
 	               <c:forEach var="vo" items="${projectVo}">
 								<div id="project_name"
 									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">

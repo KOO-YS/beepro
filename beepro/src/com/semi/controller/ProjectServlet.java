@@ -325,10 +325,10 @@ public class ProjectServlet extends HttpServlet {
 			// 로그인한 아이디 세션 설정 :: 제대로 받아옴
 			String userId = (String) session.getAttribute("u_id");
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+			
 			List<FileVo> list = projectDao.selectAllFile(projectSeq);
-
 			request.setAttribute("FileList", list);
-			dispatch("cowork/FileUpload.jsp", request, response);
+			dispatch("cowork/fileupload.jsp", request, response);
 
 		} else if (command.equals("uploadbutton")) {
 			String savePath = request.getServletContext().getRealPath("upload");

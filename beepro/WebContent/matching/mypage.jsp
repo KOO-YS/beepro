@@ -118,7 +118,6 @@ function sendMsgFunction(get_id){
        	<br>
        	<!-- <button class="btn btn-primary" onclick="window.open('profilePhoto.jsp','profilePhotoUpdate','width=330,height=80,location=no,status=no,scrollbars=no');" style="margin-top: 40px;">프로필사진 변경</button> -->
         <button class="btn btn-primary" data-toggle="modal" data-target="#test" style="margin-top: 40px;"> 프로필사진 변경</button>
-        
         </div>        
       </div>
     </div>    
