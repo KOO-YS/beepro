@@ -21,6 +21,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
+
 import com.semi.dao.ProjectDao;
 import com.semi.dao.ProjectDaoImple;
 import com.semi.service.MatchingService;
@@ -33,7 +34,12 @@ import com.semi.vo.TodoVo;
 @WebServlet("/ProjectServlet")
 public class ProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
+	// 전역 변수 설정
+	int projectSeq;
+	String projectMember= "";
+	String projectName = "";
+	
 	public ProjectServlet() {
 		super();
 	}
@@ -61,31 +67,36 @@ public class ProjectServlet extends HttpServlet {
 	}
 
 	private void dual(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/**
-		 * dual method : get, post 방식으로 들어온 요청을 둘다 받는다 : 구분값 설정 필요 (hidden값(예: command)
-		 * or url/(추가 url로 구분 문자열 예: userservlet/login의 login)) : 구분값을 통해 service 로 값 전달
-		 * 방식 예시
-		 * https://github.com/jaewookleeee/semi/blob/master/src/com/semi/controller/Controller.java#L44
-		 */
 
 		String command = request.getParameter("command");
 		System.out.println("[ " + command + " ]");
 		// 서비스와 연결
 		ProjectService projectService = new ProjectService();
-		ProjectDao dao = new ProjectDaoImple();
-		MatchingDao mdao = new MatchingDaoImpl();
-		MatchingService matchingService = new MatchingService();
+		ProjectDao projectDao = new ProjectDaoImple();
 
-		HttpSession session2 = request.getSession();
-		int pseq = (int) session2.getAttribute("projectSeq");
-		String p_member = dao.selectAllMember(pseq);
-		String p_name = dao.selectOneProjectName2(pseq);
-		System.out.println("pmem : " + p_member + "\np_name: " + p_name);
-		session2.setAttribute("pMember", p_member);
-		session2.setAttribute("pName", p_name);
+		HttpSession session = request.getSession(); 
+		/* 자바 변수 컨벤션에 맞지 않은 부분들 일부 수정 -> 언더바 사용 비추 */
 
-		if (command.equals("goToProject")) {
-			HttpSession session = request.getSession();
+		try {
+			projectSeq = (int)session.getAttribute("projectSeq");
+			projectMember = projectDao.selectAllMember(projectSeq);
+			projectName = projectDao.selectOneProjectName2(projectSeq);
+			
+			session.setAttribute("pMember", projectMember); 
+			session.setAttribute("pName",projectName);
+			
+		} catch(NullPointerException nullPointer) {
+			System.out.println("널값 발생");
+			nullPointer.printStackTrace();
+			
+		} catch (Exception e) {
+			System.out.println("세션 값이 설정되지 않았습니다");
+		} finally {
+			System.out.println("projectSeq : [ "+projectSeq+" ] ");
+			System.out.println("pmem : "+projectMember+"\np_name: "+projectName);
+		}
+	
+		if(command.equals("goToProject")) {
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			session.setAttribute("projectSeq", projectSeq);
 			response.sendRedirect("cowork/index.jsp");
@@ -94,11 +105,11 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("issueWrite")) {
 			System.out.println("이슈 생성 폼으로 이동");
-			HttpSession session = request.getSession();
-			String u_id = (String) session.getAttribute("u_id");
-			String u_name = (String) session.getAttribute("u_name");
 
-			System.out.println("아이디:" + u_id);
+			String userId = (String) session.getAttribute("u_id");
+			String userName = (String) session.getAttribute("u_name");
+			
+			System.out.println("아이디:" + userId);
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스:" + projectSeq);
@@ -110,11 +121,11 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("issueform")) {
 			System.out.println("이슈 생성");
-			HttpSession session = request.getSession();
-			String u_id = (String) session.getAttribute("u_id");
-			String u_name = (String) session.getAttribute("u_name");
 
-			System.out.println(u_id);
+			String userId = (String) session.getAttribute("u_id");
+			String userName = (String) session.getAttribute("u_name");
+			
+			System.out.println(userId);
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스 : " + projectSeq);
@@ -147,7 +158,7 @@ public class ProjectServlet extends HttpServlet {
 			int issueSeq = Integer.parseInt(request.getParameter("issue_seq"));
 			System.out.println("이슈 시퀀스:" + issueSeq);
 
-			IssueVo vo = dao.selectOneIssue(issueSeq);
+			IssueVo vo = projectDao.selectOneIssue(issueSeq);
 
 			request.setAttribute("vo", vo);
 			dispatch("cowork/issueUpdate.jsp", request, response);
@@ -170,11 +181,10 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("issueAll")) {
 			System.out.println("이슈 전체 보기");
 
-			HttpSession session = request.getSession();
 			int projectSeq = (int) session.getAttribute("projectSeq");
 			System.out.println("시퀀스번호:" + projectSeq);
 
-			List<IssueVo> list = dao.selectAllIssue(projectSeq);
+			List<IssueVo> list = projectDao.selectAllIssue(projectSeq);
 
 			request.setAttribute("issueList", list);
 			dispatch("cowork/issueList.jsp", request, response);
@@ -183,18 +193,18 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("이슈 상세 정보");
 			int seq = Integer.parseInt(request.getParameter("issue_seq"));
 			// 이슈 디테일
-			IssueVo vo = dao.selectOneIssue(seq);
+			IssueVo vo = projectDao.selectOneIssue(seq);
 
 			// 댓글리스트
-			List<CommentVo> list = dao.selectAllComment(seq);
+			List<CommentVo> list = projectDao.selectAllComment(seq);
 			request.setAttribute("vo", vo);
 			request.setAttribute("list", list);
 
 			dispatch("cowork/issueDetail.jsp", request, response);
 
 		} else if (command.equals("todo-list")) { // 1
-			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
-			List<TodoVo> todoList = projectService.selectAllTodo(request, response); // sequence **
+
+			List<TodoVo> todoList = projectService.selectAllTodo(request, response);
 			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
 
@@ -251,8 +261,6 @@ public class ProjectServlet extends HttpServlet {
 			projectService.updateTodoPriority(request, response);
 
 		} else if (command.equals("dashboard")) {
-			HttpSession session = request.getSession();
-
 			// 기존 userId 변수명 => userName 으로 변경했습니다.
 			String userName = (String) session.getAttribute("u_name");
 			String userId = (String) session.getAttribute("u_id");
@@ -267,7 +275,7 @@ public class ProjectServlet extends HttpServlet {
 			HashMap<String, Integer> todoType = projectService.getTodoType(projectSeq); // todo category Count & Rate
 
 			// 나에게 할당된 이슈 조회
-			int issueCount = dao.getIssueToMe(userId);
+			int issueCount = projectDao.getIssueToMe(userId);
 
 			request.setAttribute("issueToMe", issueCount);
 			request.setAttribute("count", count);
@@ -279,8 +287,7 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("commentWrite")) {
 			System.out.println("댓글 생성");
-			HttpSession session = request.getSession();
-			String u_id = (String) session.getAttribute("u_id");
+			String userId = (String) session.getAttribute("u_id");
 
 			boolean success = projectService.commentWrite(request, response);
 
@@ -314,9 +321,9 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("[파일 업로드 및 생성]");
 			// 프로젝트 시퀀스 세션 설정 :: 제대로 받아옴 (맨 위에 설정)
 			// 로그인한 아이디 세션 설정 :: 제대로 받아옴
-			String u_id = (String) session2.getAttribute("u_id");
+			String userId = (String) session.getAttribute("u_id");
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
-			List<FileVo> list = dao.selectAllFile(pseq);
+			List<FileVo> list = projectDao.selectAllFile(projectSeq);
 
 			request.setAttribute("FileList", list);
 			dispatch("cowork/FileUpload.jsp", request, response);
@@ -329,11 +336,11 @@ public class ProjectServlet extends HttpServlet {
 			MultipartRequest multipartRequest = new MultipartRequest(request, savePath, maxSize, encoding,
 					new DefaultFileRenamePolicy());
 
-			String userId = (String) session2.getAttribute("u_id");
+			String userId = (String) session.getAttribute("u_id");
 			String fileName = multipartRequest.getOriginalFileName("file");
-			int projectSeq = (int) session2.getAttribute("projectSeq");
+			int projectSeq = (int) session.getAttribute("projectSeq");
 
-			dao.upload(userId, fileName, projectSeq);
+			projectDao.upload(userId, fileName, projectSeq);
 
 			dispatch("project?command=FileUpload&projectSeq=" + projectSeq, request, response);
 
