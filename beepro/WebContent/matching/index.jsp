@@ -149,7 +149,7 @@
         </button>
       </div>
       <div class="modal-body">
-		<form action="${pageContext.request.contextPath}/project" method="post">
+		<%-- <form action="${pageContext.request.contextPath}/project" method="post"> --%>
       
         	  <div class="form-group" style="text-align:center;">
         	  	<c:if test="${ empty  projectList}">
@@ -164,7 +164,7 @@
 					</button>
 			    </c:forEach>
 			  </div>
-		</form>
+		<!-- </form> -->
       </div>
       <div class="modal-footer">
 		</div>

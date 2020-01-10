@@ -66,6 +66,9 @@ public interface ProjectDao {
     String selectAllCommentSql = "SELECT * FROM COMMENTS WHERE ISSUE_SEQ=?";
     String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
     
+    // 파일 업로드 관련
+    String insertFileSql = "INSERT INTO FILES VALUES(?,SYSDATE,?,?)";
+    
     public List<IssueVo> selectAllIssue(int projectSeq);
     
     public IssueVo selectOneIssue(int issue_seq);

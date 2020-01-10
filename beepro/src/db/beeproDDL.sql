@@ -46,6 +46,13 @@ CREATE SEQUENCE PROJECT_SEQ
   MAXVALUE 10000
   MINVALUE 1
   NOCYCLE;
+  
+CREATE SEQUENCE personal_SEQ
+  START WITH 1
+  INCREMENT BY 1
+  MAXVALUE 10000
+  MINVALUE 1
+  NOCYCLE;
 
 CREATE SEQUENCE TODO_SEQ
 	START WITH 1
@@ -84,8 +91,12 @@ CREATE TABLE beepro_user (
 	CONSTRAINT email_ck_chk CHECK(email_ck IN('Y','N'))
 );
 
+------------- 유저 테이블 컬럼 추가 -----------------
 
+ALTER TABLE BEEPRO_USER ADD (skill VARCHAR2(4000));
 ALTER TABLE BEEPRO_USER ADD (naver_ck VARCHAR2(6)); 
+
+-----------------------------------------------
 
 SELECT * FROM BEEPRO_USER;
 

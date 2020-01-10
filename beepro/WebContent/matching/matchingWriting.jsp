@@ -61,6 +61,21 @@
       // just add a class of "floatLabel to the input field!"
       floatLabel(".floatLabel");
    })(jQuery);
+   
+   //빈 칸 alert창
+   $(document).ready(function(){
+   	$("#submit").click(function(){
+ 	 if($("#title").val().length==0){alert("프로젝트 제목을 입력하세요."); $("title").focus(); return false;}
+  	 if($("#skill").val().length==0){alert("프로그램 능력을 입력하세요."); $("skill").focus(); return false;}
+  	 if($("#startdate").val().length==0){alert("프로젝트 시작일을 입력하세요."); $("startdate").focus(); return false;}
+  	 if($("#enddate").val().length==0){alert("프로젝트 마감일을 입력하세요."); $("enddate").focus(); return false;}
+  	 if($("#location").val().length==0){alert("지역을 입력하세요."); $("location").focus(); return false;}
+  	 if($("#need_person").val().length==0){alert("인원을 입력하세요."); $("need_person").focus(); return false;}
+  	 if($("#content").val().length==0){alert("상세 내용을 입력하세요."); $("content").focus(); return false;}
+
+   });
+   });
+   
 </script>
 </head>
 <body>
@@ -126,7 +141,7 @@
          <div class="col-1-3 col-1-3-sm">
             <div class="controls">
                <i class="fa fa-sort"></i> 
-               <select class="floatLabel" name="location">
+               <select class="floatLabel" id="location" name="location">
                   <option value="" >지역을 선택하세요</option>
                   <option value="서울">서울</option>
                   <option value="강원">강원</option>
@@ -152,7 +167,7 @@
          <div class="grid">
             <div class="col-1-3 col-1-3-sm">
                 <div class="controls">
-                  <i class="fa fa-sort"></i> <select class="floatLabel" name="need_person">
+                  <i class="fa fa-sort"></i> <select class="floatLabel" id="need_person" name="need_person">
                      <option value="">인원을 선택하세요</option>
                      <option value="1">1</option>
                      <option value="2">2</option>
@@ -175,7 +190,7 @@
                   <p class="info-text margin-b-10">상세 내용</p>
                   <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요."></textarea>
                </div>
-               <input type="submit" class="col-1-4 btn btn-primary" style="float: right;"/>
+               <input type="submit" id="submit" class="col-1-4 btn btn-primary" style="float: right;"/>
             </div>
 
          </div>

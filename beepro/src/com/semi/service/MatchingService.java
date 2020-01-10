@@ -164,73 +164,117 @@ public class MatchingService {
       return matchingDao.matchingDelete(matching_seq);
    }
    
-      public int personalWrite(HttpServletRequest request, HttpServletResponse response) {
-      MatchingDaoImpl dao = new MatchingDaoImpl();
    
-      System.out.println("서비스 연결됨");
-      
-      HttpSession session = request.getSession();
-       String user_id= (String)session.getAttribute("u_id");
-      String title = request.getParameter("title");
-      String skill = request.getParameter("skill");
-      String emp_category = request.getParameter("emp_category");
-      String content = request.getParameter("content");
-      System.out.println(user_id);
-      System.out.println(title);
-      System.out.println(skill);
-      System.out.println(emp_category);
-      System.out.println(content);
-      
-      MatchingPerVo perVo = new MatchingPerVo(user_id, title, skill, emp_category, content);
-
-      int res = dao.insertPer(perVo);
-      
-      return res;
-      
-   }
-
-   //글 수정하기
-   public int updatePer(HttpServletRequest request, HttpServletResponse response) {
-      /*pstm.setInt(1, perVo.getPersonal_seq());
-         pstm.setString(2, perVo.getUser_id());
-         pstm.setString(3, perVo.getSkill());
-         pstm.setString(4, perVo.getTitle());
-         pstm.setString(5, perVo.getEmp_category());
-         pstm.setString(6, perVo.getContent());*/
-      int personal_seq = Integer.parseInt(request.getParameter("personal_seq"));
-      String user_id = request.getParameter("user_id");
-      String skill = request.getParameter("skill");
-      String title = request.getParameter("title");
-      String emp_category = request.getParameter("emp_category");
-      String content = request.getParameter("content");
-      
-      MatchingPerVo perVo = new MatchingPerVo(personal_seq, user_id, skill, emp_category, title, content);
-      
-      return matchingDao.updatePer(perVo);
-   }
    
-   public int deletePer(HttpServletRequest request) {
-      MatchingDao matchingDao = new MatchingDaoImpl();
-      int personal_seq = Integer.parseInt(request.getParameter("personal_seq"));
-      
-      return matchingDao.deletePer(personal_seq);
+// --------------------------------------------------------------------------------------------------------------------------------
+//	-------------------------------- 개인 매칭 서비스 --------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------
 
-   }
-      
-   //글 리스트 출력(personal 페이지)
-   public List<MatchingPerVo> selectAllPer(HttpServletRequest request, HttpServletResponse response) {
-      System.out.println("글 리스트 출력 서비스");
-      return matchingDao.selectAllPer();
-   }
+//개인 매칭 글쓰기
+public int personalWrite(HttpServletRequest request, HttpServletResponse response) {
+MatchingDaoImpl dao = new MatchingDaoImpl();
+
+System.out.println("서비스 연결됨");
+
+HttpSession session = request.getSession();
+String user_id= (String)session.getAttribute("u_id");
+String skill = request.getParameter("skill");
+String emp_category = request.getParameter("emp_category");
+String title = request.getParameter("title");
+String content = request.getParameter("content");
+System.out.println(user_id);
+System.out.println(title);
+System.out.println(skill);
+System.out.println(emp_category);
+System.out.println(content);
+
+MatchingPerVo perVo = new MatchingPerVo(user_id, skill, emp_category, title, content);
+
+int res = dao.insertPer(perVo);
+
+return res;
+
+}
+
+//글 수정하기
+public int updatePer(HttpServletRequest request, HttpServletResponse response) {
+
+int personal_seq = Integer.parseInt(request.getParameter("personal_seq"));
+String user_id = request.getParameter("user_id");
+String skill = request.getParameter("skill");
+String title = request.getParameter("title");
+String emp_category = request.getParameter("emp_category");
+String content = request.getParameter("content");
+
+MatchingPerVo perVo = new MatchingPerVo(personal_seq, user_id, skill, emp_category, title, content);
+System.out.println("서비스에서 perVo에 담기 성공");
+
+return Dao.updatePer(perVo);
+}
+
+//글 삭제하기
+public int deletePer(HttpServletRequest request) {
+MatchingDao matchingDao = new MatchingDaoImpl();
+int personal_seq = Integer.parseInt(request.getParameter("personal_seq"));
+System.out.println("personal_seq: " + personal_seq);
+
+return matchingDao.deletePer(personal_seq);
+
+}
+
+//글 리스트 출력(personal 페이지)
+public List<MatchingPerVo> selectAllPer(HttpServletRequest request, HttpServletResponse response) {
+System.out.println("글 리스트 출력 서비스");
+return Dao.selectAllPer();
+}
+
+//글 상세 보기
+public MatchingPerVo selectOnePer(HttpServletRequest request, HttpServletResponse response) {
+int personal_seq = Integer.parseInt(request.getParameter("personal_seq"));
+System.out.println("personal_seq : " + personal_seq);
+return Dao.selectOnePer(personal_seq);
+}
+
+public MatchingPerVo personalRead(HttpServletRequest request) {
+MatchingDao Dao = new MatchingDaoImpl();
+String personal_seq = (String) request.getParameter("personal_seq");
+
+MatchingPerVo perVo = Dao.personalRead(personal_seq);
+
+HttpSession session = request.getSession();
+String user_id = (String)session.getAttribute("u_id");
+
+return perVo;
+
+}
+
+//개인 매칭 검색하기
+
+public List<MatchingPerVo> selectAllPer(HttpServletRequest request){
+MatchingDao Dao = new MatchingDaoImpl();
+MatchingPerVo perVo = new MatchingPerVo();
+
+String searchKeyword = (String) request.getParameter("searchKeyword");  
+String searchCat = (String) request.getParameter("searchCat");
+
+if(searchCat == null) {
+searchCat = "";
+}
+if(searchKeyword == null) {
+searchKeyword = "";
+}
+
+perVo.setSearchCat(searchCat);
+perVo.setSearchKeyword(searchKeyword);
+
+return Dao.selectAllPer();
+
+}   
    
-   //글 상세 보기
-   public MatchingPerVo selectOnePer(HttpServletRequest request, HttpServletResponse response) {
-      int personal_seq = Integer.parseInt(request.getParameter("personal_seq"));
-      System.out.println("personal_seq : " + personal_seq);
-      return matchingDao.selectOnePer(personal_seq);
-      
-   }
-
+   
+   
+   
+   
    // 프로젝트 생성
 	public int insertProject(HttpServletRequest request, HttpServletResponse response) {
 		
