@@ -159,11 +159,7 @@
 					</div>
 				</c:if>
 			    <c:forEach var="project" items="${projectList}">
-<<<<<<< HEAD
 			    	<button type="button" class="btn btn-primary col-6" onclick="location.href='${pageContext.request.contextPath}/project?command=goToProject&projectSeq=${project.projectSeq}'">
-=======
-			    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
->>>>>>> 8911e9d8fa5589767d9bb286032d45e4dd30d12f
 					  ${project.projectName}
 					</button>
 			    </c:forEach>
