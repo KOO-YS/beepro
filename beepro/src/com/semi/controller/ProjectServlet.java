@@ -72,18 +72,14 @@ public class ProjectServlet extends HttpServlet {
 		MatchingDao mdao = new MatchingDaoImpl();
 		MatchingService matchingService = new MatchingService();
 
-		
-		
-
-
-		HttpSession session2 = request.getSession();
-		int pseq = (int)session2.getAttribute("projectSeq");
-		String p_member = dao.selectAllMember(pseq);
-		String p_name = dao.selectOneProjectName2(pseq);
-		System.out.println("pmem : "+p_member+"\np_name: "+p_name);
-		session2.setAttribute("pMember", p_member);
-		session2.setAttribute("pName", p_name);
-		
+		/*
+		 * HttpSession session2 = request.getSession(); int pseq =
+		 * (int)session2.getAttribute("projectSeq"); String p_member =
+		 * dao.selectAllMember(pseq); String p_name = dao.selectOneProjectName2(pseq);
+		 * System.out.println("pmem : "+p_member+"\np_name: "+p_name);
+		 * session2.setAttribute("pMember", p_member); session2.setAttribute("pName",
+		 * p_name);
+		 */		
 		if(command.equals("goToProject")) {
 			HttpSession session = request.getSession();
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
@@ -314,10 +310,10 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("FileUpload")) {
 			System.out.println("[파일 업로드 페이지 진입]");
-			System.out.println("프로젝트 시퀀스 : " + pseq);
-			String u_id = (String) session2.getAttribute("u_id");
+//			System.out.println("프로젝트 시퀀스 : " + pseq);
+//			String u_id = (String) session2.getAttribute("u_id");
 			
-			System.out.println("아이디:" + u_id);
+//			System.out.println("아이디:" + u_id);
 		}
 	}
 }

@@ -260,7 +260,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		} finally {
 			close(pstmt, con);
 		}
-		return 0;
+		return res;
 	}
 
 	// 아이디로 유저 프로필사진파일명 가져오기

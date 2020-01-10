@@ -2,7 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
+<!-- 
 
+
+
+
+															main.jsp 를 통해서 실행해주세요!!!!! 
+
+
+
+
+-->
 <head>
 
   <meta charset="utf-8">
@@ -138,22 +148,27 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="${pageContext.request.contextPath}/project" method="post">
       <div class="modal-body">
+		<form action="${pageContext.request.contextPath}/project" method="post">
       
         	  <div class="form-group" style="text-align:center;">
+        	  	<c:if test="${ empty  projectList}">
+					<div class="col-lg-8 mb-8">
+						프로젝트가 존재하지 않습니다<br>
+						<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
+					</div>
+				</c:if>
 			    <c:forEach var="project" items="${projectList}">
-			    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'">
+			    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
 					  ${project.projectName}
 					</button>
 			    </c:forEach>
 			  </div>
+		</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <button type="submit" class="btn btn-primary">변경</button>
+		</div>
       </div>
-	</form>
     </div>
   </div>
 </div>

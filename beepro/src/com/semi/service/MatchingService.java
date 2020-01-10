@@ -33,7 +33,10 @@ public class MatchingService {
    
 	// 유저가 속한 프로젝트 리스트 출력
 	public List<ProjectVo> getUserProject(String userId) {
-		List<ProjectVo> project = matchingDao.getUserProject(userId);
+		List<ProjectVo> project = null;
+		if(userId != null) {
+			project = matchingDao.getUserProject(userId);
+		}
 		return project;
 	}
    // 프로필 정보 추출
@@ -416,12 +419,11 @@ public class MatchingService {
 		List<String> skillList =  new ArrayList<String>();
 		
 		try {
-			// TODO split(,) List add
 			String[] splitStr = str.split(",");
 			for(int i=0; i<splitStr.length; i++){
 				skillList.add(splitStr[i]);
 			}
-		} catch (Exception e) {
+		} catch (NullPointerException e) {
 			System.out.println("skill Not Found");
 		}
 		return skillList;
