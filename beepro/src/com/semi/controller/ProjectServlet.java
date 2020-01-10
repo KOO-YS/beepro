@@ -1,13 +1,14 @@
 package com.semi.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
 import com.semi.dao.ProjectDao;
@@ -23,6 +26,7 @@ import com.semi.dao.ProjectDaoImple;
 import com.semi.service.MatchingService;
 import com.semi.service.ProjectService;
 import com.semi.vo.CommentVo;
+import com.semi.vo.FileVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.TodoVo;
 
@@ -72,38 +76,33 @@ public class ProjectServlet extends HttpServlet {
 		MatchingDao mdao = new MatchingDaoImpl();
 		MatchingService matchingService = new MatchingService();
 
-		
-		
-
-
 		HttpSession session2 = request.getSession();
-		int pseq = (int)session2.getAttribute("projectSeq");
+		int pseq = (int) session2.getAttribute("projectSeq");
 		String p_member = dao.selectAllMember(pseq);
 		String p_name = dao.selectOneProjectName2(pseq);
-		System.out.println("pmem : "+p_member+"\np_name: "+p_name);
+		System.out.println("pmem : " + p_member + "\np_name: " + p_name);
 		session2.setAttribute("pMember", p_member);
 		session2.setAttribute("pName", p_name);
-		
-		if(command.equals("goToProject")) {
+
+		if (command.equals("goToProject")) {
 			HttpSession session = request.getSession();
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			session.setAttribute("projectSeq", projectSeq);
 			response.sendRedirect("cowork/index.jsp");
-		}
-		else if(command.equals("enterCowork")) {
-			dispatch("cowork/dashboard.jsp",request,response);
-			
+		} else if (command.equals("enterCowork")) {
+			dispatch("cowork/dashboard.jsp", request, response);
+
 		} else if (command.equals("issueWrite")) {
 			System.out.println("이슈 생성 폼으로 이동");
 			HttpSession session = request.getSession();
 			String u_id = (String) session.getAttribute("u_id");
 			String u_name = (String) session.getAttribute("u_name");
-			
+
 			System.out.println("아이디:" + u_id);
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스:" + projectSeq);
-            
+
 			List<String> member = projectService.getMember(projectSeq);
 			request.setAttribute("member", member);
 			session.setAttribute("projectSeq", projectSeq);
@@ -114,7 +113,7 @@ public class ProjectServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			String u_id = (String) session.getAttribute("u_id");
 			String u_name = (String) session.getAttribute("u_name");
-			
+
 			System.out.println(u_id);
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
@@ -186,7 +185,6 @@ public class ProjectServlet extends HttpServlet {
 			// 이슈 디테일
 			IssueVo vo = dao.selectOneIssue(seq);
 
-
 			// 댓글리스트
 			List<CommentVo> list = dao.selectAllComment(seq);
 			request.setAttribute("vo", vo);
@@ -196,10 +194,10 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("todo-list")) { // 1
 			// FIXME : 프로젝트 시퀀스 세션으로 받아오기
-			List<TodoVo> todoList = projectService.selectAllTodo(request, response);	// sequence **
+			List<TodoVo> todoList = projectService.selectAllTodo(request, response); // sequence **
 			request.setAttribute("todoList", todoList);
 			dispatch("cowork/todo.jsp", request, response);
-	
+
 		} else if (command.equals("todoForm")) { // 2
 			int success = projectService.insertTodo(request, response);
 			if (success > 0) {
@@ -208,7 +206,7 @@ public class ProjectServlet extends HttpServlet {
 			} else {
 				System.out.println("생성 오류 발생");
 			}
-			
+
 		} else if (command.equals("todo-detail")) { // 3
 			System.out.println("상세 보기 페이지");
 			TodoVo detail = projectService.selectOneTodo(request, response);
@@ -254,20 +252,20 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("dashboard")) {
 			HttpSession session = request.getSession();
-			
+
 			// 기존 userId 변수명 => userName 으로 변경했습니다.
 			String userName = (String) session.getAttribute("u_name");
 			String userId = (String) session.getAttribute("u_id");
-			
-			int projectSeq = session.getAttribute("projectSeq") == null? 0 : (int)session.getAttribute("projectSeq");
+
+			int projectSeq = session.getAttribute("projectSeq") == null ? 0 : (int) session.getAttribute("projectSeq");
 			System.out.println("userId :: " + userName + "\nprojectSeq :: " + projectSeq);
-			
-			HashMap<String, Integer> count = projectService.getCounts(userName, projectSeq);	// issue Count
+
+			HashMap<String, Integer> count = projectService.getCounts(userName, projectSeq); // issue Count
 			// TODO 개인 업무 or 팀 업무? -> 우선 개인 업무로 진행
-			List<TodoVo> urgentTodo = projectService.getUrgentTodo(userName, projectSeq);		// deadline todo 
-			List<IssueVo> weekIssue = projectService.getWeekIssue(projectSeq);				// week issues
-			HashMap<String, Integer> todoType = projectService.getTodoType(projectSeq);		// todo category Count & Rate
-			
+			List<TodoVo> urgentTodo = projectService.getUrgentTodo(userName, projectSeq); // deadline todo
+			List<IssueVo> weekIssue = projectService.getWeekIssue(projectSeq); // week issues
+			HashMap<String, Integer> todoType = projectService.getTodoType(projectSeq); // todo category Count & Rate
+
 			// 나에게 할당된 이슈 조회
 			int issueCount = dao.getIssueToMe(userId);
 
@@ -313,12 +311,69 @@ public class ProjectServlet extends HttpServlet {
 			}
 
 		} else if (command.equals("FileUpload")) {
-			System.out.println("[파일 업로드 페이지 진입]");
-			System.out.println("프로젝트 시퀀스 : " + pseq);
+			System.out.println("[파일 업로드 및 생성]");
+			// 프로젝트 시퀀스 세션 설정 :: 제대로 받아옴 (맨 위에 설정)
+			// 로그인한 아이디 세션 설정 :: 제대로 받아옴
 			String u_id = (String) session2.getAttribute("u_id");
-			System.out.println("아이디:" + u_id);
+			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+			List<FileVo> list = dao.selectAllFile(pseq);
+
+			request.setAttribute("FileList", list);
+			dispatch("cowork/FileUpload.jsp", request, response);
+
+		} else if (command.equals("uploadbutton")) {
+			String savePath = request.getServletContext().getRealPath("upload");
+			int maxSize = 1024 * 1024 * 100;
+			String encoding = "UTF-8";
+
+			MultipartRequest multipartRequest = new MultipartRequest(request, savePath, maxSize, encoding,
+					new DefaultFileRenamePolicy());
+
+			String userId = (String) session2.getAttribute("u_id");
+			String fileName = multipartRequest.getOriginalFileName("file");
+			int projectSeq = (int) session2.getAttribute("projectSeq");
+
+			dao.upload(userId, fileName, projectSeq);
+
+			dispatch("project?command=FileUpload&projectSeq=" + projectSeq, request, response);
+
+		} else if (command.equals("download")) {
+			System.out.println("다운로드 버튼 눌렀음");
 			
-			dispatch("cowork/FileUpload.jsp",request, response);
+			int fileSeq = Integer.parseInt(request.getParameter("file_seq"));
+			System.out.println("fileSeq:"+fileSeq);
+
+			String fileName = request.getParameter("fileSeq");
+			String savePath = request.getServletContext().getRealPath("upload");
+
+			File file = new File(savePath + "/" + fileName);
+
+			String mimeType = getServletContext().getMimeType(file.toString());
+			if (mimeType == null) {
+				response.setContentType("application/octet-stream");
+			}
+
+			String downloadName = null;
+			if (request.getHeader("user-agent").indexOf("MISE") == -1) {
+				downloadName = new String(fileName.getBytes("UTF-8"), "8859_1");
+			} else {
+				downloadName = new String(fileName.getBytes("EUC-KR"), "8859_1");
+			}
+			response.setHeader("Content-Disposition", "attachment;filename=\"" + downloadName + "\";");
+
+			FileInputStream fileInputStream = new FileInputStream(file);
+			ServletOutputStream servletOutputStream = response.getOutputStream();
+
+			byte b[] = new byte[1024];
+			int data = 0;
+
+			while ((data = (fileInputStream.read(b, 0, b.length))) != -1) {
+				servletOutputStream.write(b,0,data);
+			}
+			
+			servletOutputStream.flush();
+			servletOutputStream.close();
+			fileInputStream.close();
 		}
 	}
 }

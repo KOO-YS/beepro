@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.semi.vo.CommentVo;
+import com.semi.vo.FileVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
@@ -67,7 +68,8 @@ public interface ProjectDao {
     String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
     
     // 파일 업로드 관련
-    String insertFileSql = "INSERT INTO FILES VALUES(?,SYSDATE,?,?)";
+    String insertFileSql = "INSERT INTO FILES VALUES(FILE_SEQ.NEXTVAL,?,SYSDATE,?,?)";
+    String selectAllFileSql = "SELECT * FROM FILES WHERE PROJECT_SEQ=?";
     
     public List<IssueVo> selectAllIssue(int projectSeq);
     
@@ -121,6 +123,10 @@ public interface ProjectDao {
 	public int getTodoCount(int projectSeq, String manager);
 
 	public int getIssueToMe(String userId);
+	
+	public int upload(String userId, String fileName, int projectSeq);
+
+	public List<FileVo> selectAllFile(int pseq);
 
 }
 

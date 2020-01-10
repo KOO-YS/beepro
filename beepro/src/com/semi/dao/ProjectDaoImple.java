@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.semi.vo.CommentVo;
+import com.semi.vo.FileVo;
 import com.semi.vo.IssueVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
@@ -729,7 +730,62 @@ public class ProjectDaoImple implements ProjectDao {
 		return res;
 	}
 
-	
+     // 파일 업로드	
+	@Override
+	public int upload(String userId, String fileName, int projectSeq) {
+        Connection con = getConnection();
+        PreparedStatement pstmt = null;
+        FileVo vo = new FileVo();
+        int res = 0;
+        
+        try {
+			pstmt = con.prepareStatement(insertFileSql);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, fileName);
+			pstmt.setInt(3, projectSeq);
+			
+			res = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt, con);
+		}
+		return -1;
+	}
 
+	// 파일 전체 조회
+	@Override
+	public List<FileVo> selectAllFile(int pseq) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<FileVo> res = new ArrayList<FileVo>();
 
+		try {
+			pstmt = con.prepareStatement(selectAllFileSql);
+			pstmt.setInt(1, pseq);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				FileVo vo = new FileVo();
+
+				vo.setFileSeq(rs.getInt(1));
+				vo.setUserId(rs.getString(2));
+				vo.setRegdate(rs.getDate(3));
+				vo.setFileName(rs.getString(4));
+				vo.setProjectSeq(rs.getInt(5));
+
+				res.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, con);
+			System.out.println("db종료");
+		}
+		System.out.println(res.toString());
+		return res;
+		}
 }
