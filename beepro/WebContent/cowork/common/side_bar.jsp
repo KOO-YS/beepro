@@ -19,6 +19,7 @@ $(".hover").mouseleave(
 
 button { background-color:#4b61cf; 
          border:0;
+         cursor:pointer;
         }
         
 @import url(https://fonts.googleapis.com/css?family=Open+sans);

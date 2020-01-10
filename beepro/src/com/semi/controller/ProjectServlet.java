@@ -3,10 +3,12 @@ package com.semi.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
@@ -347,40 +349,47 @@ public class ProjectServlet extends HttpServlet {
 		} else if (command.equals("download")) {
 			System.out.println("다운로드 버튼 눌렀음");
 			
-			int fileSeq = Integer.parseInt(request.getParameter("file_seq"));
-			System.out.println("fileSeq:"+fileSeq);
-
-			String fileName = request.getParameter("fileSeq");
-			String savePath = request.getServletContext().getRealPath("upload");
-
-			File file = new File(savePath + "/" + fileName);
-
-			String mimeType = getServletContext().getMimeType(file.toString());
-			if (mimeType == null) {
-				response.setContentType("application/octet-stream");
-			}
-
-			String downloadName = null;
-			if (request.getHeader("user-agent").indexOf("MISE") == -1) {
-				downloadName = new String(fileName.getBytes("UTF-8"), "8859_1");
-			} else {
-				downloadName = new String(fileName.getBytes("EUC-KR"), "8859_1");
-			}
-			response.setHeader("Content-Disposition", "attachment;filename=\"" + downloadName + "\";");
-
-			FileInputStream fileInputStream = new FileInputStream(file);
-			ServletOutputStream servletOutputStream = response.getOutputStream();
-
-			byte b[] = new byte[1024];
-			int data = 0;
-
-			while ((data = (fileInputStream.read(b, 0, b.length))) != -1) {
-				servletOutputStream.write(b,0,data);
-			}
-			
-			servletOutputStream.flush();
-			servletOutputStream.close();
-			fileInputStream.close();
+			    String fileName = request.getParameter("fileName");
+			 
+			    String filePath = this.getServletContext().getRealPath("upload");
+		        File downloadFile = new File(filePath+"/"+fileName);
+		        FileInputStream inStream = new FileInputStream(downloadFile);
+		         
+		        // if you want to use a relative path to context root:
+		        String relativePath = getServletContext().getRealPath("");
+		        System.out.println("relativePath = " + relativePath);
+		         
+		        // obtains ServletContext
+		        ServletContext context = getServletContext();
+		         
+		        // gets MIME type of the file
+		        String mimeType = context.getMimeType(filePath);
+		        if (mimeType == null) {        
+		            // set to binary type if MIME mapping not found
+		            mimeType = "application/octet-stream";
+		        }
+		        System.out.println("MIME type: " + mimeType);
+		         
+		        // modifies response
+		        response.setContentType(mimeType);
+		        response.setContentLength((int) downloadFile.length());
+		         
+		        // forces download
+		        String headerKey = "Content-Disposition";
+		        String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+		        response.setHeader(headerKey, headerValue);
+		         
+		        OutputStream outStream = response.getOutputStream();
+		         
+		        byte[] buffer = new byte[4096];
+		        int bytesRead = -1;
+		         
+		        while ((bytesRead = inStream.read(buffer)) != -1) {
+		            outStream.write(buffer, 0, bytesRead);
+		        }
+		         
+		        inStream.close();
+		        outStream.close();     
 		}
 	}
 }
