@@ -124,99 +124,7 @@ function sendMsgFunction(get_id){
     </div>    
   </div>
 
-	<div class="container" style="padding: 40px 0;">
-		<div class="row">
-			<div class="col-12">
-				<span> name </span> <input type="email" value="${u_name}"
-					class="pf_input" readonly />
-			</div>
-			<div class="col-12">
-				<span> email</span> <input type="email" value="${u_email}"
-					class="pf_input" readonly />
-			</div>
-			<div class="col-8">
-				<span> password </span> <input type="password" value="own pwd"
-					class="pf_input" />
-			</div>
-			<div class="col-4">
-				<button class="btn btn-primary" data-toggle="modal"
-					data-target="#updatePwd" style="margin-top: 40px;">비밀번호 변경</button>
-			</div>
-			<div class="col-12">
 
-				<span> area </span>
-				<select class="pf_input" name="areaSelect" id = "area">
-					<option>------ 선택하지 않음 ------</option>
-					<option value ="서울">서울</option>
-					<option value ="인천/경기">인천/경기</option>
-					<option value ="강원">강원</option>
-					<option value ="충청">충청</option>
-					<option value ="전라">전라</option>
-					<option value ="경상">경상</option>
-					<option value ="제주">제주</option>
-				</select>
-			</div>
-
-			<div class="col-12">
-				<span>Skills<br></span>
-				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
-				<div class="card">
-				    <div class="card-body">		    
-				    <fieldset>
-				    	<legend>front-end</legend>
-					    <div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="skill" value="HTML">
-						  <label class="form-check-label" for="inlineCheckbox1">HTML</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="skill" value="CSS">
-						  <label class="form-check-label" for="inlineCheckbox2">CSS</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="skill"  value="JavaScript">
-						  <label class="form-check-label" for="inlineCheckbox1">JavaScript</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="skill" value="Augularjs">
-						  <label class="form-check-label" for="inlineCheckbox2">Augularjs</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="skill" value="React">
-						  <label class="form-check-label" for="inlineCheckbox3">React</label>
-						</div>
-				    </fieldset>
-				    <hr>
-				    <fieldset>
-				    	<legend>back-end</legend>
-					    <div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="skill" value="Java">
-						  <label class="form-check-label" for="inlineCheckbox1">Java</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="skill" value="Python">
-						  <label class="form-check-label" for="inlineCheckbox2">Python</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="skill" value="Nodejs">
-						  <label class="form-check-label" for="inlineCheckbox1">Nodejs</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="skill" value="Spring">
-						  <label class="form-check-label" for="inlineCheckbox2">Spring</label>
-						</div>
-						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="skill" value="C++" >
-						  <label class="form-check-label" for="inlineCheckbox3">C++</label>
-						</div>
-				    </fieldset>
-				    </div>
-				</div>				
-				    <br><button type="submit" class="btn btn-primary">수정</button>
-				    </form>
-			</div>
-		</div>
-	</div>
-	<!-- container end -->
 	<section style="padding: 0;">
 		<c:choose>
 			<c:when test="${empty projectList}">
@@ -498,7 +406,7 @@ function sendMsgFunction(get_id){
 						<tbody>
 							<c:choose>
 								<c:when test="${empty followingList}">
-									<tr>
+									<tr  style="text-align:center;">
 										<td colspan="3">팔로우한 사람이 없습니다.</td>
 									</tr>
 								</c:when>
@@ -507,7 +415,7 @@ function sendMsgFunction(get_id){
 										<tr>
 											<th scope="row">${status.count}</th>
 											<td style="text-align: left;">
-												<a href="${pageContext.request.contextPath}/matching?command=profile&userId=${following}">${following }</a>
+												<a style="margin-left:15px" href="${pageContext.request.contextPath}/matching?command=profile&userId=${following}">${following }</a>
 											</td>
 											<td><a href="javascript:void(0);" onclick="sendMsgFunction('${following}');"><img style="width: 30px; height: 30px" alt="쪽지보내기"
 												src="${pageContext.request.contextPath}/matching/img/direct.png"></a>
@@ -552,7 +460,101 @@ function sendMsgFunction(get_id){
 			<hr style="margin: 3em 0 0 0;">
 		</div>
 		<!-- 관심 사람 목록 end -->
-		<div class="container">
+		
+	</section>
+	
+		<div class="container" style="padding: 40px 0;">
+		<div class="row">
+			<div class="col-12">
+				<span> name </span> <input type="email" value="${u_name}"
+					class="pf_input" readonly />
+			</div>
+			<div class="col-12">
+				<span> email</span> <input type="email" value="${u_email}"
+					class="pf_input" readonly />
+			</div>
+			<div class="col-8">
+				<span> password </span> <input type="password" value="own pwd"
+					class="pf_input" />
+			</div>
+			<div class="col-4">
+				<button class="btn btn-primary" data-toggle="modal"
+					data-target="#updatePwd" style="margin-top: 40px;">비밀번호 변경</button>
+			</div>
+			<div class="col-12">
+
+				<span> area </span>
+				<select class="pf_input" name="areaSelect" id = "area">
+					<option>------ 선택하지 않음 ------</option>
+					<option value ="서울">서울</option>
+					<option value ="인천/경기">인천/경기</option>
+					<option value ="강원">강원</option>
+					<option value ="충청">충청</option>
+					<option value ="전라">전라</option>
+					<option value ="경상">경상</option>
+					<option value ="제주">제주</option>
+				</select>
+			</div>
+
+			<div class="col-12">
+				<span>Skills<br></span>
+				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
+				<div class="card">
+				    <div class="card-body">		    
+				    <fieldset>
+				    	<legend>front-end</legend>
+					    <div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="skill" value="HTML">
+						  <label class="form-check-label" for="inlineCheckbox1">HTML</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="skill" value="CSS">
+						  <label class="form-check-label" for="inlineCheckbox2">CSS</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="skill"  value="JavaScript">
+						  <label class="form-check-label" for="inlineCheckbox1">JavaScript</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="skill" value="Augularjs">
+						  <label class="form-check-label" for="inlineCheckbox2">Augularjs</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="skill" value="React">
+						  <label class="form-check-label" for="inlineCheckbox3">React</label>
+						</div>
+				    </fieldset>
+				    <hr>
+				    <fieldset>
+				    	<legend>back-end</legend>
+					    <div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox6" name="skill" value="Java">
+						  <label class="form-check-label" for="inlineCheckbox1">Java</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox7" name="skill" value="Python">
+						  <label class="form-check-label" for="inlineCheckbox2">Python</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox8" name="skill" value="Nodejs">
+						  <label class="form-check-label" for="inlineCheckbox1">Nodejs</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox9" name="skill" value="Spring">
+						  <label class="form-check-label" for="inlineCheckbox2">Spring</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox10" name="skill" value="C++" >
+						  <label class="form-check-label" for="inlineCheckbox3">C++</label>
+						</div>
+				    </fieldset>
+				    </div>
+				</div>				
+				    <br><button type="submit" class="btn btn-primary">수정</button>
+				    </form>
+			</div>
+		</div>
+	<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 
@@ -564,8 +566,8 @@ function sendMsgFunction(get_id){
 				</div>
 			</div>
 		</div>
-	</section>
-
+	</div>
+	<!-- container end -->
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	
 

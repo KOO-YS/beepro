@@ -410,7 +410,7 @@ function createProject(){
 			$('input:checkbox[name="volunteerId"]:checked').each(function(){
 				member += $(this).val()+",";
 			});
-			$("#member").val(${u_id}+","+member);
+			$("#member").val("${u_id},"+member);
 			$("#projectModal").modal();
 		}
 	}
