@@ -114,7 +114,7 @@ function sendMsgFunction(get_id){
         <div class="col-lg-12 text-center">
           <img src="<%= request.getContextPath() %>/upload/${u_photo}"
       	  onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"
-          style="width: 30%; border-radius: 50%; border:10px solid rgba(75,97,207);">
+          style="width: 22vw; height: 22vw;border-radius: 50%; border:10px solid rgba(75,97,207);">
        	<br>
        	<!-- <button class="btn btn-primary" onclick="window.open('profilePhoto.jsp','profilePhotoUpdate','width=330,height=80,location=no,status=no,scrollbars=no');" style="margin-top: 40px;">프로필사진 변경</button> -->
         <button class="btn btn-primary" data-toggle="modal" data-target="#test" style="margin-top: 40px;"> 프로필사진 변경</button>
@@ -158,7 +158,7 @@ function sendMsgFunction(get_id){
 			</div>
 
 			<div class="col-12">
-				<span>Skills<br></span>
+				<span>skills</span>
 				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
 				<div class="card">
 				    <div class="card-body">		    
@@ -189,23 +189,23 @@ function sendMsgFunction(get_id){
 				    <fieldset>
 				    	<legend>back-end</legend>
 					    <div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="skill" value="Java">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox6" name="skill" value="Java">
 						  <label class="form-check-label" for="inlineCheckbox1">Java</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="skill" value="Python">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox7" name="skill" value="Python">
 						  <label class="form-check-label" for="inlineCheckbox2">Python</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="skill" value="Nodejs">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox8" name="skill" value="Nodejs">
 						  <label class="form-check-label" for="inlineCheckbox1">Nodejs</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="skill" value="Spring">
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox9" name="skill" value="Spring">
 						  <label class="form-check-label" for="inlineCheckbox2">Spring</label>
 						</div>
 						<div class="form-check form-check-inline">
-						  <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="skill" value="C++" >
+						  <input class="form-check-input" type="checkbox" id="inlineCheckbox10" name="skill" value="C++" >
 						  <label class="form-check-label" for="inlineCheckbox3">C++</label>
 						</div>
 				    </fieldset>
