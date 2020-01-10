@@ -120,6 +120,7 @@
         <div class="col-lg-12" style="text-align: center;">
         	<button class="btn btn-primary btn-xl" onclick="selectProject();">cowork</button>
 			<img src="${pageContext.request.contextPath}/matching/img/cowork.jpg" alt="" style="width: 100%;">
+
         </div>
       </div>
     </div>

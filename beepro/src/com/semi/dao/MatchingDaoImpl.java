@@ -82,7 +82,8 @@ public class MatchingDaoImpl implements MatchingDao {
 			pstmt.setString(6, matchingProVo.getLocation());
 			pstmt.setString(7, matchingProVo.getStartdate());
 			pstmt.setString(8, matchingProVo.getEnddate());
-
+			
+			System.out.println(matchingProVo);
 			res = pstmt.executeUpdate(); // 실제로 db에 실행시키는 구문
 
 		} catch (SQLException e) {
@@ -310,159 +311,249 @@ public class MatchingDaoImpl implements MatchingDao {
 
 	// 김지민 매칭 부분 끝
 
-	// 퍼스널 매칭 글쓰기
+	
+	
+	// --------------------------------------------------------------------------------------------------------------------------------
+//	-------------------------------- 개인 매칭 --------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------
 
-	public int insertPer(MatchingPerVo perVo) {
-		Connection con = getConnection();
-		System.out.println("---- dao : 커넥션 성공 ----");
-		PreparedStatement pstm = null;
-		int res = 0;
+//퍼스널 매칭 글쓰기
 
-		try {
-			pstm = con.prepareStatement(insertPerSql);
+public int insertPer(MatchingPerVo perVo) {
+Connection con = getConnection();
+System.out.println("---- dao : 커넥션 성공 ----");
+PreparedStatement pstm = null;
+int res = 0;
 
-			pstm.setString(1, perVo.getUser_id());
-			pstm.setString(2, perVo.getSkill());
-			pstm.setString(3, perVo.getEmp_category());
-			pstm.setString(4, perVo.getTitle());
-			pstm.setString(5, perVo.getContent());
 
-			res = pstm.executeUpdate();
+try {
+pstm = con.prepareStatement(insertPerSql);
 
-			if (res > 0) {
-				commit(con);
-			}
+pstm.setString(1, perVo.getUser_id());
+pstm.setString(2, perVo.getSkill());
+pstm.setString(3, perVo.getEmp_category());
+pstm.setString(4, perVo.getTitle());
+pstm.setString(5, perVo.getContent());
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstm, con);
-		}
-		return res;
-	}
+res = pstm.executeUpdate();
 
-	// 개인 매칭 글목록 조회하기
-	@Override
-	public List<MatchingPerVo> selectAllPer() {
-		Connection con = getConnection();
-		System.out.println("----- dao Impl 연결 -----");
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
+if(res > 0) {
+commit(con);
+}
 
-		try {
-			pstm = con.prepareStatement(selectAllPerSql);
-			rs = pstm.executeQuery();
+} catch (SQLException e) {
+e.printStackTrace();
+} finally {
+close(pstm, con);
+}
+return res;
+}
 
-			while (rs.next()) {
-				MatchingPerVo perVo = new MatchingPerVo();
+//개인 매칭 글목록 조회하기
+@Override
+public List<MatchingPerVo> selectAllPer() {
+Connection con = getConnection();
+System.out.println("----- dao Impl 연결 -----");
+PreparedStatement pstm = null;
+ResultSet rs = null;
+List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
 
-				perVo.setPersonal_seq(rs.getInt(1));
-				perVo.setUser_id(rs.getString(2));
-				perVo.setSkill(rs.getString(4));
-				perVo.setTitle(rs.getString(3));
-				perVo.setEmp_category(rs.getString(5));
-				perVo.setContent(rs.getString(6));
+try {
+pstm = con.prepareStatement(selectAllPerSql);
+//pstm.setInt(1, getNext()-(pageNum -1)*10);
+rs = pstm.executeQuery();
 
-				res.add(perVo);
-			}
-			System.out.println("---- res.add(perVo) 성공 ---- ");
+while(rs.next()) {
+MatchingPerVo perVo = new MatchingPerVo();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rs, pstm, con);
-			System.out.println("---------- DB 종료 ----------");
-		}
+perVo.setPersonal_seq(rs.getInt(1));
+perVo.setUser_id(rs.getString(2));
+perVo.setSkill(rs.getString(3));
+perVo.setEmp_category(rs.getString(4));
+perVo.setTitle(rs.getString(5));
+perVo.setContent(rs.getString(6));
 
-		return res;
-	}
+System.out.println(perVo);
 
-	// 개인 매칭 게시글 상세보기
-	@Override
-	public MatchingPerVo selectOnePer(int personal_seq) {
-		Connection con = getConnection();
-		System.out.println("개인 매칭 상세보기 DaoImpl 연결됨");
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		MatchingPerVo res = new MatchingPerVo();
+res.add(perVo);
+}
+System.out.println("---- res.add(perVo) 성공 ---- ");
 
-		try {
-			pstm = con.prepareStatement(selectOnePerSql);
-			pstm.setInt(1, personal_seq);
+} catch (SQLException e) {
+e.printStackTrace();
+} finally {
+close(rs, pstm, con);
+System.out.println("---------- DB 종료 ----------");
+}
 
-			rs = pstm.executeQuery();
+return res;
 
-			while (rs.next()) {
-				res.setPersonal_seq(rs.getInt(1));
-				res.setUser_id(rs.getString(2));
-				res.setSkill(rs.getString(4));
-				res.setTitle(rs.getString(3));
-				res.setEmp_category(rs.getString(5));
-				res.setContent(rs.getString(6));
-			}
+}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rs, pstm, con);
-			System.out.println("----- DB 종료 -----");
-		}
-		System.out.println("detail : " + res.toString());
-		return res;
-	}
+//개인 매칭 게시글 상세보기
+@Override
+public MatchingPerVo selectOnePer(int personal_seq) {
+Connection con = getConnection();
+System.out.println("개인 매칭 상세보기 DaoImpl 연결됨");
+PreparedStatement pstm = null;
+ResultSet rs = null;
+MatchingPerVo res = new MatchingPerVo();
 
-	// 개인 매칭 게시글 수정하기
-	@Override
-	public int updatePer(MatchingPerVo perVo) {
-		Connection con = getConnection();
-		PreparedStatement pstm = null;
-		int res = 0;
-		try {
-			pstm = con.prepareStatement(updatePerSql);
+try {
+pstm = con.prepareStatement(selectOnePerSql);
+pstm.setInt(1, personal_seq);
 
-			pstm.setInt(1, perVo.getPersonal_seq());
-			pstm.setString(2, perVo.getUser_id());
-			pstm.setString(3, perVo.getSkill());
-			pstm.setString(4, perVo.getTitle());
-			pstm.setString(5, perVo.getEmp_category());
-			pstm.setString(6, perVo.getContent());
+rs = pstm.executeQuery();
 
-			res = pstm.executeUpdate();
+while(rs.next()) {
+res.setPersonal_seq(rs.getInt(1));
+res.setUser_id(rs.getString(2));
+res.setSkill(rs.getString(3));
+res.setTitle(rs.getString(5));
+res.setEmp_category(rs.getString(4));
+res.setContent(rs.getString(6));
+}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
+} catch (SQLException e) {
+e.printStackTrace();
+} finally {
+close(rs, pstm, con);
+System.out.println("----- DB 종료 -----");
+}
+System.out.println("detail : " + res.toString());
+return res;
+}
 
-	// 게시글 삭제
-	@Override
-	public int deletePer(int personal_seq) {
-		Connection con = getConnection();
-		PreparedStatement pstm = null;
-		int res = 0;
-		try {
-			pstm = con.prepareStatement(deletePerSql);
-			pstm.setInt(1, personal_seq);
+//개인 매칭 게시글 수정하기
+@Override
+public int updatePer(MatchingPerVo perVo) {
+Connection con = getConnection();
+System.out.println("수정하기 Dao Impl 커넥션 성공");
+PreparedStatement pstm = null;
+int res = 0;
+try {
 
-			res = pstm.executeUpdate(); // 실제로 db에 실행시키는 구문
+pstm = con.prepareStatement(updatePerSql);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(pstm, con);
-		}
+pstm.setString(1, perVo.getEmp_category());
+pstm.setString(2, perVo.getTitle());
+pstm.setString(3, perVo.getSkill());
+pstm.setString(4, perVo.getContent());
+pstm.setInt(5, perVo.getPersonal_seq());
+System.out.println("update : " + perVo.toString());
+res = pstm.executeUpdate();
 
-		return res;
-	}
+} catch (SQLException e) {
+e.printStackTrace();
+}
 
+return res;
+}
+
+//게시글 삭제
+@Override
+public int deletePer(int personal_seq) {
+Connection con = getConnection();
+PreparedStatement pstm = null;
+int res = 0;
+try {
+pstm = con.prepareStatement(deletePerSql);
+pstm.setInt(1, personal_seq);
+
+res = pstm.executeUpdate(); //실제로 db에 실행시키는 구문
+
+} catch (SQLException e) {
+e.printStackTrace();
+} finally {
+close(pstm, con);
+}
+
+return res;
+}
+
+//개인 매칭 글 검색하기
+public List<MatchingPerVo> selectAllPer(MatchingPerVo matchingPerVo) {
+Connection con = getConnection();
+PreparedStatement pstmt = null;
+ResultSet rs = null;
+List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
+
+try {
+
+String selectAllPerSql = selectSearchSql;
+String whereStr = "";
+
+switch (matchingPerVo.getSearchCat()) {
+case "user_id":
+whereStr = "WHERE user_id = '" + matchingPerVo.getSearchKeyword() + "'";
+break;
+case "skill":
+whereStr = "WHERE SKILL LIKE '%" + matchingPerVo.getSearchKeyword() + "%'";
+break;
+case "emp_category":
+whereStr = "WHERE emp_category LIKE '%" + matchingPerVo.getSearchKeyword() + "%'";
+break;
+
+default:
+ 
+}
+
+System.out.println(whereStr);
+
+selectAllPerSql = selectAllPerSql.replace("?", whereStr);
+
+System.out.println(selectAllPerSql);
+
+pstmt = con.prepareStatement(selectAllPerSql);
+rs = pstmt.executeQuery();
+while (rs.next()) {
+ 
+MatchingPerVo perVo = new MatchingPerVo();
+perVo.setUser_id(rs.getString(1));
+perVo.setSkill(rs.getString(2));
+perVo.setEmp_category(rs.getString(3));
+perVo.setTitle(rs.getString(4));
+perVo.setContent(rs.getString(5));
+
+if (perVo.getSkill() != null && !"".equals(perVo.getSkill())) {
+   String[] skillArr = perVo.getSkill().split(",");
+   perVo.setSkillArr(skillArr);
+}
+res.add(perVo);
+}
+System.out.println(res.size());
+
+} catch (SQLException e) {
+e.printStackTrace();
+} finally {
+close(rs, pstmt, con);
+System.out.println("프로젝트 매칭 검색 DB 종료");
+}
+
+for(MatchingPerVo v : res) {
+
+System.out.println(v);
+
+}
+
+return res;
+}
+
+
+@Override
+public MatchingPerVo personalRead(String personal_seq) {
+// TODO Auto-generated method stub
+return null;
+}
+	
+	
+/*
 	@Override
 	public int MatchingWrite(MatchingProVo MatchingProVo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+*/
 	// 프로젝트 생성
 	@Override
 	public int insertProject(ProjectVo vo) {

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,32 +19,38 @@
 <link href="${pageContext.request.contextPath}/matching/css/common.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/matching/css/notice.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
-<script src="js/plugins/tagEditor/jquery.caret.min.js"></script>
-<script src="js/plugins/tagEditor/jquery.tag-editor.js"></script>
+<script src="${pageContext.request.contextPath}/matching/js/plugins/tagEditor/jquery.caret.min.js"></script>
+<script src="${pageContext.request.contextPath}/matching/js/plugins/tagEditor/jquery.tag-editor.js"></script>
 <script type="text/javascript">
-   (function($) {
-      function floatLabel(inputType) {
-         $(inputType).each(function() {
-            var $this = $(this);
-            // on focus add cladd active to label
-            $this.focus(function() {
-               $this.next().addClass("active");
-            });
-            //on blur check field and remove class if needed
-            $this.blur(function() {
-               if ($this.val() === '' || $this.val() === 'blank') {
-                  $this.next().removeClass();
-               }
-            });
-         });
-      }
-      
-      $(document).ready(function(){
-         $('#skill').tagEditor({placeholder : '언어 및 프로그램 능력을 작성하세요'});
-      });
-      // just add a class of "floatLabel to the input field!"
-      floatLabel(".floatLabel");
-   })(jQuery);
+(function($) {
+	function floatLabel(inputType) {
+		$(inputType).each(function() {
+			var $this = $(this);
+			$this.focus(function() {
+				$this.next().addClass("active");
+			});
+			$this.blur(function() {
+			if ($this.val() === '' || $this.val() === 'blank') {
+				$this.next().removeClass();
+			}
+		});
+	});
+}
+	
+// <skill> 플러그인 관련 함수
+		$(document).ready(function(){
+			var skill = new Array();
+				<c:if test="${!empty perVo}" >
+					<c:forEach var="skill" items="${perVo.skillArr}">
+						skill.push('${skill}');
+					</c:forEach>
+				</c:if>
+
+				$('#skill').tagEditor({placeholder : '언어 및 프로그램 능력을 작성하세요'});
+			});
+			floatLabel(".floatLabel");
+		})(jQuery);
+		
 </script>
 </head>
 <body>
@@ -73,51 +80,64 @@
 	      </div>
 	    </div>
 	  </nav>
-	  <!-- 나중에 post로 바꾸기 -->
-	<form action="../personMatching" method="get">
-	<input type="hidden" name="command"  value="personalWrite" readOnly/>
-   <div class="container margin-t-100">
-         <!--  General -->
+	<form action="personMatching" method="get">
+	<input type="hidden" name="command"  value="personalUpdate"/>
+	<input type="hidden" name="personal_seq" value="${detail.personal_seq}">
+    <div class="container margin-t-100">
+    
+         <!-- ---------------- 글 상세보기 페이지 내부 ---------------- -->
          <div class="form-group">
             <h2 class="heading">새 글 작성</h2>
             <div class="controls">
-               <input type="text" id="title" class="floatLabel" name="title" placeholder="${detail.title}" readOnly/>
-
+            <c:choose>
+               <c:when test="${detail.user_id eq u_id}"><input type="text" id="title" class="floatLabel" name="title" placeholder="${detail.title}" value="${detail.title}"> </c:when>   
+               <c:otherwise><input type="text" id="title" class="floatLabel" name="title" placeholder="${detail.title}" value="${detail.title}" readOnly="readOnly"> </c:otherwise>
+            </c:choose>
             </div>
             <div class="controls2">
-               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" readOnly/>
+            <c:if test="${detail.user_id eq u_id}"><input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" value="${detail.skill}"></c:if>
             </div>
          </div>
          
          <div class="grid">
             <div class="col-1-3 col-1-3-sm">
                <div class="controls">
-                  <i class="fa fa-sort"></i> <select class="floatLabel" name="emp_category" disabled>
-                     <option value="">"${detail.emp_category}"</option>
-                     <option value="백엔드">백엔드</option>
-                     <option value="프론트엔드">프론트엔드</option>
+               <select class="floatLabel" name="emp_category">
+               <option value="${detail.emp_category}">"${detail.emp_category}"</option>
+               		<c:if test="${detail.user_id eq u_id}"><i class="fa fa-sort"></i>
+                    	 <option value="백엔드" <c:if test="${detail.emp_category eq '백엔드' }">selected</c:if>>백엔드</option>
+                   		 <option value="프론트엔드" <c:if test="${detail.emp_category eq '프론트엔드' }">selected</c:if>>프론트엔드</option>
+                    </c:if>
                   </select>
                 </div>
                </div>
             </div>
+            
             <br />
+            
             <div class="grid">
-
                <div class="controls">
-                  <p class="info-text margin-b-10">상세 내용</p>
+               <p class="info-text margin-b-10">상세 내용</p>
+               <c:choose>
+               <c:when test="${detail.user_id eq u_id}"><textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요.">${detail.content}</textarea> </c:when>   
+               <c:otherwise><textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요." readOnly>${detail.content}</textarea> </c:otherwise>
+            </c:choose>
                   
-                  <textarea name="content" class="floatLabel" id="content" placeholder="${detail.content}" readOnly></textarea>
-               </div>
-               <a href="${pageContext.request.contextPath}/personMatching?command=selectAllPer" class="col-1-4 btn btn-primary" style="float: left;">목록</a>
-               <c:if test="${matchingPerVo.updatePer}">
-               	<button type="button" class="col-1-4 btn btn-primary" style="float: right;" id="modifyBtn">수정</button>
-               </c:if>
-            </div>
-
-
-
-         </div>
-         <!-- /.form-group -->
-      </form>
+		</div>
+		<!-- ---------------- 글 상세보기 페이지 내부 여기까지 ---------------- -->
+		
+		
+               
+				<a href="${pageContext.request.contextPath}/personMatching?command=selectAllPer" class="col-1-4 btn btn-primary" style="float: left;">목록</a>
+               
+		<!-- ---------------- 글 수정/삭제 버튼의 경우 글쓴이 = 로그인 유저와 동일할 경우에만 노출 ---------------- -->
+				<c:if test="${detail.user_id eq u_id}">
+					<a href="${pageContext.request.contextPath}/personMatching?command=personalDelete&personal_seq=${detail.personal_seq}" class="col-1-8 btn btn-primary" style="float: right;">삭제</a>
+					<button type="submit" class="col-1-8 btn btn-primary" style="float: right;">수정</button>
+				</c:if>
+				    
+			</div>
+		</div>
+	</form>
 </body>
 </html>

@@ -934,7 +934,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = " SELECT COUNT(msg_seq) FROM msg WHERE get_id = ? AND read_ck = 0 AND gdelte_ck='Y'  ";
+		String sql = " SELECT COUNT(msg_seq) FROM msg WHERE get_id = ? AND read_ck = 0 AND gdelete_ck='Y'  ";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, u_id);

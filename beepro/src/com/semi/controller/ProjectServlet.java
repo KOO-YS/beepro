@@ -1,6 +1,8 @@
 package com.semi.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +24,6 @@ import com.semi.service.MatchingService;
 import com.semi.service.ProjectService;
 import com.semi.vo.CommentVo;
 import com.semi.vo.IssueVo;
-import com.semi.vo.ProjectVo;
 import com.semi.vo.TodoVo;
 
 @WebServlet("/ProjectServlet")
@@ -71,10 +72,17 @@ public class ProjectServlet extends HttpServlet {
 		MatchingDao mdao = new MatchingDaoImpl();
 		MatchingService matchingService = new MatchingService();
 
+		
+		
+
+
 		HttpSession session2 = request.getSession();
 		int pseq = (int)session2.getAttribute("projectSeq");
 		String p_member = dao.selectAllMember(pseq);
+		String p_name = dao.selectOneProjectName2(pseq);
+		System.out.println("pmem : "+p_member+"\np_name: "+p_name);
 		session2.setAttribute("pMember", p_member);
+		session2.setAttribute("pName", p_name);
 		
 		if(command.equals("goToProject")) {
 			HttpSession session = request.getSession();
@@ -95,12 +103,8 @@ public class ProjectServlet extends HttpServlet {
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			System.out.println("프로젝트 시퀀스:" + projectSeq);
-
-			String p_name = dao.selectOneProjectName2(projectSeq);
-            System.out.println(p_name);
             
 			List<String> member = projectService.getMember(projectSeq);
-			request.setAttribute("pName", p_name);
 			request.setAttribute("member", member);
 			session.setAttribute("projectSeq", projectSeq);
 			dispatch("cowork/issueWrite.jsp", request, response);
@@ -146,9 +150,6 @@ public class ProjectServlet extends HttpServlet {
 
 			IssueVo vo = dao.selectOneIssue(issueSeq);
 
-			String p_name = dao.selectOneProjectName(issueSeq);
-
-			request.setAttribute("pName", p_name);
 			request.setAttribute("vo", vo);
 			dispatch("cowork/issueUpdate.jsp", request, response);
 
@@ -185,13 +186,11 @@ public class ProjectServlet extends HttpServlet {
 			// 이슈 디테일
 			IssueVo vo = dao.selectOneIssue(seq);
 
-			String p_name = dao.selectOneProjectName(seq);
 
 			// 댓글리스트
 			List<CommentVo> list = dao.selectAllComment(seq);
 			request.setAttribute("vo", vo);
 			request.setAttribute("list", list);
-			request.setAttribute("pName", p_name);
 
 			dispatch("cowork/issueDetail.jsp", request, response);
 
@@ -314,8 +313,12 @@ public class ProjectServlet extends HttpServlet {
 			}
 
 		} else if (command.equals("FileUpload")) {
-			System.out.println("파일 업로드 페이지 진입");
+			System.out.println("[파일 업로드 페이지 진입]");
 			System.out.println("프로젝트 시퀀스 : " + pseq);
+			String u_id = (String) session2.getAttribute("u_id");
+			System.out.println("아이디:" + u_id);
+			
+			dispatch("cowork/FileUpload.jsp",request, response);
 		}
 	}
 }

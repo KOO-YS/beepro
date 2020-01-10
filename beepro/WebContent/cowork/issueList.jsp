@@ -62,7 +62,7 @@
             $("#keyword").keyup(function() {
                 var k = $(this).val();
                 $("#issue-table > tbody > tr").hide();
-                var temp = $("#issue-table > tbody > tr > td:nth-child(7n+2):contains('" + k + "')");
+                var temp = $("#issue-table > tbody > tr > td:contains('" + k + "')");
 
                 $(temp).parent().show();
             });
@@ -85,14 +85,24 @@
 	function displaySelect2() {
 		var langSelect = document.getElementById("select2");
 
+		var selectValue = langSelect.options[langSelect.selectedIndex].value; // option value 값
+
+		$("#issue-table > tbody > tr").hide();
+		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue+ "')");
+
+		$(temp).parent().show();
+	}
+	
+	// 게시글 보이는 갯수 조절하는 기능
+	function displaySelect3() {
+		var langSelect = document.getElementById("select3");
+
 		var selectValue = langSelect.options[langSelect.selectedIndex].value;
 
 		$("#issue-table > tbody > tr").hide();
-		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue
-				+ "')");
+		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue+ "')");
 
 		$(temp).parent().show();
-
 	}
 </script>
 <style type="text/css">
@@ -413,12 +423,12 @@ table.table .avatar {
 								<div class="row">
 									<div class="col-sm-3">
 										<div class="show-entries">
-											<span>Show</span> <select class="form-control">
-												<option>5</option>
-												<option>10</option>
-												<option>15</option>
-												<option>20</option>
-											</select> <span>entries</span>
+											<select class="form-control" onchange="displaySelect3()" id="select3">
+												<option value="5">5</option>
+												<option value="10">10</option>
+												<option value="15">15</option>
+												<option value="20">20</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-sm-9">

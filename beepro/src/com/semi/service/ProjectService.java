@@ -237,15 +237,6 @@ public class ProjectService {
 		return projectDao.deleteComment(commentSeq);
 	}
     
-	// 댓글 수정
-	public void updateComment(HttpServletRequest request, HttpServletResponse response) {
-		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
-		int issueSeq = Integer.parseInt(request.getParameter("issueSeq"));
-		String content = request.getParameter("content");
-		
-		projectDao.updateComment(commentSeq, issueSeq, content);
-	}
-    
     // 프로젝트 멤버빼오기
 	public List<String> getMember(int projectSeq) {
 		String memStr = projectDao.selectAllMember(projectSeq);

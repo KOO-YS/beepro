@@ -7,14 +7,14 @@ public class CommentVo {
 	private int issueSeq; // 이슈 번호
 	private String writer; // 댓글 작성자
 	private String content; // 댓글 내용
-	private Date regdate; // 댓글 작성일
+	private String regdate; // 댓글 작성일
     
 	public CommentVo() {
 		
 	}
     
 	// 댓글 전체 조회 생성자
-	public CommentVo(int commentSeq, int issueSeq, String writer, String content, Date regdate) {
+	public CommentVo(int commentSeq, int issueSeq, String writer, String content, String regdate) {
 		super();
 		this.commentSeq = commentSeq;
 		this.issueSeq = issueSeq;
@@ -55,11 +55,17 @@ public class CommentVo {
 		this.content = content;
 	}
 
-	public Date getRegdate() {
+	public String getRegdate() {
 		return regdate;
 	}
 
-	public void setRegdate(Date regdate) {
+	public void setRegdate(String regdate) {
 		this.regdate = regdate;
+	}
+
+	@Override
+	public String toString() {
+		return "CommentVo [commentSeq=" + commentSeq + ", issueSeq=" + issueSeq + ", writer=" + writer + ", content="
+				+ content + ", regdate=" + regdate + "]";
 	}
 }

@@ -13,12 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.semi.dao.MatchingDaoImpl;
+import com.semi.dao.ProjectDao;
+import com.semi.dao.ProjectDaoImple;
 import com.semi.dao.UserDaoImpl;
 import com.semi.service.MatchingService;
 import com.semi.service.UserService;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
-
 import com.semi.vo.PageVo;
 import com.semi.vo.ProjectVo;
 import com.semi.vo.UserVo;
@@ -72,6 +73,8 @@ public class MatchingServlet extends HttpServlet {
 		MatchingService matchingService = new MatchingService();
 
 		MatchingDaoImpl dao = new MatchingDaoImpl();
+		
+		ProjectDao pdao = new ProjectDaoImple();
 
 		// 현재 로그인 중인 아이디로 세션 받아옴
 
@@ -231,90 +234,143 @@ public class MatchingServlet extends HttpServlet {
 			} else {
 				System.out.println("글 수정 실패");
 			}
-
-			// 개인 매칭 글쓰기
-		} else if (command.equals("personalWrite")) {
-
-			int success = matchingService.personalWrite(request, response);
-
-			if (success > 0) {
-				System.out.println("글 게시 성공");
-				dispatch("personMatching?command=selectAllPer", request, response);
-
-			} else {
-				System.out.println("글 게시 실패");
-			}
-
-			// 개인 매칭 글 수정
-		} else if (command.equals("personalUpdate")) {
-			System.out.println("게시글 수정");
-			String personal_seq = request.getParameter("personal_seq");
-			int success = matchingService.updatePer(request, response);
-			if (success > 0) {
-				System.out.println("게시글 수정 성공");
-				response.sendRedirect("personMatching?command=personalRead&personal_seq=" + personal_seq);
-			} else {
-				System.out.println("게시글 수정 실패");
-			}
-
-			// 매칭 글 삭제
-		} else if (command.equals("matchingDelete")) {
-			System.out.println("매칭 글 삭제");
-			int success = matchingService.deletePer(request);
-
-			if (success > 0) {
-				System.out.println("글 삭제 성공");
-				response.sendRedirect("personMatching?command=selectAllPer");
-			} else {
-				System.out.println("글 삭제 실패");
-			}
-
-			// 개인 매칭 게시글 목록
-		} else if (command.equals("selectAllPer")) {
-			List<MatchingPerVo> list = dao.selectAllPer();
-			request.setAttribute("personList", list);
-			System.out.println("게시글 리스트 확인");
-
-
-			// 세션값 넘기기
-			request.setAttribute("u_id", u_id);
-			System.out.println("세션넘기기");
-
-
 			
-			// 관심게시글 가져오기
+// ----------------------------------------------------------------------------------------------- //
+// --------------------------------------------------------------------------------------------------------------------------------
+//			-------------------------------- 개인 매칭 컨트롤러 --------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------
+	
+//개인 매칭 글쓰기
+} else if(command.equals("personalWrite")) {
+	
+    int success = matchingService.personalWrite(request, response);
+	
+	if(success > 0) {
+		System.out.println("글 게시 성공");
+		dispatch("personMatching?command=selectAllPer", request, response);
+		
+	} else {
+		System.out.println("글 게시 실패");
+	}
+	
+//개인 매칭 글 수정
+	
+} else if(command.equals("personalUpdate")) {
+	System.out.println("게시글 수정");
+	String personal_seq = request.getParameter("personal_seq");
+	System.out.println(personal_seq);
+	int success = matchingService.updatePer(request, response);
+	
+	if(success > 0) {
+		dispatch("personMatching?command=selectAllPer", request, response);
+		//시퀀스 말고 vo 자체를 가지고 오기->시퀀스는 시퀀스만 인식하기 때문에 다 가지고 오지 못함
+		System.out.println("게시글 수정 성공");
+	} else {
+		System.out.println("게시글 수정 실패");
+	}
+	
+//매칭 글 삭제	
+} else if(command.equals("personalDelete")) {
+	System.out.println("매칭 글 삭제");
+	int success = matchingService.deletePer(request);
+	
+	 if(success > 0) {
+        System.out.println("글 삭제 성공");
+        response.sendRedirect("personMatching?command=selectAllPer");
+     } else {
+        System.out.println("글 삭제 실패"); 
+     }
+
+//개인 매칭 게시글 목록
+} else if(command.equals("selectAllPer")) {
+	List<MatchingPerVo> list = dao.selectAllPer();
+	
+	request.setAttribute("personList", list);
+	System.out.println("게시글 리스트 확인");
+	
+	// 세션값 넘기기
+	request.setAttribute("u_id", u_id);
+	System.out.println("세션넘기기");
+
 
 				
-			ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
-			request.setAttribute("postList", postList);
+	// 관심게시글 가져오기
+
+					
+	ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
+	request.setAttribute("postList", postList);
+	
+	for(MatchingPerVo m : list) {
+		System.out.println(m);
+	}
+	
+//---------------- 페이징 서블릿 코드 ----------------
+	
+     int listCount = list.size();
+     System.out.println(listCount);
+     request.setAttribute("listsize", listCount);
+     
+     String curpagenum = request.getParameter("curpagenum");
+     System.out.println(curpagenum+"현재페이지");
+
+     int currentPage = 0;
+
+     if (curpagenum == null || curpagenum == "0") {
+        currentPage = 1;
+     } else {
+        currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+     }
+
+     PageVo page = new PageVo();
+
+     page.setCurrentPage(currentPage);
+     page.setListCount(listCount);
+     page.setAllPage(listCount);
+     page.setPreve(currentPage);
+     page.setStartRow(currentPage);
+     page.setStartPage(currentPage, page.getAllPage());
+     page.setEndPage(currentPage, page.getAllPage());
+     page.setNext(currentPage, page.getAllPage());
+
+     request.setAttribute("page", page);
+     
+//---------------- 페이징 서블릿 코드 끝 ----------------
+	
+	RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
+	
+	dispatch.forward(request, response);
+
+//개인 매칭 글 상세 확인
+} else if(command.equals("selectOnePer")) {
+	System.out.println("게시글 상세 확인하기");
+	
+	MatchingPerVo detail = matchingService.selectOnePer(request, response);
+	if(detail != null) {
+		System.out.println("개인 매칭 디테일 정보 출력");
+		request.setAttribute("detail", detail);
+		dispatch("matching/personalRead.jsp", request, response);
+	}
 
 			
-
-			RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
-			dispatch.forward(request, response);
-
-			// 개인 매칭 글 상세 확인
-		} else if (command.equals("selectOnePer")) {
-			System.out.println("게시글 상세 확인하기");
-
-			MatchingPerVo detail = matchingService.selectOnePer(request, response);
-			if (detail != null) {
-				System.out.println("개인 매칭 디테일 정보 출력");
-				request.setAttribute("detail", detail);
-				dispatch("/matching/personalRead.jsp", request, response);
-			}
+			
+			
 			/* 보미 작성하는 부분입니다. */
 			// 프로젝트 생성
 		} else if (command.equals("projectCreate")) {
 			System.out.println("프로젝트 생성");
 			System.out.println("pm아이디:" + u_id);
-
+			
 			int projectSeq = matchingService.insertProject(request, response);
 
+			String p_name = pdao.selectOneProjectName2(projectSeq);
+			System.out.println("프로젝트 명 :"+p_name);
+			
 			if (projectSeq > 0) {
 				System.out.println("프로젝트 생성 성공");
 				session.setAttribute("projectSeq", projectSeq);
-				dispatch("cowork/dashboard.jsp",request, response);
+				session.setAttribute("pName", p_name);
+				
+				dispatch("cowork/index.jsp",request, response);
 			} else {
 				System.out.println("프로젝트 생성 실패");
 			}
