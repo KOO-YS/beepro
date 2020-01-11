@@ -65,6 +65,13 @@
 .form-check-inline {
 	margin-right: 1.75rem;
 }
+
+#profileimg {
+  width: 30px;
+  height:30px;
+  border-radius: 50px;
+  vertical-align:middle; 
+}
 </style>
 
 <script type="text/javascript">
@@ -507,8 +514,9 @@ function sendMsgFunction(get_id){
 								<c:otherwise>
 										<c:forEach items="${followingList}" var="following" varStatus="status">
 										<tr>
-											<th scope="row">${status.count}</th>
-											<td style="text-align: left;">
+											<th> <img src="<%= request.getContextPath() %>/upload/${photoList[status.index]}"
+          										onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"  id="profileimg"></th>
+											<td style="text-align: left;">	
 												<a style="margin-left:15px" href="${pageContext.request.contextPath}/matching?command=profile&userId=${following}">${following }</a>
 											</td>
 											<td><a href="javascript:void(0);" onclick="sendMsgFunction('${following}');"><img style="width: 30px; height: 30px" alt="쪽지보내기"

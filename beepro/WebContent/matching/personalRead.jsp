@@ -174,7 +174,7 @@ function sendMsgFunction(get_id){
 					<h2 class="heading">profile</h2>
 					<div class="row">
 						<div class="col-5">
-							<img src="<%=request.getContextPath()%>/upload/getfile"
+							<img src="<%=request.getContextPath()%>/upload/${userPhoto}"
 								onerror="this.src='<%=request.getContextPath()%>/matching/img/bee.png'"
 								id="profile-img" style="margin: 17px;">
 						</div>
@@ -242,7 +242,7 @@ function sendMsgFunction(get_id){
 					<form role="form" id="sendForm" class="form-horizontal"
 						action="${pageContext.request.contextPath}/msg">
 						<input type="hidden" name="command" value="sendMsg" /> <input
-							type="hidden" name="send_id" value="${u_id }" /> <input
+							type="hidden" name="send_id" value="${detail.user_id }" /> <input
 							type="hidden" name="backMsgBox" value="no" />
 						<!-- 어디 모달에서 보내는지 구별하기 위해 -->
 						<div class="form-group">

@@ -10,6 +10,11 @@ $(".hover").mouseleave(
 		    $(this).removeClass("hover");
 		  }
 		);
+		
+function chatFunction(get_id){
+	window.open('${pageContext.request.contextPath}/chat?command=chatting&get_id='+get_id, '실시간 채팅', 'top=100, left=500, width=500px, height=550px, status=no, menubar=no, toolbar=no, resizable=no');
+
+}		
 </script>   
 <style>
 #group_member { width:50px; 
@@ -98,9 +103,11 @@ button { background-color:#4b61cf;
 	       <span style="font-size:20px;">${member}</span>
 	       
 	       <!-- 구성원 쪽지보내기  -->
+	       	<c:if test="${u_id ne member }" >
 	       <div id="message">
-	         <img src="${pageContext.request.contextPath}/cowork/images/message.png" width=25>
+	         <img src="${pageContext.request.contextPath}/cowork/images/message.png" width=25 onclick="chatFunction('${member }');">
 	       </div>
+			</c:if>
 	     </div>
       </c:forTokens>
       </div>
