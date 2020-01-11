@@ -440,6 +440,17 @@
 	                      <a href="${pageContext.request.contextPath}/matching?command=matchingAll" id="add">+ 추가하기</a>
 	                   </span>
 	               <c:forEach var="vo" items="${projectVo}">
+	                  <c:if test="${vo.projectSeq eq projectSeq}">
+								<div id="project_name" style="background-color:rgb(75,97,207); border:0px; color:white;"
+									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+									<div id="title" style="color:white;">${vo.projectName}</div>
+
+									<div id="content">${vo.member}</div>
+
+									<div id="period">${vo.startDate} - ${vo.endDate}</div>
+								</div>
+					  </c:if>
+					   <c:if test="${vo.projectSeq ne projectSeq}">
 								<div id="project_name"
 									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
 									<div id="title">${vo.projectName}</div>
@@ -448,13 +459,14 @@
 
 									<div id="period">${vo.startDate} - ${vo.endDate}</div>
 								</div>
+					  </c:if>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
 		</div>
-
+    </div>
 		<script>
 var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {

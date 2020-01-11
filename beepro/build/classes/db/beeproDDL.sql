@@ -84,8 +84,6 @@ CREATE SEQUENCE FILE_SEQ -- 파일 테이블 시퀀스
   NOCYCLE;
   
 -- #####################################################################################################################################
-
-
 CREATE TABLE beepro_user (
     user_id varchar2(100)	PRIMARY KEY,
     pwd	varchar2(100)	NOT NULL,

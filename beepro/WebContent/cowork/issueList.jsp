@@ -378,15 +378,20 @@ table.table .avatar {
 	font-size: 13px;
 }
 
-#project_name { padding:30px;
-                width:100%;
-                height:auto;
-                margin-top:15px;
-                border-radius:5px;
-                border:1px solid rgb(75,97,207);
-                font-size:18px;
-                cursor:pointer;
-               }
+#project_name {
+	padding: 30px;
+	width: 100%;
+	height: auto;
+	margin-top: 15px;
+	border-radius: 5px;
+	border: 1px solid rgb(75, 97, 207);
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#add:hover { color:rgb(46,89,217);
+             text-decoration:underline;
+           }
 </style>
 <title>이슈 관리</title>
 </head>
@@ -470,7 +475,7 @@ table.table .avatar {
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="issue" items="${issueList}">
+									<c:forEach var="issue" items="${issueList}" begin="${page.startRow}" end="${page.startRow + 9}">
 										<tr>
 											<td>${issue.issueSeq}</td>
 											<td>${issue.title}</td>
@@ -486,19 +491,6 @@ table.table .avatar {
 									</c:forEach>
 								</tbody>
 							</table>
-							<div class="clearfix">
-								<ul class="pagination">
-									<li class="page-item disabled"><a href="#">Previous</a></li>
-									<li class="page-item active"><a href="#" class="page-link">1</a></li>
-									<li class="page-item"><a href="#" class="page-link">2</a></li>
-									<li class="page-item"><a href="#" class="page-link">3</a></li>
-									<li class="page-item"><a href="#" class="page-link">4</a></li>
-									<li class="page-item"><a href="#" class="page-link">5</a></li>
-									<li class="page-item"><a href="#" class="page-link">6</a></li>
-									<li class="page-item"><a href="#" class="page-link">7</a></li>
-									<li class="page-item"><a href="#" class="page-link">Next</a></li>
-								</ul>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -508,48 +500,115 @@ table.table .avatar {
 		</div>
 	</div>
 	
-	 <!-- 워크스페이스 모달  -->
-      <div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-          <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body" style="font-size:14px;">
-          <div id="test100"></div>
-              <c:choose>
-	             <c:when test="${empty projectVo}">
-	                <div id="none">
-	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
-	                                        매칭을 통해 생성하십시오.<br>
-	                  <a class="btn btn-primary" href="../matching?command=matchingAll">매칭하러가기</a>  
-	                </div>
-	             </c:when>
-	      
-	             <c:otherwise>
-	                              이동하실 워크 스페이스를 선택하세요.
+	<!-- 워크스페이스 모달  -->
+	<div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel"
+						style="color: black;">워크 스페이스 이동</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body" style="font-size: 14px;">
+					<div id="test100"></div>
+					<c:choose>
+						<c:when test="${empty projectVo}">
+							<div id="none">
+								이동할 워크스페이스가 존재하지 않습니다.<br> 매칭을 통해 생성하십시오.<br> <a
+									class="btn btn-primary" href="${pageContext.request.contextPath}/matching?command=matchingAll">매칭하러가기</a>
+							</div>
+						</c:when>
+
+						<c:otherwise>
+	                                          이동하실 워크 스페이스를 선택하세요.
+	                   <span style="font-size:13px; float:right;">
+	                      <a href="${pageContext.request.contextPath}/matching?command=matchingAll" id="add">+ 추가하기</a>
+	                   </span>
 	               <c:forEach var="vo" items="${projectVo}">
-	                <div id="project_name" onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
-	                  <div id="title">
-	                     ${vo.projectName}
-	                 </div>
-	                  
-	                 <div id="content">
-	                  ${vo.member}
-	                 </div>
-	                 
-	                 <div id="period">
-	                  ${vo.startDate} - ${vo.endDate}
-	                 </div>
-	               </div>
-	               </c:forEach>
-	             </c:otherwise>
-	         </c:choose>       
-          </div>
-        </div>
-      </div>
+	                  <c:if test="${vo.projectSeq eq projectSeq}">
+								<div id="project_name" style="background-color:rgb(75,97,207); border:0px; color:white;"
+									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+									<div id="title" style="color:white;">${vo.projectName}</div>
+
+									<div id="content">${vo.member}</div>
+
+									<div id="period">${vo.startDate} - ${vo.endDate}</div>
+								</div>
+					  </c:if>
+					   <c:if test="${vo.projectSeq ne projectSeq}">
+								<div id="project_name"
+									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+									<div id="title">${vo.projectName}</div>
+
+									<div id="content">${vo.member}</div>
+
+									<div id="period">${vo.startDate} - ${vo.endDate}</div>
+								</div>
+					  </c:if>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+		</div>
+    </div>
+    
+<script type="text/javascript">
+	function PageMove(page){
+       	location.href = "personMatching?command=selectAllPer&curpagenum="+page;
+	}
+</script> 
+
+<c:if test="${listsize>=0 }">
+	<c:choose> 
+		<c:when test="${listsize == 0}">
+			<script>
+				$("#tableheader").hide();
+			</script>
+		</c:when>
+		
+		<c:otherwise>
+			<c:forEach var="vo" items="${list}" begin="${page.startRow}" end="${page.startRow+9}" ></c:forEach>
+	
+		</c:otherwise>
+	</c:choose>
+</c:if>
+
+<c:choose> 
+	<c:when test="${page.listCount > 0 }">
+		<c:if test="${page.listCount ne '0'}">
+
+			<div class="row" style="display: block;">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+					<li class="active">
+						<a class="page-link" href="javascript:PageMove(${page.startPage})">Pre</a>
+					</li>
+
+						<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+							<c:choose>
+								<c:when test="${i eq page.currentPage }">
+									<li class="active"><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+
+						<c:if test="${page.next eq true }">
+							<a class="page-link" href="javascript:PageMove(${page.endPage })">Last</a></li>
+						</c:if>
+					</ul>
+				</nav>
+			</div> 
+
+		</c:if>
+	</c:when>
+</c:choose>
 </body>
 </html>

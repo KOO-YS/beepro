@@ -22,6 +22,21 @@ button { background-color:#4b61cf;
          border:0;
          cursor:pointer;
         }
+        
+#member { width:auto;
+          height:80px;
+          padding:12px 25px;
+          margin-bottom:10px;
+          border-left: .25rem solid #4e73df;
+          box-shadow: 0 .15rem 0.85rem 0 rgba(58, 59, 69, .15) !important;
+          border-radius:5px;
+        }
+        
+#message { float:right;
+           margin-top:25px;
+         }
+
+#message img { cursor:pointer; }
 </style>
 <ul style="background:rgba(75,97,207);" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- LEFT 메뉴 끝-->
@@ -65,9 +80,10 @@ button { background-color:#4b61cf;
             <button type="button" data-toggle="modal" data-target="#MemberViewModal" id="group_member">
                <img src="/beepro/cowork/images/person_icon.png" width="38" height="40" >
            </button>         
-      <!-- 구성원 모달내용 -->
-         <div class="modal fade" id="MemberViewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered" role="document">
+         
+         <!-- 구성원 모달내용 -->
+         <div class="modal fade bd-example-modal-lg" id="MemberViewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+         <div class="modal-dialog bd-example-modal-lg" role="document">
          <div class="modal-content">
              <div class="modal-header">
              <h5 class="modal-title" id="exampleModalLabel" style="color:black;">프로젝트 구성원</h5>
@@ -76,18 +92,16 @@ button { background-color:#4b61cf;
         </button>
       </div>
       <div class="modal-body">
+       <p style="font-size:14px; color:#858796;">현재 프로젝트에 참여중인 구성원 목록입니다.</p>
       <c:forTokens items="${pMember}" delims="," var="member">
-        <figure class="snip1515">
-           <div class="profile-image">
-           </div>
-        <figcaption>
-	      <h3>${member}</h3>
-	      <div class="icons"><a href="#"><i class="ion-social-reddit"></i></a>
-	      <a href="#"> <i class="ion-social-twitter"></i></a>
-	      <a href="#"> <i class="ion-social-vimeo"></i></a>
-	    </div>
-	  </figcaption>
-	</figure>
+	     <div id="member">
+	       <span style="font-size:20px;">${member}</span>
+	       
+	       <!-- 구성원 쪽지보내기  -->
+	       <div id="message">
+	         <img src="${pageContext.request.contextPath}/cowork/images/message.png" width=25>
+	       </div>
+	     </div>
       </c:forTokens>
       </div>
       <div class="modal-footer" style="background-color:#f2f2f2;">
