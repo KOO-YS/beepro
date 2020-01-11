@@ -199,9 +199,9 @@ $(function(){
           			onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"  id="profile-img">
  				</div>
 			<div class="col-lg-8 col-sm-6">
-				<h4> ${personal.user_id} <a href="personMatching?command=selectOnePer&personal_seq=${personal.personal_seq}">${personal.title}ti</a></h4><br>
+				<h4> ${personal.user_id} <a href="personMatching?command=selectOnePer&personal_seq=${personal.personal_seq}">${personal.title}</a></h4><br>
 				<b>언어 및 프로그래밍 능력 :</b> ${personal.skill}<br><br> 
-				<button class="btn btn-outline-primary" style="cursor: default;">${personal.emp_category}emp</button>
+				<button class="btn btn-outline-primary" style="cursor: default;">${personal.emp_category}</button>
 			</div>
 			<div class="col-lg-1 col-sm-1">
                          <!-- heart -->

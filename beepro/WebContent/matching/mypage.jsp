@@ -217,18 +217,6 @@ function sendMsgFunction(get_id){
 				    </form>
 			</div>
 		</div>
-	<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-
-					<br>
-					<button class="btn btn-primary" data-toggle="modal"
-						data-target="#withdrawal"
-						style="margin-top: 40px; background: #ff4040;">회원 탈퇴</button>
-
-				</div>
-			</div>
-		</div>
 	</div>
 	<!-- container end -->
 
@@ -489,7 +477,7 @@ function sendMsgFunction(get_id){
 			</div>
 		</div>
 
-
+	
 		<!-- 관심 사람 목록 start -->
 		<div class="container">
 			<hr style="margin: 3em 0;">
@@ -567,6 +555,19 @@ function sendMsgFunction(get_id){
 			<hr style="margin: 3em 0 0 0;">
 		</div>
 		<!-- 관심 사람 목록 end -->
+		
+			<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+
+					<br>
+					<button class="btn btn-primary" data-toggle="modal"
+						data-target="#withdrawal"
+						style="margin: 40px 0 40px 0; background: #ff4040;">회원 탈퇴</button>
+
+				</div>
+			</div>
+		</div>
 </section>
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	
