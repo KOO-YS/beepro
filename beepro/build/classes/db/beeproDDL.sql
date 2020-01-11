@@ -84,8 +84,6 @@ CREATE SEQUENCE FILE_SEQ -- 파일 테이블 시퀀스
   NOCYCLE;
   
 -- #####################################################################################################################################
-
-
 CREATE TABLE beepro_user (
     user_id varchar2(100)	PRIMARY KEY,
     pwd	varchar2(100)	NOT NULL,
@@ -180,8 +178,6 @@ CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
-select * from project;
-
 SELECT PROJECT_SEQ from PROJECT WHERE member_id='2,3,4,';
 
 CREATE TABLE issue (
@@ -261,7 +257,6 @@ CREATE TABLE files (
   CONSTRAINT FK_USER_ID_TO_FILE FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
 );
 
-select * from files;
 ALTER TABLE files ADD project_seq number NOT NULL; -- 컬럼추가
 ALTER TABLE files ADD CONSTRAINT FK_FILES FOREIGN KEY (project_seq) REFERENCES project (project_seq); -- 제약조건추가
 ---------------------------------------------------------------------------

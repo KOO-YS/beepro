@@ -13,6 +13,7 @@
 <head>
 <meta charset="UTF-8">
 <title>BeePro - 파일드라이브</title>
+<link href="${pageContext.request.contextPath}/cowork/css/issueWriteTable.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/cowork/css/sb-admin-2.min.css" rel="stylesheet">
@@ -26,8 +27,12 @@
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- datepicker -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style type="text/css">
+.btn { cursor:pointer;}
 .table-wrapper {
 	background: #fff;
 	padding: 20px 25px;
@@ -35,31 +40,6 @@
 	border-radius: 5px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
-
-.table-wrapper .btn {
-	float: right;
-	color: #333;
-	background-color: #fff;
-	border-radius: 3px;
-	border: none;
-	outline: none !important;
-	margin-left: 10px;
-}
-
-.table-wrapper .btn:hover {
-	color: #333;
-	background: #f2f2f2;
-}
-
-.table-wrapper .btn.btn-primary {
-	color: #fff;
-	background: #03A9F4;
-}
-
-.table-wrapper .btn.btn-primary:hover {
-	background: #03a3e7;
-}
-
 .table-title .btn {
 	font-size: 13px;
 	border: none;
@@ -228,6 +208,18 @@ table.table .avatar {
 	color: #ff5b5b;
 }
 </style>
+<script type="text/javascript">
+// input 검색 기능
+$(document).ready(function() {
+        $("#keyword").keyup(function() {
+            var k = $(this).val();
+            $("#uploadList > tbody > tr").hide();
+            var temp = $("#uploadList > tbody > tr > td:contains('" + k + "')");
+
+            $(temp).parent().show();
+        });
+    });
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -258,17 +250,17 @@ table.table .avatar {
 							</div>
 						</div>
 							<div class="filter-group col-4">
-							   <input type="text" class="form-control" size="50" style="border:0;" placeholder="검색하실 항목을 입력하세요">
+							   <input type="text" class="form-control" size="50" style="border:0;" placeholder="검색하실 항목을 입력하세요" id="keyword">
 							</div>
 						<div class="table-wrapper">
   							<div class="table-filter">
 								<div class="row">
-									<div class="col-xs-2">
-									<button class="btn btn-primary" data-toggle="modal" data-target="#upload">파일업로드</button>
+									<div class="col-sm-2">
+									<button class="btn btn-primary" data-toggle="modal" data-target="#upload"><b>파일 업로드</b></button>
 									</div>
 								</div>
 							</div>
-							<table class="table table-striped table-hover">
+							<table class="table table-striped table-hover" id="uploadList">
 								<colgroup>
 									<col width="5%">
 									<col width="25%">
@@ -299,7 +291,7 @@ table.table .avatar {
 									<td>${file.fileName}</td>
 									<td>${file.userId}</td>
 									<td>${file.regdate}</td>
-									<td><a href="${pageContext.request.contextPath}/project?command=download&file_seq=${file.fileSeq}"
+									<td><a href="${pageContext.request.contextPath}/project?command=download&fileName=${file.fileName}"
 												class="view" title="View Details" data-toggle="tooltip"><i
 													class="material-icons">&#xE5C8;</i></a></td>
 										</tr>

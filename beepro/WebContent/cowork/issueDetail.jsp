@@ -165,7 +165,7 @@ $(document).ready(function() {
               border:1px solid rgb(75,97,207);
               color:rgb(75,97,207);
               font-weight:bold;
-              padding:15px 15px;}
+              padding:8px 15px;}
 
 .box { background: #f1f1f1;
        padding: 15px;
@@ -266,6 +266,21 @@ $(document).ready(function() {
 #link2 > a:hover { color:rgb(75,97,207);
                    font-weight:bold;
                  }
+                 
+#project_name {
+	padding: 30px;
+	width: 100%;
+	height: auto;
+	margin-top: 15px;
+	border-radius: 5px;
+	border: 1px solid rgb(75, 97, 207);
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#add:hover { color:rgb(46,89,217);
+             text-decoration:underline;
+           }
 </style>
 <title>beepro - 이슈 상세정보</title>
 </head>
@@ -309,18 +324,9 @@ $(document).ready(function() {
 					    <div class="issue_div">
 					       <div class="issue_content">
 					         <div class="col-md-4">
-					            <div class="form-group">
-					               <label class="issue-label-2">
-					                 <span>작성자</span>
-					               </label>
-					               <div class="subheader2">
-					                ${vo.writer}&nbsp;&nbsp;${u_email} 
-					               </div>
-    					        </div>
-    					        
     					        <div class="form-group">
 					               <label class="issue-label-2">
-					                 <span>담당자</span>
+					                 <span style="font-size:12px; color:#777777;">담당자</span>
 					               </label>
 					               <div class="subheader2">
 					                ${vo.responsibility}&nbsp;&nbsp;${u_email} 
@@ -432,49 +438,62 @@ $(document).ready(function() {
 		</div>
 	</div>
 	
-		 <!-- 워크스페이스 모달  -->
-      <div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-          <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel" style="color:black;">워크 스페이스 이동</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body" style="font-size:14px;">
-          <div id="test100"></div>
-              <c:choose>
-	             <c:when test="${empty projectVo}">
-	                <div id="none">
-	                                        이동할 워크스페이스가 존재하지 않습니다.<br>
-	                                        매칭을 통해 생성하십시오.<br>
-	                  <a class="btn btn-primary" href="../matching?command=matchingAll">매칭하러가기</a>  
-	                </div>
-	             </c:when>
-	      
-	             <c:otherwise>
-	                              이동하실 워크 스페이스를 선택하세요.
+	<!-- 워크스페이스 모달  -->
+	<div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel"
+						style="color: black;">워크 스페이스 이동</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body" style="font-size: 14px;">
+					<div id="test100"></div>
+					<c:choose>
+						<c:when test="${empty projectVo}">
+							<div id="none">
+								이동할 워크스페이스가 존재하지 않습니다.<br> 매칭을 통해 생성하십시오.<br> <a
+									class="btn btn-primary" href="${pageContext.request.contextPath}/matching?command=matchingAll">매칭하러가기</a>
+							</div>
+						</c:when>
+
+						<c:otherwise>
+	                                          이동하실 워크 스페이스를 선택하세요.
+	                   <span style="font-size:13px; float:right;">
+	                      <a href="${pageContext.request.contextPath}/matching?command=matchingAll" id="add">+ 추가하기</a>
+	                   </span>
 	               <c:forEach var="vo" items="${projectVo}">
-	                <div id="project_name" onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
-	                  <div id="title">
-	                     ${vo.projectName}
-	                 </div>
-	                  
-	                 <div id="content">
-	                  ${vo.member}
-	                 </div>
-	                 
-	                 <div id="period">
-	                  ${vo.startDate} - ${vo.endDate}
-	                 </div>
-	               </div>
-	               </c:forEach>
-	             </c:otherwise>
-	         </c:choose>       
-          </div>
-        </div>
-      </div>
+	                  <c:if test="${vo.projectSeq eq projectSeq}">
+								<div id="project_name" style="background-color:rgb(75,97,207); border:0px; color:white;"
+									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+									<div id="title" style="color:white;">${vo.projectName}</div>
+
+									<div id="content" style="color:white">${vo.member}</div>
+
+									<div id="period">${vo.startDate} - ${vo.endDate}</div>
+								</div>
+					  </c:if>
+					   <c:if test="${vo.projectSeq ne projectSeq}">
+								<div id="project_name"
+									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+									<div id="title">${vo.projectName}</div>
+
+									<div id="content">${vo.member}</div>
+
+									<div id="period">${vo.startDate} - ${vo.endDate}</div>
+								</div>
+					  </c:if>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+		</div>
+    </div>
 <script type="text/javascript">
 // 댓글 수정 ajax 함수
 function modify(commentSeq){ 
