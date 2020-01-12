@@ -65,6 +65,13 @@
 .form-check-inline {
 	margin-right: 1.75rem;
 }
+
+#profileimg {
+  width: 30px;
+  height:30px;
+  border-radius: 50px;
+  vertical-align:middle; 
+}
 </style>
 
 <script type="text/javascript">
@@ -119,13 +126,14 @@ function sendMsgFunction(get_id){
        	<br>
        	<!-- <button class="btn btn-primary" onclick="window.open('profilePhoto.jsp','profilePhotoUpdate','width=330,height=80,location=no,status=no,scrollbars=no');" style="margin-top: 40px;">프로필사진 변경</button> -->
         <button class="btn btn-primary" data-toggle="modal" data-target="#test" style="margin-top: 40px;"> 프로필사진 변경</button>
-        
         </div>        
       </div>
     </div>    
   </div>
-
-	<div class="container" style="padding: 40px 0;">
+		
+	
+	
+		<div class="container" style="padding: 40px 0;">
 		<div class="row">
 			<div class="col-12">
 				<span> name </span> <input type="email" value="${u_name}"
@@ -159,7 +167,7 @@ function sendMsgFunction(get_id){
 			</div>
 
 			<div class="col-12">
-				<span>skills</span>
+				<span>Skills<br></span>
 				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
 				<div class="card">
 				    <div class="card-body">		    
@@ -218,6 +226,7 @@ function sendMsgFunction(get_id){
 		</div>
 	</div>
 	<!-- container end -->
+
 	<section style="padding: 0;">
 		<c:choose>
 			<c:when test="${empty projectList}">
@@ -475,7 +484,7 @@ function sendMsgFunction(get_id){
 			</div>
 		</div>
 
-
+	
 		<!-- 관심 사람 목록 start -->
 		<div class="container">
 			<hr style="margin: 3em 0;">
@@ -499,16 +508,17 @@ function sendMsgFunction(get_id){
 						<tbody>
 							<c:choose>
 								<c:when test="${empty followingList}">
-									<tr>
+									<tr  style="text-align:center;">
 										<td colspan="3">팔로우한 사람이 없습니다.</td>
 									</tr>
 								</c:when>
 								<c:otherwise>
 										<c:forEach items="${followingList}" var="following" varStatus="status">
 										<tr>
-											<th scope="row">${status.count}</th>
-											<td style="text-align: left;">
-												<a href="${pageContext.request.contextPath}/matching?command=profile&userId=${following}">${following }</a>
+											<th> <img src="<%= request.getContextPath() %>/upload/${photoList[status.index]}"
+          										onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"  id="profileimg"></th>
+											<td style="text-align: left;">	
+												<a style="margin-left:15px" href="${pageContext.request.contextPath}/matching?command=profile&userId=${following}">${following }</a>
 											</td>
 											<td><a href="javascript:void(0);" onclick="sendMsgFunction('${following}');"><img style="width: 30px; height: 30px" alt="쪽지보내기"
 												src="${pageContext.request.contextPath}/matching/img/direct.png"></a>
@@ -553,20 +563,20 @@ function sendMsgFunction(get_id){
 			<hr style="margin: 3em 0 0 0;">
 		</div>
 		<!-- 관심 사람 목록 end -->
-		<div class="container">
+		
+			<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 
 					<br>
 					<button class="btn btn-primary" data-toggle="modal"
 						data-target="#withdrawal"
-						style="margin-top: 40px; background: #ff4040;">회원 탈퇴</button>
+						style="margin: 40px 0 40px 0; background: #ff4040;">회원 탈퇴</button>
 
 				</div>
 			</div>
 		</div>
-	</section>
-
+</section>
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	
 

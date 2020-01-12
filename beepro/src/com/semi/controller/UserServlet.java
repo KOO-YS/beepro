@@ -116,7 +116,7 @@ public class UserServlet extends HttpServlet {
 			userService.chatList(request, response);
 			
 		} else if (command.equals("chatUnread")) {
-//			System.out.println("읽지 않은 메세지");
+			System.out.println("읽지 않은 메세지");
 			userService.chatUnread(request, response);
 			
 		} else if (command.equals("chatBox")) {
@@ -159,7 +159,7 @@ public class UserServlet extends HttpServlet {
 			userService.deleteGetMsg(request, response);
 			
 		} else if(command.equals("msgUnread")) {
-//			System.out.println("읽지 않은 쪽지");
+			System.out.println("읽지 않은 쪽지");
 			userService.msgUnread(request, response);
 			
 		} else if(command.equals("follow")) {

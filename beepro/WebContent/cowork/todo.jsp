@@ -337,6 +337,20 @@ table.table .avatar {
   background-image: url(${pageContext.request.contextPath}/cowork/images/off.svg);
 }
 
+#project_name {
+	padding: 30px;
+	width: 100%;
+	height: auto;
+	margin-top: 15px;
+	border-radius: 5px;
+	border: 1px solid rgb(75, 97, 207);
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#add:hover { color:rgb(46,89,217);
+             text-decoration:underline;
+           }
 </style>
 <title>내 업무 </title>
 </head>
@@ -612,5 +626,62 @@ var betweenDay = (today.getTime() - dateObj.getTime())/1000/60/60/24;
   
 /* alert(betweenDay);   */
 </script>
+
+	<!-- 워크스페이스 모달  -->
+	<div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel"
+						style="color: black;">워크 스페이스 이동</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body" style="font-size: 14px;">
+					<div id="test100"></div>
+					<c:choose>
+						<c:when test="${empty projectVo}">
+							<div id="none">
+								이동할 워크스페이스가 존재하지 않습니다.<br> 매칭을 통해 생성하십시오.<br> <a
+									class="btn btn-primary" href="${pageContext.request.contextPath}/matching?command=matchingAll">매칭하러가기</a>
+							</div>
+						</c:when>
+
+						<c:otherwise>
+	                                          이동하실 워크 스페이스를 선택하세요.
+	                   <span style="font-size:13px; float:right;">
+	                      <a href="${pageContext.request.contextPath}/matching?command=matchingAll" id="add">+ 추가하기</a>
+	                   </span>
+	               <c:forEach var="vo" items="${projectVo}">
+	                  <c:if test="${vo.projectSeq eq projectSeq}">
+								<div id="project_name" style="background-color:rgb(75,97,207); border:0px; color:white;"
+									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+									<div id="title" style="color:white;">${vo.projectName}</div>
+
+									<div id="content">${vo.member}</div>
+
+									<div id="period">${vo.startDate} - ${vo.endDate}</div>
+								</div>
+					  </c:if>
+					   <c:if test="${vo.projectSeq ne projectSeq}">
+								<div id="project_name"
+									onclick="location.href='${pageContext.request.contextPath}/matching?command=selectOneProject&projectSeq=${vo.projectSeq}'">
+									<div id="title">${vo.projectName}</div>
+
+									<div id="content">${vo.member}</div>
+
+									<div id="period">${vo.startDate} - ${vo.endDate}</div>
+								</div>
+					  </c:if>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+		</div>
+    </div>
 </body>
 </html>

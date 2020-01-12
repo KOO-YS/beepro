@@ -175,6 +175,7 @@ CREATE TABLE project (
 	finish_ck	varchar2(6)	NOT NULL,
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
+
 -- 프로젝트 이름 컬럼 추가
 ALTER TABLE PROJECT ADD PROJECT_NAME VARCHAR2(4000);
 -- PROJECT 테이블을 최초로 생성하는 사람

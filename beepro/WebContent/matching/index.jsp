@@ -106,14 +106,14 @@
           <div class="portfolio-caption">
             <h4>project</h4>
             <img src="https://previews.123rf.com/images/unitonevector/unitonevector1908/unitonevector190800830/128682281-vector-illustration-coworking-large-long-table-people-share-workspace-by-working-together-on-laptop-.jpg" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='matchingList.jsp'">project matching</button>
+            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'">project matching</button>
           </div>
         </div>
         <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
           <div class="portfolio-caption">
             <h4>personal</h4>
             <img src="https://media.istockphoto.com/vectors/vector-illustration-coworking-meeting-room-flat-vector-id1148521016" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='personal.jsp'">personal matching</button>
+            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/personMatching?command=selectAllPer'">personal matching</button>
           </div>
         </div>
       </div>
@@ -165,6 +165,7 @@
 				</button>
 		    </c:forEach>
 		  </div>
+
       </div>
       <div class="modal-footer">
 		</div>

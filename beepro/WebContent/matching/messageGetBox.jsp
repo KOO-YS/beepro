@@ -174,81 +174,6 @@
 	<!-- project -->
 	<section class="bg-light page-section">
 		<div class="container">
-
-			<!-- <div class="row">
-				<div class="col-3">
-					<div class="chk-block" style="margin-top: 50px">
-						search
-						<hr>
-						<input type="checkbox"> test<br> <input
-							type="checkbox"> test<br> <input type="checkbox">
-						test<br> <input type="checkbox"> test<br>
-					</div>
-				</div>
-				<div class="col-9">
-					            <div class="row" style="float:right; "><button onclick="location.href='projectWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">글쓰기</button></div>
-
-					게시물
-					              <div class="row post-card" style="margin-top:50px">
-
-					<div class="row post-card">
-						<div class="col-lg-12">
-							<div class="row">
-								<div class="col-lg-11 col-sm-10">
-									<h4>title 프로젝트 제목</h4>
-								</div>
-								<div class="col-lg-1 col-sm-2">
-									heart <i class="heart" style="float: right;"></i>
-								</div>
-								<hr>
-							</div>
-							<div class="row">
-								<div class="col-lg-5">
-									구하는 인원 : 5명 <br>상세 정보 <br>위치?
-								</div>
-								<div class="col-lg-6">프로젝트 관련 상세 정보</div>
-							</div>
-						</div>
-					</div>
-					게시물 end
-
-					게시물
-					<div class="row post-card">
-						<div class="col-lg-12">
-							<div class="row">
-								<div class="col-lg-11 col-sm-10">
-									<h4>title 프로젝트 제목</h4>
-								</div>
-								<div class="col-lg-1 col-sm-2">
-									heart
-									<i class="heart" style="float: right;"></i>
-								</div>
-								<hr>
-							</div>
-							<div class="row">
-								<div class="col-lg-5">
-									구하는 인원 : 5명 <br>상세 정보 <br>위치?
-								</div>
-								<div class="col-lg-6">프로젝트 관련 상세 정보</div>
-							</div>
-						</div>
-					</div>
-					게시물 end
-					<div class="row" style="display: block;">
-						<nav aria-label="Page navigation example">
-							<ul class="pagination justify-content-center">
-								<li class="page-item disabled"><a class="page-link"
-									href="#" tabindex="-1">Previous</a></li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#">Next</a>
-								</li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</div> -->
 			<div class="row">
 				<div class="col-2">
 					<div class="chk-block"
@@ -267,18 +192,6 @@
 
 				<!-- 본격적으로 내용이 담기는 div -->
 				<div class="col-10">
-					<!-- <div class="container-fluid">
-						<div class="container">
-							<div class="table-title">
-								<div class="row">
-									<div class="col-sm-4">
-										<h5>
-											&nbsp;<b>쪽지 목록</b>
-										</h5>
-									</div>
-								</div>
-								<hr>
-							</div> -->
 					<div class="table-wrapper" id="getBox">
 						<input class="btn btn-primary" style="margin-bottom: 10px;"
 							type="button" value="삭제" onclick="deleteMsgFunction();" />
@@ -300,76 +213,86 @@
 									</tr>
 								</thead>
 								<tbody style="background-color: white">
-									<c:forEach var="list" items="${list }">
-										<c:forEach var="readList" items="${readList}">
-											<c:if test="${ readList eq list.msg_seq}">
-												<script type="text/javascript">
+
+								<c:choose>	
+									<c:when test="${empty list}">
+										<tr>
+											<td colspan="4">받은 쪽지가 없습니다.</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="list" items="${list }">
+											<c:forEach var="readList" items="${readList}">
+												<c:if test="${ readList eq list.msg_seq}">
+													<script type="text/javascript">
 												$( document ).ready(function() {
 													$('#msg${list.msg_seq}').css("background-color","rgba(246,246,246)").css("color","gray");
 												});
 										</script>
-											</c:if>
-										</c:forEach>
-										<tr id="msg${list.msg_seq}">
-											<td><input type="checkbox" name="chk"
-												value="${list.msg_seq }"></td>
-											<td>${list.send_id }</td>
-											<td style="text-align: left;" onclick="showMsgFunction(${list.msg_seq});">${list.content }</td>
-											<td><small>${list.regdate }</small></td>
-										</tr>
+												</c:if>
+											</c:forEach>
+											<tr id="msg${list.msg_seq}">
+												<td><input type="checkbox" name="chk"
+													value="${list.msg_seq }"></td>
+												<td>${list.send_id }</td>
+												<td style="text-align: left;"
+													onclick="showMsgFunction(${list.msg_seq});">${list.content }</td>
+												<td><small>${list.regdate }</small></td>
+											</tr>
 
-										<!-- 쪽지 디테일 모달 -->
-										<div class="modal show" id="detailMsg${list.msg_seq}">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header modal-header-info">
-														<h4 class="modal-title">
-															<span class="glyphicon glyphicon-envelope"></span> 받은 쪽지
-														</h4>
-														<button type="button" class="close"
-															id="close${list.msg_seq}" data-dismiss="modal"
-															aria-hidden="true">×</button>
-													</div>
-													<div class="modal-body">
-														<div class="form-group">
-															<label class="col-sm-12" for="inputTo"><span
-																class="glyphicon glyphicon-user"></span>보낸사람</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control"
-																	id="inputTo${list.msg_seq}"
-																	placeholder="comma separated list of recipients"
-																	readonly="readonly" name="get_id"
-																	value="${list.send_id }">
+											<!-- 쪽지 디테일 모달 -->
+											<div class="modal show" id="detailMsg${list.msg_seq}">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header modal-header-info">
+															<h4 class="modal-title">
+																<span class="glyphicon glyphicon-envelope"></span> 받은 쪽지
+															</h4>
+															<button type="button" class="close"
+																id="close${list.msg_seq}" data-dismiss="modal"
+																aria-hidden="true">×</button>
+														</div>
+														<div class="modal-body">
+															<div class="form-group">
+																<label class="col-sm-12" for="inputTo"><span
+																	class="glyphicon glyphicon-user"></span>보낸사람</label>
+																<div class="col-sm-10">
+																	<input type="text" class="form-control"
+																		id="inputTo${list.msg_seq}"
+																		placeholder="comma separated list of recipients"
+																		readonly="readonly" name="get_id"
+																		value="${list.send_id }">
+																</div>
+															</div>
+															<div class="form-group">
+																<label class="col-sm-12" for="inputBody"><span
+																	class="glyphicon glyphicon-list"></span>쪽지 내용</label>
+																<div class="col-sm-12">
+																	<textarea class="form-control"
+																		id="inputBody${list.msg_seq}" rows="8" name="content"
+																		readonly="readonly" style="resize: none;">${list.content }</textarea>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<input type="reset" class="btn btn-default pull-left"
+																	id="cancle${list.msg_seq}" data-dismiss="modal"
+																	style="border: 1px solid lightgray;" value="확인" /> <input
+																	type="button" class="btn btn-primary"
+																	style="background-color: #fec503; border-color: #fec503;"
+																	value="답장하기"
+																	onclick="reSendFunction('${list.send_id }');" />
 															</div>
 														</div>
-														<div class="form-group">
-															<label class="col-sm-12" for="inputBody"><span
-																class="glyphicon glyphicon-list"></span>쪽지 내용</label>
-															<div class="col-sm-12">
-																<textarea class="form-control"
-																	id="inputBody${list.msg_seq}" rows="8" name="content"
-																	readonly="readonly" style="resize: none;">${list.content }</textarea>
-															</div>
-														</div>
-														<div class="modal-footer">
-															<input type="reset" class="btn btn-default pull-left"
-																id="cancle${list.msg_seq}" data-dismiss="modal"
-																style="border: 1px solid lightgray;" value="확인" /> 
-															<input
-																type="button" class="btn btn-primary"
-																style="background-color: #fec503; border-color: #fec503;"
-																value="답장하기"
-																onclick="reSendFunction('${list.send_id }');" />
-														</div>
 													</div>
+													<!-- /.modal-content -->
 												</div>
-												<!-- /.modal-content -->
+												<!-- /.modal-dialog -->
 											</div>
-											<!-- /.modal-dialog -->
-										</div>
-										<!-- /.modal compose message -->
+											<!-- /.modal compose message -->
 
-									</c:forEach>
+										</c:forEach>
+									</c:otherwise>
+									</c:choose>
 								</tbody>
 							</table>
 						</form>
@@ -424,9 +347,9 @@
 
 					<form role="form" id="sendForm" class="form-horizontal"
 						action="${pageContext.request.contextPath}/msg">
-						<input type="hidden" name="command" value="sendMsg" /> 
-						<input type="hidden" name="send_id" value="${u_id }" />
-						<input type="hidden" name="backMsgBox" value="backMsgBox" />
+						<input type="hidden" name="command" value="sendMsg" /> <input
+							type="hidden" name="send_id" value="${u_id }" /> <input
+							type="hidden" name="backMsgBox" value="backMsgBox" />
 						<div class="form-group">
 							<label class="col-sm-12" for="inputTo"><span
 								class="glyphicon glyphicon-user"></span>받는사람</label>
@@ -447,8 +370,7 @@
 						<div class="modal-footer">
 							<input type="reset" id="reset" class="btn btn-default pull-left"
 								data-dismiss="modal" style="border: 1px solid lightgray;"
-								value="취소" />
-							<input type="button" class="btn btn-primary"
+								value="취소" /> <input type="button" class="btn btn-primary"
 								style="background-color: #fec503; border-color: #fec503;"
 								value="보내기" onclick="CheckForm();" />
 						</div>

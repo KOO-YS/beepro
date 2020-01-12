@@ -10,7 +10,7 @@ public class JDBCTemplet {
 	public static Connection getConnection() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-//			System.out.println("1. 드라이버 연결");
+			System.out.println("1. 드라이버 연결");
 		
 		} catch (ClassNotFoundException e) {
 			System.out.println("1. 드라이버 연결 실패");
@@ -25,7 +25,7 @@ public class JDBCTemplet {
 		
 		try {
 			con = DriverManager.getConnection(url,id,pw);
-//			System.out.println("2. 계정 연결");
+			System.out.println("2. 계정 연결");
 		} catch (SQLException e) {
 			System.out.println("2. 계정 연결 실패");
 			e.printStackTrace();
