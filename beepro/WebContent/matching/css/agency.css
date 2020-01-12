@@ -146,8 +146,8 @@ img::-moz-selection {
 
 @media (min-width: 992px) {
   #mainNav {
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     transition: padding-top 0.3s, padding-bottom 0.3s;
     border: none;
     background-color: rgba(75,97,207);

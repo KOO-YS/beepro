@@ -367,12 +367,7 @@ public class UserServlet extends HttpServlet {
 	 		u_photo = dao.getUserPhoto(u_id);	
 	 		session.setAttribute("u_photo", u_photo);
 
-	 		PrintWriter script = response.getWriter();
-	 		
-	 		script.println("<script>");		
-	 		script.println("location.href='matching/index.jsp'");
-	 		script.println("</script>");
-	 		script.close();
+	 		response.sendRedirect("matching?command=main");
 		 	}
 	 	} else if (result == 0) {
 
@@ -409,7 +404,7 @@ public class UserServlet extends HttpServlet {
 	private void logoutAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		response.sendRedirect("matching/index.jsp");
+		response.sendRedirect("matching?command=main");
 		
 	}
 	

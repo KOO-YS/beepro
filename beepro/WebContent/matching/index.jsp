@@ -36,7 +36,10 @@
   <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
 </head>
 <body id="page-top">
-  <jsp:include page="common/main_nav.jsp"></jsp:include>
+<c:import url="common/nav_bar.jsp">
+	<c:param name="pageName" value="main"></c:param>
+</c:import>
+  <%-- <jsp:include page="common/main_nav.jsp"></jsp:include> --%>
   
   <!-- Header -->
   <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main_keyimage.jpg')">
@@ -149,22 +152,19 @@
         </button>
       </div>
       <div class="modal-body">
-		<%-- <form action="${pageContext.request.contextPath}/project" method="post"> --%>
-      
-        	  <div class="form-group" style="text-align:center;">
-        	  	<c:if test="${ empty  projectList}">
-					<div class="col-lg-8 mb-8">
-						프로젝트가 존재하지 않습니다<br>
-						<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
-					</div>
-				</c:if>
-			    <c:forEach var="project" items="${projectList}">
-			    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
-					  ${project.projectName}
-					</button>
-			    </c:forEach>
-			  </div>
-		<!-- </form> -->
+       	  <div class="form-group" style="text-align:center;">
+       	  	<c:if test="${ empty  projectList}">
+				<div class="col-lg-8 mb-8"> 
+					프로젝트가 존재하지 않습니다<br>
+					<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
+				</div>
+			</c:if>
+		    <c:forEach var="project" items="${projectList}">
+		    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
+				  ${project.projectName}
+				</button>
+		    </c:forEach>
+		  </div>
       </div>
       <div class="modal-footer">
 		</div>

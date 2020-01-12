@@ -84,7 +84,9 @@ $(function(){
 
 <body id="page-top">
 
-  <jsp:include page="common/sub_nav.jsp"></jsp:include>
+  	<c:import url="common/nav_bar.jsp">
+  		<c:param name="pageName" value="matching"></c:param>
+  	</c:import>
 
   <!-- Header -->
   <header class="masthead" style="background-color: rgba(75,97,207);">

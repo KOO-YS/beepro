@@ -87,6 +87,7 @@ public class MatchingServlet extends HttpServlet {
 				List<ProjectVo> project = matchingService.getUserProject(u_id);
 				request.setAttribute("projectList", project);
 			}
+//			dispatch("matching/common/nav_bar.jsp", request, response);
 			dispatch("matching/index.jsp", request, response);
 		}
 		else if (command.equals("profile")) {

@@ -164,7 +164,10 @@ $(function() {
 </script>
 </head>
 <body id="page-top">
-  <jsp:include page="common/sub_nav.jsp"></jsp:include>
+  <c:import url="common/nav_bar.jsp">
+  	<c:param name="pageName" value="matching"></c:param>
+  </c:import>
+  <%-- <jsp:include page="common/sub_nav.jsp"></jsp:include> --%>
   <!-- Header -->
   <header class="masthead" style="background-color: rgba(75,97,207);">
     <div class="container">
@@ -330,7 +333,16 @@ $(function() {
 
   <!-- Custom scripts for this template -->
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
-
+<script type="text/javascript">
+	function selectProject(){
+		var userId = "${u_id}";
+		if(userId == ""){
+			alert("로그인 후 이용 가능합니다");
+			return false;
+		}
+		$("#selectProject").modal();
+	}
+</script>
 </body>
 
 </html>
