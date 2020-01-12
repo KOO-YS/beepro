@@ -96,32 +96,10 @@ function sendMsgFunction(get_id){
 </script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-		<div class="container">
-			<a class="navbar-brand js-scroll-trigger" href="index.jsp">BeePro
-			</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button"
-				data-toggle="collapse" data-target="#navbarResponsive"
-				aria-controls="navbarResponsive" aria-expanded="false"
-				aria-label="Toggle navigation">
-				Menu <i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="">
-				<ul class="navbar-nav text-uppercase ml-auto">
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="#matching" id="match-sub">매칭 matching</a>
-						<ul class="sub-nav">
-							<li><a class="nav-link" href="project.jsp">by project</a></li>
-							<li><a class="nav-link" href="personal.jsp">by personal</a></li>
-						</ul></li>
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="#about">협업 cowork</a></li>
-					<li class="nav-item"><a class="nav-link js-scroll-trigger"
-						href="mypage.jsp">마이페이지</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<c:import url="common/nav_bar.jsp">
+  		<c:param name="pageName" value="matching"></c:param>
+  	</c:import>
+
 	<form action="personMatching" method="get">
 		<input type="hidden" name="command" value="personalUpdate" /> <input
 			type="hidden" name="personal_seq" value="${detail.personal_seq}">
@@ -182,10 +160,10 @@ function sendMsgFunction(get_id){
 							<h4>ID : qweqwe</h4>
 							<h4>location : 경기</h4>
 							<h4>skill : 경기, 하이, ㅇㅇ</h4>
-							<a class="btn btn-primary" style="margin: 10px; width: 100px;"
+							<a class="btn btn-primary" style="margin: 10px; width: 100px; color:white;"
 								onclick="sendMsgFunction('${profile.u_name}');">쪽 지</a> <a
 								onclick="location.href='matching?command=profile&userId=${detail.user_id }'"
-								class="btn btn-primary" style="margin: 10px; width: 100px;">프로필</a>
+								class="btn btn-primary" style="margin: 10px; width: 100px; color:white;">프로필</a>
 						</div>
 					</div>
 				</div>

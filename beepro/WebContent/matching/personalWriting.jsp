@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,33 +57,9 @@
 </script>
 </head>
 <body>
-	  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-	    <div class="container">
-	      <a class="navbar-brand js-scroll-trigger" href="index.jsp">BeePro	</a>
-	      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-	        Menu
-	        <i class="fas fa-bars"></i>
-	      </button>
-	      <div class="collapse navbar-collapse" id="">
-	        <ul class="navbar-nav text-uppercase ml-auto">
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="#matching" id="match-sub" >매칭 matching</a>
-	            <ul class="sub-nav">
-	              <li><a class="nav-link" href="project.jsp">by project</a></li>
-	              <li><a class="nav-link" href="personal.jsp">by personal</a></li>
-	            </ul>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="#about">협업 cowork</a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link js-scroll-trigger" href="mypage.jsp">마이페이지</a>
-	          </li>
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
-	  
+	<c:import url="common/nav_bar.jsp">
+  		<c:param name="pageName" value="matching"></c:param>
+  	</c:import>  
 	  <!-- 나중에 post로 바꾸기 -->
 	<form action="../personMatching" method="get">
 	<input type="hidden" name="command"  value="personalWrite"/>
