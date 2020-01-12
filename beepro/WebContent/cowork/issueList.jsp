@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 <link href="${pageContext.request.contextPath}/cowork/css/issueWriteTable.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -86,18 +87,6 @@
 		var langSelect = document.getElementById("select2");
 
 		var selectValue = langSelect.options[langSelect.selectedIndex].value; // option value 값
-
-		$("#issue-table > tbody > tr").hide();
-		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue+ "')");
-
-		$(temp).parent().show();
-	}
-	
-	// 게시글 보이는 갯수 조절하는 기능
-	function displaySelect3() {
-		var langSelect = document.getElementById("select3");
-
-		var selectValue = langSelect.options[langSelect.selectedIndex].value;
 
 		$("#issue-table > tbody > tr").hide();
 		var temp = $("#issue-table > tbody > tr > td:contains('" + selectValue+ "')");
@@ -428,7 +417,7 @@ table.table .avatar {
 								<div class="row">
 									<div class="col-sm-3">
 										<div class="show-entries">
-											<select class="form-control" onchange="displaySelect3()" id="select3">
+											<select class="form-control">
 												<option value="5">5</option>
 												<option value="10">10</option>
 												<option value="15">15</option>

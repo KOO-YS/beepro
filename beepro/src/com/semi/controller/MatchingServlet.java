@@ -386,7 +386,7 @@ public class MatchingServlet extends HttpServlet {
 				session.setAttribute("projectSeq", projectSeq);
 				session.setAttribute("pName", p_name);
 				
-				dispatch("cowork/index.jsp",request, response);
+				dispatch("cowork/dashboard.jsp",request, response);
 			} else {
 				System.out.println("프로젝트 생성 실패");
 			}
