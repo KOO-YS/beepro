@@ -102,6 +102,7 @@ public class ProjectServlet extends HttpServlet {
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			session.setAttribute("projectSeq", projectSeq);
 			response.sendRedirect("cowork/index.jsp");
+			
 		} else if (command.equals("enterCowork")) {
 			dispatch("cowork/dashboard.jsp", request, response);
 
