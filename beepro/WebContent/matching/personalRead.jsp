@@ -160,7 +160,6 @@ function sendMsgFunction(get_id){
 						<div class="col-7" style="text-align: left; padding-top: 30px;">
 							<h4 style="margin-bottom: 10px; font-weight:bold;">ID : ${detail.user_id }</h4>
 							<h4 style="margin-bottom: 10px; font-weight:bold;">location : ${area}</h4>
-							<h4 style="margin-bottom: 10px; font-weight:bold;">skill : ${skill}</h4>
 							<a class="btn btn-primary" style="margin: 10px; width: 100px; color:white;"
 								onclick="sendMsgFunction('${detail.user_id }');">쪽 지</a> <a
 								onclick="location.href='matching?command=profile&userId=${detail.user_id }'"
