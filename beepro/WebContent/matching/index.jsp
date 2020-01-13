@@ -53,7 +53,7 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Advantages</h2>
-          <h3 class="section-subheading ">Why do I use Beepro?</h3>
+          <h3 class="section-subheading "></h3>
         </div>
       </div>
       <div class="row text-center">
@@ -63,7 +63,7 @@
             <i class="fas fa-hands-helping fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">MATCHING SYSTEMS</h4>
-          <p class="text-muted"> There are various projects to participate in, and you can promote yourself and<br> find people to be with.</p>
+          <p class="text-muted">Beepro에는 참여할 수 있는 다양한  프로젝트와 <br> 다양한 사람들이 있습니다. <br>지금 바로 함께할 팀원들을 찾아보세요.</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -71,7 +71,7 @@
             <i class="fas fa-users fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">COLLABORATION TOOLS</h4>
-          <p class="text-muted">We offer issue & schedule management tools to increase your work efficiency <br>in an easy-to-use way.</p>
+          <p class="text-muted">내맘대로 작성하는  워크프로우로 프로젝트의 <br> 업무 진행현황을 쉽고 재미있게 관리해보세요.<br> 일정관리, 이슈관리, 진행상황까지 하나로 끝!</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -79,7 +79,7 @@
             <i class="fas fa-hand-holding-usd fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">FREE SERVICE</h4>
-          <p class="text-muted">For students and Beginner programmers,<br>all functions of Beepro are provided<br>free of charge !</p>
+          <p class="text-muted">초보 개발자 및 학생 개발자를 위해 <br>Beepro의 모든 기능들은 무료로 제공됩니다. <br>부담없이 포트폴리오를 채워보세요!</p>
         </div>
       </div>
     </div>
