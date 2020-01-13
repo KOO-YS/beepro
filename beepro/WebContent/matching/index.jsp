@@ -29,12 +29,7 @@
   <jsp:include page="common/main_nav.jsp"></jsp:include>
   
   <!-- Header -->
-  <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main_keyimage.jpg')">
     <div class="container">
-      <div class="intro-text">
-        <div class="intro-lead-in">matching & cowork</div>
-        <div class="intro-heading text-uppercase">logo</div>
-        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>
       </div>
     </div>
   </header>
@@ -45,33 +40,33 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Advantages</h2>
-          <h3 class="section-subheading text-muted">장점 픽토그램 사용</h3>
+          <h3 class="section-subheading ">Why do I use Beepro?</h3>
         </div>
       </div>
       <div class="row text-center">
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
             <i class="fas fa-circle fa-stack-2x text-primary"></i>
-            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+            <i class="fas fa-hands-helping fa-stack-1x fa-inverse"></i>
           </span>
-          <h4 class="service-heading">E-Commerce</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+          <h4 class="service-heading">MATCHING SYSTEMS</h4>
+          <p class="text-muted"> There are various projects to participate in, and you can promote yourself and<br> find people to be with.</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
             <i class="fas fa-circle fa-stack-2x text-primary"></i>
-            <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+            <i class="fas fa-users fa-stack-1x fa-inverse"></i>
           </span>
-          <h4 class="service-heading">Responsive Design</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+          <h4 class="service-heading">COLLABORATION TOOLS</h4>
+          <p class="text-muted">We offer issue & schedule management tools to increase your work efficiency <br>in an easy-to-use way.</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
             <i class="fas fa-circle fa-stack-2x text-primary"></i>
-            <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
+            <i class="fas fa-hand-holding-usd fa-stack-1x fa-inverse"></i>
           </span>
-          <h4 class="service-heading">Web Security</h4>
-          <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+          <h4 class="service-heading">FREE SERVICE</h4>
+          <p class="text-muted">For students and Beginner programmers,<br>all functions of Beepro are provided<br>free of charge !</p>
         </div>
       </div>
     </div>
