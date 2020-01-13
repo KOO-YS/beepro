@@ -79,6 +79,11 @@ $(function(){
          $("[name=searchForm]").submit();
       });
    });
+   $(document).ready(function(){
+       $("#searchIcon").click(function(){
+         if($("#sort").val().length==0){alert("분류를 선택해주세요."); $("sort").focus(); return false;}
+    	});
+    });
 });
 </script>
     <script type="text/javascript">
