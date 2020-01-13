@@ -39,10 +39,14 @@
 <c:import url="common/nav_bar.jsp">
 	<c:param name="pageName" value="main"></c:param>
 </c:import>
-  <%-- <jsp:include page="common/main_nav.jsp"></jsp:include> --%>
   
   <!-- Header -->
+  <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main.jpg')">
     <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">matching & cowork</div>
+        <div class="intro-heading text-uppercase">logo</div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" style="float:left;" href="#services">Tell Me More</a>
       </div>
     </div>
   </header>
