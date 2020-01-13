@@ -64,7 +64,7 @@ public interface ProjectDao {
     String getIssueToMeSql = "SELECT COUNT(*) ISSUE_SEQ FROM ISSUE WHERE RESPONSIBILITY=?";
     
     // 댓글 부분
-    String insertCommentSql = "INSERT INTO COMMENTS VALUES (COMMENTS_SEQ.NEXTVAL,?,?,?,SYSDATE)";
+    String insertCommentSql = "INSERT INTO COMMENTS VALUES (?,COMMENTS_SEQ.NEXTVAL,?,?,?,SYSDATE)";
     String selectAllCommentSql = "SELECT * FROM COMMENTS WHERE ISSUE_SEQ=?";
     String deleteCommentSql = "DELETE FROM COMMENTS WHERE COMMENTS_SEQ=?";
     

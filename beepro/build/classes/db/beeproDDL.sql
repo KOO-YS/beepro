@@ -204,6 +204,7 @@ CREATE TABLE comments (
 	regdate	DATE	NOT NULL
 );
 
+
 select * from comments;
 
 CREATE TABLE skill (

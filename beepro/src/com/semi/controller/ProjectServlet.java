@@ -31,17 +31,18 @@ import com.semi.service.ProjectService;
 import com.semi.vo.CommentVo;
 import com.semi.vo.FileVo;
 import com.semi.vo.IssueVo;
+import com.semi.vo.PageVo;
 import com.semi.vo.TodoVo;
 
 @WebServlet("/ProjectServlet")
 public class ProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	// 전역 변수 설정
 	int projectSeq;
-	String projectMember= "";
+	String projectMember = "";
 	String projectName = "";
-	
+
 	public ProjectServlet() {
 		super();
 	}
@@ -76,33 +77,34 @@ public class ProjectServlet extends HttpServlet {
 		ProjectService projectService = new ProjectService();
 		ProjectDao projectDao = new ProjectDaoImple();
 
-		HttpSession session = request.getSession(); 
+		HttpSession session = request.getSession();
 		/* 자바 변수 컨벤션에 맞지 않은 부분들 일부 수정 -> 언더바 사용 비추 */
 
 		try {
-			projectSeq = (int)session.getAttribute("projectSeq");
+			projectSeq = (int) session.getAttribute("projectSeq");
 			projectMember = projectDao.selectAllMember(projectSeq);
 			projectName = projectDao.selectOneProjectName2(projectSeq);
-			
-			session.setAttribute("pMember", projectMember); 
-			session.setAttribute("pName",projectName);
-			
-		} catch(NullPointerException nullPointer) {
+
+			session.setAttribute("pMember", projectMember);
+			session.setAttribute("pName", projectName);
+ 
+            
+		} catch (NullPointerException nullPointer) {
 			System.out.println("널값 발생");
 			nullPointer.printStackTrace();
-			
+
 		} catch (Exception e) {
 			System.out.println("세션 값이 설정되지 않았습니다");
 		} finally {
-			System.out.print("projectSeq : "+projectSeq);
-			System.out.println("  pmem : "+projectMember+"   p_name: "+projectName);
+			System.out.print("projectSeq : " + projectSeq);
+			System.out.println("  pmem : " + projectMember + "   p_name: " + projectName);
 		}
-	
-		if(command.equals("goToProject")) {
+
+		if (command.equals("goToProject")) {
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 			session.setAttribute("projectSeq", projectSeq);
 			response.sendRedirect("cowork/index.jsp");
-			
+
 		} else if (command.equals("enterCowork")) {
 			dispatch("cowork/dashboard.jsp", request, response);
 
@@ -111,7 +113,7 @@ public class ProjectServlet extends HttpServlet {
 
 			String userId = (String) session.getAttribute("u_id");
 			String userName = (String) session.getAttribute("u_name");
-			
+
 			System.out.println("아이디:" + userId);
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
@@ -127,7 +129,7 @@ public class ProjectServlet extends HttpServlet {
 
 			String userId = (String) session.getAttribute("u_id");
 			String userName = (String) session.getAttribute("u_name");
-			
+
 			System.out.println(userId);
 
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
@@ -189,12 +191,43 @@ public class ProjectServlet extends HttpServlet {
 
 			List<IssueVo> list = projectDao.selectAllIssue(projectSeq);
 
+			// 페이징 서블릿
+			int listCount = list.size();
+			System.out.println(listCount);
+			request.setAttribute("listsize", listCount);
+
+			String curpagenum = request.getParameter("curpagenum");
+			System.out.println(curpagenum + "현재페이지");
+
+			// 페이징 시작
+			int currentPage = 0;
+
+			if (curpagenum == null || curpagenum == "0") {
+				currentPage = 1;
+			} else {
+				currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+			}
+
+			PageVo page = new PageVo();
+
+			page.setCurrentPage(currentPage);
+			page.setListCount(listCount);
+			page.setAllPage(listCount);
+			page.setPreve(currentPage);
+			page.setStartRow(currentPage);
+			page.setStartPage(currentPage, page.getAllPage());
+			page.setEndPage(currentPage, page.getAllPage());
+			page.setNext(currentPage, page.getAllPage());
+
+			request.setAttribute("page", page);
+
 			request.setAttribute("issueList", list);
 			dispatch("cowork/issueList.jsp", request, response);
 
 		} else if (command.equals("issueDetail")) {
 			System.out.println("이슈 상세 정보");
 			int seq = Integer.parseInt(request.getParameter("issue_seq"));
+
 			// 이슈 디테일
 			IssueVo vo = projectDao.selectOneIssue(seq);
 
@@ -295,6 +328,7 @@ public class ProjectServlet extends HttpServlet {
 			boolean success = projectService.commentWrite(request, response);
 
 			int num = Integer.parseInt(request.getParameter("issueSeq"));
+			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
 
 			if (success) {
 				System.out.println("댓글 생성 성공");
@@ -325,12 +359,12 @@ public class ProjectServlet extends HttpServlet {
 			// 프로젝트 시퀀스 세션 설정 :: 제대로 받아옴 (맨 위에 설정)
 			// 로그인한 아이디 세션 설정 :: 제대로 받아옴
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
-			
+
 			List<FileVo> list = projectDao.selectAllFile(projectSeq);
 			System.out.println(list.toString());
 			request.setAttribute("FileList", list);
 			dispatch("cowork/fileupload.jsp", request, response);
-			
+
 		} else if (command.equals("uploadbutton")) {
 			String savePath = request.getServletContext().getRealPath("upload");
 			int maxSize = 1024 * 1024 * 100;
@@ -349,48 +383,48 @@ public class ProjectServlet extends HttpServlet {
 
 		} else if (command.equals("download")) {
 			System.out.println("다운로드 버튼 눌렀음");
-			
-			    String fileName = request.getParameter("fileName");
-			 
-			    String filePath = this.getServletContext().getRealPath("upload");
-		        File downloadFile = new File(filePath+"/"+fileName);
-		        FileInputStream inStream = new FileInputStream(downloadFile);
-		         
-		        // if you want to use a relative path to context root:
-		        String relativePath = getServletContext().getRealPath("");
-		        System.out.println("relativePath = " + relativePath);
-		         
-		        // obtains ServletContext
-		        ServletContext context = getServletContext();
-		         
-		        // gets MIME type of the file
-		        String mimeType = context.getMimeType(filePath);
-		        if (mimeType == null) {        
-		            // set to binary type if MIME mapping not found
-		            mimeType = "application/octet-stream";
-		        }
-		        System.out.println("MIME type: " + mimeType);
-		         
-		        // modifies response
-		        response.setContentType(mimeType);
-		        response.setContentLength((int) downloadFile.length());
-		         
-		        // forces download
-		        String headerKey = "Content-Disposition";
-		        String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
-		        response.setHeader(headerKey, headerValue);
-		         
-		        OutputStream outStream = response.getOutputStream();
-		         
-		        byte[] buffer = new byte[4096];
-		        int bytesRead = -1;
-		         
-		        while ((bytesRead = inStream.read(buffer)) != -1) {
-		            outStream.write(buffer, 0, bytesRead);
-		        }
-		         
-		        inStream.close();
-		        outStream.close();     
+
+			String fileName = request.getParameter("fileName");
+
+			String filePath = this.getServletContext().getRealPath("upload");
+			File downloadFile = new File(filePath + "/" + fileName);
+			FileInputStream inStream = new FileInputStream(downloadFile);
+
+			// if you want to use a relative path to context root:
+			String relativePath = getServletContext().getRealPath("");
+			System.out.println("relativePath = " + relativePath);
+
+			// obtains ServletContext
+			ServletContext context = getServletContext();
+
+			// gets MIME type of the file
+			String mimeType = context.getMimeType(filePath);
+			if (mimeType == null) {
+				// set to binary type if MIME mapping not found
+				mimeType = "application/octet-stream";
+			}
+			System.out.println("MIME type: " + mimeType);
+
+			// modifies response
+			response.setContentType(mimeType);
+			response.setContentLength((int) downloadFile.length());
+
+			// forces download
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+			response.setHeader(headerKey, headerValue);
+
+			OutputStream outStream = response.getOutputStream();
+
+			byte[] buffer = new byte[4096];
+			int bytesRead = -1;
+
+			while ((bytesRead = inStream.read(buffer)) != -1) {
+				outStream.write(buffer, 0, bytesRead);
+			}
+
+			inStream.close();
+			outStream.close();
 		}
 	}
 }

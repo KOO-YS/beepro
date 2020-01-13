@@ -3,6 +3,7 @@ package com.semi.vo;
 import java.util.Date;
 
 public class CommentVo {
+	private int projectSeq; // 프로젝트 번호
 	private int commentSeq; // 댓글 번호
 	private int issueSeq; // 이슈 번호
 	private String writer; // 댓글 작성자
@@ -12,15 +13,23 @@ public class CommentVo {
 	public CommentVo() {
 		
 	}
-    
-	// 댓글 전체 조회 생성자
-	public CommentVo(int commentSeq, int issueSeq, String writer, String content, String regdate) {
+
+	public CommentVo(int projectSeq, int commentSeq, int issueSeq, String writer, String content, String regdate) {
 		super();
+		this.projectSeq = projectSeq;
 		this.commentSeq = commentSeq;
 		this.issueSeq = issueSeq;
 		this.writer = writer;
 		this.content = content;
 		this.regdate = regdate;
+	}
+
+	public int getProjectSeq() {
+		return projectSeq;
+	}
+
+	public void setProjectSeq(int projectSeq) {
+		this.projectSeq = projectSeq;
 	}
 
 	public int getCommentSeq() {
@@ -65,7 +74,7 @@ public class CommentVo {
 
 	@Override
 	public String toString() {
-		return "CommentVo [commentSeq=" + commentSeq + ", issueSeq=" + issueSeq + ", writer=" + writer + ", content="
-				+ content + ", regdate=" + regdate + "]";
+		return "CommentVo [projectSeq=" + projectSeq + ", commentSeq=" + commentSeq + ", issueSeq=" + issueSeq
+				+ ", writer=" + writer + ", content=" + content + ", regdate=" + regdate + "]";
 	}
 }
