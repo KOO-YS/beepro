@@ -172,7 +172,7 @@ public class UserService {
 			 
 			 if(file !=null) {
 			    String ext = file.getName().substring(file.getName().lastIndexOf(".")+1);
-			          if(ext.equals("jpg")|| ext.equals("png")|| ext.equals("gif")) {
+			          if(ext.equals("jpg")|| ext.equals("png")|| ext.equals("gif")|| ext.equals("JPG")|| ext.equals("PNG")) {
 			             
 			             String prev = new UserDaoImpl().getUserPhoto(userID);
 			             File prevFile = new File(savePath + "/"+prev);

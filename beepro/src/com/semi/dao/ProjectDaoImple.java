@@ -776,7 +776,7 @@ public class ProjectDaoImple implements ProjectDao {
 				vo.setRegdate(rs.getDate(3));
 				vo.setFileName(rs.getString(4));
 				vo.setProjectSeq(rs.getInt(5));
-System.out.println(vo.toString());
+				System.out.println(vo.toString());
 				res.add(vo);
 			}
 		} catch (SQLException e) {

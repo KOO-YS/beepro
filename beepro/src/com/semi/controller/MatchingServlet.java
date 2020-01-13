@@ -364,8 +364,14 @@ public class MatchingServlet extends HttpServlet {
 		String userPhoto = userDao.getUserPhoto(detail.getUser_id());
 		request.setAttribute("userPhoto", userPhoto);
 		
+	  	//작성자 지역 정보 담기
+		String userId = detail.getUser_id();
+	  	String area = dao.getUserArea(userId);
+	  	request.setAttribute("area", area);		  	
 		request.setAttribute("detail", detail);
 		dispatch("matching/personalRead.jsp", request, response);
+		
+
 	}
 
 			
@@ -436,11 +442,11 @@ public class MatchingServlet extends HttpServlet {
   	  		System.out.println("마이페이지");
   	  		
   	  		//지역 리스트 담기
-  	  		String area = matchingService.getUserArea(request, response);
+  	  		String area = matchingService.getMyArea(request, response);
   	  		request.setAttribute("area", area);
   	  		
   	  		// user skill 리스트 담기
-  	  		List<String> skill = matchingService.getUserSkill(request, response);
+  	  		List<String> skill = matchingService.getMySkill(request, response);
   	  		request.setAttribute("skillList", skill);
   	  		
   	  		//personal 목록담기

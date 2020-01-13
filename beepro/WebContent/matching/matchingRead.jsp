@@ -223,6 +223,9 @@
                		<button type="button" class="col-2 btn btn-primary" style="float: right; margin-right:30px;" id="modifyBtn">수정</button>
                	 </c:if>
                	</c:when>
+               	<c:when test="${empty u_id }">
+               		<!-- 로그인 후 지원가능합니다. -->
+               	</c:when>
                	<c:otherwise>
                	    <a id="volunteerBtn" href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>
 				</c:otherwise> 
