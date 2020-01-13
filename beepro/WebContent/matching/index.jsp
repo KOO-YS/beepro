@@ -36,7 +36,7 @@
   <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
 </head>
 <style type="text/css">
-#cowork { background-image:url('img/cowork_keyimage.png');
+#cowork { background-image:url('${pageContext.request.contextPath}/matching/img/cowork_keyimage.png');
           background-repeat: no-repeat;
           width:100%;
           height:800px;}
@@ -140,32 +140,7 @@
 
   <!-- Portfolio Grid -->
   <section class="bg-light page-section" id="matching">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">matching</h2>
-          <h3 class="section-subheading text-muted">프로젝트 & 사람 매칭 연결</h3>
-        </div>
-      </div>
-      
-
-      <div class="row">
-        <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
-          <div class="portfolio-caption">
-            <h4>project</h4>
-            <img src="https://previews.123rf.com/images/unitonevector/unitonevector1908/unitonevector190800830/128682281-vector-illustration-coworking-large-long-table-people-share-workspace-by-working-together-on-laptop-.jpg" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'">project matching</button>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
-          <div class="portfolio-caption">
-            <h4>personal</h4>
-            <img src="https://media.istockphoto.com/vectors/vector-illustration-coworking-meeting-room-flat-vector-id1148521016" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/personMatching?command=selectAllPer'">personal matching</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </section>
 
   <!-- About -->
@@ -175,7 +150,7 @@
      </div>
      
      <div id="bee">
-        <img src="../cowork/images/bee.png" width=43 height=auto>
+        <img src="${pageContext.request.contextPath}/cowork/images/bee.png" width=43 height=auto>
      </div>
      
      <div id="cowork-button">
