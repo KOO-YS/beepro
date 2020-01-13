@@ -712,11 +712,13 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
   padding: 15px;
 }
 .chk-block {
+  cursor:pointer;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, .1);
   background-color: white;
   padding: 20px;
   border-radius: 10px;
 }
+
 .post-card {
   border-radius: 10px;
   background-color: white;
