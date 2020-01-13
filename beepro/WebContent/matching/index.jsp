@@ -2,7 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
+<!-- 
 
+
+
+
+															main.jsp 를 통해서 실행해주세요!!!!! 
+
+
+
+
+-->
 <head>
 
   <meta charset="utf-8">
@@ -26,7 +36,10 @@
   <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
 </head>
 <body id="page-top">
-  <jsp:include page="common/main_nav.jsp"></jsp:include>
+<c:import url="common/nav_bar.jsp">
+	<c:param name="pageName" value="main"></c:param>
+</c:import>
+  <%-- <jsp:include page="common/main_nav.jsp"></jsp:include> --%>
   
   <!-- Header -->
     <div class="container">
@@ -88,14 +101,14 @@
           <div class="portfolio-caption">
             <h4>project</h4>
             <img src="https://previews.123rf.com/images/unitonevector/unitonevector1908/unitonevector190800830/128682281-vector-illustration-coworking-large-long-table-people-share-workspace-by-working-together-on-laptop-.jpg" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='matchingList.jsp'">project matching</button>
+            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'">project matching</button>
           </div>
         </div>
         <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
           <div class="portfolio-caption">
             <h4>personal</h4>
             <img src="https://media.istockphoto.com/vectors/vector-illustration-coworking-meeting-room-flat-vector-id1148521016" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='personal.jsp'">personal matching</button>
+            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/personMatching?command=selectAllPer'">personal matching</button>
           </div>
         </div>
       </div>
@@ -133,22 +146,25 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="${pageContext.request.contextPath}/project" method="post">
       <div class="modal-body">
-      
-        	  <div class="form-group" style="text-align:center;">
-			    <c:forEach var="project" items="${projectList}">
-			    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'">
-					  ${project.projectName}
-					</button>
-			    </c:forEach>
-			  </div>
+       	  <div class="form-group" style="text-align:center;">
+       	  	<c:if test="${ empty  projectList}">
+				<div class="col-lg-8 mb-8"> 
+					프로젝트가 존재하지 않습니다<br>
+					<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
+				</div>
+			</c:if>
+		    <c:forEach var="project" items="${projectList}">
+		    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
+				  ${project.projectName}
+				</button>
+		    </c:forEach>
+		  </div>
+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <button type="submit" class="btn btn-primary">변경</button>
+		</div>
       </div>
-	</form>
     </div>
   </div>
 </div>

@@ -75,6 +75,8 @@ public class MatchingServlet extends HttpServlet {
 		MatchingDaoImpl dao = new MatchingDaoImpl();
 		
 		ProjectDao pdao = new ProjectDaoImple();
+		
+		UserDaoImpl userDao = new UserDaoImpl();
 
 		// 현재 로그인 중인 아이디로 세션 받아옴
 
@@ -87,6 +89,7 @@ public class MatchingServlet extends HttpServlet {
 				List<ProjectVo> project = matchingService.getUserProject(u_id);
 				request.setAttribute("projectList", project);
 			}
+//			dispatch("matching/common/nav_bar.jsp", request, response);
 			dispatch("matching/index.jsp", request, response);
 		}
 		else if (command.equals("profile")) {
@@ -107,6 +110,10 @@ public class MatchingServlet extends HttpServlet {
 			UserService userService = new UserService();
 			String followers = userService.followerCount(request, response);
 			String followings = userService.followingCount(request, response);
+			
+			//유저프로필 사진 명 가져오기
+			String userPhoto = userDao.getUserPhoto(userId);
+			request.setAttribute("userPhoto", userPhoto);
 			
 			request.setAttribute("followers", followers);
 			request.setAttribute("followings", followings);
@@ -292,11 +299,16 @@ public class MatchingServlet extends HttpServlet {
 	request.setAttribute("u_id", u_id);
 	System.out.println("세션넘기기");
 
+	//유저프로필 사진명 가져오기
+	List<String> photoList = new ArrayList<String>();
+	for(int i=0 ; i<list.size(); i++) {
+		String userPhoto = userDao.getUserPhoto(list.get(i).getUser_id());
+		photoList.add(userPhoto);
+	}
+	request.setAttribute("photoList", photoList);
 
 				
-	// 관심게시글 가져오기
-
-					
+	// 관심게시글 가져오기			
 	ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
 	request.setAttribute("postList", postList);
 	
@@ -347,6 +359,11 @@ public class MatchingServlet extends HttpServlet {
 	MatchingPerVo detail = matchingService.selectOnePer(request, response);
 	if(detail != null) {
 		System.out.println("개인 매칭 디테일 정보 출력");
+		
+		//유저프로필 사진 명 가져오기
+		String userPhoto = userDao.getUserPhoto(detail.getUser_id());
+		request.setAttribute("userPhoto", userPhoto);
+		
 		request.setAttribute("detail", detail);
 		dispatch("matching/personalRead.jsp", request, response);
 	}
@@ -370,7 +387,7 @@ public class MatchingServlet extends HttpServlet {
 				session.setAttribute("projectSeq", projectSeq);
 				session.setAttribute("pName", p_name);
 				
-				dispatch("cowork/index.jsp",request, response);
+				dispatch("cowork/dashboard.jsp",request, response);
 			} else {
 				System.out.println("프로젝트 생성 실패");
 			}
@@ -442,10 +459,17 @@ public class MatchingServlet extends HttpServlet {
   	  		List<MatchingProVo> list4 = matchingService.allProjectPost(request, response);
   	  		request.setAttribute("postProList", list4);
   	  		
-  	  		//팔로일 담기
+  	  		//팔로일잉 담기
   	  		UserService userService = new UserService(); 
   	  		List<String> list5 = userService.getAllFollowing(request, response);
-  	  		request.setAttribute("followingList", list5);		
+  	  		request.setAttribute("followingList", list5);	
+  	  		
+  	  	List<String> photoList = new ArrayList<String>();
+  		for(int i=0 ; i<list5.size(); i++) {
+  			String userPhoto = userDao.getUserPhoto(list5.get(i));
+  			photoList.add(userPhoto);
+  		}
+  		request.setAttribute("photoList", photoList);
   	  		
   	  		dispatch("matching/mypage.jsp", request, response);
 		}						

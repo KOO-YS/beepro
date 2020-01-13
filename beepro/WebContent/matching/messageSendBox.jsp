@@ -21,7 +21,8 @@
 <title>NAME</title>
 
 <!-- Bootstrap core CSS -->
-<link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/matching/css/msg.css"
+	rel="stylesheet">
 <link
 	href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -57,7 +58,16 @@
 	href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
 	rel="stylesheet">
 
-
+<style>
+.chk-block:hover {
+	cursor:pointer;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .1);
+    background-color: rgba(78,115,223);
+    color:white;
+  padding: 20px;
+  border-radius: 10px;
+}
+</style>
 <script type="text/javascript">
 	function allsel(check){
 		var chks = document.getElementsByName("chk");
@@ -131,7 +141,9 @@
 
 <body id="page-top">
 
-	<jsp:include page="common/sub_nav.jsp"></jsp:include>
+	<c:import url="common/nav_bar.jsp">
+  		<c:param name="pageName" value="matching"></c:param>
+  	</c:import>
 
 	<!-- Header -->
 	<header class="masthead" style="background-color: rgba(75, 97, 207);">
@@ -152,12 +164,12 @@
 			<div class="row">
 				<div class="col-2">
 					<div class="chk-block"
-						style="margin-top: 50px; text-align: center; color:gray"
+						style="margin-top: 50px; text-align: center; color: gray"
 						onclick="location.href='${pageContext.request.contextPath}/msg?command=getAllMsg&u_id=${u_id }'">
 						<h5>받은 쪽지함</h5>
 					</div>
 					<div class="chk-block"
-						style="margin-top: 20px; text-align: center; background-color:#4e73df; color:white"
+						style="margin-top: 20px; text-align: center; background-color: #4e73df; color: white"
 						onclick="location.href='${pageContext.request.contextPath}/msg?command=sendAllMsg&u_id=${u_id }'">
 						<h5>보낸 쪽지함</h5>
 					</div>
@@ -178,9 +190,8 @@
 								<hr>
 							</div> -->
 					<div class="table-wrapper" id="getBox">
-						<input class="btn btn-primary"
-							style="margin-bottom: 10px;" type="button"
-							value="삭제" onclick="deleteMsgFunction();" />
+						<input class="btn btn-primary" style="margin-bottom: 10px;"
+							type="button" value="삭제" onclick="deleteMsgFunction();" />
 						<form action="">
 							<table class="table table-hover" id="boxTable"
 								style="text-align: center; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
@@ -201,71 +212,85 @@
 									</tr>
 								</thead>
 								<tbody style="background-color: white">
-									<c:forEach var="list" items="${list }">
-										<c:forEach var="readList" items="${readList}">
-											<c:if test="${ readList eq list.msg_seq}">
-												<script type="text/javascript">
+
+									<c:choose>
+										<c:when test="${empty list}">
+											<tr>
+												<td colspan="5">보낸 쪽지가 없습니다.</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<c:forEach var="list" items="${list }">
+												<c:forEach var="readList" items="${readList}">
+													<c:if test="${ readList eq list.msg_seq}">
+														<script type="text/javascript">
 												$( document ).ready(function() {
 													$('#read${list.msg_seq}').text('읽음');
 												});
 										</script>
-											</c:if>
-										</c:forEach>
-										<tr id="msg${list.msg_seq}">
-											<td><input type="checkbox" name="chk" value="${list.msg_seq }"></td>
-											<td>${list.get_id }</td>
-											<td style="text-align: left;" onclick="showMsgFunction(${list.msg_seq});">${list.content }</td>
-											<td><small>${list.regdate }</small></td>
-											<td id="read${list.msg_seq}"></td>
-										</tr>
+													</c:if>
+												</c:forEach>
+												<tr id="msg${list.msg_seq}">
+													<td><input type="checkbox" name="chk"
+														value="${list.msg_seq }"></td>
+													<td>${list.get_id }</td>
+													<td style="text-align: left;"
+														onclick="showMsgFunction(${list.msg_seq});">${list.content }</td>
+													<td><small>${list.regdate }</small></td>
+													<td id="read${list.msg_seq}"></td>
+												</tr>
 
 
-										<!-- 쪽지 디테일 모달 -->
-										<div class="modal show" id="detailMsg${list.msg_seq}">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<div class="modal-header modal-header-info">
-														<h4 class="modal-title">
-															<span class="glyphicon glyphicon-envelope"></span> 보낸 쪽지
-														</h4>
-														<button type="button" class="close"
-															id="close${list.msg_seq}" data-dismiss="modal"
-															aria-hidden="true">×</button>
-													</div>
-													<div class="modal-body">
-														<div class="form-group">
-															<label class="col-sm-12" for="inputTo"><span
-																class="glyphicon glyphicon-user"></span>받은 사람</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" id="inputTo${list.msg_seq}"
-																	placeholder="comma separated list of recipients"
-																	readonly="readonly" name="get_id"
-																	value="${list.get_id }">
+												<!-- 쪽지 디테일 모달 -->
+												<div class="modal show" id="detailMsg${list.msg_seq}">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header modal-header-info">
+																<h4 class="modal-title">
+																	<span class="glyphicon glyphicon-envelope"></span> 보낸
+																	쪽지
+																</h4>
+																<button type="button" class="close"
+																	id="close${list.msg_seq}" data-dismiss="modal"
+																	aria-hidden="true">×</button>
+															</div>
+															<div class="modal-body">
+																<div class="form-group">
+																	<label class="col-sm-12" for="inputTo"><span
+																		class="glyphicon glyphicon-user"></span>받은 사람</label>
+																	<div class="col-sm-10">
+																		<input type="text" class="form-control"
+																			id="inputTo${list.msg_seq}"
+																			placeholder="comma separated list of recipients"
+																			readonly="readonly" name="get_id"
+																			value="${list.get_id }">
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label class="col-sm-12" for="inputBody"><span
+																		class="glyphicon glyphicon-list"></span>쪽지 내용</label>
+																	<div class="col-sm-12">
+																		<textarea class="form-control"
+																			id="inputBody${list.msg_seq}" rows="8" name="content"
+																			readonly="readonly" style="resize: none;">${list.content }</textarea>
+																	</div>
+																</div>
+																<div class="modal-footer">
+																	<input type="reset" class="btn btn-default pull-left"
+																		id="cancle${list.msg_seq}" data-dismiss="modal"
+																		style="border: 1px solid lightgray;" value="확인" />
+																</div>
 															</div>
 														</div>
-														<div class="form-group">
-															<label class="col-sm-12" for="inputBody"><span
-																class="glyphicon glyphicon-list"></span>쪽지 내용</label>
-															<div class="col-sm-12">
-																<textarea class="form-control" id="inputBody${list.msg_seq}" rows="8"
-																	name="content" readonly="readonly"
-																	style="resize: none;">${list.content }</textarea>
-															</div>
-														</div>
-														<div class="modal-footer">
-															<input type="reset" class="btn btn-default pull-left"
-																id="cancle${list.msg_seq}" data-dismiss="modal"
-																style="border: 1px solid lightgray;" value="확인" /> 
-														</div>
+														<!-- /.modal-content -->
 													</div>
+													<!-- /.modal-dialog -->
 												</div>
-												<!-- /.modal-content -->
-											</div>
-											<!-- /.modal-dialog -->
-										</div>
-										<!-- /.modal compose message -->
+												<!-- /.modal compose message -->
 
-									</c:forEach>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
 								</tbody>
 							</table>
 						</form>
