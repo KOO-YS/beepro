@@ -148,7 +148,7 @@
       </div>
       <div class="modal-body">
        	  <div class="form-group" style="text-align:center;">
-       	  	<c:if test="${ empty  projectList}">
+       	  	<c:if test="${ empty projectList}">
 				<div class="col-lg-8 mb-8"> 
 					프로젝트가 존재하지 않습니다<br>
 					<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>

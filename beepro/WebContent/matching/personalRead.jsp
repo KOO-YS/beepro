@@ -101,6 +101,7 @@ function sendMsgFunction(get_id){
   	</c:import>
 
 	<form action="personMatching" method="get">
+
 		<input type="hidden" name="command" value="personalUpdate" /> <input
 			type="hidden" name="personal_seq" value="${detail.personal_seq}">
 		<div class="container margin-t-100">
