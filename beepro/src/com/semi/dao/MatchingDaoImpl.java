@@ -372,6 +372,7 @@ perVo.setSkill(rs.getString(3));
 perVo.setEmp_category(rs.getString(4));
 perVo.setTitle(rs.getString(5));
 perVo.setContent(rs.getString(6));
+perVo.setRegdate(rs.getString(7));
 
 System.out.println(perVo);
 

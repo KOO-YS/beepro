@@ -254,7 +254,7 @@ public class MatchingServlet extends HttpServlet {
 	
 	if(success > 0) {
 		System.out.println("글 게시 성공");
-		dispatch("personMatching?command=selectAllPer", request, response);
+		response.sendRedirect("personMatching?command=selectAllPer");
 		
 	} else {
 		System.out.println("글 게시 실패");
