@@ -43,7 +43,7 @@
 		script.close();		
 	}
 
-	String host = "http://localhost:8787/beepro/matching/";	
+	String host = "http://192.168.130.12:8787/beepro/matching/";	
 	String from = "teambeepro@gmail.com";
 	u_id = (String) session.getAttribute("u_id");	
 	String to = dao.getUserEmail(u_id);	
