@@ -180,7 +180,7 @@
      </div>
      
      <div id="cowork-button">
-        <button onclick="location.href='matching?command=main'" id="Cbutton">GO COWORK</button>
+        <button onclick="selectProject();" id="Cbutton">GO COWORK</button>
      </div>
   </section>
   
