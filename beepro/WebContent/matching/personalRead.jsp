@@ -101,6 +101,7 @@ function sendMsgFunction(get_id){
   	</c:import>
 
 	<form action="personMatching" method="get">
+
 		<input type="hidden" name="command" value="personalUpdate" /> <input
 			type="hidden" name="personal_seq" value="${detail.personal_seq}">
 		<div class="container margin-t-100">
@@ -157,11 +158,11 @@ function sendMsgFunction(get_id){
 								id="profile-img" style="margin: 17px;">
 						</div>
 						<div class="col-7" style="text-align: left; padding-top: 30px;">
-							<h4>ID : qweqwe</h4>
-							<h4>location : 경기</h4>
-							<h4>skill : 경기, 하이, ㅇㅇ</h4>
+							<h4 style="margin-bottom: 10px; font-weight:bold;">ID : ${detail.user_id }</h4>
+							<h4 style="margin-bottom: 10px; font-weight:bold;">location : ${area}</h4>
+							<h4 style="margin-bottom: 10px; font-weight:bold;">skill : ${skill}</h4>
 							<a class="btn btn-primary" style="margin: 10px; width: 100px; color:white;"
-								onclick="sendMsgFunction('${profile.u_name}');">쪽 지</a> <a
+								onclick="sendMsgFunction('${detail.user_id }');">쪽 지</a> <a
 								onclick="location.href='matching?command=profile&userId=${detail.user_id }'"
 								class="btn btn-primary" style="margin: 10px; width: 100px; color:white;">프로필</a>
 						</div>
@@ -220,7 +221,7 @@ function sendMsgFunction(get_id){
 					<form role="form" id="sendForm" class="form-horizontal"
 						action="${pageContext.request.contextPath}/msg">
 						<input type="hidden" name="command" value="sendMsg" /> <input
-							type="hidden" name="send_id" value="${detail.user_id }" /> <input
+							type="hidden" name="send_id" value="${u_id }" /> <input
 							type="hidden" name="backMsgBox" value="no" />
 						<!-- 어디 모달에서 보내는지 구별하기 위해 -->
 						<div class="form-group">
@@ -255,6 +256,8 @@ function sendMsgFunction(get_id){
 		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal compose message -->
+	
+		<jsp:include page="common/footer.jsp"></jsp:include>
 
 </body>
 </html>

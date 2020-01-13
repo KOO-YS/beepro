@@ -285,13 +285,13 @@ $(document).ready(function() {
 									</c:if>
 									
 									
-									<c:forEach var="file" items="${FileList}" >
+									<c:forEach var="fff" items="${FileList}" >
 									<tr>										
-									<td>${file.fileSeq}</td>
-									<td>${file.fileName}</td>
-									<td>${file.userId}</td>
-									<td>${file.regdate}</td>
-									<td><a href="${pageContext.request.contextPath}/project?command=download&fileName=${file.fileName}"
+									<td>${fff.fileSeq}</td>
+									<td>${fff.fileName}</td>
+									<td>${fff.userId}</td>
+									<td>${fff.regdate}</td>
+									<td><a href="${pageContext.request.contextPath}/project?command=download&fileName=${fff.fileName}"
 												class="view" title="View Details" data-toggle="tooltip"><i
 													class="material-icons">&#xE5C8;</i></a></td>
 										</tr>
