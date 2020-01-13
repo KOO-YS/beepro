@@ -21,7 +21,7 @@
   <title>NAME</title>
 
   <!-- Bootstrap core CSS -->
-   <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
+
   <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
  
 
