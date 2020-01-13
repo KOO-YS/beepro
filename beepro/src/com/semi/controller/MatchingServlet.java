@@ -402,6 +402,7 @@ public class MatchingServlet extends HttpServlet {
 		} else if (command.equals("selectAllProject")) {
 			System.out.println("프로젝트 전체 조회");
 			List<ProjectVo> list = matchingService.selectAllProject(request, response);
+			session.getAttribute(u_id);
 			session.setAttribute("projectVo", list);
 			dispatch("/cowork/common/dashboard.jsp", request, response);
            

@@ -34,7 +34,83 @@
 
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
+  <style type="text/css">
+  #Cbutton {
+  width: 250px;
+  height: 80px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  font-weight:bold;
+  color: #fff;
+  background-color: #fed136;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+#Cbutton:hover {
+  background-color:#fed136;
+  box-shadow: 0px 15px 20px rgba(255, 215, 75, 0.6);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+  </style>
 </head>
+<style type="text/css">
+#cowork { background-image:url('${pageContext.request.contextPath}/matching/img/cowork_keyimage.png');
+          background-repeat: no-repeat;
+          width:100%;
+          height:800px;}
+          
+#cowork-title { width:500px;
+                height:auto;
+                font-size:45px;
+                font-weight:bold;
+                margin-left:120px;
+                margin-top:65px;
+              }
+
+#cowork-button { margin-top:110px;
+                 margin-left:120px;
+               }
+
+#Cbutton {
+  width: 250px;
+  height: 80px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  font-weight:bold;
+  color: #fff;
+  background-color: #fed136;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+#Cbutton:hover {
+  background-color:#fed136;
+  box-shadow: 0px 15px 20px rgba(255, 215, 75, 0.6);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+#bee { z-index:999;
+       margin-top:-94px;
+       margin-left:294px;
+
+     }
+</style>
 <body id="page-top">
 <c:import url="common/nav_bar.jsp">
 	<c:param name="pageName" value="main"></c:param>
@@ -44,9 +120,8 @@
   <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main.jpg')">
     <div class="container">
       <div class="intro-text">
-        <div class="intro-lead-in">matching & cowork</div>
-        <div class="intro-heading text-uppercase">logo</div>
-        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" style="float:left;" href="#services">Tell Me More</a>
+	 <div class="intro-heading "style="color:black; text-align:left; font-size:50px; line-height:67.257px; letter-spacing :-1px;word-spacing:-4px;" >누구나 쉽고 빠르게<br>프로젝트를 만들고<br>협업할 수 있는 곳</div>     
+        <button onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'"style="float:left;" id="Cbutton">Beepro 시작하기</button>
       </div>
     </div>
   </header>
@@ -91,51 +166,22 @@
 
   <!-- Portfolio Grid -->
   <section class="bg-light page-section" id="matching">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">matching</h2>
-          <h3 class="section-subheading text-muted">프로젝트 & 사람 매칭 연결</h3>
-        </div>
-      </div>
-      
-
-      <div class="row">
-        <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
-          <div class="portfolio-caption">
-            <h4>project</h4>
-            <img src="https://previews.123rf.com/images/unitonevector/unitonevector1908/unitonevector190800830/128682281-vector-illustration-coworking-large-long-table-people-share-workspace-by-working-together-on-laptop-.jpg" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'">project matching</button>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
-          <div class="portfolio-caption">
-            <h4>personal</h4>
-            <img src="https://media.istockphoto.com/vectors/vector-illustration-coworking-meeting-room-flat-vector-id1148521016" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/personMatching?command=selectAllPer'">personal matching</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </section>
 
   <!-- About -->
   <section class="page-section" id="cowork">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">cowork</h2>
-          <h3 class="section-subheading text-muted">협업 섹션</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12" style="text-align: center;">
-        	<button class="btn btn-primary btn-xl" onclick="selectProject();">cowork</button>
-			<img src="${pageContext.request.contextPath}/matching/img/cowork.jpg" alt="" style="width: 100%;">
-
-        </div>
-      </div>
-    </div>
+     <div id="cowork-title">
+        <p>Better Efficiency for Your Business with <span style="color:rgb(75,97,207)">BEE</span><span style="color:#fed136">PRO</span></p>
+     </div>
+     
+     <div id="bee">
+        <img src="${pageContext.request.contextPath}/cowork/images/bee.png" width=43 height=auto>
+     </div>
+     
+     <div id="cowork-button">
+        <button onclick="location.href='matching?command=main'" id="Cbutton">GO COWORK</button>
+     </div>
   </section>
   
 	<jsp:include page="common/footer.jsp"></jsp:include>

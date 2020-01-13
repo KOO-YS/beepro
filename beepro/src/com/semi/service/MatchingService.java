@@ -301,7 +301,8 @@ return Dao.selectAllPer();
 	
     // 프로젝트 조회
 	public List<ProjectVo> selectAllProject(HttpServletRequest request, HttpServletResponse response) {
-		return matchingDao.selectAllProject();
+		String u_id = request.getParameter("u_id");
+		return matchingDao.selectAllProject(u_id);
 	}
 	
 	// 프로젝트 일부 조회

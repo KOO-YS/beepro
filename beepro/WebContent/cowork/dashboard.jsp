@@ -413,7 +413,7 @@
 
 	<!-- 워크스페이스 모달  -->
 	<div class="modal fade" id="workspaceModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-right: 0px;">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -459,7 +459,7 @@
 
 									<div id="period">${vo.startDate} - ${vo.endDate}</div>
 								</div>
-					  </c:if>
+					    </c:if>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
