@@ -34,6 +34,33 @@
 
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
+  <style type="text/css">
+  #Cbutton {
+  width: 250px;
+  height: 80px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  font-weight:bold;
+  color: #fff;
+  background-color: #fed136;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+#Cbutton:hover {
+  background-color:#fed136;
+  box-shadow: 0px 15px 20px rgba(255, 215, 75, 0.6);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+  </style>
 </head>
 <body id="page-top">
 <c:import url="common/nav_bar.jsp">
@@ -44,9 +71,8 @@
   <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main.jpg')">
     <div class="container">
       <div class="intro-text">
-        <div class="intro-lead-in">matching & cowork</div>
-        <div class="intro-heading text-uppercase">logo</div>
-        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" style="float:left;" href="#services">Tell Me More</a>
+	 <div class="intro-heading "style="color:black; text-align:left; font-size:50px; line-height:67.257px; letter-spacing :-1px;word-spacing:-4px;" >누구나 쉽고 빠르게<br>프로젝트를 만들고<br>협업할 수 있는 곳</div>     
+        <button onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'"style="float:left;" id="Cbutton">Beepro 시작하기</button>
       </div>
     </div>
   </header>
