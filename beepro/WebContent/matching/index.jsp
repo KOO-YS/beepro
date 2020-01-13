@@ -34,7 +34,83 @@
 
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath}/matching/css/agency.css" rel="stylesheet">
+  <style type="text/css">
+  #Cbutton {
+  width: 250px;
+  height: 80px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  font-weight:bold;
+  color: #fff;
+  background-color: #fed136;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+#Cbutton:hover {
+  background-color:#fed136;
+  box-shadow: 0px 15px 20px rgba(255, 215, 75, 0.6);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+  </style>
 </head>
+<style type="text/css">
+#cowork { background-image:url('${pageContext.request.contextPath}/matching/img/cowork_keyimage.png');
+          background-repeat: no-repeat;
+          width:100%;
+          height:800px;}
+          
+#cowork-title { width:500px;
+                height:auto;
+                font-size:45px;
+                font-weight:bold;
+                margin-left:120px;
+                margin-top:65px;
+              }
+
+#cowork-button { margin-top:110px;
+                 margin-left:120px;
+               }
+
+#Cbutton {
+  width: 250px;
+  height: 80px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  font-weight:bold;
+  color: #fff;
+  background-color: #fed136;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+#Cbutton:hover {
+  background-color:#fed136;
+  box-shadow: 0px 15px 20px rgba(255, 215, 75, 0.6);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+#bee { z-index:999;
+       margin-top:-94px;
+       margin-left:294px;
+
+     }
+</style>
 <body id="page-top">
 <c:import url="common/nav_bar.jsp">
 	<c:param name="pageName" value="main"></c:param>
@@ -44,9 +120,8 @@
   <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main.jpg')">
     <div class="container">
       <div class="intro-text">
-        <div class="intro-lead-in">matching & cowork</div>
-        <div class="intro-heading text-uppercase">logo</div>
-        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" style="float:left;" href="#services">Tell Me More</a>
+	 <div class="intro-heading" style="color:black; text-align:left; font-size:50px; line-height:67.257px; letter-spacing :-1px;word-spacing:-4px;" >누구나 쉽고 빠르게<br>프로젝트를 만들고<br>협업할 수 있는 곳</div>     
+        <button onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'"style="float:left;" id="Cbutton">Beepro 시작하기</button>
       </div>
     </div>
   </header>
@@ -57,7 +132,7 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Advantages</h2>
-          <h3 class="section-subheading ">Why do I use Beepro?</h3>
+          <h3 class="section-subheading "></h3>
         </div>
       </div>
       <div class="row text-center">
@@ -67,7 +142,7 @@
             <i class="fas fa-hands-helping fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">MATCHING SYSTEMS</h4>
-          <p class="text-muted"> There are various projects to participate in, and you can promote yourself and<br> find people to be with.</p>
+          <p class="text-muted">Beepro에는 참여할 수 있는 다양한  프로젝트와 <br> 다양한 사람들이 있습니다. <br>지금 바로 함께할 팀원들을 찾아보세요.</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -75,7 +150,7 @@
             <i class="fas fa-users fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">COLLABORATION TOOLS</h4>
-          <p class="text-muted">We offer issue & schedule management tools to increase your work efficiency <br>in an easy-to-use way.</p>
+          <p class="text-muted">내맘대로 작성하는  워크프로우로 프로젝트의 <br> 업무 진행현황을 쉽고 재미있게 관리해보세요.<br> 일정관리, 이슈관리, 진행상황까지 하나로 끝!</p>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -83,7 +158,7 @@
             <i class="fas fa-hand-holding-usd fa-stack-1x fa-inverse"></i>
           </span>
           <h4 class="service-heading">FREE SERVICE</h4>
-          <p class="text-muted">For students and Beginner programmers,<br>all functions of Beepro are provided<br>free of charge !</p>
+          <p class="text-muted">초보 개발자 및 학생 개발자를 위해 <br>Beepro의 모든 기능들은 무료로 제공됩니다. <br>부담없이 포트폴리오를 채워보세요!</p>
         </div>
       </div>
     </div>
@@ -91,51 +166,22 @@
 
   <!-- Portfolio Grid -->
   <section class="bg-light page-section" id="matching">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">matching</h2>
-          <h3 class="section-subheading text-muted">프로젝트 & 사람 매칭 연결</h3>
-        </div>
-      </div>
-      
-
-      <div class="row">
-        <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
-          <div class="portfolio-caption">
-            <h4>project</h4>
-            <img src="https://previews.123rf.com/images/unitonevector/unitonevector1908/unitonevector190800830/128682281-vector-illustration-coworking-large-long-table-people-share-workspace-by-working-together-on-laptop-.jpg" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'">project matching</button>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-6 portfolio-item" style="padding: 20px;">
-          <div class="portfolio-caption">
-            <h4>personal</h4>
-            <img src="https://media.istockphoto.com/vectors/vector-illustration-coworking-meeting-room-flat-vector-id1148521016" alt="" style="width: 100%;">
-            <button class="btn btn-primary btn-lg" style="float: right;" onclick="location.href='${pageContext.request.contextPath}/personMatching?command=selectAllPer'">personal matching</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </section>
 
   <!-- About -->
   <section class="page-section" id="cowork">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">cowork</h2>
-          <h3 class="section-subheading text-muted">협업 섹션</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12" style="text-align: center;">
-        	<button class="btn btn-primary btn-xl" onclick="selectProject();">cowork</button>
-			<img src="${pageContext.request.contextPath}/matching/img/cowork.jpg" alt="" style="width: 100%;">
-
-        </div>
-      </div>
-    </div>
+     <div id="cowork-title">
+        <p>Better Efficiency for Your Business with <span style="color:rgb(75,97,207)">BEE</span><span style="color:#fed136">PRO</span></p>
+     </div>
+     
+     <div id="bee">
+        <img src="${pageContext.request.contextPath}/cowork/images/bee.png" width=43 height=auto>
+     </div>
+     
+     <div id="cowork-button">
+        <button onclick="selectProject();" id="Cbutton">GO COWORK</button>
+     </div>
   </section>
   
 	<jsp:include page="common/footer.jsp"></jsp:include>

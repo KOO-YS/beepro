@@ -372,6 +372,7 @@ perVo.setSkill(rs.getString(3));
 perVo.setEmp_category(rs.getString(4));
 perVo.setTitle(rs.getString(5));
 perVo.setContent(rs.getString(6));
+perVo.setRegdate(rs.getString(7));
 
 System.out.println(perVo);
 
@@ -601,14 +602,16 @@ return null;
 	}
 	
 	// 프로젝트 조회
-	public List<ProjectVo> selectAllProject() {
+	public List<ProjectVo> selectAllProject(String u_id) {
 		Connection con = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<ProjectVo> res = new ArrayList<ProjectVo>();
-
+        String sql = "SELECT * FROM PROJECT WHERE MEMBER_ID LIKE '%"+u_id+"%'";
+		
 		try {
-			pstmt = con.prepareStatement(selectAllProjectSql);
+			pstmt = con.prepareStatement(sql);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -954,9 +957,9 @@ return null;
 
 				perVo.setPersonal_seq(rs.getInt(1));
 				perVo.setUser_id(rs.getString(2));
-				perVo.setSkill(rs.getString(4));
-				perVo.setTitle(rs.getString(3));
-				perVo.setEmp_category(rs.getString(5));
+				perVo.setSkill(rs.getString(3));
+				perVo.setEmp_category(rs.getString(4));
+				perVo.setTitle(rs.getString(5));
 				perVo.setContent(rs.getString(6));
 				res.add(perVo);
 			}
@@ -1012,5 +1015,4 @@ return null;
 		}
 		return area;
 	}
-
 }

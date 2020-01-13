@@ -2,6 +2,7 @@ package com.semi.service;
 
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,29 +172,24 @@ public class MatchingService {
 //--------------------------------------------------------------------------------------------------------------------------------
 
 //개인 매칭 글쓰기
-public int personalWrite(HttpServletRequest request, HttpServletResponse response) {
-MatchingDaoImpl dao = new MatchingDaoImpl();
+   public int personalWrite(HttpServletRequest request, HttpServletResponse response) {
+	   MatchingDaoImpl dao = new MatchingDaoImpl();
 
-System.out.println("서비스 연결됨");
+	   System.out.println("서비스 연결됨");
 
-HttpSession session = request.getSession();
-String user_id= (String)session.getAttribute("u_id");
-String skill = request.getParameter("skill");
-String emp_category = request.getParameter("emp_category");
-String title = request.getParameter("title");
-String content = request.getParameter("content");
-System.out.println(user_id);
-System.out.println(title);
-System.out.println(skill);
-System.out.println(emp_category);
-System.out.println(content);
+	   HttpSession session = request.getSession();
+	   String user_id= (String)session.getAttribute("u_id");
+	   String skill = request.getParameter("skill");
+	   String emp_category = request.getParameter("emp_category");
+	   String title = request.getParameter("title");
+	   String content = request.getParameter("content");
+	   String regdate = request.getParameter("regdate");
 
-MatchingPerVo perVo = new MatchingPerVo(user_id, skill, emp_category, title, content);
+	   MatchingPerVo perVo = new MatchingPerVo(user_id, skill, emp_category, title, content, regdate);
 
-int res = dao.insertPer(perVo);
+	   int res = dao.insertPer(perVo);
 
-return res;
-
+	   return res;
 }
 
 //글 수정하기
@@ -305,7 +301,8 @@ return Dao.selectAllPer();
 	
     // 프로젝트 조회
 	public List<ProjectVo> selectAllProject(HttpServletRequest request, HttpServletResponse response) {
-		return matchingDao.selectAllProject();
+		String u_id = request.getParameter("u_id");
+		return matchingDao.selectAllProject(u_id);
 	}
 	
 	// 프로젝트 일부 조회

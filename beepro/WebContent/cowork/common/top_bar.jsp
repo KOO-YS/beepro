@@ -147,10 +147,10 @@ a:hover {
 
 <!-- 탑 메뉴 -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+	
    <!-- 이슈만들기 모달창 -->
    <button type="submit" class="btn btn-primary" data-toggle="modal"
-      data-target="#exampleModal" style="margin-left: 840px;"
+      data-target="#exampleModal" style="margin-left: 900px;"
       onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite&projectSeq=${projectSeq}'">
       <b>+&nbsp;&nbsp;이슈 생성하기</b>
    </button>
@@ -158,20 +158,21 @@ a:hover {
    <!-- 탑 메뉴 끝-->
 
    <!-- Sidebar Toggle (Topbar) -->
-
+	
    <button id="sidebarToggleTop"
       class="btn btn-link d-md-none rounded-circle mr-3">
       <i class="fa fa-bars"></i>
    </button>
    <!-- Topbar Navbar -->
    <ul class="navbar-nav ml-auto">
+
       <!-- Nav Item - Alerts -->
-      <li class="nav-item dropdown no-arrow mx-1"><a
+      <!-- <li class="nav-item dropdown no-arrow mx-1"><a
          class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
          role="button" data-toggle="dropdown" aria-haspopup="true"
-         aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+         aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> Counter - Alerts
             <span class="badge badge-danger badge-counter">3+</span>
-      </a> <!-- Dropdown - Alerts -->
+      </a> Dropdown - Alerts
          <div
             class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
             aria-labelledby="alertsDropdown">
@@ -210,7 +211,7 @@ a:hover {
                </div>
             </a> <a class="dropdown-item text-center small text-gray-500" href="#">Show
                All Alerts</a>
-         </div></li>
+         </div></li> -->
 
       <!-- Nav Item - Messages -->
 <%--       <li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
@@ -242,7 +243,7 @@ a:hover {
                            내 정보
                 </a>
                 
-                <a class="dropdown-item" href="${pageContext.request.contextPath}/matching?command=selectAllProject" data-toggle="modal" data-target="#workspaceModal">
+                <a class="dropdown-item" href="${pageContext.request.contextPath}/matching?command=selectAllProject&u_id=<%=u_id%>" data-toggle="modal" data-target="#workspaceModal">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                              워크스페이스 이동
                 </a>
@@ -270,7 +271,7 @@ a:hover {
           <div class="modal-body">정말 로그아웃 하시겠습니까?</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">취  소</button>
-            <a class="btn btn-primary" href="../matching/userLogout.jsp">로그아웃</a>
+            <a class="btn btn-primary" href="${pageContext.request.contextPath}/user?command=logout">로그아웃</a>
           </div>
         </div>
       </div>
