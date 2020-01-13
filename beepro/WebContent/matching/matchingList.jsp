@@ -242,14 +242,6 @@ $(function() {
                            <hr>
                            </div>
                            <div class="row">
-                           <% java.text.SimpleDateFormat sf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-								String inputDate = sf.format("yyyy-MM-dd");
-								
-								String now = sf.format(new java.util.Date());
-								String mark = "";
-									if(inputDate.equals(now)){
-									 mark = "new";
-							  } %>
 
  
                                <div class="col-lg-4"  style="margin-left:40px">
@@ -315,7 +307,7 @@ $(function() {
                   </c:forEach>
 
                   <c:if test="${page.next eq true }">
-                     <a class="page-link" href="javascript:PageMove(${page.currentPage+1 })">Next</a></li>
+                     <li><a class="page-link" href="javascript:PageMove(${page.currentPage+1 })">Next</a></li>
                   </c:if>
                </ul>
             </nav>
