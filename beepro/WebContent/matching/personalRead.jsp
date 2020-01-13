@@ -95,7 +95,10 @@
             </c:choose>
             </div>
             <div class="controls2">
-            <c:if test="${detail.user_id eq u_id}"><input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" value="${detail.skill}"></c:if>
+	            <c:choose>
+	               <c:when test="${detail.user_id eq u_id}"><input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" value="${detail.skill}"></c:when>   
+	               <c:otherwise><input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" value="${detail.skill}"></c:otherwise>
+	            </c:choose>
             </div>
          </div>
          

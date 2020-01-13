@@ -186,9 +186,9 @@ $(function() {
               	<input type="hidden" name="command" value="matchingAll" />
               	<input type="hidden" name="searchCat" value="" />
 			  	<div>
-			  		<button style="float:left;" class="btn btn-outline-primary dropdown-toggle" id="sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
+			  		<button style="left;" class="btn btn-outline-primary dropdown-toggle" id="sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
 				    <div class="dropdown-menu">
-				      <a class="dropdown-item" href="#none" id="pm_id" data-cat="pm_id">작성자 아이디</a>
+				      <a class ="dropdown-item" href="#none" id="pm_id" data-cat="pm_id">작성자 아이디</a>
 				      <a class="dropdown-item" href="#none" id="skill" data-cat="skill">프로그램 능력</a>
 				      <a class="dropdown-item" href="#none" id="location" data-cat="location">지역</a>
 				    </div>
@@ -228,7 +228,7 @@ $(function() {
                   <div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
                        <div class="col-lg-12">
                            <div class="row">
-                               <div class="col-lg-11 col-sm-10">
+                               <div class="col-lg-10 col-sm-9" style="margin-left:40px;">
                                <h4><a href="matching?command=matchingView&projectM_seq=${matchingVo.projectM_seq }" >${matchingVo.title }</a></h4>
                            </div>
                            <div class="col-lg-1 col-sm-1">
@@ -239,14 +239,24 @@ $(function() {
                            <hr>
                            </div>
                            <div class="row">
-                               <div class="col-lg-6" >
-                                                                     모집 인원  : ${matchingVo.need_person}명 <br>
-                                                                     위치 : ${matchingVo.location}<br><br>
-                                                                     프로그램 및 언어 능력 : ${matchingVo.skill}
+                           <% java.text.SimpleDateFormat sf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+								String inputDate = sf.format("yyyy-MM-dd");
+								
+								String now = sf.format(new java.util.Date());
+								String mark = "";
+									if(inputDate.equals(now)){
+									 mark = "new";
+							  } %>
+
+ 
+                               <div class="col-lg-4"  style="margin-left:40px">
+                              <b>모집 인원 : </b> ${matchingVo.need_person}명 <br>
+                              <b>위	치  : </b> ${matchingVo.location}<br><br>
+                              <b>프로그램 및 언어  :</b> ${matchingVo.skill}
                                </div>
-                               <div class="col-lg-6">
-                                                                     프로젝트 시작일 : ${matchingVo.startdate}<br> 
-                                                                     프로젝트 마감일 : ${matchingVo.enddate }<br>
+                               <div class="col-lg-3"  style="margin-left:20px">
+                              <b>프로젝트 시작일  :</b> ${matchingVo.startdate}<br> 
+                              <b>프로젝트 마감일  :</b> ${matchingVo.enddate }<br>
                                </div>
                            </div>
                        </div>

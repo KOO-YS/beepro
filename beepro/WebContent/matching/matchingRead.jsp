@@ -50,10 +50,11 @@
          $('#skill').tagEditor({
         	 placeholder : '언어 및 프로그램 능력을 작성하세요'
         	,initialTags: skill
+        	,noSelect:false
         	,autocomplete: {
     	        delay: 0 // show suggestions immediately
     	        ,position: { collision: 'flip' } // automatic menu position up/down
-                ,source: ['java', 'phython', 'C/C++', 'php', 'Python', 'Go']
+                ,source: ['java', 'phython', 'C/C++', 'php', 'Python', 'Go'] 
     	    }
         	 });
          $("#modifyBtn").on("click",function(){
@@ -124,14 +125,15 @@
 		<input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}"/>
 		
          <div class="form-group">
-            <div class="controls">
+            <div class="controls" style="color:gray">프로젝트 제목
                <input type="text" id="title" class="floatLabel" name="title" placeholder="프로젝트 제목을 입력하세요" value="${matchingVo.title }" <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>
             </div>
-            <div class="controls">
+            <div class="controls" style="color:gray">작성자
                <input type="text" class="floatLabel" value="${matchingVo.pm_id}" readonly >
             </div>
-            <div class="controls2">
-               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" readonly="readonly"<c:if test="${!matchingVo.modifyYn }"></c:if>>
+            <!-- c태그:choose / when에 지금 있는 부분 넣고, otherwise에서만 작업 -->
+            <div class="controls2" style="color:gray">언어 및 프로그램 능력
+               <input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput">
             </div>
          </div>
          <div class="grid">
@@ -151,7 +153,7 @@
             </div>
          </div>
          <div class="col-1-3 col-1-3-sm">
-            <div class="controls">
+            <div class="controls"  style="color:gray">지역
                <%-- <c:if test="${matchingVo.modifyYn }"><i class="fa fa-sort"></i></c:if> --%>
                <select class="floatLabel" name="location" <c:if test="${!matchingVo.modifyYn }">disabled="disabled"</c:if>>
                   <option value="" >지역을 선택하세요</option>
@@ -178,11 +180,12 @@
          </div>
          <div class="grid">
             <div class="col-1-3 col-1-3-sm">
-               <div class="controls">
+               <div class="controls" style="color:gray">인원
                	<c:choose>
                		<c:when test="${matchingVo.modifyYn }">
                			<i class="fa fa-sort"></i>
                			<select class="floatLabel" name="need_person">
+               			 <option value="" >인원을 선택하세요</option>
 	                     <option value="1" <c:if test="${matchingVo.need_person eq '1' }">selected</c:if>>1</option>
 	                     <option value="2" <c:if test="${matchingVo.need_person eq '2' }">selected</c:if>>2</option>
 	                     <option value="3" <c:if test="${matchingVo.need_person eq '3' }">selected</c:if>>3</option>
@@ -205,8 +208,7 @@
             <br />
             <div class="grid">
 
-               	<div class="controls">
-                  <p class="info-text margin-b-10">상세 내용</p>
+               	<div class="controls" style="color:gray">상세 내용
                   <textarea name="content" class="floatLabel" id="content" placeholder="상세 내용을 입력하세요." <c:if test="${!matchingVo.modifyYn }">readonly</c:if>>${matchingVo.content}</textarea>
                	</div>
                	
@@ -410,7 +412,7 @@ function createProject(){
 			$('input:checkbox[name="volunteerId"]:checked').each(function(){
 				member += $(this).val()+",";
 			});
-			$("#member").val("${u_id},"+member);
+			$("#member").val(${u_id}+","+member);
 			$("#projectModal").modal();
 		}
 	}
