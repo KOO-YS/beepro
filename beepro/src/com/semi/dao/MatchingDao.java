@@ -63,7 +63,6 @@ public interface MatchingDao {
 	String insertProjectSql = "INSERT INTO PROJECT VALUES(?,?,?,'N',?,?,?,'N')";
 	// insertProject시, volunteer에 승인처리
 	String acceptVolunteerSql = "UPDATE VOLUNTEER SET ACCEPT = 'Y' WHERE PROJECTM_SEQ = ? AND USER_ID = ?";
-	String selectAllProjectSql = "SELECT * FROM PROJECT";		// FIXME userid 조건
 	String selectOneProjectSql = "SELECT * FROM PROJECT WHERE PROJECT_SEQ=?";
 	
 	// 지원자
@@ -109,7 +108,7 @@ public interface MatchingDao {
 
 	public List<VolunteerVo> selectAllVolunteer(int projectM_seq);
 
-	public List<ProjectVo> selectAllProject();
+	public List<ProjectVo> selectAllProject(String u_id);
 	
 
 	public ProjectVo selectOneProject(int projectSeq);
