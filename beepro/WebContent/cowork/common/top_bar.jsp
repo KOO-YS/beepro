@@ -150,7 +150,7 @@ a:hover {
 	
    <!-- 이슈만들기 모달창 -->
    <button type="submit" class="btn btn-primary" data-toggle="modal"
-      data-target="#exampleModal" style="margin-left: 800px;"
+      data-target="#exampleModal" style="margin-left: 900px;"
       onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite&projectSeq=${projectSeq}'">
       <b>+&nbsp;&nbsp;이슈 생성하기</b>
    </button>
