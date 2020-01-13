@@ -42,7 +42,7 @@
   <%-- <jsp:include page="common/main_nav.jsp"></jsp:include> --%>
   
   <!-- Header -->
-  <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main_keyimage.jpg')">
+  <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main.jpg')">
     <div class="container">
       <div class="intro-text">
         <div class="intro-lead-in">matching & cowork</div>
