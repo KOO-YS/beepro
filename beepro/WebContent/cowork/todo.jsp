@@ -24,7 +24,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-	jQuery(function($) {
+	/* jQuery(function($) {
 		$(".container-fluid").css("display", "none");
 		$(".container-fluid").fadeIn(500);
 		$("a.transition").click(function(event) {
@@ -39,7 +39,7 @@
 
 	$(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip();
-	});
+	}); */
 </script>
 <style type="text/css">
 .container-fluid {
@@ -510,11 +510,17 @@ table.table .avatar {
 										</td>
 										<td>
 										<div class="progress">
-										  <div class="progress-bar bg-info" role="progressbar" style="width: <%=100%>%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">${todo.endDate}</div>
+										  <div class="progress-bar bg-info" role="progressbar" id="bar${todo.todoSeq}" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">&emsp;&emsp;${todo.startDate}~${todo.endDate}</div>
 										</div>
 										</td>
 										<!-- <td>업무 종료</td> -->
 									</tr>
+									
+									<script>
+									$( document ).ready(function() {
+										timeBar("bar${todo.todoSeq}","${todo.startDate}","${todo.endDate}");
+									});
+									</script>
 									</c:forEach>
 									
 								</tbody>
@@ -524,13 +530,13 @@ table.table .avatar {
 									Showing <b>${page.pageSize}</b> out of <b>${page.totalCount}</b> entries
 								</div>
 								<ul class="pagination">
-									<li class="page-item"><a href="#">Previous</a></li>
+									<!-- <li class="page-item"><a href="#">Previous</a></li> -->
 									<c:forEach var="i" begin="${page.startPageNo}" end="${page.endPageNo}" step="1" varStatus="status">
 										<!-- 페이징 보류 -->
 										<%-- <li class="page-item<c:if test="${i eq page.pageNo}"> active</c:if>"><a href="javascript:pageNum(${i});" class="page-link">${i}</a></li> --%>
 										<li class="page-item<c:if test="${i eq page.pageNo}"> active</c:if>"><a href="todo?command=todo-list&page=${status.count}" class="page-link">${status.count}</a></li>
 									</c:forEach>
-										<li class="page-item"><a href="#" class="page-link">Next</a></li>
+									<!-- 	<li class="page-item"><a href="#" class="page-link">Next</a></li> -->
 								</ul>
 							</div>
 						</div>
@@ -542,7 +548,26 @@ table.table .avatar {
 		</div>
 	</div>
 <script type="text/javascript">
-/* page-item (페이징) 보류 */
+/* 타임라인 퍼센티지 */
+function timeBar(id, st, en){
+	var start = st.split("-");									
+	var end = en.split("-");
+	
+	var startDate = new Date(start[0],start[1]-1,start[2]);
+	var endDate = new Date(end[0],end[1]-1,end[2]); 
+	var today = new Date();
+	var percent = "0%";
+	if(today<startDate){			// 시작 예정
+		percent ="0%";	
+	} else if(endDate<today){		// 마감기한 지남
+		percent ="100%";
+	} else {						// 시작 후, 마감기한 전
+		var total = (endDate - startDate); 
+		var todayCnt = (today - startDate);
+		percent = Math.round(todayCnt / total * 100)+"%"; 
+	}
+	$('#'+id).width(percent);
+}
 function pageNum(page){
 	alert("ddd");
 	var projectSeq = $("#projectSeq").val();
@@ -613,18 +638,7 @@ function updateTodoStatus(txt, todoSeq){
 			alert("진행 상태가 변경되었습니다");
 		}
 	});
-}
-  
-var today = new Date();  
-var dateString = "2019-12-25";  
-  
-var dateArray = dateString.split("-");  
-  
-var dateObj = new Date(dateArray[0], Number(dateArray[1])-1, dateArray[2]);  
-  
-var betweenDay = (today.getTime() - dateObj.getTime())/1000/60/60/24;  
-  
-/* alert(betweenDay);   */
+}  
 </script>
 
 	<!-- 워크스페이스 모달  -->
