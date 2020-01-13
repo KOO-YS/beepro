@@ -328,8 +328,9 @@ public class ProjectServlet extends HttpServlet {
 			List<FileVo> list = projectDao.selectAllFile(projectSeq);
 			System.out.println(list.toString());
 			request.setAttribute("FileList", list);
-			dispatch("cowork/fileUpload.jsp", request, response);
-
+			System.out.println("FIleUpload!!");
+			
+			dispatch("cowork/fileupload.jsp", request, response);
 		} else if (command.equals("uploadbutton")) {
 			String savePath = request.getServletContext().getRealPath("upload");
 			int maxSize = 1024 * 1024 * 100;

@@ -27,7 +27,7 @@ public class MatchingDaoImpl implements MatchingDao {
 		ResultSet rs = null;
 		List<ProjectVo> project = new ArrayList<ProjectVo>();
 		try {
-			pstm = con.prepareStatement("SELECT * FROM PROJECT WHERE MEMBER_ID LIKE '%"+userId+"/%'");
+			pstm = con.prepareStatement("SELECT * FROM PROJECT WHERE MEMBER_ID LIKE '%"+userId+",%'");
 //				pstm.setString(1, userId);
 			rs = pstm.executeQuery();
 			while(rs.next()) {
