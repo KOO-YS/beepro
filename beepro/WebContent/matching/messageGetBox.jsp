@@ -58,7 +58,16 @@
 	href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
 	rel="stylesheet">
 
-
+<style>
+.chk-block:hover {
+	cursor:pointer;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .1);
+    background-color: rgba(78,115,223);
+    color:white;
+  padding: 20px;
+  border-radius: 10px;
+}
+</style>
 <script type="text/javascript">
 	function allsel(check){
 		var chks = document.getElementsByName("chk");
@@ -154,7 +163,9 @@
 
 <body id="page-top">
 
-	<jsp:include page="common/sub_nav.jsp"></jsp:include>
+	<c:import url="common/nav_bar.jsp">
+  		<c:param name="pageName" value="message"></c:param>
+  	</c:import>
 
 	<!-- Header -->
 	<header class="masthead" style="background-color: rgba(75, 97, 207);">

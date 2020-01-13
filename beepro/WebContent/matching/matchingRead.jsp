@@ -107,7 +107,9 @@
 </script>
 
 <body id="page-top">
-	  <jsp:include page="common/sub_nav.jsp"></jsp:include>
+	<c:import url="common/nav_bar.jsp">
+  		<c:param name="pageName" value="matching"></c:param>
+  	</c:import>
    <div class="container" style="padding-top: 5em;">
 	<%-- <form action="${pageContext.request.contextPath}/matching" method="post" name="modifyForm">
 		<c:choose>

@@ -37,6 +37,7 @@ public interface ProjectDao {
     
     // 프로젝트 구성원
     String selectMemberSql = "SELECT MEMBER_ID FROM PROJECT WHERE PROJECT_SEQ=?";
+    String selectMemberNameSql = "SELECT NAME FROM BEEPRO_USER B JOIN PROJECT P (P.MEMBER_ID = B.USER_ID) WHERE PROJECT_SEQ=";
     
     // 업무 진행상황 부분
     String getByTodoTypeSql = "SELECT CATEGORY 분류,"
@@ -69,7 +70,7 @@ public interface ProjectDao {
     
     // 파일 업로드 관련
     String insertFileSql = "INSERT INTO FILES VALUES(FILE_SEQ.NEXTVAL,?,SYSDATE,?,?)";
-    String selectAllFileSql = "SELECT * FROM FILES WHERE PROJECT_SEQ=?";
+    String selectAllFileSql = "SELECT * FROM FILES WHERE PROJECT_SEQ=? ORDER BY FILE_SEQ DESC";
     
     public List<IssueVo> selectAllIssue(int projectSeq);
     

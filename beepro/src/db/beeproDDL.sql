@@ -84,8 +84,6 @@ CREATE SEQUENCE FILE_SEQ -- 파일 테이블 시퀀스
   NOCYCLE;
   
 -- #####################################################################################################################################
-
-
 CREATE TABLE beepro_user (
     user_id varchar2(100)	PRIMARY KEY,
     pwd	varchar2(100)	NOT NULL,
@@ -180,8 +178,6 @@ CREATE TABLE project ( /* 프로젝트 생성할 때 사용하는 테이블  */
 	CONSTRAINT finish_ch_chk CHECK(finish_ck IN('Y','N'))
 );
 
-select * from project;
-
 SELECT PROJECT_SEQ from PROJECT WHERE member_id='2,3,4,';
 
 CREATE TABLE issue (
@@ -216,7 +212,7 @@ CREATE TABLE skill (
 
 CREATE TABLE volunteer ( /* 지원자 테이블 */
     projectM_seq number NOT NULL, /* 프로젝트 매칭 공고 글 시퀀스 번호 */
-	user_id varchar2(100) PRIMARY KEY, /* 회원 id */
+	user_id varchar2(100) NOT NULL, /* 회원 id */
 	accept varchar2(6) NOT NULL, /* 수락 여부  */
 	CONSTRAINT accept_chk CHECK(accept IN('Y','N')),
 	CONSTRAINT FK_PROJECTM_SEQ_TO_VOL FOREIGN KEY (projectM_seq) REFERENCES matching_project (projectM_seq), 
@@ -261,7 +257,6 @@ CREATE TABLE files (
   CONSTRAINT FK_USER_ID_TO_FILE FOREIGN KEY (user_id) REFERENCES beepro_user (user_id)
 );
 
-select * from files;
 ALTER TABLE files ADD project_seq number NOT NULL; -- 컬럼추가
 ALTER TABLE files ADD CONSTRAINT FK_FILES FOREIGN KEY (project_seq) REFERENCES project (project_seq); -- 제약조건추가
 ---------------------------------------------------------------------------
@@ -294,6 +289,11 @@ ALTER TABLE matching_personal ADD CONSTRAINT PK_MATCHING_PERSONAL PRIMARY KEY (
 
 ALTER TABLE skill ADD CONSTRAINT PK_SKILL PRIMARY KEY (
 	personal_seq,
+	user_id
+);
+-- 추가해 주세요 !!
+ALTER TABLE volunteer ADD CONSTRAINT PK_volunteer PRIMARY KEY (
+	projectM_seq,
 	user_id
 );
 

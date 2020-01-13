@@ -21,8 +21,9 @@
   <title>NAME</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
+   <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+ 
 
   <!-- Custom fonts for this template -->
   <link href="${pageContext.request.contextPath}/matching/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -118,15 +119,12 @@ function followFunction(post_no){
 }
 
 </script>
-<%
-	String getProfile = new UserDaoImpl().getUserPhoto("${profile.u_name}");
-
-%>
 </head>
 
 <body id="page-top">
-
-  <jsp:include page="common/sub_nav.jsp"></jsp:include>
+	<c:import url="common/nav_bar.jsp">
+  		<c:param name="pageName" value="matching"></c:param>
+  	</c:import>
   
   <!-- Header -->
   <header class="masthead" style="background-color: rgba(75,97,207);">
@@ -142,7 +140,7 @@ function followFunction(post_no){
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-          <img src="<%= request.getContextPath() %>/upload/<%=getProfile%>" style="width: 30%; border-radius: 50%; border:10px solid rgba(75,97,207);"
+          <img src="<%= request.getContextPath() %>/upload/${userPhoto}" style="width: 22vw; height: 22vw;border-radius: 50%; border:10px solid rgba(75,97,207);"
           			onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'">
         </div>
       </div>
@@ -178,6 +176,8 @@ function followFunction(post_no){
   		<div class="col-2">
   		</div>
   		<div class="col-8">
+  		<c:if test="${u_id ne profile.u_name }">
+  		
   		<c:choose>
   			<c:when test="${chk eq 'follow' }">
 	  		  	<button class="btn btn-primary" style="width:350px;margin: 40px 0 20px 20px;" onclick="followFunction();"> 팔로우 하기 </button>
@@ -188,6 +188,7 @@ function followFunction(post_no){
   		</c:choose>
   		
   	        <button class="btn btn-primary" style="width:350px; margin: 40px 0 20px 20px;" onclick="sendMsgFunction('${profile.u_name}');"> 쪽지 보내기 </button>
+  		</c:if>
 		  	<p class="bg-light" style="text-align:center;">
 				skills
 			</p>

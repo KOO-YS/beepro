@@ -94,8 +94,8 @@ public class ProjectServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("세션 값이 설정되지 않았습니다");
 		} finally {
-			System.out.println("projectSeq : [ "+projectSeq+" ] ");
-			System.out.println("pmem : "+projectMember+"\np_name: "+projectName);
+			System.out.print("projectSeq : "+projectSeq);
+			System.out.println("  pmem : "+projectMember+"   p_name: "+projectName);
 		}
 	
 		if(command.equals("goToProject")) {
@@ -323,12 +323,12 @@ public class ProjectServlet extends HttpServlet {
 			System.out.println("[파일 업로드 및 생성]");
 			// 프로젝트 시퀀스 세션 설정 :: 제대로 받아옴 (맨 위에 설정)
 			// 로그인한 아이디 세션 설정 :: 제대로 받아옴
-			String userId = (String) session.getAttribute("u_id");
 			int projectSeq = Integer.parseInt(request.getParameter("projectSeq"));
+			
 			List<FileVo> list = projectDao.selectAllFile(projectSeq);
-
+			System.out.println(list.toString());
 			request.setAttribute("FileList", list);
-			dispatch("cowork/FileUpload.jsp", request, response);
+			dispatch("cowork/fileUpload.jsp", request, response);
 
 		} else if (command.equals("uploadbutton")) {
 			String savePath = request.getServletContext().getRealPath("upload");

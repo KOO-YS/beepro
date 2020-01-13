@@ -116,7 +116,7 @@ public class UserServlet extends HttpServlet {
 			userService.chatList(request, response);
 			
 		} else if (command.equals("chatUnread")) {
-//			System.out.println("읽지 않은 메세지");
+			System.out.println("읽지 않은 메세지");
 			userService.chatUnread(request, response);
 			
 		} else if (command.equals("chatBox")) {
@@ -159,7 +159,7 @@ public class UserServlet extends HttpServlet {
 			userService.deleteGetMsg(request, response);
 			
 		} else if(command.equals("msgUnread")) {
-//			System.out.println("읽지 않은 쪽지");
+			System.out.println("읽지 않은 쪽지");
 			userService.msgUnread(request, response);
 			
 		} else if(command.equals("follow")) {
@@ -367,12 +367,7 @@ public class UserServlet extends HttpServlet {
 	 		u_photo = dao.getUserPhoto(u_id);	
 	 		session.setAttribute("u_photo", u_photo);
 
-	 		PrintWriter script = response.getWriter();
-	 		
-	 		script.println("<script>");		
-	 		script.println("location.href='matching/index.jsp'");
-	 		script.println("</script>");
-	 		script.close();
+	 		response.sendRedirect("matching?command=main");
 		 	}
 	 	} else if (result == 0) {
 
@@ -409,7 +404,7 @@ public class UserServlet extends HttpServlet {
 	private void logoutAction(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		response.sendRedirect("matching/index.jsp");
+		response.sendRedirect("matching?command=main");
 		
 	}
 	

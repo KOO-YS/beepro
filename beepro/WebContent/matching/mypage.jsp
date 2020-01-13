@@ -14,10 +14,11 @@
 <title>NAME</title>
 
 <!-- Bootstrap core CSS -->
+  <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">	
 <link
 	href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
-  <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">	
+
 
 <!-- Custom fonts for this template -->
 <link
@@ -65,6 +66,13 @@
 .form-check-inline {
 	margin-right: 1.75rem;
 }
+
+#profileimg {
+  width: 30px;
+  height:30px;
+  border-radius: 50px;
+  vertical-align:middle; 
+}
 </style>
 
 <script type="text/javascript">
@@ -96,8 +104,9 @@ function sendMsgFunction(get_id){
 </head>
 
 <body id="page-top">
-  <jsp:include page="common/sub_nav.jsp"></jsp:include>
-
+	<c:import url="common/nav_bar.jsp">
+  		<c:param name="pageName" value="mypage"></c:param>
+  	</c:import>
   <!-- Header -->
   <header class="masthead" style="background-color: rgba(75,97,207);">
     <div class="container">
@@ -118,7 +127,6 @@ function sendMsgFunction(get_id){
        	<br>
        	<!-- <button class="btn btn-primary" onclick="window.open('profilePhoto.jsp','profilePhotoUpdate','width=330,height=80,location=no,status=no,scrollbars=no');" style="margin-top: 40px;">프로필사진 변경</button> -->
         <button class="btn btn-primary" data-toggle="modal" data-target="#test" style="margin-top: 40px;"> 프로필사진 변경</button>
-        
         </div>        
       </div>
     </div>    
@@ -217,18 +225,6 @@ function sendMsgFunction(get_id){
 				    </form>
 			</div>
 		</div>
-	<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-
-					<br>
-					<button class="btn btn-primary" data-toggle="modal"
-						data-target="#withdrawal"
-						style="margin-top: 40px; background: #ff4040;">회원 탈퇴</button>
-
-				</div>
-			</div>
-		</div>
 	</div>
 	<!-- container end -->
 
@@ -237,7 +233,7 @@ function sendMsgFunction(get_id){
 			<c:when test="${empty projectList}">
 				<div class="container">
 					<hr style="margin: 3em 0;">
-					<h5>내가 쓴 project 글 목록</h5>
+					<h5>내가 쓴 project </h5>
 					<br>
 					<div class="row">
 						<div class="col-lg-3">
@@ -489,7 +485,7 @@ function sendMsgFunction(get_id){
 			</div>
 		</div>
 
-
+	
 		<!-- 관심 사람 목록 start -->
 		<div class="container">
 			<hr style="margin: 3em 0;">
@@ -520,8 +516,9 @@ function sendMsgFunction(get_id){
 								<c:otherwise>
 										<c:forEach items="${followingList}" var="following" varStatus="status">
 										<tr>
-											<th scope="row">${status.count}</th>
-											<td style="text-align: left;">
+											<th> <img src="<%= request.getContextPath() %>/upload/${photoList[status.index]}"
+          										onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"  id="profileimg"></th>
+											<td style="text-align: left;">	
 												<a style="margin-left:15px" href="${pageContext.request.contextPath}/matching?command=profile&userId=${following}">${following }</a>
 											</td>
 											<td><a href="javascript:void(0);" onclick="sendMsgFunction('${following}');"><img style="width: 30px; height: 30px" alt="쪽지보내기"
@@ -567,6 +564,19 @@ function sendMsgFunction(get_id){
 			<hr style="margin: 3em 0 0 0;">
 		</div>
 		<!-- 관심 사람 목록 end -->
+		
+			<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+
+					<br>
+					<button class="btn btn-primary" data-toggle="modal"
+						data-target="#withdrawal"
+						style="margin: 40px 0 40px 0; background: #ff4040;">회원 탈퇴</button>
+
+				</div>
+			</div>
+		</div>
 </section>
 	<jsp:include page="common/footer.jsp"></jsp:include>
 	
