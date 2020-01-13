@@ -2,6 +2,8 @@
 
 package com.semi.vo;
 
+import java.sql.Date;
+
 public class MatchingPerVo {
 	
 	private int personal_seq;	//매칭 글의 글 번호
@@ -13,6 +15,7 @@ public class MatchingPerVo {
 	private String searchCat;   //검색 카테고리
 	private String searchKeyword; //검색 키워드
 	private String[] skillArr;
+	private String regdate;
 	
 	public MatchingPerVo() {}
 
@@ -29,15 +32,23 @@ public class MatchingPerVo {
 	}
 	
 	
-	public MatchingPerVo(String user_id, String skill, String emp_category, String title, String content) {
+	public MatchingPerVo(String user_id, String skill, String emp_category, String title, String content, String regdate) {
 		super();
 		this.user_id = user_id;
 		this.skill = skill;
 		this.emp_category = emp_category;
 		this.title = title;
 		this.content = content;
+		this.regdate = regdate;
 	}
-	
+
+	public String getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
 
 	public String getSearchCat() {
 		return searchCat;

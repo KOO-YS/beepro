@@ -254,7 +254,7 @@ public class MatchingServlet extends HttpServlet {
 	
 	if(success > 0) {
 		System.out.println("글 게시 성공");
-		dispatch("personMatching?command=selectAllPer", request, response);
+		response.sendRedirect("personMatching?command=selectAllPer");
 		
 	} else {
 		System.out.println("글 게시 실패");
@@ -402,6 +402,7 @@ public class MatchingServlet extends HttpServlet {
 		} else if (command.equals("selectAllProject")) {
 			System.out.println("프로젝트 전체 조회");
 			List<ProjectVo> list = matchingService.selectAllProject(request, response);
+			session.getAttribute(u_id);
 			session.setAttribute("projectVo", list);
 			dispatch("/cowork/common/dashboard.jsp", request, response);
            

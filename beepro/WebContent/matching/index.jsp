@@ -62,6 +62,55 @@
 
   </style>
 </head>
+<style type="text/css">
+#cowork { background-image:url('img/cowork_keyimage.png');
+          background-repeat: no-repeat;
+          width:100%;
+          height:800px;}
+          
+#cowork-title { width:500px;
+                height:auto;
+                font-size:45px;
+                font-weight:bold;
+                margin-left:120px;
+                margin-top:65px;
+              }
+
+#cowork-button { margin-top:110px;
+                 margin-left:120px;
+               }
+
+#Cbutton {
+  width: 250px;
+  height: 80px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  font-weight:bold;
+  color: #fff;
+  background-color: #fed136;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+#Cbutton:hover {
+  background-color:#fed136;
+  box-shadow: 0px 15px 20px rgba(255, 215, 75, 0.6);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+#bee { z-index:999;
+       margin-top:-94px;
+       margin-left:294px;
+
+     }
+</style>
 <body id="page-top">
 <c:import url="common/nav_bar.jsp">
 	<c:param name="pageName" value="main"></c:param>
@@ -147,21 +196,17 @@
 
   <!-- About -->
   <section class="page-section" id="cowork">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h2 class="section-heading text-uppercase">cowork</h2>
-          <h3 class="section-subheading text-muted">협업 섹션</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12" style="text-align: center;">
-        	<button class="btn btn-primary btn-xl" onclick="selectProject();">cowork</button>
-			<img src="${pageContext.request.contextPath}/matching/img/cowork.jpg" alt="" style="width: 100%;">
-
-        </div>
-      </div>
-    </div>
+     <div id="cowork-title">
+        <p>Better Efficiency for Your Business with <span style="color:rgb(75,97,207)">BEE</span><span style="color:#fed136">PRO</span></p>
+     </div>
+     
+     <div id="bee">
+        <img src="../cowork/images/bee.png" width=43 height=auto>
+     </div>
+     
+     <div id="cowork-button">
+        <button onclick="location.href='matching?command=main'" id="Cbutton">GO COWORK</button>
+     </div>
   </section>
   
 	<jsp:include page="common/footer.jsp"></jsp:include>

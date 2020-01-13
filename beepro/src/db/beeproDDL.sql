@@ -138,6 +138,9 @@ CREATE TABLE matching_personal (
 	content	varchar2(4000)	NOT NULL
 );
 
+ALTER TABLE matching_personal ADD (regdate date);
+select * from MATCHING_PERSONAL;
+
 CREATE TABLE matching_project ( /* 프로젝트 매칭 공고글 */
 	projectM_seq	number	PRIMARY KEY,
 	pm_id	varchar2(100)	NOT NULL,
