@@ -46,7 +46,7 @@ button { background-color:#4b61cf;
 <ul style="background:rgba(75,97,207);" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- LEFT 메뉴 끝-->
           <!-- Sidebar - Brand -->
-          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/matching/index.jsp">
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/matching?command=main">
             <div class="sidebar-brand-text mx-3" style="line-height:130px;">
               <img src="/beepro/cowork/images/logo.png" width=55 height=auto> 
               BEEPRO
