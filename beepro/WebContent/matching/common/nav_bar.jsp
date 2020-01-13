@@ -137,33 +137,4 @@
       </div>
     </div>
   </nav>
-  
-<div class="modal fade" id="selectProject" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="selectProjectLabel">프로젝트를 선택해주세요</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-       	  <div class="form-group" style="text-align:center;">
-       	  	<c:if test="${ empty  projectList}">
-				<div class="col-lg-8 mb-8"> 
-					프로젝트가 존재하지 않습니다<br>
-					<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
-				</div>
-			</c:if>
-		    <c:forEach var="project" items="${projectList}">
-		    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
-				  ${project.projectName}
-				</button>
-		    </c:forEach>
-		  </div>
-      </div>
-      <div class="modal-footer">
-		</div>
-      </div>
-    </div>
-  </div>
+ 
