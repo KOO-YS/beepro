@@ -455,7 +455,7 @@ return Dao.selectAllPer();
 	   }
 	 
 	// 유저 스킬 가져오기
-	public List<String> getUserSkill(HttpServletRequest request, HttpServletResponse response) {
+	public List<String> getMySkill(HttpServletRequest request, HttpServletResponse response) {
 		// TODO 1. dao 와 연결 Skill String (return)
 		HttpSession session = request.getSession();
 		String u_id = (String)session.getAttribute("u_id");
@@ -473,7 +473,7 @@ return Dao.selectAllPer();
 		return skillList;
 	}
 	//유저 지역값 가져오기
-	public String getUserArea(HttpServletRequest request, HttpServletResponse response) {
+	public String getMyArea(HttpServletRequest request, HttpServletResponse response) {
 		
 		HttpSession session = request.getSession();
 		String u_id = (String)session.getAttribute("u_id");
@@ -481,5 +481,7 @@ return Dao.selectAllPer();
 		
 		return userArea;
 	}
+	
+
 	
 }
