@@ -233,7 +233,7 @@ function sendMsgFunction(get_id){
 			<c:when test="${empty projectList}">
 				<div class="container">
 					<hr style="margin: 3em 0;">
-					<h5>내가 쓴 project 글 목록</h5>
+					<h5>내가 쓴 project </h5>
 					<br>
 					<div class="row">
 						<div class="col-lg-3">
