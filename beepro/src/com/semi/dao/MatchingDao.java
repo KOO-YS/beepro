@@ -20,7 +20,7 @@ public interface MatchingDao {
 	// ------------------------ 개인 매칭 ------------------------ 
 	
 			//글쓰기
-			String insertPerSql = "INSERT INTO matching_personal VALUES(personal_seq.nextval, ?, ?, ?, ?, ?)";
+			String insertPerSql = "INSERT INTO matching_personal VALUES(personal_seq.nextval, ?, ?, ?, ?, ?, sysdate)";
 			//수정
 			String updatePerSql = "UPDATE matching_personal SET emp_category=?, title=?, skill=?, content=? WHERE personal_seq=?";
 			//삭제

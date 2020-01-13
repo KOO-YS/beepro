@@ -158,9 +158,8 @@ function sendMsgFunction(get_id){
 								id="profile-img" style="margin: 17px;">
 						</div>
 						<div class="col-7" style="text-align: left; padding-top: 30px;">
-							<h4>ID : qweqwe</h4>
-							<h4>location : 경기</h4>
-							<h4>skill : 경기, 하이, ㅇㅇ</h4>
+							<h4 style="margin-bottom: 10px; font-weight:bold;">ID : ${detail.user_id }</h4>
+							<h4 style="margin-bottom: 10px; font-weight:bold;">location : ${area}</h4>
 							<a class="btn btn-primary" style="margin: 10px; width: 100px; color:white;"
 								onclick="sendMsgFunction('${detail.user_id }');">쪽 지</a> <a
 								onclick="location.href='matching?command=profile&userId=${detail.user_id }'"
@@ -225,17 +224,16 @@ function sendMsgFunction(get_id){
 							type="hidden" name="backMsgBox" value="no" />
 						<!-- 어디 모달에서 보내는지 구별하기 위해 -->
 						<div class="form-group">
-							<label class="col-sm-12" for="inputTo"><span
+							<label class="col-sm-12" for="inputTo" style="margin:10px"><span
 								class="glyphicon glyphicon-user"></span>받는사람</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputTo"
 									placeholder="comma separated list of recipients"
-									readonly="readonly" name="get_id" style="width: 430px">
+									readonly="readonly" name="get_id" style="width: 350px">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-12" for="inputBody"><span
-								class="glyphicon glyphicon-list"></span>쪽지 내용</label>
+							<label class="col-sm-12" for="inputBody" style="margin:10px">쪽지 내용</label>
 							<div class="col-sm-12">
 								<textarea class="form-control" id="inputBody" rows="8"
 									name="content" style="resize: none;"></textarea>
