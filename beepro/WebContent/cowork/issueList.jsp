@@ -382,7 +382,7 @@ table.table .avatar {
              text-decoration:underline;
            }
 </style>
-<title>이슈 관리</title>
+<title>BEEPRO - 이슈 관리</title>
 </head>
 <body>
 	<div id="wrapper">
@@ -417,12 +417,6 @@ table.table .avatar {
 								<div class="row">
 									<div class="col-sm-3">
 										<div class="show-entries">
-											<select class="form-control">
-												<option value="5">5</option>
-												<option value="10">10</option>
-												<option value="15">15</option>
-												<option value="20">20</option>
-											</select>
 										</div>
 									</div>
 									<div class="col-sm-9">
@@ -477,12 +471,68 @@ table.table .avatar {
 												class="view" title="View Details" data-toggle="tooltip"><i
 													class="material-icons">&#xE5C8;</i></a></td>
 										</tr>
+										
 									</c:forEach>
 								</tbody>
 							</table>
+							
 						</div>
 					</div>
 				</div>
+													
+<script type="text/javascript">
+   function PageMove(page){
+          location.href = "personMatching?command=selectAllPer&curpagenum="+page;
+   }
+</script> 
+
+<c:if test="${listsize>=0 }">
+   <c:choose> 
+      <c:when test="${listsize == 0}">
+         <script>
+            $("#tableheader").hide();
+         </script>
+      </c:when>
+      
+      <c:otherwise>
+         <c:forEach var="vo" items="${list}" begin="${page.startRow}" end="${page.startRow+9}" ></c:forEach>
+   
+      </c:otherwise>
+   </c:choose>
+</c:if>
+
+<c:choose> 
+   <c:when test="${page.listCount >0 }">
+      <c:if test="${page.listCount ne '0'}">
+
+         <div class="row" style="display: block; margin-right:610px; margin-botton:20px;">
+            <nav aria-label="Page navigation example">
+               <ul class="pagination justify-content-center">
+               <li class="active">
+                  <a class="page-link" href="javascript:PageMove(${page.startPage})">Pre</a>
+               </li>
+
+                  <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+                     <c:choose>
+                        <c:when test="${i eq page.currentPage }">
+                           <li class="active"><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                           <li><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                        </c:otherwise>
+                     </c:choose>
+                  </c:forEach>
+
+                  <c:if test="${page.next eq true }">
+                     <a class="page-link" href="javascript:PageMove(${page.endPage })">Last</a></li>
+                  </c:if>
+               </ul>
+            </nav>
+         </div> 
+
+      </c:if>
+   </c:when>
+</c:choose>
 			</div>
 			<!-- 푸터 -->
 			<jsp:include page="common/footer.html"></jsp:include>
@@ -551,53 +601,5 @@ table.table .avatar {
        	location.href = "personMatching?command=selectAllPer&curpagenum="+page;
 	}
 </script> 
-
-<c:if test="${listsize>=0 }">
-	<c:choose> 
-		<c:when test="${listsize == 0}">
-			<script>
-				$("#tableheader").hide();
-			</script>
-		</c:when>
-		
-		<c:otherwise>
-			<c:forEach var="vo" items="${list}" begin="${page.startRow}" end="${page.startRow+9}" ></c:forEach>
-	
-		</c:otherwise>
-	</c:choose>
-</c:if>
-
-<c:choose> 
-	<c:when test="${page.listCount > 0 }">
-		<c:if test="${page.listCount ne '0'}">
-
-			<div class="row" style="display: block;">
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-					<li class="active">
-						<a class="page-link" href="javascript:PageMove(${page.startPage})">Pre</a>
-					</li>
-
-						<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
-							<c:choose>
-								<c:when test="${i eq page.currentPage }">
-									<li class="active"><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-
-						<c:if test="${page.next eq true }">
-							<a class="page-link" href="javascript:PageMove(${page.endPage })">Last</a></li>
-						</c:if>
-					</ul>
-				</nav>
-			</div> 
-
-		</c:if>
-	</c:when>
-</c:choose>
 </body>
 </html>

@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>NAME</title>
+<title>BEEPRO - 개인 매칭 리스트</title>
 
 <!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

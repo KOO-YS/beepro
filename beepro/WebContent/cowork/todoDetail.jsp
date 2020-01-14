@@ -114,7 +114,7 @@ $( function() {
              text-decoration:underline;
            }
 </style>
-<title>업무 상세보기</title>
+<title>BEEPRO - 업무 상세보기</title>
 </head>
 <body>
 	<div id="wrapper">

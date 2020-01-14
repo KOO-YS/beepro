@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>chat</title>
+<title>BEEPRO - 채팅하기</title>
 
 <script type="text/javascript" src ="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 

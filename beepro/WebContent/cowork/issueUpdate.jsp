@@ -38,7 +38,7 @@
 
   
 </script>
-<title>beepro - 이슈 수정하기</title>
+<title>BEEPRO - 이슈 수정하기</title>
 <style>
 .rate {
     float: left;
