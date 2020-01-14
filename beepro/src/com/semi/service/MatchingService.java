@@ -296,7 +296,7 @@ public class MatchingService {
 			try {
 				success += matchingDao.acceptVolunteer(projectSeq, eachMember[i]);
 				//참원 인원에게 쪽지 보내기
-				userDao.insertMsg(u_id, eachMember[i], "지원해 주신 "+projectName+"에 참여되셨습니다.\n협업페이지를 통해서 확인해 주세요.");
+				userDao.insertMsg(u_id, eachMember[i], projectName+"에 참여되셨습니다.\n협업페이지를 통해서 확인해 주세요.");
 
 			} catch (Exception e) {
 				System.out.println(eachMember[i] + "가 승인처리 되지않았습니다.");
