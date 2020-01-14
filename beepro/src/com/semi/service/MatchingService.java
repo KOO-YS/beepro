@@ -282,7 +282,7 @@ public class MatchingService {
 		String content = request.getParameter("content");
 		String member = request.getParameter("member");
 
-		String[] eachMember = member.split("/");
+		String[] eachMember = member.split(",");
 		int success = 0;
 		// FIXME transaction 처리 요구 -> 모든 유저가 accept 가 된 후에 프로젝트 생성이 가능해야한다.
 		for (int i = 0; i < eachMember.length; i++) {
