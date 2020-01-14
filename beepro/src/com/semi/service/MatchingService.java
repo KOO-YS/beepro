@@ -2,7 +2,6 @@ package com.semi.service;
 
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.semi.dao.MatchingDao;
 import com.semi.dao.MatchingDaoImpl;
+import com.semi.dao.UserDaoImpl;
 import com.semi.vo.MatchingPerVo;
 import com.semi.vo.MatchingProVo;
 import com.semi.vo.PostVo;
@@ -273,6 +273,10 @@ return Dao.selectAllPer();
    
    // 프로젝트 생성
 	public int insertProject(HttpServletRequest request, HttpServletResponse response) {
+		//지원 성공했을 때 쪽지로 알림 보내기
+		UserDaoImpl userDao = new UserDaoImpl();
+		HttpSession session = request.getSession();
+		String u_id = (String)session.getAttribute("u_id");
 		
 		int projectSeq = Integer.parseInt(request.getParameter("projectM_seq"));
 		System.out.println("프로젝트 시퀀스:" + projectSeq);
@@ -283,12 +287,13 @@ return Dao.selectAllPer();
 		String content = request.getParameter("content");
 		String member = request.getParameter("member");
 		
-		String[] eachMember = member.split("/");
+		String[] eachMember = member.split(",");
 		int success = 0;
 		// FIXME transaction 처리 요구 -> 모든 유저가 accept 가 된 후에 프로젝트 생성이 가능해야한다.
 		for(int i=0; i<eachMember.length; i++) {
 			try {
-				success += matchingDao.acceptVolunteer(projectSeq, eachMember[i]);	
+				success += matchingDao.acceptVolunteer(projectSeq, eachMember[i]);
+				userDao.insertMsg(u_id, eachMember[i], "지원해 주신 "+projectName+"에 참여되셨습니다.\n협업페이지를 통해서 확인해 주세요.");
 			} catch (Exception e) {
 				System.out.println(eachMember[i]+"가 승인처리 되지않았습니다.");
 			}
