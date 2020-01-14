@@ -265,7 +265,7 @@ hr {
 		</div>
 
 		<!-- 쪽지 보내기 모달 -->
-		<div class="modal" id="sendMsgModal">
+		<div class="modal" id="sendMsgModal" style="z-index: 10000;">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header modal-header-info">
