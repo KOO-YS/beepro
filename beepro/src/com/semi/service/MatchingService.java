@@ -287,7 +287,7 @@ public class MatchingService {
 		String content = request.getParameter("content");
 		String member = request.getParameter("member");
 
-		
+
 		String[] eachMember = member.split(",");
 
 		int success = 0;
