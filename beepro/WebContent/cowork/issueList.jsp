@@ -382,7 +382,7 @@ table.table .avatar {
              text-decoration:underline;
            }
 </style>
-<title>이슈 관리</title>
+<title>BEEPRO - 이슈 관리</title>
 </head>
 <body>
 	<div id="wrapper">
@@ -417,12 +417,6 @@ table.table .avatar {
 								<div class="row">
 									<div class="col-sm-3">
 										<div class="show-entries">
-											<select class="form-control">
-												<option value="5">5</option>
-												<option value="10">10</option>
-												<option value="15">15</option>
-												<option value="20">20</option>
-											</select>
 										</div>
 									</div>
 									<div class="col-sm-9">

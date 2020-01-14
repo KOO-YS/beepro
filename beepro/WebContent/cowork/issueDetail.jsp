@@ -282,7 +282,7 @@ $(document).ready(function() {
              text-decoration:underline;
            }
 </style>
-<title>beepro - 이슈 상세정보</title>
+<title>BEEPRO - 이슈 상세정보</title>
 </head>
 <body>
 	<div id="wrapper">

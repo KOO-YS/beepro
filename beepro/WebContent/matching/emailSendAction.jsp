@@ -112,7 +112,7 @@ div{
 
   <head>
 
-    <title>beepro</title>
+    <title>BEEPRO - 이메일 인증</title>
 
     <meta charset="utf-8">
 
