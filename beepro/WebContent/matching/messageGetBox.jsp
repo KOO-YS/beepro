@@ -18,6 +18,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <title>BEEPRO - 받은 쪽지함</title>
 
 <!-- Bootstrap core CSS -->

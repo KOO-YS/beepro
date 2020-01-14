@@ -111,7 +111,7 @@ div{
 <html>
 
   <head>
-
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
     <title>BEEPRO - 이메일 인증</title>
 
     <meta charset="utf-8">

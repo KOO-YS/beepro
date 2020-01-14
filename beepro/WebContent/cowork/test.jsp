@@ -9,7 +9,7 @@
 <meta charset="EUC-KR"> 
 
 <title>Insert title here</title> 
-
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="assets/css/jquery-ui.min.css" /> 
 
   <script src="assets/js/jquery.min.js"></script> 
