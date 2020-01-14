@@ -174,7 +174,7 @@ hr {
 		<div id="pf-status">
 			<ul>
 				<li><span>참여 프로젝트</span>
-					<h3>123</h3></li>
+					<h3>${projects }</h3></li>
 				<li><span> followers</span>
 					<h3>
 						<a href="#"> <i class="fa-heart"
@@ -265,7 +265,7 @@ hr {
 		</div>
 
 		<!-- 쪽지 보내기 모달 -->
-		<div class="modal" id="sendMsgModal">
+		<div class="modal" id="sendMsgModal" style="z-index: 10000;">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header modal-header-info">
