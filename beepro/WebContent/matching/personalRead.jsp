@@ -128,10 +128,7 @@ function sendMsgFunction(get_id){
 					</div>
 					<div class="controls" style="margin-bottom: 12px; color: gray;">
 						언어 및 프로그래밍 능력
-						<c:if test="${detail.user_id eq u_id}">
-							<input type="text" id="skill" class="floatLabel" name="skill"
-								data-role="tagsinput" value="${detail.skill}">
-						</c:if>
+							<input type="text" id="skill" class="floatLabel" name="skill" data-role="tagsinput" value="${detail.skill}">
 					</div>
 					<div class="controls" style="color: gray;">
 						희망 분야 <select class="floatLabel" name="emp_category">
