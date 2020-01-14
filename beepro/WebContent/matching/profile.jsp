@@ -192,6 +192,10 @@ function followFunction(post_no){
 		  	<p class="bg-light" style="text-align:center;">
 				skills
 			</p>
+			<c:forEach var="skill" items="${skillList}">
+				<button class="btn btn-outline-primary" style="cursor: default; position: center;">${skill}</button>
+			</c:forEach>
+			
   		</div>
   	</div>
   </div>
