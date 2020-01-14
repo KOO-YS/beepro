@@ -161,6 +161,7 @@ $(document).ready(function() {
                 display: inline-block;}
                 
 .subheader2 { font-size:13px;
+              width:85px;
               border-radius:5px;
               border:1px solid rgb(75,97,207);
               color:rgb(75,97,207);
@@ -338,7 +339,7 @@ $(document).ready(function() {
 					                 <span style="font-size:12px; color:#777777;">담당자</span>
 					               </label>
 					               <div class="subheader2">
-					                ${vo.responsibility}&nbsp;&nbsp;${u_email}
+					                ${vo.responsibility}
     					           </div>
     					        </div>
 					         </div>

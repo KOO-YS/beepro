@@ -59,7 +59,10 @@
   color: #fff;
   transform: translateY(-7px);
 }
-
+@media (max-width:780px){
+	.btnOrder{order:2;}
+	.text-muted{margin : 0px;}
+}
   </style>
 </head>
 <style type="text/css">
@@ -72,13 +75,12 @@
       height:700px;
       float:right;
       margin-right:50px;
-      margin-top:350px;}  
+      margin-top:250px;}  
 
 #cowork { background-image:url('${pageContext.request.contextPath}/matching/img/cowork_keyimage.png');
           background-repeat: no-repeat;
           width:100%;
-          height:800px;
-          margin-top:700px;}
+          height:800px;}
           
 #cowork-title { width:500px;
                 height:auto;
@@ -148,14 +150,16 @@
 
      } 
 
-#b1 { width:250px;
+#b1 {position: relative; 
+	 width:250px;
       height:auto;
-      margin-top:180px;
+      margin-top:130px;
       float:right;}
       
-#b1 { width:250px;
+#b2 { position: relative;
+	  width:250px;
       height:auto;
-      margin-top:300px;
+      margin-top:230px;
       float:left;}
 </style>
 <body id="page-top">
@@ -174,7 +178,7 @@
   </header>
 
   <!-- Services -->
-  <section class="page-section" id="advantage" style="padding-top:140px; padding-bottom:300px;">
+  <section class="page-section" id="advantage" style="padding-top:140px; padding-bottom:140px;">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -212,13 +216,38 @@
   </section>
 
   <!-- Portfolio Grid -->
-  <section class="bg-light page-section" id="matching">
+  <section class="page-section" id="matching" style="padding:30px;">
+     <div class="container">
+     	
+     	<div class="row">
+     		<div class="col-lg-6 col-sm-12 btnOrder" style="text-align:center;">
+     		<p class="text-muted" style="text-align:center; margin: 20% 0 0 0;">내가 찾던 다양한 프로젝트들을 <br>지금 바로 만나세요!</p>
+	     		<button onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" id="Cbutton" style="margin: 4% 0 0 0;">Project Matching</button>
+     		</div>
+     		<div class="col-lg-6 col-sm-12">
+     			<img src="${pageContext.request.contextPath}/matching/img/main_project.jpg" width=430>
+     		</div>
+     	</div>
+     	<div class="row">
+     		<div class="col-lg-6 col-sm-12">
+     			<img src="${pageContext.request.contextPath}/matching/img/main_personal.png" width=430>
+     		</div>
+     		<div class="col-lg-6 col-sm-12" style="text-align:center;">
+     		<p class="text-muted" style="text-align:center; margin: 20% 0 0 0;">내가 찾던 다양한 사람들과 <br>지금 바로 만나세요!</p>
+	     		<button onclick="location.href='${pageContext.request.contextPath}/matching?command=selectAllPer'" id="Cbutton" style="margin: 4% 0 0 0;">Personal Matching</button>
+     		</div>
+     		</div>
+     	</div>
+     </div>
+  </section>
+
+<%-- <section class="page-section" id="matching">
      <div id="s1">
-       <img src="${pageContext.request.contextPath}/matching/img/personal.png" width=430>
+       <img src="${pageContext.request.contextPath}/matching/img/main_personal.png" width=430>
      </div>
     
      <div id="s2">
-       <img src="${pageContext.request.contextPath}/matching/img/project.jpg" width=430>
+       <img src="${pageContext.request.contextPath}/matching/img/main_project.jpg" width=430>
      </div>
      
        <div id="b1">
@@ -228,7 +257,7 @@
      <div id="b2">
          <button onclick="selectProject();" id="Cbutton">Project Matching</button>
        </div>
-  </section>
+  </section> --%>
 
   <!-- About -->
   <section class="page-section" id="cowork">

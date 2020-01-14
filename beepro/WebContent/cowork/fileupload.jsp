@@ -295,7 +295,7 @@ $(document).ready(function() {
 												class="view" title="View Details" data-toggle="tooltip"><i
 													class="material-icons">&#xE5C8;</i></a></td>
 										</tr>
-									</tr>
+									
 									</c:forEach>
 								</tbody>
 							</table>

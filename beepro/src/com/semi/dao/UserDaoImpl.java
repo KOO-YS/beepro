@@ -1095,7 +1095,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			if (rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}
-			return 0; // 받은 메시지 없음
+			return 0; 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1120,7 +1120,7 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 			if (rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}
-			return 0; // 받은 메시지 없음
+			return 0; 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1130,6 +1130,28 @@ public class UserDaoImpl extends JDBCTemplet implements UserDao {
 		}
 		return -1; // 데이터베이스 오류
 
+	}
+
+	public int projectCount(String u_id) {
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = " select count(*) from project where member_id LIKE '%"+u_id+"%'";
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("COUNT(*)");
+			}
+			return 0; // 참여프로젝트 없음
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+			close(con);
+		}
+		return -1; // 데이터베이스 오류
 	}
 	
 

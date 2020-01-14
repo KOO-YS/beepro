@@ -694,7 +694,15 @@ public class UserService {
 		return follwing;
 	}
 	
-	
+	public String projectCount(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		UserDaoImpl userDAO = new UserDaoImpl();
+		String userId = request.getParameter("userId");
+		
+		String projects = userDAO.projectCount(userId)+"";
+		return projects;
+	}
 	
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
