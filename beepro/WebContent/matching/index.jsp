@@ -7,7 +7,7 @@
 
 
 
-															main.jsp 를 통해서 실행해주세요!!!!! 
+                                             main.jsp 를 통해서 실행해주세요!!!!! 
 
 
 
@@ -20,7 +20,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>NAME</title>
+  <title>BEEPRO - MAIN</title>
 
   <!-- Bootstrap core CSS -->
   <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -63,20 +63,32 @@
   </style>
 </head>
 <style type="text/css">
+#s1 { width:500px;
+      height:700px;
+      float:left;
+      margin-left:120px;}
+
+#s2 { width:500px;
+      height:700px;
+      float:right;
+      margin-right:50px;
+      margin-top:350px;}  
+
 #cowork { background-image:url('${pageContext.request.contextPath}/matching/img/cowork_keyimage.png');
           background-repeat: no-repeat;
           width:100%;
-          height:800px;}
+          height:800px;
+          margin-top:700px;}
           
 #cowork-title { width:500px;
                 height:auto;
                 font-size:45px;
                 font-weight:bold;
                 margin-left:120px;
-                margin-top:65px;
+                padding-top:165px;
               }
 
-#cowork-button { margin-top:110px;
+#cowork-button { margin-top:100px;
                  margin-left:120px;
                }
 
@@ -105,29 +117,64 @@
   transform: translateY(-7px);
 }
 
+#Cbutton2 {
+  width: 200px;
+  height: 80px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  font-weight:bold;
+  color: #fff;
+  background-color: #fed136;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+#Cbutton2:hover {
+  background-color:#fed136;
+  box-shadow: 0px 15px 20px rgba(255, 215, 75, 0.6);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
 #bee { z-index:999;
        margin-top:-94px;
        margin-left:294px;
 
-     }
+     } 
+
+#b1 { width:250px;
+      height:auto;
+      margin-top:180px;
+      float:right;}
+      
+#b1 { width:250px;
+      height:auto;
+      margin-top:300px;
+      float:left;}
 </style>
 <body id="page-top">
 <c:import url="common/nav_bar.jsp">
-	<c:param name="pageName" value="main"></c:param>
+   <c:param name="pageName" value="main"></c:param>
 </c:import>
   
   <!-- Header -->
   <header class="masthead" style="background-image:url('${pageContext.request.contextPath}/matching/img/main.jpg')">
     <div class="container">
       <div class="intro-text">
-	 <div class="intro-heading" style="color:black; text-align:left; font-size:50px; line-height:67.257px; letter-spacing :-1px;word-spacing:-4px;" >누구나 쉽고 빠르게<br>프로젝트를 만들고<br>협업할 수 있는 곳</div>     
+	 <div class="intro-heading" style="color:black; text-align:left; font-size:50px; line-height:67.257px; letter-spacing :-1px;word-spacing:-4px;" >누구나 쉽고 빠르게<br>프로젝트를 만들고<br>협업하는 가장 쉬운 공간</div>     
         <button onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'"style="float:left;" id="Cbutton">Beepro 시작하기</button>
       </div>
     </div>
   </header>
 
   <!-- Services -->
-  <section class="page-section" id="advantage">
+  <section class="page-section" id="advantage" style="padding-top:140px; padding-bottom:300px;">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -166,7 +213,21 @@
 
   <!-- Portfolio Grid -->
   <section class="bg-light page-section" id="matching">
+     <div id="s1">
+       <img src="${pageContext.request.contextPath}/matching/img/personal.png" width=430>
+     </div>
     
+     <div id="s2">
+       <img src="${pageContext.request.contextPath}/matching/img/project.jpg" width=430>
+     </div>
+     
+       <div id="b1">
+          <button onclick="selectProject();" id="Cbutton" >Personal Matching</button>
+       </div>
+       
+     <div id="b2">
+         <button onclick="selectProject();" id="Cbutton">Project Matching</button>
+       </div>
   </section>
 
   <!-- About -->
@@ -184,7 +245,7 @@
      </div>
   </section>
   
-	<jsp:include page="common/footer.jsp"></jsp:include>
+   <jsp:include page="common/footer.jsp"></jsp:include>
 
 <!-- 프로젝트 생성 -->
 <div class="modal fade" id="selectProject" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -197,23 +258,23 @@
         </button>
       </div>
       <div class="modal-body">
-       	  <div class="form-group" style="text-align:center;">
-       	  	<c:if test="${ empty projectList}">
-				<div class="col-lg-8 mb-8"> 
-					프로젝트가 존재하지 않습니다<br>
-					<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
-				</div>
-			</c:if>
-		    <c:forEach var="project" items="${projectList}">
-		    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
-				  ${project.projectName}
-				</button>
-		    </c:forEach>
-		  </div>
+            <div class="form-group" style="text-align:center;">
+               <c:if test="${ empty projectList}">
+            <div class="col-lg-8 mb-8"> 
+               프로젝트가 존재하지 않습니다<br>
+               <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
+            </div>
+         </c:if>
+          <c:forEach var="project" items="${projectList}">
+             <button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
+              ${project.projectName}
+            </button>
+          </c:forEach>
+        </div>
 
       </div>
       <div class="modal-footer">
-		</div>
+      </div>
       </div>
     </div>
   </div>
@@ -229,14 +290,14 @@
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 
 <script type="text/javascript">
-	function selectProject(){
-		var userId = "${u_id}";
-		if(userId == ""){
-			alert("로그인 후 이용 가능합니다");
-			return false;
-		}
-		$("#selectProject").modal();
-	}
+   function selectProject(){
+      var userId = "${u_id}";
+      if(userId == ""){
+         alert("로그인 후 이용 가능합니다");
+         return false;
+      }
+      $("#selectProject").modal();
+   }
 </script>
 </body>
 </html>

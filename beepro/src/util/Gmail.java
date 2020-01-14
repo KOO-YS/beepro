@@ -5,10 +5,7 @@ import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 
 
-
 public class Gmail extends Authenticator {
-
-
 
 	  @Override
 

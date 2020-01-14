@@ -19,7 +19,9 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>NAME</title>
+
+<title>BEEPRO - 프로필 사진 바꾸기</title>
+
 
 <!-- Bootstrap core CSS -->
 
@@ -247,6 +249,7 @@ hr {
 								<td>@twitter</td>
 							</tr>
 						</tbody>
+
 					</table>
 				</div>
 			</div>

@@ -18,7 +18,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>NAME</title>
+<title>BEEPRO - 보낸 쪽지함</title>
 
 <!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/matching/css/msg.css"

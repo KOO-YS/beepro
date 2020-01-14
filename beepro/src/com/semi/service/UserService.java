@@ -38,7 +38,7 @@ public class UserService {
 	//임시 비밀번호 재설정
 	public void findPwd(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String host = "http://localhost:8787/beepro/matching/";		
+		String host = "http://192.168.130.12:8787/beepro/matching/";		
 		String from = "teambeepro@gmail.com";		
 		String u_id = request.getParameter("u_id");			
 		String to = request.getParameter("u_email");			

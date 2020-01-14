@@ -24,7 +24,7 @@ if(emailChecked.equals("Y")) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>NAME</title>
+  <title>BEEPRO - 이메일 인증 오류</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

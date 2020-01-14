@@ -44,7 +44,7 @@ $(document).ready(function(){
     
 });
 </script>
-<title>beepro - 이슈 생성하기</title>
+<title>BEEPRO - 이슈 생성하기</title>
 <style>
 .rate {
     float: left;

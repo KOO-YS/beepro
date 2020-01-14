@@ -628,9 +628,10 @@ public class ProjectDaoImple implements ProjectDao {
 
 		try {
 			pstmt = con.prepareStatement(insertCommentSql);
-			pstmt.setInt(1, vo.getIssueSeq());
-			pstmt.setString(2, vo.getWriter());
-			pstmt.setString(3, vo.getContent());
+			pstmt.setInt(1, vo.getProjectSeq());
+			pstmt.setInt(2, vo.getIssueSeq());
+			pstmt.setString(3, vo.getWriter());
+			pstmt.setString(4, vo.getContent());
 
 			res = pstmt.executeUpdate();
 
@@ -659,13 +660,14 @@ public class ProjectDaoImple implements ProjectDao {
 
 			while (rs.next()) {
 				CommentVo vo = new CommentVo();
-
-				vo.setCommentSeq(rs.getInt(1));
-				vo.setIssueSeq(rs.getInt(2));
-				vo.setWriter(rs.getString(3));
-				vo.setContent(rs.getString(4));
-				vo.setRegdate(rs.getString(5));
-
+                vo.setProjectSeq(rs.getInt(1));
+				vo.setCommentSeq(rs.getInt(2));
+				vo.setIssueSeq(rs.getInt(3));
+				vo.setWriter(rs.getString(4));
+				vo.setContent(rs.getString(5));
+				vo.setRegdate(rs.getString(6));
+                
+				System.out.println(res.toString());
 				res.add(vo);
 			}
 		} catch (SQLException e) {
