@@ -168,7 +168,7 @@
     <div class="container">
       <div class="intro-text">
 	 <div class="intro-heading" style="color:black; text-align:left; font-size:50px; line-height:67.257px; letter-spacing :-1px;word-spacing:-4px;" >누구나 쉽고 빠르게<br>프로젝트를 만들고<br>협업하는 가장 쉬운 공간</div>     
-        <button onclick="location.href='${pageContext.request.contextPath}/matching/login.jsp'"style="float:left;" id="Cbutton">Beepro 시작하기</button>
+        <button class='js-scroll-trigger' onclick="startProject();" style="float:left;" id="Cbutton">Beepro 시작하기</button>
       </div>
     </div>
   </header>
@@ -290,14 +290,26 @@
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 
 <script type="text/javascript">
-   function selectProject(){
-      var userId = "${u_id}";
-      if(userId == ""){
-         alert("로그인 후 이용 가능합니다");
-         return false;
-      }
-      $("#selectProject").modal();
-   }
+	function startProject(){
+		var userId = "${u_id}";
+      	if(userId == ""){
+         	alert("로그인 후 이용 가능합니다");
+         	location.href='${pageContext.request.contextPath}/matching/login.jsp';
+         	return false;
+      	} else {
+      		location.href='#advantage';
+      	}
+	}
+
+   	function selectProject(){
+      	var userId = "${u_id}";
+      	if(userId == ""){
+         	alert("로그인 후 이용 가능합니다");
+         	location.href='${pageContext.request.contextPath}/matching/login.jsp'; 
+         	return false;
+      	}
+      	$("#selectProject").modal();
+   	}
 </script>
 </body>
 </html>

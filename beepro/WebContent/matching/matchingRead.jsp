@@ -111,15 +111,6 @@
   		<c:param name="pageName" value="matching"></c:param>
   	</c:import>
    <div class="container" style="padding-top: 5em;">
-	<%-- <form action="${pageContext.request.contextPath}/matching" method="post" name="modifyForm">
-		<c:choose>
-			<c:when test="${empty matchingVo }">
-			</c:when>
-			<c:otherwise>
-				<input type="hidden" name="command"  value="matchingWrite"/>	
-				<input type="hidden" name="project_seq" value="${matchingVo.project_seq }">
-			</c:otherwise>
-		</c:choose> --%>
          <!--  General -->
          
         <form action="matching" method="post" name="modifyForm">
@@ -226,6 +217,9 @@
                	<c:when test="${empty u_id }">
                		<!-- 로그인 후 지원가능합니다. -->
                	</c:when>
+               	<c:when test="${created eq true}">
+               		<a id="volunteerBtn" onclick="return false;" class="btn btn-secondary col-3" style="color:white; float: right;">지원이 끝난 프로젝트 입니다</a>
+               	</c:when>
                	<c:otherwise>
                	    <a id="volunteerBtn" href="${pageContext.request.contextPath}/matching?command=insertVolunteer&projectM_seq=${matchingVo.projectM_seq}" class="col-3 btn btn-primary" style="float: right;">지원하기</a>
 				</c:otherwise> 
@@ -297,27 +291,27 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-	<form action="${pageContext.request.contextPath}/matching" method="post">
+	<form action="${pageContext.request.contextPath}/matching" method="post" style="padding:0; text-align: left;">
 		<input type="hidden" name="command" value="projectCreate">
 		<input type="hidden" name="projectM_seq" value="${matchingVo.projectM_seq}">
 		<input type="hidden" name="u_id" value="${u_id}">
 	    <div class="modal-body">
         	  <div class="form-group">
-			    <label for="oriPwd">프로젝트 명</label>
+			    <label class="col-sm-12" style="margin: 10px 0;">프로젝트 명</label>
 			    <input type="text" class="form-control" name="projectName" id="projectName" required>
 			  </div>
 			  <hr>
               <div class="form-group">
-			    <label for="oriPwd">기간</label>
+			    <label class="col-sm-12" style="margin: 10px 0;">기간</label>
 			    <input type="text" class="form-control" name="startDate" value="${matchingVo.startdate}" required><br>
 			    <input type="text" class="form-control" name="endDate" value="${matchingVo.enddate}" required>
 			  </div>
 			  <div class="form-group">
-			    <label for="oriPwd">개요</label>
+			    <label class="col-sm-12" style="margin: 10px 0;">개요</label>
 			    <input type="text" class="form-control" name="content" id="content" required>
 			  </div>
 			  <div class="oriPwd">
-			    <label for="member">프로젝트 팀원</label>
+			    <label class="col-sm-12" style="margin: 10px 0;" for="member">프로젝트 팀원</label>
 			    <input type="text" class="form-control" name="member" id="member" readOnly required>
 			  </div>
       </div>
@@ -357,12 +351,12 @@
 				<div class="modal-body">
 
 					<form role="form" id="sendForm" class="form-horizontal"
-						action="${pageContext.request.contextPath}/msg">
+						action="${pageContext.request.contextPath}/msg" style="padding:0; text-align: left;">
 						<input type="hidden" name="command" value="sendMsg" /> 
 						<input type="hidden" name="send_id" value="${u_id }" />
 						<input type="hidden" name="backMsgBox" value="no" />	<!-- 어디 모달에서 보내는지 구별하기 위해 -->
 						<div class="form-group">
-							<label class="col-sm-12" for="inputTo"><span
+							<label class="col-sm-12" for="inputTo"  style="margin: 10px 0;"><span
 								class="glyphicon glyphicon-user"></span>받는사람</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputTo"
@@ -371,7 +365,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-12" for="inputBody"><span
+							<label class="col-sm-12" for="inputBody" style="margin: 10px 0;"><span
 								class="glyphicon glyphicon-list"></span>쪽지 내용</label>
 							<div class="col-sm-12">
 								<textarea class="form-control" id="inputBody" rows="8"
