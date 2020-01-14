@@ -7,7 +7,7 @@
 
 
 
-															main.jsp 를 통해서 실행해주세요!!!!! 
+                                             main.jsp 를 통해서 실행해주세요!!!!! 
 
 
 
@@ -160,7 +160,7 @@
 </style>
 <body id="page-top">
 <c:import url="common/nav_bar.jsp">
-	<c:param name="pageName" value="main"></c:param>
+   <c:param name="pageName" value="main"></c:param>
 </c:import>
   
   <!-- Header -->
@@ -245,7 +245,7 @@
      </div>
   </section>
   
-	<jsp:include page="common/footer.jsp"></jsp:include>
+   <jsp:include page="common/footer.jsp"></jsp:include>
 
 <!-- 프로젝트 생성 -->
 <div class="modal fade" id="selectProject" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -258,23 +258,23 @@
         </button>
       </div>
       <div class="modal-body">
-       	  <div class="form-group" style="text-align:center;">
-       	  	<c:if test="${ empty projectList}">
-				<div class="col-lg-8 mb-8"> 
-					프로젝트가 존재하지 않습니다<br>
-					<button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
-				</div>
-			</c:if>
-		    <c:forEach var="project" items="${projectList}">
-		    	<button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
-				  ${project.projectName}
-				</button>
-		    </c:forEach>
-		  </div>
+            <div class="form-group" style="text-align:center;">
+               <c:if test="${ empty projectList}">
+            <div class="col-lg-8 mb-8"> 
+               프로젝트가 존재하지 않습니다<br>
+               <button class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/matching?command=matchingAll'" >매칭 게시판 가기</button>
+            </div>
+         </c:if>
+          <c:forEach var="project" items="${projectList}">
+             <button type="button" class="btn btn-primary col-6" onclick="location.href='project?command=goToProject&projectSeq=${project.projectSeq}'" style="margin:20px 0;">
+              ${project.projectName}
+            </button>
+          </c:forEach>
+        </div>
 
       </div>
       <div class="modal-footer">
-		</div>
+      </div>
       </div>
     </div>
   </div>
@@ -290,14 +290,14 @@
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 
 <script type="text/javascript">
-	function selectProject(){
-		var userId = "${u_id}";
-		if(userId == ""){
-			alert("로그인 후 이용 가능합니다");
-			return false;
-		}
-		$("#selectProject").modal();
-	}
+   function selectProject(){
+      var userId = "${u_id}";
+      if(userId == ""){
+         alert("로그인 후 이용 가능합니다");
+         return false;
+      }
+      $("#selectProject").modal();
+   }
 </script>
 </body>
 </html>
