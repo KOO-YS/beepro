@@ -30,15 +30,16 @@ public interface MatchingDao {
 			//글 상세보기
 			String selectOnePerSql = "SELECT * FROM matching_personal WHERE personal_seq=?";
 			//글 검색
-			String selectSearchPerSql = "SELECT * FROM matching_personal ? ORDER BY PROJECTM_SEQ DESC";
+			String selectSearchPerSql = "SELECT * FROM matching_personal ? ORDER BY personal_seq DESC";
 			
 			
-			public int insertPer(MatchingPerVo perVo);
-			public int updatePer(MatchingPerVo perVo);
-			public int deletePer(int personal_seq);
-			public List<MatchingPerVo> selectAllPer();
-			public MatchingPerVo selectOnePer(int personal_seq);
-			public MatchingPerVo personalRead(String personal_seq);
+	         public int insertPer(MatchingPerVo perVo);
+	         public int updatePer(MatchingPerVo perVo);
+	         public int deletePer(int personal_seq);
+	         public List<MatchingPerVo> selectAllPer();
+	         public List<MatchingPerVo> selectAllPer(MatchingPerVo perVo);
+	         public MatchingPerVo selectOnePer(int personal_seq);
+	         public MatchingPerVo personalRead(String personal_seq);
 			
 			
 			

@@ -247,27 +247,26 @@ return perVo;
 //개인 매칭 검색하기
 
 public List<MatchingPerVo> selectAllPer(HttpServletRequest request){
-MatchingDao Dao = new MatchingDaoImpl();
-MatchingPerVo perVo = new MatchingPerVo();
+   MatchingDao Dao = new MatchingDaoImpl();
+   MatchingPerVo perVo = new MatchingPerVo();
 
-String searchKeyword = (String) request.getParameter("searchKeyword");  
-String searchCat = (String) request.getParameter("searchCat");
+   String searchKeyword = (String) request.getParameter("searchKeyword");  
+   String searchCat = (String) request.getParameter("searchCat");
 
-if(searchCat == null) {
-searchCat = "";
+   if(searchCat == null) {
+      searchCat = "";
+   }
+
+   if(searchKeyword == null) {
+      searchKeyword = "";
+   }
+
+   perVo.setSearchCat(searchCat);
+   perVo.setSearchKeyword(searchKeyword);
+   //return Dao.selectAllPer();      // 그냥 리스트 출력
+   return Dao.selectAllPer(perVo);      // 검색 기능을 들고왔을때 리턴값
+
 }
-if(searchKeyword == null) {
-searchKeyword = "";
-}
-
-perVo.setSearchCat(searchCat);
-perVo.setSearchKeyword(searchKeyword);
-
-return Dao.selectAllPer();
-
-}   
-   
-   
    
    
    

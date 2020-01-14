@@ -40,7 +40,6 @@ CREATE SEQUENCE ISSUE_SEQ
   MAXVALUE 10000
   MINVALUE 1
   NOCYCLE;
-  
 CREATE SEQUENCE PROJECT_SEQ
   START WITH 1
   INCREMENT BY 1
@@ -130,7 +129,7 @@ CREATE TABLE project_member ( /* 프로젝트 구성원 = pm이 프로젝트 지
 );
 
 CREATE TABLE matching_personal (
-	personal_seq	number	NOT NULL,
+	personal_seq	varchar2(100)	NOT NULL,
 	user_id	varchar2(100)	NOT NULL,
 	skill	varchar2(4000),
 	emp_category	varchar2(1000) NOT NULL,
