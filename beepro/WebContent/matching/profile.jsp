@@ -174,7 +174,7 @@ hr {
 		<div id="pf-status">
 			<ul>
 				<li><span>참여 프로젝트</span>
-					<h3>123</h3></li>
+					<h3>${projects }</h3></li>
 				<li><span> followers</span>
 					<h3>
 						<a href="#"> <i class="fa-heart"
