@@ -27,7 +27,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>협업페이지</title>
+  <title>BEEPRO - 협업 메인페이지</title>
 
 </head>
 

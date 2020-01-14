@@ -322,7 +322,7 @@ table.table .avatar {
 	font-size: 13px;
 }
 </style>
-<title>채팅목록</title>
+<title>BEEPRO - 채팅목록</title>
 <%
 	String u_id = null;
 	if (session.getAttribute("u_id") != null) {

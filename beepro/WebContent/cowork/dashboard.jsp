@@ -130,7 +130,7 @@
              text-decoration:underline;
            }
 </style>
-<title>협업 페이지</title>
+<title>BEEPRO - 협업 메인페이지</title>
 </head>
 <body>
 	<div id="wrapper">

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BEEPRO - 글 작성</title>
+<title>BEEPRO - 개인 매칭 상세보기</title>
   <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
 <link
 	href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css"

@@ -352,7 +352,7 @@ table.table .avatar {
              text-decoration:underline;
            }
 </style>
-<title>내 업무 </title>
+<title>BEEPRO - 내 업무리스트</title>
 </head>
 <body>
 	<div id="wrapper">

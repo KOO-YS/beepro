@@ -119,6 +119,10 @@ public class MatchingServlet extends HttpServlet {
 			request.setAttribute("followings", followings);
 			request.setAttribute("chk", chk);
 			request.setAttribute("profile", profile);
+			
+			List<String> skill = matchingService.getUserSkillList(request, response);
+  	  		request.setAttribute("skillList", skill);
+			
 			dispatch("matching/profile.jsp", request, response);
 		} else if (command.equals("matchingWrite")) {
 			int success = matchingService.matchingWrite(request, response);

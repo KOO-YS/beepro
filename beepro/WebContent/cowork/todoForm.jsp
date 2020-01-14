@@ -70,7 +70,7 @@ $( function() {
   });
 	
 </script>   
-<title>업무 추가</title>
+<title>BEEPRO - 업무 추가하기</title>
 <style>
 .rate {
     float: left;

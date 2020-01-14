@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>NAME</title>
+<title>BEEPRO - Mypage</title>
 
 <!-- Bootstrap core CSS -->
   <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">	
