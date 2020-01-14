@@ -13,8 +13,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>NAME</title>
-
+  <title>BEEPRO - 프로젝트 매칭 리스트</title>
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
   <!-- Bootstrap core CSS -->
   <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 

@@ -25,6 +25,7 @@ DROP SEQUENCE MESSAGE_SEQ;
 DROP SEQUENCE COMMENTS_SEQ;
 DROP SEQUENCE PROJECTM_SEQ;
 DROP SEQUENCE MSG_SEQ;
+DROP SEQUENCE PERSONAL_SEQ;
 -- #####################################################################################################################################
 
 CREATE SEQUENCE PROJECTM_SEQ -- 프로젝트 매칭 글에 대한 시퀀스번호
@@ -47,7 +48,7 @@ CREATE SEQUENCE PROJECT_SEQ
   MINVALUE 1
   NOCYCLE;
   
-CREATE SEQUENCE personal_SEQ
+CREATE SEQUENCE PERSONAL_SEQ
   START WITH 1
   INCREMENT BY 1
   MAXVALUE 10000
@@ -81,7 +82,15 @@ CREATE SEQUENCE FILE_SEQ -- 파일 테이블 시퀀스
   MAXVALUE 10000
   MINVALUE 1
   NOCYCLE;
-  
+ 
+-- 쪽지 테이블 추가
+CREATE SEQUENCE MSG_SEQ
+	START WITH 1
+	INCREMENT BY 1
+	MAXVALUE 10000
+	MINVALUE 1
+	NOCYCLE;
+
 -- #####################################################################################################################################
 CREATE TABLE beepro_user (
     user_id varchar2(100)	PRIMARY KEY,
@@ -202,6 +211,7 @@ CREATE TABLE comments (
 	content	varchar2(2000)	NOT NULL,
 	regdate	DATE	NOT NULL
 );
+
 
 select * from comments;
 

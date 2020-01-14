@@ -9,7 +9,7 @@
 
 <%	//네이버 로그인 관련
 	String clientId = "6_0y_JSbbHBEJdCySL56";//애플리케이션 클라이언트 아이디값
-	String redirectURI = URLEncoder.encode("http://localhost:8787/beepro/naverCallback", "UTF-8");
+	String redirectURI = URLEncoder.encode("http://192.168.130.12:8787/beepro/naverCallback", "UTF-8");
 	SecureRandom random = new SecureRandom();
 	String state = new BigInteger(130, random).toString();
 	String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
@@ -26,7 +26,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-    <title>Login</title>
+    <title>BEEPRO - Login</title>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="css/agency.css" rel="stylesheet">

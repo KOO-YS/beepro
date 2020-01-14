@@ -11,10 +11,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>chat</title>
+<title>BEEPRO - 채팅하기</title>
+
 
 <script type="text/javascript" src ="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <link href="${pageContext.request.contextPath}/cowork/css/bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/cowork/css/custom.css" rel="stylesheet">
 

@@ -38,7 +38,7 @@ public class UserService {
 	//임시 비밀번호 재설정
 	public void findPwd(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String host = "http://localhost:8787/beepro/matching/";		
+		String host = "http://192.168.130.12:8787/beepro/matching/";		
 		String from = "teambeepro@gmail.com";		
 		String u_id = request.getParameter("u_id");			
 		String to = request.getParameter("u_email");			
@@ -694,7 +694,15 @@ public class UserService {
 		return follwing;
 	}
 	
-	
+	public String projectCount(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		UserDaoImpl userDAO = new UserDaoImpl();
+		String userId = request.getParameter("userId");
+		
+		String projects = userDAO.projectCount(userId)+"";
+		return projects;
+	}
 	
 	private void dispatch(String url, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

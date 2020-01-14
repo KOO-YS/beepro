@@ -11,8 +11,8 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>NAME</title>
-
+<title>BEEPRO - Mypage</title>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <!-- Bootstrap core CSS -->
   <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">	
 <link
@@ -110,8 +110,7 @@ function sendMsgFunction(get_id){
   <!-- Header -->
   <header class="masthead" style="background-color: rgba(75,97,207);">
     <div class="container">
-      <div class="intro-text" style="padding-top: 150px; padding-bottom: 100px;">
-        <div class="intro-lead-in">by project</div>
+      <div class="intro-text" style="padding-top: 150px; padding-bottom: 50px;">
         <div class="intro-heading text-uppercase">MyPage</div>
       </div>
     </div>
@@ -397,8 +396,7 @@ function sendMsgFunction(get_id){
 						</thead>
 						<tbody>
 							<c:choose>
-								<c:when test="${empty projectList}">
-
+								<c:when test="${empty postProList}">
 									<tr>
 										<td colspan="3">관심있는 게시글이 없습니다.</td>
 									</tr>

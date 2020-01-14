@@ -147,10 +147,10 @@ a:hover {
 
 <!-- 탑 메뉴 -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+	
    <!-- 이슈만들기 모달창 -->
    <button type="submit" class="btn btn-primary" data-toggle="modal"
-      data-target="#exampleModal" style="margin-left: 840px;"
+      data-target="#exampleModal" style="margin-left: 900px;"
       onclick="location.href='${pageContext.request.contextPath}/issue?command=issueWrite&projectSeq=${projectSeq}'">
       <b>+&nbsp;&nbsp;이슈 생성하기</b>
    </button>
@@ -158,13 +158,14 @@ a:hover {
    <!-- 탑 메뉴 끝-->
 
    <!-- Sidebar Toggle (Topbar) -->
-
+	
    <button id="sidebarToggleTop"
       class="btn btn-link d-md-none rounded-circle mr-3">
       <i class="fa fa-bars"></i>
    </button>
    <!-- Topbar Navbar -->
    <ul class="navbar-nav ml-auto">
+
       <!-- Nav Item - Alerts -->
       <!-- <li class="nav-item dropdown no-arrow mx-1"><a
          class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
@@ -210,8 +211,8 @@ a:hover {
                </div>
             </a> <a class="dropdown-item text-center small text-gray-500" href="#">Show
                All Alerts</a>
-         </div></li>
- -->
+         </div></li> -->
+
       <!-- Nav Item - Messages -->
 <%--       <li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/chat?command=chatBox&u_id=<%=u_id%>'">
  --%><li class="nav-item dropdown no-arrow mx-1" onclick="location.href='${pageContext.request.contextPath}/cowork/chatList.jsp'">

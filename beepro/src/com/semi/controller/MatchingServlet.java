@@ -106,10 +106,11 @@ public class MatchingServlet extends HttpServlet {
 			}else {
 				chk="unfollow";
 			}
-			//팔로워 팔로잉 갯수
+			//참여프로젝트, 팔로워, 팔로잉 갯수
 			UserService userService = new UserService();
 			String followers = userService.followerCount(request, response);
 			String followings = userService.followingCount(request, response);
+			String projects = userService.projectCount(request, response);
 			
 			//유저프로필 사진 명 가져오기
 			String userPhoto = userDao.getUserPhoto(userId);
@@ -117,8 +118,13 @@ public class MatchingServlet extends HttpServlet {
 			
 			request.setAttribute("followers", followers);
 			request.setAttribute("followings", followings);
+			request.setAttribute("projects", projects);
 			request.setAttribute("chk", chk);
 			request.setAttribute("profile", profile);
+			
+			List<String> skill = matchingService.getUserSkillList(request, response);
+  	  		request.setAttribute("skillList", skill);
+			
 			dispatch("matching/profile.jsp", request, response);
 		} else if (command.equals("matchingWrite")) {
 			int success = matchingService.matchingWrite(request, response);

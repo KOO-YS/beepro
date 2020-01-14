@@ -12,6 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <link href="${pageContext.request.contextPath}/cowork/css/issueWriteTable.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -161,6 +162,7 @@ $(document).ready(function() {
                 display: inline-block;}
                 
 .subheader2 { font-size:13px;
+              width:85px;
               border-radius:5px;
               border:1px solid rgb(75,97,207);
               color:rgb(75,97,207);
@@ -282,7 +284,7 @@ $(document).ready(function() {
              text-decoration:underline;
            }
 </style>
-<title>beepro - 이슈 상세정보</title>
+<title>BEEPRO - 이슈 상세정보</title>
 </head>
 <body>
 	<div id="wrapper">
@@ -315,9 +317,18 @@ $(document).ready(function() {
    					         <a href="${pageContext.request.contextPath}/issue?command=issueUpdate&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}">
 					           <img src="<%=request.getContextPath()%>/cowork/images/modify.png" width="30" height="30" style="margin-right:15px;"/>
 					         </a>
-					         <a href="${pageContext.request.contextPath}/issue?command=issueDelete&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}">
-					           <img src="<%=request.getContextPath()%>/cowork/images/close.png" width="45" height="45" />
-					         </a>
+					       
+					       <c:choose>
+					          <c:when test = "${vo.writer eq u_name}">  
+					             <a href="${pageContext.request.contextPath}/issue?command=issueDelete&projectSeq=${projectSeq}&issue_seq=${vo.issueSeq}">
+					              <img src="<%=request.getContextPath()%>/cowork/images/close.png" width="45" height="45" />
+					            </a>
+					          </c:when>
+					          
+					          <c:otherwise>
+					          </c:otherwise>
+					       </c:choose>
+					       
 					      </div>
 					    </div>
 					    
@@ -329,8 +340,8 @@ $(document).ready(function() {
 					                 <span style="font-size:12px; color:#777777;">담당자</span>
 					               </label>
 					               <div class="subheader2">
-					                ${vo.responsibility}&nbsp;&nbsp;${u_email} 
-					               </div>
+					                ${vo.responsibility}
+    					           </div>
     					        </div>
 					         </div>
 					         <h6 class="issue-subheader mt-20"></h6>
@@ -422,6 +433,7 @@ $(document).ready(function() {
 					             <input type="hidden" name="command" value="commentWrite">
 					             <input type="hidden" name="u_id" value="${u_id}"> <!-- 댓글 쓰는사람 아이디 갖고오는거  -->
 					             <input type="hidden" name="issueSeq" value="${vo.issueSeq}">
+					             <input type="hidden" name="projectSeq" value="${projectSeq }">
 					             <input type="text" name="content" placeholder="댓글을 입력하세요" style="width:1056px; margin-top:20px;">
     							 <button type="submit" class="btn btn-primary" style="float:right; margin-top:15px; z-index:999;">
 							      <b>댓글작성</b>

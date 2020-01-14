@@ -43,7 +43,7 @@
 		script.close();		
 	}
 
-	String host = "http://localhost:8787/beepro/matching/";	
+	String host = "http://192.168.130.12:8787/beepro/matching/";	
 	String from = "teambeepro@gmail.com";
 	u_id = (String) session.getAttribute("u_id");	
 	String to = dao.getUserEmail(u_id);	
@@ -111,8 +111,8 @@ div{
 <html>
 
   <head>
-
-    <title>beepro</title>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
+    <title>BEEPRO - 이메일 인증</title>
 
     <meta charset="utf-8">
 
