@@ -676,7 +676,7 @@ return null;
 		ResultSet rs = null;
 		ArrayList<Integer> list = new ArrayList<Integer>();
 
-		String sql = " select DISTINCT post_no from post join matching_personal ON(u_id = user_id) where type=? AND u_id=?";
+		String sql = " select post_no from post join matching_personal ON(u_id = user_id) where type=? AND u_id=?";
 
 		try {
 			pstmt = con.prepareStatement(sql);

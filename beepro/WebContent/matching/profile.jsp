@@ -127,7 +127,7 @@ hr {
 			type : "POST",
 			url : "${pageContext.request.contextPath}/heart?command=follow",
 			data : {
-				get_id : "${profile.u_name}"
+				get_id : "${profile.u_id}"
 			},
 			success : function(result) {
 				if (result > 0) {
@@ -193,7 +193,7 @@ hr {
 		<div class="row">
 			<div class="col-2"></div>
 			<div class="col-8">
-				<c:if test="${u_id ne profile.u_name }">
+				<c:if test="${u_id ne profile.u_id }">
 					<c:choose>
 						<c:when test="${chk eq 'follow' }">
 							<button class="btn btn-primary"
