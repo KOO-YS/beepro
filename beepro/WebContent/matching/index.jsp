@@ -80,8 +80,7 @@
 #cowork { background-image:url('${pageContext.request.contextPath}/matching/img/cowork_keyimage.png');
           background-repeat: no-repeat;
           width:100%;
-          height:800px;
-          margin-top:700px;}
+          height:800px;}
           
 #cowork-title { width:500px;
                 height:auto;
@@ -179,7 +178,7 @@
   </header>
 
   <!-- Services -->
-  <section class="page-section" id="advantage" style="padding-top:140px; padding-bottom:300px;">
+  <section class="page-section" id="advantage" style="padding-top:140px; padding-bottom:140px;">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
