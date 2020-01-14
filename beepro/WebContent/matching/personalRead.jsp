@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>BEEPRO - 개인 매칭 상세보기</title>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
   <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">
 <link
 	href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css"

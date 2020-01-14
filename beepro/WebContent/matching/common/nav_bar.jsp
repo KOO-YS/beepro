@@ -72,7 +72,7 @@
 <%
 	String pageName = request.getParameter("pageName");
 %>
-
+<link rel="shortcut icon" href="/matching/img/favicon.ico" type="image/x-icon">
 <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
