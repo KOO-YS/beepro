@@ -111,6 +111,7 @@ public class MatchingServlet extends HttpServlet {
 			String followers = userService.followerCount(request, response);
 			String followings = userService.followingCount(request, response);
 			String projects = userService.projectCount(request, response);
+			List<ProjectVo> participation = matchingService.participatePro(userId);
 			
 			//유저프로필 사진 명 가져오기
 			String userPhoto = userDao.getUserPhoto(userId);
@@ -119,6 +120,7 @@ public class MatchingServlet extends HttpServlet {
 			request.setAttribute("followers", followers);
 			request.setAttribute("followings", followings);
 			request.setAttribute("projects", projects);
+			request.setAttribute("participation", participation);
 			request.setAttribute("chk", chk);
 			request.setAttribute("profile", profile);
 			

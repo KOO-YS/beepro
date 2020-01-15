@@ -123,5 +123,7 @@ public interface MatchingDao {
 
 	public String getUserArea(String u_id);
 	
+	public List<ProjectVo> participatePro(String userId);
+	
 
 }
