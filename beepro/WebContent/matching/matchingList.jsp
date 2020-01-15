@@ -89,34 +89,7 @@
 }
 
 </style>
-
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script>
-$(function() {
-  $("#pm_id").click( function() {
-    if( $("#sort").html() != '작성자' ) {
-      $("#sort").html('작성자');
-    }
-  });
-});
-
-$(function() {
-	  $("#skill").click( function() {
-	    if( $("#sort").html() != '프로그램 능력' ) {
-	      $("#sort").html('프로그램 능력');
-	    }
-	  });
-	});
-	
-$(function() {
-	  $("#location").click( function() {
-	    if( $("#sort").html() != '지역' ) {
-	      $("#sort").html('지역');
-	    }
-	  });
-	});
-</script>
-
 <script type="text/javascript">
 
 	$(function(){
@@ -125,10 +98,33 @@ $(function() {
 				var data = $(this).data("cat");
 				$("[name=searchCat]").val(data);
 			});
-			$("#searchIcon").on("click", function(){
-				$("[name=searchForm]").submit();
-			});
+			$("#searchIcon").click(function(){
+		    	 if($("[name=searchCat]").val() == ""){
+		    		 alert("분류를 선택해주세요."); 
+		    		 $("sort").focus(); return false;
+		    	}else{
+		    		$("[name=searchForm]").submit();
+		    	}
+		   	});
 		});
+		
+		$("#location").click( function() {
+		    if( $("#sort").html() != '지역' ) {
+		      $("#sort").html('지역');
+		    }
+		  });
+		  
+		  $("#skill").click( function() {
+		    if( $("#sort").html() != '프로그램 능력' ) {
+		      $("#sort").html('프로그램 능력');
+		    }
+		  });
+		  
+		  $("#pm_id").click( function() {
+		    if( $("#sort").html() != '작성자' ) {
+		      $("#sort").html('작성자');
+		    }
+		  });
 	});
 	
 	function addPostFunction(post_no){
@@ -153,14 +149,6 @@ $(function() {
 			}
 		});
 	}
-	
-	
-	  $(document).ready(function(){
-	      $("#searchIcon").click(function(){
-	    	 if($("#sort").val().length==0){alert("분류를 선택해주세요."); $("sort").focus(); return false;}
-	   });
-	   });
-
 </script>
 </head>
 <body id="page-top">
@@ -195,9 +183,10 @@ $(function() {
 				      <a class="dropdown-item" href="#none" id="skill" data-cat="skill">프로그램 능력</a>
 				      <a class="dropdown-item" href="#none" id="location" data-cat="location">지역</a>
 				    </div>
+				    
 				  <input class="form-control form-control-sm mr-3 w-50" type="text" placeholder="Search" name="searchKeyword"
 				    aria-label="Search" style="display: inline-block; margin-left:1%; height:40px;">
-				  <button><i class="fas fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" id="searchIcon"></i></button>
+				    <button type="button" class="btn btn-primary" id="searchIcon"><i class="fa fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" ></i></button>
 				 </div>
 				  </form>
 			  </div>
