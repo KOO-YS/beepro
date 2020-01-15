@@ -501,7 +501,7 @@ function sendMsgFunction(get_id){
 						<thead>
 							<tr>
 								<th colspan="2">following</th>
-								<th>쪽지</th>
+								<th>contact</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -730,7 +730,7 @@ $("#area").val("${area}").prop("selected", true);
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 
 					<form role="form" id="sendForm" class="form-horizontal"
-						action="${pageContext.request.contextPath}/msg">
+						action="${pageContext.request.contextPath}/msg" method="post">
 						<input type="hidden" name="command" value="sendMsg" /> 
 						<input type="hidden" name="send_id" value="${u_id }" />
 						<input type="hidden" name="backMsgBox" value="no" />	<!-- 어디 모달에서 보내는지 구별하기 위해 -->

@@ -27,6 +27,7 @@ import com.semi.dao.UserDaoImpl;
 import com.semi.vo.HeartVo;
 import com.semi.vo.MessageVo;
 import com.semi.vo.MsgVo;
+import com.semi.vo.PageVo;
 
 import util.Gmail;
 
@@ -575,6 +576,35 @@ public class UserService {
 			ArrayList<Integer> readList =  dao.readChk(u_id);
 			request.setAttribute("readList", readList);
 			
+			//페이징 서블릿
+		     int listCount = list.size();
+		     System.out.println(listCount);
+		     request.setAttribute("listsize", listCount);
+		     
+		     String curpagenum = request.getParameter("curpagenum");
+		     System.out.println(curpagenum+"현재페이지");
+
+		     int currentPage = 0;
+
+		     if (curpagenum == null || curpagenum == "0") {
+		        currentPage = 1;
+		     } else {
+		        currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+		     }
+
+		     PageVo page = new PageVo();
+
+		     page.setCurrentPage(currentPage);
+		     page.setListCount(listCount);
+		     page.setAllPage(listCount);
+		     page.setPreve(currentPage);
+		     page.setStartRow(currentPage);
+		     page.setStartPage(currentPage, page.getAllPage());
+		     page.setEndPage(currentPage, page.getAllPage());
+		     page.setNext(currentPage, page.getAllPage());
+
+		     request.setAttribute("page", page);
+			
 			dispatch("/matching/messageGetBox.jsp",request,response);
 		}
 	}
@@ -596,6 +626,36 @@ public class UserService {
 			
 			ArrayList<Integer> readList =  dao.sendMsgReadChk(u_id);
 			request.setAttribute("readList", readList);
+			
+			//페이징 서블릿
+		     int listCount = list.size();
+		     System.out.println(listCount);
+		     request.setAttribute("listsize", listCount);
+		     
+		     String curpagenum = request.getParameter("curpagenum");
+		     System.out.println(curpagenum+"현재페이지");
+
+		     int currentPage = 0;
+
+		     if (curpagenum == null || curpagenum == "0") {
+		        currentPage = 1;
+		     } else {
+		        currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+		     }
+
+		     PageVo page = new PageVo();
+
+		     page.setCurrentPage(currentPage);
+		     page.setListCount(listCount);
+		     page.setAllPage(listCount);
+		     page.setPreve(currentPage);
+		     page.setStartRow(currentPage);
+		     page.setStartPage(currentPage, page.getAllPage());
+		     page.setEndPage(currentPage, page.getAllPage());
+		     page.setNext(currentPage, page.getAllPage());
+
+		     request.setAttribute("page", page);
+			
 			
 			dispatch("/matching/messageSendBox.jsp",request,response);
 		}
