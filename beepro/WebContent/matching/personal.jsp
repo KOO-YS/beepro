@@ -153,7 +153,7 @@ $(function(){
                </div>
                
                <input class="form-control form-control-sm mr-3 w-50" type="text" placeholder="Search" name="searchKeyword" aria-label="Search" style="display: inline-block; margin-left:1%; height:40px;">
-               <button><i class="fas fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" id="searchIcon"></i></button>
+               <button type="button" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" id="searchIcon"></i></button>
 
             </div>
             </form>
