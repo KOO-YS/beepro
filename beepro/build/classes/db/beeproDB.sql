@@ -111,7 +111,7 @@ CREATE TABLE matching_personal (
 -- SELECT * FROM MATCHING_PERSONAL;
 
 CREATE SEQUENCE projectM_seq;
-
+SELECT * FROM matching_personal WHERE SKILL LIKE '%자바%' ORDER BY personal_seq DESC;
 CREATE TABLE matching_project (
 	project_seq	number	PRIMARY KEY,
 	pm_id	varchar2(100)	NOT NULL,

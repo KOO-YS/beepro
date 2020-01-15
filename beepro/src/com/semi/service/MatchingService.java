@@ -249,26 +249,28 @@ public class MatchingService {
 
 //개인 매칭 검색하기
 
-	public List<MatchingPerVo> selectAllPer(HttpServletRequest request) {
-		MatchingDao Dao = new MatchingDaoImpl();
-		MatchingPerVo perVo = new MatchingPerVo();
+public List<MatchingPerVo> selectAllPer(HttpServletRequest request){
+   MatchingDao Dao = new MatchingDaoImpl();
+   MatchingPerVo perVo = new MatchingPerVo();
 
-		String searchKeyword = (String) request.getParameter("searchKeyword");
-		String searchCat = (String) request.getParameter("searchCat");
+   String searchKeyword = (String) request.getParameter("searchKeyword");  
+   String searchCat = (String) request.getParameter("searchCat");
 
-		if (searchCat == null) {
-			searchCat = "";
-		}
-		if (searchKeyword == null) {
-			searchKeyword = "";
-		}
+   if(searchCat == null) {
+      searchCat = "";
+   }
 
-		perVo.setSearchCat(searchCat);
-		perVo.setSearchKeyword(searchKeyword);
+   if(searchKeyword == null) {
+      searchKeyword = "";
+   }
 
-		return Dao.selectAllPer();
+   perVo.setSearchCat(searchCat);
+   perVo.setSearchKeyword(searchKeyword);
+   //return Dao.selectAllPer();      // 그냥 리스트 출력
+   return Dao.selectAllPer(perVo);      // 검색 기능을 들고왔을때 리턴값
 
-	}
+}
+   
 
 	// 프로젝트 생성
 	public int insertProject(HttpServletRequest request, HttpServletResponse response) {
@@ -296,7 +298,7 @@ public class MatchingService {
 			try {
 				success += matchingDao.acceptVolunteer(projectSeq, eachMember[i]);
 				//참원 인원에게 쪽지 보내기
-				userDao.insertMsg(u_id, eachMember[i], projectName+"에 참여되셨습니다.\n협업페이지를 통해서 확인해 주세요.");
+				userDao.insertMsg("BEEPRO", eachMember[i], projectName+"에 참여되셨습니다.\n협업페이지를 통해서 확인해 주세요.");
 
 			} catch (Exception e) {
 				System.out.println(eachMember[i] + "가 승인처리 되지않았습니다.");

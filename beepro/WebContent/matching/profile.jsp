@@ -18,7 +18,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 
 <title>BEEPRO - 프로필 사진 바꾸기</title>
 
@@ -127,7 +127,7 @@ hr {
 			type : "POST",
 			url : "${pageContext.request.contextPath}/heart?command=follow",
 			data : {
-				get_id : "${profile.u_name}"
+				get_id : "${profile.u_id}"
 			},
 			success : function(result) {
 				if (result > 0) {
@@ -193,7 +193,7 @@ hr {
 		<div class="row">
 			<div class="col-2"></div>
 			<div class="col-8">
-				<c:if test="${u_id ne profile.u_name }">
+				<c:if test="${u_id ne profile.u_id }">
 					<c:choose>
 						<c:when test="${chk eq 'follow' }">
 							<button class="btn btn-primary"
@@ -250,7 +250,7 @@ hr {
 		</div>
 
 		<!-- 쪽지 보내기 모달 -->
-		<div class="modal" id="sendMsgModal">
+		<div class="modal" id="sendMsgModal" style="z-index: 10000;">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header modal-header-info">
@@ -264,7 +264,7 @@ hr {
 					<div class="modal-body">
 
 						<form role="form" id="sendForm" class="form-horizontal"
-							action="${pageContext.request.contextPath}/msg">
+							action="${pageContext.request.contextPath}/msg" method="post">
 							<input type="hidden" name="command" value="sendMsg" /> <input
 								type="hidden" name="send_id" value="${u_id }" /> <input
 								type="hidden" name="backMsgBox" value="no" />

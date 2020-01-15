@@ -12,7 +12,7 @@
 <meta name="author" content="">
 
 <title>BEEPRO - Mypage</title>
-
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <!-- Bootstrap core CSS -->
   <link href="${pageContext.request.contextPath}/matching/css/msg.css" rel="stylesheet">	
 <link
@@ -110,8 +110,7 @@ function sendMsgFunction(get_id){
   <!-- Header -->
   <header class="masthead" style="background-color: rgba(75,97,207);">
     <div class="container">
-      <div class="intro-text" style="padding-top: 150px; padding-bottom: 100px;">
-        <div class="intro-lead-in">by project</div>
+      <div class="intro-text" style="padding-top: 150px; padding-bottom: 50px;">
         <div class="intro-heading text-uppercase">MyPage</div>
       </div>
     </div>
@@ -134,7 +133,7 @@ function sendMsgFunction(get_id){
 		
 	
 	
-		<div class="container" style="padding: 40px 0;">
+		<div class="container" style="padding: 40px 0 0 0;">
 		<div class="row">
 			<div class="col-12">
 				<span> name </span> <input type="email" value="${u_name}"
@@ -150,7 +149,7 @@ function sendMsgFunction(get_id){
 			</div>
 			<div class="col-4">
 				<button class="btn btn-primary" data-toggle="modal"
-					data-target="#updatePwd" style="margin-top: 40px;">비밀번호 변경</button>
+					data-target="#updatePwd" style="margin-top: 35px;">비밀번호 변경</button>
 			</div>
 			<div class="col-12">
 
@@ -167,10 +166,10 @@ function sendMsgFunction(get_id){
 				</select>
 			</div>
 
-			<div class="col-12">
-				<span>Skills<br></span>
+			<div class="col-12" style="margin-top: 0.5%;">
+				<span>skills</span>
 				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
-				<div class="card">
+				<div class="card" style="margin-top: 0.5%;">
 				    <div class="card-body">		    
 				    <fieldset>
 				    	<legend>front-end</legend>
@@ -231,12 +230,12 @@ function sendMsgFunction(get_id){
 	<section style="padding: 0;">
 		<c:choose>
 			<c:when test="${empty projectList}">
-				<div class="container">
+				<div class="container" >
 					<hr style="margin: 3em 0;">
 					<h5>내가 쓴 project </h5>
 					<br>
 					<div class="row">
-						<div class="col-lg-3">
+						<div class="col-lg-3 col-md-8">
 							<div class="card">
 								<div class="card-body">
 									<h5 class="card-title">등록된 글이 없습니다.</h5>
@@ -258,9 +257,9 @@ function sendMsgFunction(get_id){
 					<br>
 					<div class="row">
 						<c:forEach items="${projectList}" var="list">
-							<div class="col-lg-3">
+							<div class="col-lg-3 col-md-11">
 								<div class="card" style="height: 100%;">
-									<div class="card-body">
+									<div class="card-body" >
 										<h5 class="card-title">
 											<c:choose>
 												<c:when test="${fn:length(list.title) gt 12}">
@@ -306,7 +305,7 @@ function sendMsgFunction(get_id){
 					<h5>내가 쓴 personal 목록</h5>
 					<br>
 					<div class="row">
-						<div class="col-lg-3">
+						<div class="col-lg-3 col-md-8">
 							<div class="card">
 								<div class="card-body">
 									<h5 class="card-title">등록된 글이 없습니다.</h5>
@@ -325,7 +324,7 @@ function sendMsgFunction(get_id){
 					<br>
 					<div class="row">
 						<c:forEach items="${personalList}" var="list">
-							<div class="col-lg-3">
+							<div class="col-lg-3 col-md-11">
 								<div class="card" style="height: 100%;">
 									<div class="card-body">
 										<h5 class="card-title">
@@ -397,8 +396,7 @@ function sendMsgFunction(get_id){
 						</thead>
 						<tbody>
 							<c:choose>
-								<c:when test="${empty projectList}">
-
+								<c:when test="${empty postProList}">
 									<tr>
 										<td colspan="3">관심있는 게시글이 없습니다.</td>
 									</tr>
@@ -503,7 +501,7 @@ function sendMsgFunction(get_id){
 						<thead>
 							<tr>
 								<th colspan="2">following</th>
-								<th>쪽지</th>
+								<th>contact</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -732,7 +730,7 @@ $("#area").val("${area}").prop("selected", true);
   <script src="${pageContext.request.contextPath}/matching/js/agency.js"></script>
 
 					<form role="form" id="sendForm" class="form-horizontal"
-						action="${pageContext.request.contextPath}/msg">
+						action="${pageContext.request.contextPath}/msg" method="post">
 						<input type="hidden" name="command" value="sendMsg" /> 
 						<input type="hidden" name="send_id" value="${u_id }" />
 						<input type="hidden" name="backMsgBox" value="no" />	<!-- 어디 모달에서 보내는지 구별하기 위해 -->

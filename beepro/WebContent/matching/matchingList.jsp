@@ -14,7 +14,7 @@
   <meta name="author" content="">
 
   <title>BEEPRO - 프로젝트 매칭 리스트</title>
-
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
   <!-- Bootstrap core CSS -->
   <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -89,34 +89,7 @@
 }
 
 </style>
-
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script>
-$(function() {
-  $("#pm_id").click( function() {
-    if( $("#sort").html() != '작성자' ) {
-      $("#sort").html('작성자');
-    }
-  });
-});
-
-$(function() {
-	  $("#skill").click( function() {
-	    if( $("#sort").html() != '프로그램 능력' ) {
-	      $("#sort").html('프로그램 능력');
-	    }
-	  });
-	});
-	
-$(function() {
-	  $("#location").click( function() {
-	    if( $("#sort").html() != '지역' ) {
-	      $("#sort").html('지역');
-	    }
-	  });
-	});
-</script>
-
 <script type="text/javascript">
 
 	$(function(){
@@ -125,10 +98,33 @@ $(function() {
 				var data = $(this).data("cat");
 				$("[name=searchCat]").val(data);
 			});
-			$("#searchIcon").on("click", function(){
-				$("[name=searchForm]").submit();
-			});
+			$("#searchIcon").click(function(){
+		    	 if($("[name=searchCat]").val() == ""){
+		    		 alert("분류를 선택해주세요."); 
+		    		 $("sort").focus(); return false;
+		    	}else{
+		    		$("[name=searchForm]").submit();
+		    	}
+		   	});
 		});
+		
+		$("#location").click( function() {
+		    if( $("#sort").html() != '지역' ) {
+		      $("#sort").html('지역');
+		    }
+		  });
+		  
+		  $("#skill").click( function() {
+		    if( $("#sort").html() != '사용 언어' ) {
+		      $("#sort").html('사용 언어');
+		    }
+		  });
+		  
+		  $("#pm_id").click( function() {
+		    if( $("#sort").html() != '작성자' ) {
+		      $("#sort").html('작성자');
+		    }
+		  });
 	});
 	
 	function addPostFunction(post_no){
@@ -153,14 +149,6 @@ $(function() {
 			}
 		});
 	}
-	
-	
-	  $(document).ready(function(){
-	      $("#searchIcon").click(function(){
-	    	 if($("#sort").val().length==0){alert("분류를 선택해주세요."); $("sort").focus(); return false;}
-	   });
-	   });
-
 </script>
 </head>
 <body id="page-top">
@@ -192,12 +180,13 @@ $(function() {
 			  		<button style="left;" class="btn btn-outline-primary dropdown-toggle" id="sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
 				    <div class="dropdown-menu">
 				      <a class ="dropdown-item" href="#none" id="pm_id" data-cat="pm_id">작성자 아이디</a>
-				      <a class="dropdown-item" href="#none" id="skill" data-cat="skill">프로그램 능력</a>
+				      <a class="dropdown-item" href="#none" id="skill" data-cat="skill">사용 언어</a>
 				      <a class="dropdown-item" href="#none" id="location" data-cat="location">지역</a>
 				    </div>
+				    
 				  <input class="form-control form-control-sm mr-3 w-50" type="text" placeholder="Search" name="searchKeyword"
 				    aria-label="Search" style="display: inline-block; margin-left:1%; height:40px;">
-				  <button><i class="fas fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" id="searchIcon"></i></button>
+				    <button type="button" class="btn btn-primary" id="searchIcon"><i class="fa fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" ></i></button>
 				 </div>
 				  </form>
 			  </div>
@@ -209,12 +198,12 @@ $(function() {
   <section class="bg-light page-section">
     <div class="container">
         <div class="row" >
-          <div class="col-12">
             <div class="row" style="float:right; ">
                <c:if test="${!empty sessionScope.u_id }">
-                  <button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">새 글 작성</button>
+                  <button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px; margin-left:950px;">새 글 작성</button>
                </c:if>
             </div>
+          <div class="col-12" style="margin-top: 20px">
               <!-- 게시물 -->
                <c:forEach var="matchingVo" items="${matchingList}" varStatus="matching" begin="${page.startRow}" end="${page.startRow + 9}">
                																			<!-- 페이징 : begin부터 +9까지 -->
@@ -228,7 +217,7 @@ $(function() {
 										</script>
 									</c:if>
 								</c:forEach>
-                  <div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
+                  <div class="row post-card">
                        <div class="col-lg-12">
                            <div class="row">
                                <div class="col-lg-10 col-sm-9" style="margin-left:40px;">

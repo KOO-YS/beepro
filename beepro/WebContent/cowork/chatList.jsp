@@ -14,6 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <link
 	href="${pageContext.request.contextPath}/cowork/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">

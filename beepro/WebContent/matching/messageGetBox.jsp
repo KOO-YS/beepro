@@ -18,6 +18,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
 <title>BEEPRO - 받은 쪽지함</title>
 
 <!-- Bootstrap core CSS -->
@@ -202,7 +203,7 @@
 				<!-- 본격적으로 내용이 담기는 div -->
 				<div class="col-10">
 					<div class="table-wrapper" id="getBox">
-						<input class="btn btn-primary" style="margin-bottom: 10px;"
+						<input class="btn btn-primary" style="margin-bottom: 10px; margin-top:40px;"
 							type="button" value="삭제" onclick="deleteMsgFunction();" />
 						<form action="">
 							<table class="table table-hover" id="boxTable"
@@ -230,7 +231,7 @@
 										</tr>
 									</c:when>
 									<c:otherwise>
-										<c:forEach var="list" items="${list }">
+										<c:forEach var="list" items="${list }" begin="${page.startRow}" end="${page.startRow + 9}" varStatus="status">
 											<c:forEach var="readList" items="${readList}">
 												<c:if test="${ readList eq list.msg_seq}">
 													<script type="text/javascript">
@@ -269,7 +270,7 @@
 																	<input type="text" class="form-control"
 																		id="inputTo${list.msg_seq}"
 																		placeholder="comma separated list of recipients"
-																		readonly="readonly" name="get_id"
+																		readonly="readonly" name="get_id" style="width: 430px"
 																		value="${list.send_id }">
 																</div>
 															</div>
@@ -285,11 +286,15 @@
 															<div class="modal-footer">
 																<input type="reset" class="btn btn-default pull-left"
 																	id="cancle${list.msg_seq}" data-dismiss="modal"
-																	style="border: 1px solid lightgray;" value="확인" /> <input
+																	style="border: 1px solid lightgray;" value="확인" /> 
+																
+															<c:if test="${list.send_id ne 'BEEPRO' }">
+																<input
 																	type="button" class="btn btn-primary"
 																	style="background-color: #fec503; border-color: #fec503;"
 																	value="답장하기"
 																	onclick="reSendFunction('${list.send_id }');" />
+															</c:if>
 															</div>
 														</div>
 													</div>
@@ -306,26 +311,69 @@
 							</table>
 						</form>
 					</div>
+					
+					<!-- 페이징 : 여기에서부터 -->	
+               
+                 
+<script type="text/javascript">
+   function PageMove(page){
+          location.href = "msg?command=getAllMsg&u_id=${u_id}&curpagenum="+page;
+   }
+</script> 
+
+<c:if test="${listsize>=0 }">
+   <c:choose> 
+      <c:when test="${listsize == 0}">
+         <script>
+            $("#tableheader").hide();
+         </script>
+      </c:when>
+      
+      <c:otherwise>
+         <c:forEach var="vo" items="${list}" begin="${page.startRow}" end="${page.startRow+9}" ></c:forEach>
+   
+      </c:otherwise>
+   </c:choose>
+</c:if>
+
+<c:choose> 
+   <c:when test="${page.listCount >0 }">
+      <c:if test="${page.listCount ne '0'}">
+
+         <div class="row" style="display: block;">
+            <nav aria-label="Page navigation example">
+               <ul class="pagination justify-content-center">
+               <li class="active">
+                  <a class="page-link" href="javascript:PageMove(${page.startPage})">Pre</a>
+               </li>
+
+                  <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+                     <c:choose>
+                        <c:when test="${i eq page.currentPage }">
+                           <li class="active"><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                           <li><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                        </c:otherwise>
+                     </c:choose>
+                  </c:forEach>
+
+                  <c:if test="${page.next eq true }">
+                     <a class="page-link" href="javascript:PageMove(${page.endPage })">Last</a></li>
+                  </c:if>
+               </ul>
+            </nav>
+         </div> 
+
+      </c:if>
+   </c:when>
+</c:choose>
+
+<!-- 여기까지 복붙 : 페이징 완료 -->
+					
 				</div>
 			</div>
-
-
-			<div class="row" style="display: block;">
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled"><a class="page-link" href="#"
-							tabindex="-1">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
 		</div>
-
-
 	</section>
 
 	<jsp:include page="common/footer.jsp"></jsp:include>
@@ -355,7 +403,7 @@
 				<div class="modal-body">
 
 					<form role="form" id="sendForm" class="form-horizontal"
-						action="${pageContext.request.contextPath}/msg">
+						action="${pageContext.request.contextPath}/msg" method="post">
 						<input type="hidden" name="command" value="sendMsg" /> <input
 							type="hidden" name="send_id" value="${u_id }" /> <input
 							type="hidden" name="backMsgBox" value="backMsgBox" />

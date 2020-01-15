@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>BEEPRO - 개인 매칭 리스트</title>
+<title>NAME</title>
 
 <!-- Bootstrap core CSS -->
 <link href="${pageContext.request.contextPath}/matching/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -52,8 +52,8 @@ $(function() {
 
 $(function() {
      $("#skill").click( function() {
-       if( $("#sort").html() != '프로그램 능력' ) {
-         $("#sort").html('프로그램 능력');
+       if( $("#sort").html() != '사용 언어' ) {
+         $("#sort").html('사용 언어');
        }
      });
    });
@@ -69,22 +69,23 @@ $(function() {
 </script>
 
 <script type="text/javascript">
-$(function(){
-   $(document).ready(function(){
-      $(".dropdown-menu .dropdown-item").on("click", function(){
-         var data = $(this).data("cat");
-         $("[name=searchCat]").val(data);
-      });
-      $("#searchIcon").on("click", function(){
-         $("[name=searchForm]").submit();
-      });
-   });
-   $(document).ready(function(){
-       $("#searchIcon").click(function(){
-         if($("#sort").val().length==0){alert("분류를 선택해주세요."); $("sort").focus(); return false;}
-       });
-    });
+
+
+$(document).ready(function(){
+	$(".dropdown-menu .dropdown-item").on("click", function(){
+		var data = $(this).data("cat");
+		$("[name=searchCat]").val(data);
+	});
+	$("#searchIcon").click(function(){
+    	 if($("[name=searchCat]").val() == ""){
+    		 alert("분류를 선택해주세요."); 
+    		 $("sort").focus(); return false;
+    	}else{
+    		$("[name=searchForm]").submit();
+    	}
+   	});
 });
+
 </script>
     <script type="text/javascript">
    function addPostFunction(post_no) {
@@ -140,7 +141,7 @@ $(function(){
          
          <div class="col-12">
             <!-- <div class="input-group-prepend"> -->
-            <form action="${pageContext.request.contextPath}/personMatching" method="post" name="searchForm">
+            <form action="${pageContext.request.contextPath}/personMatching" method="get" name="searchForm">
                <input type="hidden" name="command" value="selectAllPer"/>
                <input type="hidden" name="searchCat" value="" />
             <div>
@@ -148,13 +149,12 @@ $(function(){
                    <button style="float:left;" class="btn btn-outline-primary dropdown-toggle" id="sort" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">분류</button>
                    <div class="dropdown-menu">
                   <a class="dropdown-item" href="#none" id="user_id" data-cat="user_id">작성자</a>
-                  <a class="dropdown-item" href="#none" id="skill" data-cat="skill">프로그램 능력</a>
+                  <a class="dropdown-item" href="#none" id="skill" data-cat="skill">사용 언어</a>
                   <a class="dropdown-item" href="#none" id="emp_category" data-cat="emp_category">희망 분야</a>
                </div>
                
                <input class="form-control form-control-sm mr-3 w-50" type="text" placeholder="Search" name="searchKeyword" aria-label="Search" style="display: inline-block; margin-left:1%; height:40px;">
-               <button><i class="fas fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" id="searchIcon"></i></button>
-
+               <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true" style="cursor: pointer;height:25px;" id="searchIcon"></i></button>
             </div>
             </form>
          </div>
@@ -201,8 +201,10 @@ $(function(){
                    onerror="this.src='<%= request.getContextPath() %>/matching/img/bee.png'"  id="profile-img">
              </div>
          <div class="col-lg-8 col-sm-6">
-            <h4> ${personal.user_id} <a href="personMatching?command=selectOnePer&personal_seq=${personal.personal_seq}">${personal.title}</a></h4><br>
-            <b>언어 및 프로그래밍 능력 :</b> ${personal.skill}<br><br> 
+            
+            <h4><a href="personMatching?command=selectOnePer&personal_seq=${personal.personal_seq}">${personal.title}</a></h4>
+            작성자 ID : <b>${personal.user_id} </b><br><br>
+            사용 언어 : <b>${personal.skill}</b><br><br> 
             <button class="btn btn-outline-primary" style="cursor: default;">${personal.emp_category}</button> <span style = "float:right">${personal.regdate}</span><br>
          </div>
          <div class="col-lg-1 col-sm-1">

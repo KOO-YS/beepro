@@ -109,12 +109,15 @@ public class MatchingDaoImpl implements MatchingDao {
 			switch (matchingProVo.getSearchCat()) {
 			case "pm_id":
 				whereStr = "WHERE PM_ID = '" + matchingProVo.getSearchKeyword() + "'";
+				System.out.println("pm_id만검색");
 				break;
 			case "skill":
 				whereStr = "WHERE SKILL LIKE '%" + matchingProVo.getSearchKeyword() + "%'";
+				System.out.println("스킬만검색");
 				break;
 			case "location":
 				whereStr = "WHERE LOCATION LIKE '%" + matchingProVo.getSearchKeyword() + "%'";
+				System.out.println("장소만검색");
 				break;
 			default:
 			}
@@ -473,16 +476,17 @@ close(pstm, con);
 return res;
 }
 
+
 //개인 매칭 글 검색하기
 public List<MatchingPerVo> selectAllPer(MatchingPerVo matchingPerVo) {
 Connection con = getConnection();
-PreparedStatement pstmt = null;
+PreparedStatement pstm = null;
 ResultSet rs = null;
 List<MatchingPerVo> res = new ArrayList<MatchingPerVo>();
 
 try {
 
-String selectAllPerSql = selectSearchSql;
+String selectAllPerSql = selectSearchPerSql;
 String whereStr = "";
 
 switch (matchingPerVo.getSearchCat()) {
@@ -497,7 +501,7 @@ whereStr = "WHERE emp_category LIKE '%" + matchingPerVo.getSearchKeyword() + "%'
 break;
 
 default:
- 
+
 }
 
 System.out.println(whereStr);
@@ -506,20 +510,22 @@ selectAllPerSql = selectAllPerSql.replace("?", whereStr);
 
 System.out.println(selectAllPerSql);
 
-pstmt = con.prepareStatement(selectAllPerSql);
-rs = pstmt.executeQuery();
+pstm = con.prepareStatement(selectAllPerSql);
+rs = pstm.executeQuery();
 while (rs.next()) {
- 
+
 MatchingPerVo perVo = new MatchingPerVo();
-perVo.setUser_id(rs.getString(1));
-perVo.setSkill(rs.getString(2));
-perVo.setEmp_category(rs.getString(3));
-perVo.setTitle(rs.getString(4));
-perVo.setContent(rs.getString(5));
+perVo.setPersonal_seq(rs.getInt(1));
+perVo.setUser_id(rs.getString(2));
+perVo.setSkill(rs.getString(3));
+perVo.setEmp_category(rs.getString(4));
+perVo.setTitle(rs.getString(5));
+perVo.setContent(rs.getString(6));
+perVo.setRegdate(rs.getString(7));
 
 if (perVo.getSkill() != null && !"".equals(perVo.getSkill())) {
-   String[] skillArr = perVo.getSkill().split(",");
-   perVo.setSkillArr(skillArr);
+ String[] skillArr = perVo.getSkill().split(",");
+ perVo.setSkillArr(skillArr);
 }
 res.add(perVo);
 }
@@ -528,7 +534,7 @@ System.out.println(res.size());
 } catch (SQLException e) {
 e.printStackTrace();
 } finally {
-close(rs, pstmt, con);
+close(rs, pstm, con);
 System.out.println("프로젝트 매칭 검색 DB 종료");
 }
 
@@ -677,7 +683,7 @@ return null;
 		ResultSet rs = null;
 		ArrayList<Integer> list = new ArrayList<Integer>();
 
-		String sql = " select DISTINCT post_no from post join matching_personal ON(u_id = user_id) where type=? AND u_id=?";
+		String sql = " select post_no from post join matching_personal ON(u_id = user_id) where type=? AND u_id=?";
 
 		try {
 			pstmt = con.prepareStatement(sql);

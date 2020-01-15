@@ -24,6 +24,7 @@ if(emailChecked.equals("Y")) {
   <meta name="description" content="">
   <meta name="author" content="">
 
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/matching/img/favicon.ico" type="image/x-icon">
   <title>BEEPRO - 이메일 인증 오류</title>
 
   <!-- Bootstrap core CSS -->
