@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1014,5 +1015,33 @@ return null;
 			close(rs, pstmt, con);
 		}
 		return area;
+	}
+	@Override
+	public List<ProjectVo> participatePro(String userId) {
+		Connection con = getConnection();
+		Statement stmt = null;
+		String sql = "SELECT PROJECT_SEQ, PROJECT_NAME, PROJECT_CONTENT, STARTDATE, ENDDATE FROM PROJECT WHERE MEMBER_ID LIKE '%"+userId+",%'";
+		ResultSet rs = null;
+		List<ProjectVo> participation = new ArrayList<ProjectVo>();
+		try {
+			stmt = con.prepareStatement(sql);
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				ProjectVo vo = new ProjectVo();
+				vo.setProjectSeq(rs.getInt(1));
+				vo.setProjectName(rs.getString(2));
+				vo.setContent(rs.getString(3));
+				vo.setStartDate(rs.getString(4));
+				vo.setEndDate(rs.getString(5));
+				participation.add(vo);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, stmt, con);
+		}
+		return participation;
 	}
 }

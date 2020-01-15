@@ -174,7 +174,7 @@ hr {
 		<div id="pf-status">
 			<ul>
 				<li><span>참여 프로젝트</span>
-					<h3>${projects }</h3></li>
+					<h3>${projects}</h3></li>
 				<li><span> followers</span>
 					<h3>
 						<a href="#"> <i class="fa-heart"
@@ -223,31 +223,22 @@ hr {
 					<table class="table">
 						<thead class="thead-light">
 							<tr>
-								<th scope="col"></th>
+								<th scope="col">*</th>
 								<th scope="col">프로젝트명</th>
 								<th scope="col">개발 기간</th>
-								<th scope="col">등급? or 역할</th>
+								<th scope="col">프로젝트 기간</th>
 							</tr>
 						</thead>
 						<tbody>
+						<c:if test="${empty participation}"><tr><td colspan="4">참여한 프로젝트가 존재하지 않습니다</td></tr></c:if>
+						<c:forEach var="part" items="${participation}" varStatus="status">
 							<tr>
-								<th scope="row">1</th>
-								<td>Mark</td>
-								<td>Otto</td>
-								<td>@mdo</td>
+								<th scope="row">${status.count}</th>
+								<td>${part.projectName}</td>
+								<td>${part.content}</td>
+								<td>${part.startDate} ~ ${part.endDate}</td>
 							</tr>
-							<tr>
-								<th scope="row">2</th>
-								<td>Jacob</td>
-								<td>Thornton</td>
-								<td>@fat</td>
-							</tr>
-							<tr>
-								<th scope="row">3</th>
-								<td>Larry</td>
-								<td>the Bird</td>
-								<td>@twitter</td>
-							</tr>
+						</c:forEach>
 						</tbody>
 
 					</table>
@@ -256,12 +247,6 @@ hr {
 
 			<hr>
 
-			<h5>프로젝트 참여율 (67/123)</h5>
-			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar"
-					style="width: 67%" aria-valuenow="67" aria-valuemin="0"
-					aria-valuemax="123"></div>
-			</div>
 		</div>
 
 		<!-- 쪽지 보내기 모달 -->
