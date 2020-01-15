@@ -40,7 +40,7 @@ public class naverCallback extends HttpServlet {
 			String redirectURI; 
 			System.out.println("code:"+code);
 			try {
-				redirectURI = URLEncoder.encode("http://192.168.130.12:8787/beepro/matching/index.jsp","UTF-8");
+				redirectURI = URLEncoder.encode("http://192.168.130.217:8787/beepro/matching/index.jsp","UTF-8");
 				String apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
 				apiURL += "client_id=" + clientId;
 				apiURL += "&client_secret=" + clientSecret;
