@@ -184,45 +184,51 @@ public class ProjectServlet extends HttpServlet {
 			}
 
 		} else if (command.equals("issueAll")) {
-			System.out.println("이슈 전체 보기");
+	         System.out.println("이슈 전체 보기");
 
-			int projectSeq = (int) session.getAttribute("projectSeq");
-			System.out.println("시퀀스번호:" + projectSeq);
+	         int projectSeq = (int) session.getAttribute("projectSeq");
+	         System.out.println("시퀀스번호:" + projectSeq);
+	         
+	         List<IssueVo> list = projectDao.selectAllIssue(projectSeq);
 
-			List<IssueVo> list = projectDao.selectAllIssue(projectSeq);
+	         request.setAttribute("issueList", list);
+	         
+	         //페이징
+	         
+	           int listCount = list.size();
+	           System.out.println(listCount);
+	           request.setAttribute("listsize", listCount);
+	           System.out.println("================" + listCount + "=============");
+	           
+	           String curpagenum = request.getParameter("curpagenum");
+	           System.out.println(curpagenum+"현재페이지");
 
-			// 페이징 서블릿
-			int listCount = list.size();
-			System.out.println(listCount);
-			request.setAttribute("listsize", listCount);
+	           int currentPage = 0;
+	           
 
-			String curpagenum = request.getParameter("curpagenum");
-			System.out.println(curpagenum + "현재페이지");
+	           if (curpagenum == null || curpagenum == "0") {
+	              currentPage = 1;
+	           } else {
+	              currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+	           }
 
-			// 페이징 시작
-			int currentPage = 0;
+	           PageVo page = new PageVo();
 
-			if (curpagenum == null || curpagenum == "0") {
-				currentPage = 1;
-			} else {
-				currentPage = Integer.parseInt(request.getParameter("curpagenum"));
-			}
+	           page.setCurrentPage(currentPage);
+	           page.setListCount(listCount);
+	           page.setAllPage(listCount);
+	           page.setPreve(currentPage);
+	           page.setStartRow(currentPage);
+	           page.setStartPage(currentPage, page.getAllPage());
+	           page.setEndPage(currentPage, page.getAllPage());
+	           page.setNext(currentPage, page.getAllPage());
 
-			PageVo page = new PageVo();
-
-			page.setCurrentPage(currentPage);
-			page.setListCount(listCount);
-			page.setAllPage(listCount);
-			page.setPreve(currentPage);
-			page.setStartRow(currentPage);
-			page.setStartPage(currentPage, page.getAllPage());
-			page.setEndPage(currentPage, page.getAllPage());
-			page.setNext(currentPage, page.getAllPage());
-
-			request.setAttribute("page", page);
-
-			request.setAttribute("issueList", list);
-			dispatch("cowork/issueList.jsp", request, response);
+	           System.out.println("현재 페이지 : " + currentPage);
+	           request.setAttribute("page", page);
+	           
+	         
+	         dispatch("/cowork/issueList.jsp", request, response);
+	         
 
 		} else if (command.equals("issueDetail")) {
 			System.out.println("이슈 상세 정보");

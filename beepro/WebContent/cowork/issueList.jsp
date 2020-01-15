@@ -474,16 +474,11 @@ table.table .avatar {
 										</tr>
 										
 									</c:forEach>
-								</tbody>
-							</table>
-							
-						</div>
-					</div>
-				</div>
-													
+									
 <script type="text/javascript">
    function PageMove(page){
-          location.href = "personMatching?command=selectAllPer&curpagenum="+page;
+         
+          location.href = "issue?command=issueAll&curpagenum="+page;
    }
 </script> 
 
@@ -503,20 +498,20 @@ table.table .avatar {
 </c:if>
 
 <c:choose> 
-   <c:when test="${page.listCount >0 }">
+   <c:when test="${page.listCount > 0 }">
       <c:if test="${page.listCount ne '0'}">
 
-         <div class="row" style="display: block; margin-right:610px; margin-botton:20px;">
+         <div class="row" style="display: block;">
             <nav aria-label="Page navigation example">
                <ul class="pagination justify-content-center">
-               <li class="active">
-                  <a class="page-link" href="javascript:PageMove(${page.startPage})">Pre</a>
+               <li>
+                  <a class="page-link" href="javascript:PageMove(1)">Pre</a>
                </li>
 
                   <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
                      <c:choose>
                         <c:when test="${i eq page.currentPage }">
-                           <li class="active"><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                           <li><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
                         </c:when>
                         <c:otherwise>
                            <li><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
@@ -525,7 +520,7 @@ table.table .avatar {
                   </c:forEach>
 
                   <c:if test="${page.next eq true }">
-                     <a class="page-link" href="javascript:PageMove(${page.endPage })">Last</a></li>
+                     <li><a class="page-link" href="javascript:PageMove(${page.allPage })">Last</a></li>
                   </c:if>
                </ul>
             </nav>
@@ -534,6 +529,13 @@ table.table .avatar {
       </c:if>
    </c:when>
 </c:choose>
+									
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- 푸터 -->
 			<jsp:include page="common/footer.html"></jsp:include>
@@ -596,11 +598,5 @@ table.table .avatar {
 			</div>
 		</div>
     </div>
-    
-<script type="text/javascript">
-	function PageMove(page){
-       	location.href = "personMatching?command=selectAllPer&curpagenum="+page;
-	}
-</script> 
 </body>
 </html>
