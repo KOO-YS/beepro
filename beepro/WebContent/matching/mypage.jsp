@@ -133,7 +133,7 @@ function sendMsgFunction(get_id){
 		
 	
 	
-		<div class="container" style="padding: 40px 0;">
+		<div class="container" style="padding: 40px 0 0 0;">
 		<div class="row">
 			<div class="col-12">
 				<span> name </span> <input type="email" value="${u_name}"
@@ -149,7 +149,7 @@ function sendMsgFunction(get_id){
 			</div>
 			<div class="col-4">
 				<button class="btn btn-primary" data-toggle="modal"
-					data-target="#updatePwd" style="margin-top: 40px;">비밀번호 변경</button>
+					data-target="#updatePwd" style="margin-top: 35px;">비밀번호 변경</button>
 			</div>
 			<div class="col-12">
 
@@ -166,10 +166,10 @@ function sendMsgFunction(get_id){
 				</select>
 			</div>
 
-			<div class="col-12">
-				<span>Skills<br></span>
+			<div class="col-12" style="margin-top: 0.5%;">
+				<span>skills</span>
 				<form action="${pageContext.request.contextPath}/user?command=updateSkill" method="post">
-				<div class="card">
+				<div class="card" style="margin-top: 0.5%;">
 				    <div class="card-body">		    
 				    <fieldset>
 				    	<legend>front-end</legend>
@@ -230,12 +230,12 @@ function sendMsgFunction(get_id){
 	<section style="padding: 0;">
 		<c:choose>
 			<c:when test="${empty projectList}">
-				<div class="container">
+				<div class="container" >
 					<hr style="margin: 3em 0;">
 					<h5>내가 쓴 project </h5>
 					<br>
 					<div class="row">
-						<div class="col-lg-3">
+						<div class="col-lg-3 col-md-8">
 							<div class="card">
 								<div class="card-body">
 									<h5 class="card-title">등록된 글이 없습니다.</h5>
@@ -257,9 +257,9 @@ function sendMsgFunction(get_id){
 					<br>
 					<div class="row">
 						<c:forEach items="${projectList}" var="list">
-							<div class="col-lg-3">
+							<div class="col-lg-3 col-md-11">
 								<div class="card" style="height: 100%;">
-									<div class="card-body">
+									<div class="card-body" >
 										<h5 class="card-title">
 											<c:choose>
 												<c:when test="${fn:length(list.title) gt 12}">
@@ -305,7 +305,7 @@ function sendMsgFunction(get_id){
 					<h5>내가 쓴 personal 목록</h5>
 					<br>
 					<div class="row">
-						<div class="col-lg-3">
+						<div class="col-lg-3 col-md-8">
 							<div class="card">
 								<div class="card-body">
 									<h5 class="card-title">등록된 글이 없습니다.</h5>
@@ -324,7 +324,7 @@ function sendMsgFunction(get_id){
 					<br>
 					<div class="row">
 						<c:forEach items="${personalList}" var="list">
-							<div class="col-lg-3">
+							<div class="col-lg-3 col-md-11">
 								<div class="card" style="height: 100%;">
 									<div class="card-body">
 										<h5 class="card-title">

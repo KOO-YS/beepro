@@ -500,5 +500,9 @@ public List<MatchingPerVo> selectAllPer(HttpServletRequest request){
 		
 		return skillList;				
 	}
+	// 유저가 참여한 프로젝트 리스트 확인
+	public List<ProjectVo> participatePro(String userId) {
+		return matchingDao.participatePro(userId);
+	}
 
 }
