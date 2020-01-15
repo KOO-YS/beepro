@@ -178,20 +178,8 @@
 
 				<!-- 본격적으로 내용이 담기는 div -->
 				<div class="col-10">
-					<!-- <div class="container-fluid">
-						<div class="container">
-							<div class="table-title">
-								<div class="row">
-									<div class="col-sm-4">
-										<h5>
-											&nbsp;<b>쪽지 목록</b>
-										</h5>
-									</div>
-								</div>
-								<hr>
-							</div> -->
 					<div class="table-wrapper" id="getBox">
-						<input class="btn btn-primary" style="margin-bottom: 10px;"
+						<input class="btn btn-primary" style="margin-bottom: 10px; margin-top:40px;"
 							type="button" value="삭제" onclick="deleteMsgFunction();" />
 						<form action="">
 							<table class="table table-hover" id="boxTable"
@@ -221,7 +209,7 @@
 											</tr>
 										</c:when>
 										<c:otherwise>
-											<c:forEach var="list" items="${list }">
+											<c:forEach var="list" items="${list }" begin="${page.startRow}" end="${page.startRow + 9}" varStatus="status">
 												<c:forEach var="readList" items="${readList}">
 													<c:if test="${ readList eq list.msg_seq}">
 														<script type="text/javascript">
@@ -263,7 +251,7 @@
 																		<input type="text" class="form-control"
 																			id="inputTo${list.msg_seq}"
 																			placeholder="comma separated list of recipients"
-																			readonly="readonly" name="get_id"
+																			readonly="readonly" name="get_id" style="width: 430px"
 																			value="${list.get_id }">
 																	</div>
 																</div>
@@ -296,26 +284,69 @@
 							</table>
 						</form>
 					</div>
+					
+					<!-- 페이징 : 여기에서부터 -->	
+               
+                 
+<script type="text/javascript">
+   function PageMove(page){
+          location.href = "msg?command=sendAllMsg&u_id=${u_id}&curpagenum="+page;
+   }
+</script> 
+
+<c:if test="${listsize>=0 }">
+   <c:choose> 
+      <c:when test="${listsize == 0}">
+         <script>
+            $("#tableheader").hide();
+         </script>
+      </c:when>
+      
+      <c:otherwise>
+         <c:forEach var="vo" items="${list}" begin="${page.startRow}" end="${page.startRow+9}" ></c:forEach>
+   
+      </c:otherwise>
+   </c:choose>
+</c:if>
+
+<c:choose> 
+   <c:when test="${page.listCount >0 }">
+      <c:if test="${page.listCount ne '0'}">
+
+         <div class="row" style="display: block;">
+            <nav aria-label="Page navigation example">
+               <ul class="pagination justify-content-center">
+               <li class="active">
+                  <a class="page-link" href="javascript:PageMove(${page.startPage})">Pre</a>
+               </li>
+
+                  <c:forEach var="i" begin="${page.startPage }" end="${page.endPage }" >
+                     <c:choose>
+                        <c:when test="${i eq page.currentPage }">
+                           <li class="active"><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                           <li><a class="page-link" href="javascript:PageMove(${i})">${i}</a></li>
+                        </c:otherwise>
+                     </c:choose>
+                  </c:forEach>
+
+                  <c:if test="${page.next eq true }">
+                     <a class="page-link" href="javascript:PageMove(${page.endPage })">Last</a></li>
+                  </c:if>
+               </ul>
+            </nav>
+         </div> 
+
+      </c:if>
+   </c:when>
+</c:choose>
+
+<!-- 여기까지 복붙 : 페이징 완료 -->
+					
 				</div>
 			</div>
-
-
-			<div class="row" style="display: block;">
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled"><a class="page-link" href="#"
-							tabindex="-1">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
-
-
+		</div> 
 	</section>
 
 	<jsp:include page="common/footer.jsp"></jsp:include>

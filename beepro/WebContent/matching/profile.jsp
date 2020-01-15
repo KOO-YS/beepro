@@ -279,7 +279,7 @@ hr {
 					<div class="modal-body">
 
 						<form role="form" id="sendForm" class="form-horizontal"
-							action="${pageContext.request.contextPath}/msg">
+							action="${pageContext.request.contextPath}/msg" method="post">
 							<input type="hidden" name="command" value="sendMsg" /> <input
 								type="hidden" name="send_id" value="${u_id }" /> <input
 								type="hidden" name="backMsgBox" value="no" />
