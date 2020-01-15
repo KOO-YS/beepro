@@ -209,12 +209,12 @@ $(function() {
   <section class="bg-light page-section">
     <div class="container">
         <div class="row" >
-          <div class="col-12">
             <div class="row" style="float:right; ">
                <c:if test="${!empty sessionScope.u_id }">
-                  <button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px;">새 글 작성</button>
+                  <button onclick="location.href='matching/matchingWriting.jsp'" type="button" class="col-1-4 btn btn-primary" style="width:200px; height:35px; margin-left:950px;">새 글 작성</button>
                </c:if>
             </div>
+          <div class="col-12" style="margin-top: 20px">
               <!-- 게시물 -->
                <c:forEach var="matchingVo" items="${matchingList}" varStatus="matching" begin="${page.startRow}" end="${page.startRow + 9}">
                																			<!-- 페이징 : begin부터 +9까지 -->
@@ -228,7 +228,7 @@ $(function() {
 										</script>
 									</c:if>
 								</c:forEach>
-                  <div class="row post-card" <c:if test="${matching.index == 0 }">style="margin-top:50px"</c:if>>
+                  <div class="row post-card">
                        <div class="col-lg-12">
                            <div class="row">
                                <div class="col-lg-10 col-sm-9" style="margin-left:40px;">

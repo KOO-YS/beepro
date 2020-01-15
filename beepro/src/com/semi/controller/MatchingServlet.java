@@ -295,68 +295,68 @@ public class MatchingServlet extends HttpServlet {
      }
 
 //개인 매칭 게시글 목록
-} else if(command.equals("selectAllPer")) {
-	List<MatchingPerVo> list = dao.selectAllPer();
-	
-	request.setAttribute("personList", list);
-	System.out.println("게시글 리스트 확인");
-	
-	// 세션값 넘기기
-	request.setAttribute("u_id", u_id);
-	System.out.println("세션넘기기");
+	} else if(command.equals("selectAllPer")) {
+	   List<MatchingPerVo> list = matchingService.selectAllPer(request);
+	   
+	   request.setAttribute("personList", list);
+	   System.out.println("게시글 리스트 확인");
+	   
+	   // 세션값 넘기기
+	   request.setAttribute("u_id", u_id);
+	   System.out.println("세션넘기기");
 
-	//유저프로필 사진명 가져오기
-	List<String> photoList = new ArrayList<String>();
-	for(int i=0 ; i<list.size(); i++) {
-		String userPhoto = userDao.getUserPhoto(list.get(i).getUser_id());
-		photoList.add(userPhoto);
-	}
-	request.setAttribute("photoList", photoList);
+	   //유저프로필 사진명 가져오기
+	   List<String> photoList = new ArrayList<String>();
+	   for(int i=0 ; i<list.size(); i++) {
+	      String userPhoto = userDao.getUserPhoto(list.get(i).getUser_id());
+	      photoList.add(userPhoto);
+	   }
+	   request.setAttribute("photoList", photoList);
 
-				
-	// 관심게시글 가져오기			
-	ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
-	request.setAttribute("postList", postList);
-	
-	for(MatchingPerVo m : list) {
-		System.out.println(m);
-	}
-	
-//---------------- 페이징 서블릿 코드 ----------------
-	
-     int listCount = list.size();
-     System.out.println(listCount);
-     request.setAttribute("listsize", listCount);
-     
-     String curpagenum = request.getParameter("curpagenum");
-     System.out.println(curpagenum+"현재페이지");
+	            
+	   // 관심게시글 가져오기         
+	   ArrayList<Integer> postList =  dao.selectPostNo(u_id,"personal");
+	   request.setAttribute("postList", postList);
+	   
+	   for(MatchingPerVo m : list) {
+	      System.out.println(m);
+	   }
+	   
+	//---------------- 페이징 서블릿 코드 ----------------
+	   
+	     int listCount = list.size();
+	     System.out.println(listCount);
+	     request.setAttribute("listsize", listCount);
+	     
+	     String curpagenum = request.getParameter("curpagenum");
+	     System.out.println(curpagenum+"현재페이지");
 
-     int currentPage = 0;
+	     int currentPage = 0;
 
-     if (curpagenum == null || curpagenum == "0") {
-        currentPage = 1;
-     } else {
-        currentPage = Integer.parseInt(request.getParameter("curpagenum"));
-     }
+	     if (curpagenum == null || curpagenum == "0") {
+	        currentPage = 1;
+	     } else {
+	        currentPage = Integer.parseInt(request.getParameter("curpagenum"));
+	     }
 
-     PageVo page = new PageVo();
+	     PageVo page = new PageVo();
 
-     page.setCurrentPage(currentPage);
-     page.setListCount(listCount);
-     page.setAllPage(listCount);
-     page.setPreve(currentPage);
-     page.setStartRow(currentPage);
-     page.setStartPage(currentPage, page.getAllPage());
-     page.setEndPage(currentPage, page.getAllPage());
-     page.setNext(currentPage, page.getAllPage());
+	     page.setCurrentPage(currentPage);
+	     page.setListCount(listCount);
+	     page.setAllPage(listCount);
+	     page.setPreve(currentPage);
+	     page.setStartRow(currentPage);
+	     page.setStartPage(currentPage, page.getAllPage());
+	     page.setEndPage(currentPage, page.getAllPage());
+	     page.setNext(currentPage, page.getAllPage());
 
-     request.setAttribute("page", page);
-     
-//---------------- 페이징 서블릿 코드 끝 ----------------
-	
-	RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
-	
-	dispatch.forward(request, response);
+	     request.setAttribute("page", page);
+	     
+	//---------------- 페이징 서블릿 코드 끝 ----------------
+	   
+	   RequestDispatcher dispatch = request.getRequestDispatcher("/matching/personal.jsp");
+	   
+	   dispatch.forward(request, response);
 
 //개인 매칭 글 상세 확인
 } else if(command.equals("selectOnePer")) {
