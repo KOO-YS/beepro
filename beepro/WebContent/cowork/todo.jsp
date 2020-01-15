@@ -397,14 +397,6 @@ table.table .avatar {
   							<div class="table-filter">
 								<div class="row">
 									<div class="col-sm-3">
-										<div class="show-entries">
-											<span>Show</span> <select class="form-control">
-												<option>5</option>
-												<option>10</option>
-												<option>15</option>
-												<option>20</option>
-											</select> <span>entries</span>
-										</div>
 									</div>
 									<div class="col-lg-12 col-sm-9">
 										<div class="filter-group">
@@ -424,16 +416,6 @@ table.table .avatar {
 											</select>
 										</div>
 										<div class="filter-group">
-										
-											<label>이슈타입</label> <select class="form-control">
-												<option>선택</option>
-												<option value="버그">버그</option>
-												<option value="개선">개선</option>
-												<option value="요구사항">요구사항</option>
-											</select>
-										</div>
-							             <span class="filter-icon"><i class="fa fa-filter"></i></span>
-							             
 									</div>
 								</div>
 							</div>
