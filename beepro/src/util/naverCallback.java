@@ -33,8 +33,8 @@ public class naverCallback extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("doGet");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-			String clientId = "6_0y_JSbbHBEJdCySL56";
-			String clientSecret = "Iqb_iGKhYd";
+			String clientId = "클라이언트아이디";
+			String clientSecret = "시크릿";
 			String code = request.getParameter("code");
 			String state = request.getParameter("state");
 			String redirectURI; 
